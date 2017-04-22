@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+Classes/
+Documentation/
+Examples/
+SaveFile.xlsx
+Select_insert_update_delete_class/
+ajax_test/
+install.txt
+uplodExcel.xlsx
+~$uplodExcel.xlsx

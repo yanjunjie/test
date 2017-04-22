@@ -1,0 +1,62 @@
+//notify
+
+Success
+$.notify("Access granted", "success");
+Info
+$.notify("Do not press this button", "info");
+Warning
+$.notify("Warning: Self-destruct in 3.. 2..", "warn");
+Error
+$.notify("BOOM!", "error");
+
+//Ajax
+//01
+$.ajax({
+    type: 'POST',
+    url: _url,
+    data: {name: name, pass: pass},
+    dataType: 'jsonp',
+    beforeSend: function(){
+        if((!name) || (!pass)){
+            notify('error','Kérlek tölts ki minden adatot!');
+            return false;
+        }else{
+            $("#loginForm #loginBtn").prop("disabled", true);  
+        }
+    },
+    success: function(data){
+    if(data[0].true == 'true'){
+            window.localStorage["username"] = name;
+            window.localStorage["password"] = pass;  
+            $.mobile.changePage("#wall",{transition:"slide", reverse:false});
+        }else{
+            $('#loginForm #name').val("");
+            $('#loginForm #pass').val("");
+            notify('error','Hibás adatok!');
+        }
+    },
+    error: function(err){
+    //átírni ha a cordovajs be lesz szúrva!!!
+    alert('Hiba: '+err.message);
+}
+});
+
+$("#loginForm #loginBtn").prop("disabled", false);
+return false;
+}
+
+//02
+function showMessageSuccess(message){
+	if(message=="") return;
+	$.ajax({
+		url: baseUrl+"Home/showMessage/SUCCESS",
+		type: "GET",
+		data: {message: message},
+		success: function(result){
+			$("#message").append(result);
+		},
+		error: function(error){
+			log("ERROR: showMessageSuccess error!");
+		}
+	});	
+}
