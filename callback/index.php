@@ -7,31 +7,27 @@
 <body>
 	<h1>Callback Test</<h1></h1>
 	<script src="https://code.jquery.com/jquery.min.js"></script>
-	
 	<script type="text/javascript">
-		//Javascript Object
-		//V.01
-		var myCar = new Object(); //making an object 
-		myCar.model = 'Mustang';
-		myCar.year = 1969;
-		//console.log(myCar.year);
-		console.log(myCar);
+	
+		//v.05
+		let add = function(a, b){
+			return a+b;
+		}
 		
-		//V.02
-		var obj = {}
-		obj.foo = 42;
-		console.log(obj.foo);
-
-		//V.03  -Arrays are always objects but property is associated with a string value
-		var obj = {}
-		obj.foo = 423;
-		console.log(obj['foo']);
+		let multiply = function(a, b){
+			return a*b;
+		}
 		
-		//V.03.01		
-		var bar = 'foo';
-		console.log(obj[bar]);
+		let doWhatever = function(a, b){
+			console.log(`Here are your two numbers back ${a}, ${b}`);
+		}
 		
-		
+		let calc = function(num1, num2, callback){ //callback = function(a,b){return a-b;}
+			if(typeof callback === "function") //typeof returns type of a variable
+			return callback(num1, num2);
+		}
+		//console.log(calc(2, 3, function(a,b){return a-b;}));
+		console.log(calc(2, 3, multiply));
 		
 	</script>
 </body>
