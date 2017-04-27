@@ -1,46 +1,4 @@
 //v.01
-//JS Script
-<script>
-
-	$("#oldpass").on('keyup', function(){
-		var oldpass = $(this).val();
-		var oldURL = "<?php echo site_url("form/chck"); ?>";
-		
-		$.ajax(
-		{
-			url: oldURL,
-			type: "POST",
-			data:{oldpass:oldpass},
-			success:function(data){
-				if(data==0){
-					$(".mgs").text("Not Match!");
-					$(".submit").attr("disabled", "disabled");
-				} else {
-					$(".mgs").text("");
-					$(".submit").removeAttr("disabled", "disabled");
-				}
-			}
-		});
-		
-		
-	});
-
-
-</script>
-
-//PHP Script
-    public function chck(){
-        $oldpass = $this->input->post('oldpass');
-        $where = array("pass" => $oldpass);
-        $result = $this->M_organize_profile_manage->findorgallByUser('data_admin', $where);
-        if($result){
-            echo TRUE;
-        }else{
-            echo FALSE;
-        }
-    }
-	
-//v.02
 <script>
 
 	$("#oldpass").on('keyup', function(){
