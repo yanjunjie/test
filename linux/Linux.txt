@@ -1,0 +1,28 @@
+sudo apt-get update 
+sudo apt-get upgrade 
+sudo apt-get install apache2 php mysql-server
+sudo apt-get install phpmyadmin php-cli php-curl php-gd
+sudo vi /etc/apache2/apache2.conf
+sudo vi /etc/apache2/mods-enabled/dir.conf 
+sudo apt-get install vim vim-gtk3 
+sudo vim /etc/apache2/mods-enabled/dir.conf
+vim /var/www/html/index.html 
+sudo rm /var/www/html/index.html 
+sudo chown -R bablu:www-data /var/www/html/
+sudo chmod -R 777 /var/www/html/
+vim /var/www/html/index.php
+sudo systemctl apache2 restart
+sudo apachectl restart
+sudo apachectl status
+sudo tailf /var/log/apache2/error.log
+sudo service apache2 restart
+sudo tailf /var/log/apache2/error.log
+sudo vi /etc/apache2/apache2.conf 
+vim /var/www/html/index.php 
+sudo service apache2 restart
+
+
+//
+cd, ls, pwd, cp, rm, mkdir, rmdir, man, Ctrl + D, cat, touch, vim,  rm -r directory, rm file,  ls -R, mv file newfile, mv file /home/howtogeek,  cp -r, ln, ln -s, chmod, mc, sudo apt-get install mc, 
+
+

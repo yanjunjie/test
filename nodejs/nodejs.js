@@ -1,5 +1,11 @@
-var a = 2;
-var b = 3;
-var result = a+b;
-console.log(result);
-v.02
+var http = require("http");
+var about = require("./bab");
+var port = 3000;
+
+http.createServer(function(request, response){
+	response.writeHead(200, {"content-type":"text/html"});
+	response.write(about.name);
+	about.myFun();
+	response.end();
+}).listen(port);
+console.log("Server is working on :" + port);

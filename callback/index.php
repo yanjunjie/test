@@ -27,7 +27,9 @@
 			return callback(num1, num2);
 		}
 		//console.log(calc(2, 3, function(a,b){return a-b;}));
-		console.log(calc(2, 3, multiply));
+		calc(2, 3, function(a, b){ //this anonimous will assign with a variable and it is a defination
+			return a*b;
+		});
 		
 	</script>
 </body>
