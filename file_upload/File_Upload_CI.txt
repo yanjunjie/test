@@ -1,0 +1,328 @@
+//File uploade in codeigniter
+//v.01
+//db
+CREATE TABLE `users` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+ `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `picture` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `created` datetime NOT NULL,
+ `modified` datetime NOT NULL,
+ `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active, 0=Inactive',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+//Controller
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+class Users extends CI_Controller
+{
+    function  __construct() {
+        parent::__construct();
+        $this->load->model('user');
+    }
+    
+    function add(){
+        if($this->input->post('userSubmit')){
+            
+            //Check whether user upload picture
+            if(!empty($_FILES['picture']['name'])){
+                $config['upload_path'] = 'uploads/images/';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['file_name'] = $_FILES['picture']['name'];
+                
+                //Load upload library and initialize configuration
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                
+                if($this->upload->do_upload('picture')){
+                    $uploadData = $this->upload->data();
+                    $picture = $uploadData['file_name'];
+                }else{
+                    $picture = '';
+                }
+            }else{
+                $picture = '';
+            }
+            
+            //Prepare array of user data
+            $userData = array(
+                'name' => $this->input->post('name'),
+                'email' => $this->input->post('email'),
+                'picture' => $picture
+            );
+            
+            //Pass user data to model
+            $insertUserData = $this->user->insert($userData);
+            
+            //Storing insertion status message.
+            if($insertUserData){
+                $this->session->set_flashdata('success_msg', 'User data have been added successfully.');
+            }else{
+                $this->session->set_flashdata('error_msg', 'Some problems occured, please try again.');
+            }
+        }
+        //Form for adding user data
+        $this->load->view('users/add');
+    }
+}
+
+//Model
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class User extends CI_Model{
+    function __construct() {
+        $this->tableName = 'users';
+        $this->primaryKey = 'id';
+    }
+    
+    public function insert($data = array()){
+        if(!array_key_exists("created",$data)){
+            $data['created'] = date("Y-m-d H:i:s");
+        }
+        if(!array_key_exists("modified",$data)){
+            $data['modified'] = date("Y-m-d H:i:s");
+        }
+        $insert = $this->db->insert($this->tableName,$data);
+        if($insert){
+            return $this->db->insert_id();
+        }else{
+            return false;    
+        }
+    }
+}
+
+//View
+<?php echo $this->session->flashdata('success_msg'); ?>
+<?php echo $this->session->flashdata('error_msg'); ?>
+<form role="form" method="post" enctype="multipart/form-data">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Picture</label>
+                <input class="form-control" type="file" name="picture" />
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" type="text" name="name" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-control" type="text" name="email" />
+            </div>
+             <div class="form-group">
+                <input type="submit" class="btn btn-warning" name="userSubmit" value="Add">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+//v.02
+//Controller
+  class Upload extends CI_Controller
+
+  {
+
+    function __construct()
+
+    {
+
+        parent::__construct();
+
+        $this->load->helper('form');
+
+        $this->load->helper('url');
+
+    }  
+
+    function index()
+
+    {
+
+        $this->load->view('upload_view');
+
+    }
+
+    //Upload Image function
+
+    function uploadImage()
+
+    {
+
+       $config['upload_path']   =   "uploads/";
+
+       $config['allowed_types'] =   "gif|jpg|jpeg|png"; 
+
+       $config['max_size']      =   "5000";
+
+       $config['max_width']     =   "1907";
+
+       $config['max_height']    =   "1280";
+
+       $this->load->library('upload',$config);
+
+       if(!$this->upload->do_upload())
+
+       {
+
+           echo $this->upload->display_errors();
+
+       }
+
+       else
+
+       {
+
+           $finfo=$this->upload->data();
+
+           $this->_createThumbnail($finfo['file_name']);
+
+           $data['uploadInfo'] = $finfo;
+
+           $data['thumbnail_name'] = $finfo['raw_name']. '_thumb' .$finfo['file_ext']; 
+
+           $this->load->view('upload_success',$data);
+
+           // You can view content of the $finfo with the code block below
+
+           /*echo '<pre>';
+
+           print_r($finfo);
+
+           echo '</pre>';*/
+
+       }
+
+    }
+
+    //Create Thumbnail function
+
+    function _createThumbnail($filename)
+
+    {
+
+        $config['image_library']    = "gd2";      
+
+        $config['source_image']     = "uploads/" .$filename;      
+
+        $config['create_thumb']     = TRUE;      
+
+        $config['maintain_ratio']   = TRUE;      
+
+        $config['width'] = "80";      
+
+        $config['height'] = "80";
+
+        $this->load->library('image_lib',$config);
+
+        if(!$this->image_lib->resize())
+
+        {
+
+            echo $this->image_lib->display_errors();
+
+        }      
+
+    }
+
+  }
+  
+//View
+ 
+<head>
+ 
+<title> Image Upload </title>
+ 
+</head>
+ 
+<body>
+ 
+<div id="container">
+ 
+<?php echo  form_open_multipart('upload/uploadImage')?>
+ 
+<input type="file" name="userfile" />
+ 
+<p><input type="submit" name="submit" value="submit" /></p>
+ 
+<?php echo form_close();?>
+ 
+</div>
+ 
+</body>
+ 
+</html>
+
+//Success
+<head>
+ 
+<title> Image Upload </title>
+ 
+</head>
+ 
+<body>
+ 
+<div id="container">
+ 
+<dl>
+ 
+    <dt>
+ 
+        File Name:
+ 
+    </dt>
+ 
+    <dd>
+ 
+        <?php echo $uploadInfo['file_name'];?>
+ 
+    </dd>
+ 
+    <dt>
+ 
+        File Size:
+ 
+    </dt>
+ 
+    <dd>
+ 
+        <?php echo $uploadInfo['file_size'];?>
+ 
+    </dd>
+ 
+    <dt>
+ 
+        File Extension:
+ 
+    </dt>
+ 
+    <dd>
+ 
+        <?php echo $uploadInfo['file_ext'];?>
+ 
+    </dd>
+ 
+    <br />
+ 
+    <p>The Image:</p>
+ 
+    <img alt="Your uploaded image" src="<?=base_url(). 'uploads/' . $uploadInfo['file_name'];?>"> 
+ 
+    <p>The Image:</p> 
+ 
+    <img alt="Your Thumbnail image" src="<?=base_url(). 'uploads/' . $thumbnail_name;?>">  
+ 
+</dl>
+ 
+</div>
+ 
+</body>
+ 
+</html>
+
+
+//v.03
+
+
+
+
+
