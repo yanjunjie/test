@@ -1,0 +1,43 @@
+/*//version 1.0
+$form_name=$_POST['form_name'];
+$form_email=$_POST['form_email'];
+$form_password=$_POST['form_password'];
+
+$destination	='images/'.uniqid().date('Y-m-d-H-i-s').$_FILES['form_file']['name'];
+$file_temp_name	=$_FILES['form_file']['tmp_name'];
+move_uploaded_file($file_temp_name, $destination);
+//end v1.0*/
+
+//version 2.0
+$file=$_FILES['form_file'];
+//$file_name= $file['name'];
+$file_type= $file['type'];
+$file_size= $file['size'];
+$file_path= $file['tmp_name'];
+//End version 2.0
+
+//Laravel File Upload
+//version 1.0
+/*$img_obj = $data->file('form_file');
+$upload ='uploads';
+$fileName=$img_obj->getClientOriginalName();
+$success = $img_obj->move($upload, $fileName);*/
+//end version 1.0
+
+//version 2.0
+//$img_obj=Input::file('form_file');
+//$img_obj = $data->file('form_file');
+//$destinationPath = 'uploads'; // upload path
+//$extension = Input::file('form_file')->getClientOriginalExtension(); // getting image extension
+//$fileName = rand(11111,99999).uniqid().date('Y-m-d-H-i-s').'.'.$extension; // renameing image
+// $success=$img_obj->move($destinationPath, $fileName); // uploading file to given path      
+//end version 2.0
+
+//Start version 3.0
+$image = Input::file('form_file');
+$extension = Input::file('form_file')->getClientOriginalExtension(); // getting image extension
+$fileName = rand(11111,99999).uniqid().date('Y-m-d-H-i-s').'.'.$extension; // renameing image
+//$fileName  = time() . '.' . $image->getClientOriginalExtension();
+$destinationPath = public_path('uploads/' . $fileName);
+$success=Image::make($image->getRealPath())->resize(200, 200)->save($destinationPath);
+//End version 3.0
