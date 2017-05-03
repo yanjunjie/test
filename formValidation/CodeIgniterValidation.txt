@@ -1,0 +1,352 @@
+//V.01
+	//Controller
+	public function index()
+	{
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
+		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|callback_username_check'); /*|is_unique[users.username]*/
+		$this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'You must             provide a %s.'));
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+		/*$config = array(
+			array(
+				'field' => 'username',
+				'label' => 'Username',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'password',
+				'label' => 'Password',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s.',
+				),
+			),
+			array(
+				'field' => 'passconf',
+				'label' => 'Password Confirmation',
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'required'
+			)
+		);
+
+		$this->form_validation->set_rules($config);*/
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->load->view('myForm');
+		}
+		else
+		{
+			$this->load->view('formSuccess');
+		}
+	}
+
+	public function username_check($str)
+	{
+		if ($str == 'test')
+		{
+			$this->form_validation->set_message('username_check', 'The {field} field can not be the word "test"');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	
+	
+//View
+<?php /*echo validation_errors(); */?>
+
+<?php echo form_open('form',['enctype'=>'multipart/form-data']); ?>
+
+    <h5>Username</h5> <?php echo form_error('username', '<div class="error">', '</div>'); ?>
+    <input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
+
+    <h5>Password <?php echo form_error('password');?> </h5>
+    <input type="text" name="password" value="" size="50" />
+
+    <h5>Password Confirm <?php echo form_error('passconf');?></h5>
+    <input type="text" name="passconf" value="" size="50" />
+
+    <h5>Email Address <?php echo form_error('email');?></h5>
+    <input type="text" name="email" value="" size="50" />
+
+    <div><input type="submit" value="Submit" /></div>
+
+</form>
+//
+<?php echo form_error('email'); ?>
+<?php echo form_error('email', '<p class="form_error">', '</p>'); ?>
+$this->form_validation->set_error_delimiters('<p class="form_error">', '</p>');
+
+
+//v.02
+	1. A View file containing a form.
+	2. A View file containing a “success” message to be displayed upon successful submission.
+	3. A controller method to receive and process the submitted data.
+	
+//Controller
+	//Cascading Rules
+	$this->form_validation->set_rules(
+        'username', 'Username',
+        'required|min_length[5]|max_length[12]|is_unique[users.username]', //is_unique[table.field]
+        array(
+                'required'      => 'You have not provided %s.',
+                'is_unique'     => 'This %s already exists.'
+        )
+	);
+	$this->form_validation->set_rules('password', 'Password', 'required');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+	$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+
+	//Prepping Data
+	$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
+	$this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]');
+	$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+	
+	//$this->form_validation->set_rules('username', 'Username', 'callback_username_check');
+		public function index()
+        {
+                $this->load->helper(array('form', 'url'));
+
+                $this->load->library('form_validation');
+
+                $this->form_validation->set_rules('username', 'Username', 'callback_username_check');
+                $this->form_validation->set_rules('password', 'Password', 'required');
+                $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+                $this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+
+                if ($this->form_validation->run() == FALSE)
+                {
+                        $this->load->view('myform');
+                }
+                else
+                {
+                        $this->load->view('formsuccess');
+                }
+        }
+
+        public function username_check($str)
+        {
+                if ($str == 'test')
+                {
+                        $this->form_validation->set_message('username_check', 'The {field} field can not be the word "test"');
+                        return FALSE;
+                }
+                else
+                {
+                        return TRUE;
+                }
+        }
+		
+	//$this->form_validation->set_rules(
+        'username', 'Username',
+        array(
+                'required',
+                function($value)
+                {
+                        // Check $value
+                }
+			)
+	);
+	
+	//Anonymous function version:
+	$this->form_validation->set_rules(
+	'username', 'Username',
+		array(
+			'required',
+			array(
+				'username_callable',
+				function($str)
+				{
+					// Check validity of $str and return TRUE or FALSE
+				}
+			)
+		)
+	);
+	
+	//Setting Error Messages
+	$this->form_validation->set_rules('field_name', 'Field Label', 'rule1|rule2|rule3',
+        array('rule2' => 'Error Message on rule2 for this field_name')
+	);
+	
+	$this->form_validation->set_message('min_length', '{field} must have at least {param} characters.');
+	
+	//Changing the Error Delimiters
+		//Changing delimiters Globally
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		
+		//Changing delimiters Individually
+		<?php echo form_error('field name', '<div class="error">', '</div>'); ?>
+		<?php echo validation_errors('<div class="error">', '</div>'); ?>
+		
+	
+//View
+	//Don’t forget to include set_value('field name')
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open('form'); ?>
+
+	<h5>Username</h5>
+	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
+
+	<h5>Password</h5>
+	<input type="text" name="password" value="<?php echo set_value('password'); ?>" size="50" />
+
+	<h5>Password Confirm</h5>
+	<input type="text" name="passconf" value="<?php echo set_value('passconf'); ?>" size="50" />
+
+	<h5>Email Address</h5>
+	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
+
+	<div><input type="submit" value="Submit" /></div>
+
+	</form>
+	
+	//<input type="text" name="colors[]" value="<?php echo set_value('colors[]'); ?>" size="50" />
+	//<?php echo form_error('options[size]'); ?>
+	<input type="text" name="options[size]" value="<?php echo set_value("options[size]"); ?>" size="50" />
+	
+	//Showing Errors Individually
+	<h5>Username</h5>
+	<?php echo form_error('username'); ?>
+	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
+	
+	
+	
+
+	<h5>Password</h5>
+	<?php echo form_error('password'); ?>
+	<input type="text" name="password" value="<?php echo set_value('password'); ?>" size="50" />
+
+	<h5>Password Confirm</h5>
+	<?php echo form_error('passconf'); ?>
+	<input type="text" name="passconf" value="<?php echo set_value('passconf'); ?>" size="50" />
+
+	<h5>Email Address</h5>
+	<?php echo form_error('email'); ?>
+	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
+	
+//v.03
+function index()
+{
+    $this->form_validation->set_rules('username','Username','trim|required|exact_length[4]|xss_clean');
+    $this->form_validation->set_rules('password','Password','trim|required|min_length[4]|max_length[40]|xss_clean|callback_login');
+    $this->form_validation->set_rules('jabatan','Jabatan','trim|required|xss_clean');
+
+    if($this->form_validation->run() == false)
+    {
+        $this->load->view('login');
+    }
+    else
+    {
+        //to check if the validation run correctly
+        //$this->load->view('welcome_message');
+
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $jabatan = $this->input->post('jabatan');
+
+        $value = $this->m_login->login($username,$password,$jabatan);
+
+        if($value)
+        {
+            redirect('welcome_message');
+            //return true;
+        }
+        else
+        {
+            $this->form_validation->set_message('login', 'password salah');
+            redirect('c_login',$login); //i want to pass $login into login form, then print
+            return false;               //them as a form_error
+
+        }
+    }
+
+}
+
+
+<?php echo form_open(uri_string()); ?>
+<table>
+    <tr>
+        <td>Username</td>
+        <td><?php $inusername=array('name' => 'username', 'class' => 'GUI'); echo form_input($inusername); ?></td>
+        <td class="error"><?php echo form_error('username'); ?></td>
+    </tr>
+
+    <tr>
+        <td>Password</td>
+        <td><?php $inpassword=array('name' => 'password', 'class' => 'GUI', 'type' =>'password'); echo form_input($inpassword); ?></td>
+        <td class="error"><?php echo form_error('password'); echo $this->session->flashdata('login'); ?></td>
+    </tr>
+
+    <tr>
+        <td>Jabatan</td>
+        <td><?php $injabatan=array('keuangan' => 'keuangan', 'admin' => 'admin', 'hd' => 'head divisi', 'direktur' => 'direktur'); echo form_dropdown('jabatan',$injabatan,'keuangan','class = "gui"'); ?></td>
+        <td class="error"><?php echo form_error('jabatan'); ?></td>
+    </tr>
+
+     <tr>
+        <td></td>
+        <td><?php $insubmit=array('name' =>'login','class' =>'button','value' => 'Login'); echo form_submit($insubmit); echo nbs(); $inreset=array('name' =>'reset','class' =>'button','value' => 'Hapus'); echo form_reset($inreset); ?></td>
+        <td class="error"><?php echo form_error(); ?></td>
+    </tr>
+</table>
+<?php echo form_close(); ?>
+
+//v.04 Tested by Bablu
+//Controller
+	public function testForm(){
+        $this->load->database();
+        $this->load->model(self::$model);
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+             
+        $this->form_validation->set_error_delimiters('<span class="error">', '</span>');
+
+        $this->form_validation->set_rules('userName', 'Username', 'trim|required|min_length[4]|max_length[40]|is_unique[users.user_name]'); 
+
+     
+
+        if ($this->form_validation->run() == FALSE)
+            {
+                //$username = $this->input->post('userName');
+                ///die(var_dump($username));
+                $this->load->view('testRegForm');            
+               
+            }
+            else
+            {
+                $username = $this->input->post('userName');
+                //die(var_dump($username));
+                $this->MyModel->testt($username);
+            }
+
+    }
+	
+//View
+	<form action="<?php echo base_url('form/testForm');?>" method="post">
+		<?php echo form_error('userName'); ?>
+		<input type="text" name="userName"> 
+		<input type="submit">
+	</form>
+	
+//Model
+	public function testt($username){
+        $this->db->insert('users', ['user_name'=>$username]);
+        return $this->db->insert_id();
+    }
+
+//v.05
+
+
