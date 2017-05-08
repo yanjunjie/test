@@ -1,0 +1,109 @@
+tomonaga@jacos.co.jp
+jacoshabibul@gmail.com
+k.nakagawa@jacos.co.jp
+nakao@jacos.co.jp
+jacosnakao01@gmail.com
+69730573
+
+WiFi-Password:J0a9c8o7s6
+SA Online: 01819994618
+Munna: 01913752222
+
+Git:
+https://drive.google.com/file/d/0B55G3SRiKptDXzl0SEZ1YlB4RDA/view?usp=sharing
+user name: jacosmia@gmail.com
+password: 
+
+git init
+git add .
+git commit -m ""
+git push
+git status 
+git log
+
+Brancing:
+git branch develop
+git branch
+git checkout develop
+git merge develop master
+git branch -d develop
+
+git remote add origin git@repo.dev.jacos.jp:DHAKA/mitsumori_toroku_pc_tu.git
+git push origin mybranch
+
+m_b_mia@ec2-52-192-252-115.ap-northeast-1.compute.amazonaws.com
+m_b_mia@repo.dev.jacos.jp
+
+https://repo.dev.jacos.jp/u/m_b_mia
+m_b_mia@repo2.jacos.jp
+admin@dev.jacos.jp
+Private token: L5u5SZYzj1Z8rHF36Cyo
+
+Your SSH keys:
+m_b_mia@repo2.jacos.jp
+e4:1d:79:58:7c:91:25:6e:c9:ef:57:30:13:cf:4f:f7
+
+https://repo.dev.jacos.jp/groups/DHAKA
+https://repo.dev.jacos.jp/DHAKA/mitsumori_toroku_pc_tu
+https://docs.google.com/spreadsheets/d/1dq5nTTslV_p2uCq_de35yV6S70XKiHFGr0EIzKKzFK8/edit?ts=584e0e1b#gid=0
+
+Jacos Support:
+Jakeriya 
+01613148711,12
+
+Junayed
+01613148710
+
+172.25.23.166 ip
+172.25.23.166 public ip
+172.25.23.165 gateway
+
+Subnet musk
+255.255.255.252
+
+DNS
+182.16.156.5
+182.16.156.7
+
+TP-Link Router wireless password:
+69730573
+
+Win10 Activation Key:
+wfq6n-hjxdq-8qy4j-c26fb-kd724
+
+m_b_mia@repo.dev.jacos.jp
+ssh root@tenki-s.dhaka01
+ /etc/deploy.sh
+git clone https://bablukpik@bitbucket.org/jacosit/formatconversionv2.git
+
+
+Server update:
+-> ssh root@tenki-s.dhaka01
+->ls /var/www/html/
+-> cd /var/www/html
+-> cd ../
+-> cd /
+-> cd root
+-> touch test.txt
+-> cd www/html
+-> git reset --hard
+-> rm test.txt
+-> git ls
+-> git status
+-> git fetch
+-> git remote
+-> git remote remove origin
+-> git remote
+-> git remote add origin https://bablukpik@bitbucket.org/jacosit/formatconversionv2.git
+-> git pull -u origin master
+-> git push -u origin master
+-> git log
+-> git pull
+
+Database Edit:
+-> mysql --version;
+-> mysql -u convert-tool -p -h 10.128.10.10
+-> show databases;
+-> use convert-tool;
+-> show tables;
+-> select * from buyer;
