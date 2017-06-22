@@ -1,0 +1,183 @@
+//v.01
+public function admisUpdate()
+  {
+  
+   $id = $this->input->post('edit_id');
+   
+   $result = $this->M_organize_profile_manage->findById('adminssion_form_slide', $id);
+   
+   $sl_image1 = $this->input->post('sl_image1');
+   $sl_image2 = $this->input->post('sl_image2');
+   $sl_image3 = $this->input->post('sl_image3');
+   
+   if(!empty($sl_image1)){
+   	unlink('./Images/admission_form_image/'.$result->sl_image1);
+	$data['sl_image1']	= $sl_image1;
+   }
+   if(!empty($sl_image2)){
+   unlink('./Images/admission_form_image/'.$result->sl_image2);
+   $data['sl_image2']	= $sl_image2;
+   }
+   
+   if(!empty($sl_image3)){
+    unlink('./Images/admission_form_image/'.$result->sl_image3);
+	$data['sl_image3']	= $sl_image3;
+   }
+   
+   
+   $this->db->update('adminssion_form_slide', $data, array('id' => $id));
+   
+   redirect('form/formslide'); 
+   
+  }
+
+  //v.02
+public function update()
+{
+	$id								= $this->input->post('id');
+	$data['country_id'] 			= $this->input->post('country_id');
+	$data['city_id'] 				= $this->input->post('city_id');
+	$data['name'] 					= $this->input->post('name');
+	$data['status'] 				= $this->input->post('status');
+	
+	
+		$config['upload_path']		= './Images/Register_image/';
+		$config['allowed_types'] 	= 'gif|jpg|png';
+		$config['max_size']			= '0';
+		$config['max_width']  		= '0';
+		$config['max_height']  		= '0';
+		$config['file_name']  		= time();
+		$file_field					= 'image';
+	
+		/// IMAGE UPLOAD ACTION
+		$this->upload->initialize($config);
+		if ($this->upload->do_upload($file_field))
+		{
+			
+		
+			$image_data 			= $this->upload->data();				
+			$data['image']  		= $image_data['file_name'];
+			$model					= $this->M_all_user_registration->findById($id);
+			$only_image    			= $model->image;
+			
+			if(!empty($only_image)){
+			unlink('./Images/Register_image/'.$only_image);
+			}
+		}
+	$this->M_all_user_registration->update($data, $id);	
+	
+	$currentDate 					= date("Y/m/d");
+	$data2['resume_update_date'] 	= $currentDate;
+	$data2['education_institute']   = $this->input->post('education_institute');
+	$data2['date_of_birth'] 		= $this->input->post('date_of_birth');
+	$data2['father_name'] 			= $this->input->post('father_name');
+	$data2['mother_name'] 			= $this->input->post('mother_name');
+	$data2['nationality'] 			= $this->input->post('nationality');
+	$data2['gender'] 				= $this->input->post('gender');
+	$data2['marital_status'] 		= $this->input->post('marital_status');
+	$data2['religion'] 				= $this->input->post('religion');
+	$data2['address'] 				= $this->input->post('address');
+	$data2['city'] 					= $this->input->post('city');
+	$data2['country_phone'] 		= $this->input->post('country_phone');
+	$data2['mobile'] 				= $this->input->post('mobile');
+	$data2['email'] 				= $this->input->post('email');
+	$data2['address_permanent'] 	= $this->input->post('address_permanent');
+	$data2['city_permanent'] 		= $this->input->post('city_permanent');
+	$data2['country_phone_permanent'] = $this->input->post('country_phone_permanent');
+	$data2['mobile_permanent'] 		= $this->input->post('mobile_permanent');
+	$data2['email_permanent'] 		= $this->input->post('email_permanent');
+    
+	$valueChk 						= $this->M_general_user_registration->findByEmail($id);	
+	if(!empty($valueChk)){
+	  $this->M_general_user_registration->update($data2, $id);		
+	}else{
+	  $data2['user_id'] 			= $id;
+	  $this->M_general_user_registration->save($data2);		
+	}
+
+	redirect('generalUserHome');
+	
+}
+
+//v.03
+public function postUpdate()
+{
+	$id						= $this->input->post('id');
+	$data['title'] 			= $this->input->post('title');
+	$data['image_title'] 	= $this->input->post('image_title');
+	$data['date_and_time'] 	= $this->input->post('date_and_time');
+	$data['description'] 	= $this->input->post('description');
+
+	$config['upload_path'] 		= './Images/Post_image/';
+	$config['allowed_types'] 	= 'gif|jpg|png';
+	$config['max_size']			= '0';
+	$config['max_width']  		= '0';
+	$config['max_height']  		= '0';
+	$config['file_name']  		= time();
+	$file_field					= 'image';
+
+	/// IMAGE UPLOAD ACTION
+	$this->upload->initialize($config);
+	if ($this->upload->do_upload($file_field))
+	{
+		/// ERORR SHOW FOR IMAGE UPLOAD
+	
+		$image_data 			= $this->upload->data();				
+		$data['image']  		= $image_data['file_name'];
+		
+		$source_image = 'Images/Post_image/'.$data['image'];
+		$destination  = 'Images/Post_image500_347/'.$data['image'];
+		$frame_width  = 500;
+		$frame_height = 347;
+		resize_with_white_space($source_image, $destination, $frame_width, $frame_height);
+		
+		
+		$model					= $this->M_user_post_manage->findById($id);
+		$only_image    			= $model->image;
+		
+		if(!empty($only_image)){
+		unlink('./Images/Post_image/'.$only_image);
+		unlink('./Images/Post_image500_347/'.$only_image);
+		}
+	}
+
+	$this->M_user_post_manage->update($data, $id);	
+
+	$blogDetails 			    = $this->M_user_post_manage->findById($id);
+
+
+		$datas['blog_title'] 	    = $blogDetails->title;
+
+	    $blogDetailsChk 			= $this->M_search_table->findByBlogId($id);
+
+	    if(!empty($blogDetailsChk)){
+	       $this->M_search_table->updateBlog($datas, $id);
+	    } else{
+		  $datas['blog_id'] 	    = $id;
+		  $datas['blog_user_id']    = $blogDetails->user_id;
+
+	      $this->M_search_table->save($datas);	
+	    }
+
+	redirect('generalUserHome/addPost');
+	
+ }
+
+ //v.04
+
+ public function postDelete($id)
+ {	
+	
+	$model					= $this->M_user_post_manage->findById($id);
+	$only_image    			= $model->image;
+	
+	if(!empty($only_image)){
+	unlink('./Images/Post_image/'.$only_image);
+	unlink('./Images/Post_image500_347/'.$only_image);
+	}
+	$this->M_user_post_manage->destroy($id);
+	$this->M_search_table->destroyByBlockId($id);				
+ 	redirect('generalUserHome/addPost');
+ }
+
+ //v.05

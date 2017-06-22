@@ -1,0 +1,39 @@
+This is my controller :
+
+    public function delete_group()
+    {
+            $group_id = $this->input->post('group_id');
+            $group_picture = $this->input->post('group_picture');
+
+            $this->group_model->delete_group($group_id, $group_picture);
+            redirect('product_group');
+    }
+this is my model :
+
+        function delete_group($group_id, $group_picture)
+        {
+                $this->db->where('group_id', $group_id);
+
+                unlink(base_url("uploads/".$group_picture));
+
+                $this->db->delete('product_group', array('group_id' => $group_id));
+        }
+and this is my view :
+
+ <?=form_open_multipart('product_group/delete_group');?>
+
+   <input type="hidden" class="form-control" placeholder="Group ID" name="group_id">
+   <input type="text" class="form-control" placeholder="Group ID" name="group_picture">
+
+  <div class="modal-footer">
+     <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+     <button class="btn btn-success" type="submit">Submit</button>
+   </div>
+ </form>
+
+ //N.B,
+ unlink(base_url("uploads/".$group_picture));
+Should be
+
+unlink("uploads/".$group_picture);
+You need the path, not the url.

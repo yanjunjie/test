@@ -1,0 +1,46 @@
+<form id="form-ava" action="../config.inc/upload.php" method="post" enctype="multipart/form-data">
+     <input type="hidden" id="id_user" name="id_user" value="<?php echo $row->id_user;?>">
+            <input id="ava-img" type="file" name="image" value="<?php echo $row->image;?>"/>
+                <input id="button" type="submit" value="Simpan" name="update"></br>
+     <a href="#" class="btn btn-large btn-success" id="cancel-act"></i> &nbsp; Batal</a>
+ </form>
+   <div id="err"></div>
+
+
+<script type="text/javascript">
+$("#form-ava").on('submit',(function(e) {
+e.preventDefault();
+$.ajax({
+    url: "../config.inc/upload.php",
+    type: "POST",
+    data:  new FormData(this),
+    contentType: false,
+    cache: false,
+    processData:false,
+    beforeSend : function()
+    {
+        //$("#preview").fadeOut();
+        $("#err").fadeOut();
+    },
+    success: function(data)
+    {
+        if(data=='invalid')
+        {
+            // invalid file format.
+            $("#err").html("Invalid File !").fadeIn();
+        }
+        else
+        {
+            // view uploaded file.
+            $("#preview-ava").html(data).fadeIn();
+            $("#form-ava")[0].reset();
+  $("#hidden-list").hide();
+        }
+    },
+    error: function(e)
+    {
+        $("#err").html(e).fadeIn();
+    }
+});
+}));
+</script>
