@@ -1,0 +1,60 @@
+//Image Preview
+
+//v.01
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#imgInp").change(function(){
+    readURL(this);
+});
+and the associated HTML:
+
+<form id="form1" runat="server">
+    <input type='file' id="imgInp" />
+    <img id="blah" src="#" alt="your image" />
+</form>
+
+//v.02
+<div class="row">
+    <img id='lnd_photo_preview' src="<?php echo base_url();?>backend_assets/img/noimage.png" alt="আপনার ছবি দিন" class="img-thumbnail" width="150">
+    <div class="form-group"><br>
+        <label>আপনার ছবি দিন</label>
+        <input id="lnd_photo" type="file" name="lnd_photo" >
+    </div>
+</div>
+
+//script:
+//Image preview for landlord
+function readImgURLlnd(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#lnd_photo_preview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#lnd_photo").change(function(){
+    readImgURLlnd(this);
+    console.log('File selected');
+});
+
+//v.03
+
+
+
+
+
