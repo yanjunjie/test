@@ -96,7 +96,7 @@ $(function() {
  });  
  </script>
 
- //PHP Insert:
+ //PHP, Insert:
 <?php  
  $connect = mysqli_connect("localhost", "root", "", "test_db");  
  $number = count($_POST["name"]);  
@@ -213,7 +213,33 @@ $(document).ready(function(){
 
 </script>
 
-//PHP Insert:
+//PHP, Insert:
+
+//Codeigniter: 
+public function save_lndFM_data($lndFMData){
+        for($i = 0;$i < count($arr["address"]); $i++)
+            $batch[] = array(   "address" =>$arr["address"][$i],
+                                "number" => $arr["number"][$i],
+                                "state" =>$arr["state"]
+                            );
+
+        return $this->db->insert_batch(self::$lnd_familymember, $batch);
+    }
+
+//My Work: 
+public function save_lndFM_data($lndFMData){
+    for($i = 0; $i < count($lndFMData['family_member_name']); $i++)
+        $batch[] = array(   "lnd_id" =>$lndFMData['lnd_id'],
+                            "family_member_name" => $lndFMData['family_member_name'][$i],
+                            "family_member_age" => $lndFMData['family_member_age'][$i],
+                            "family_member_job" => $lndFMData['family_member_job'][$i],
+                            "family_member_phone" => $lndFMData['family_member_phone'][$i]
+                        );
+
+    return $this->db->insert_batch(self::$lnd_familymember, $batch);
+}
+
+//Raw PHP:
 <?php
 //insert.php
 $connect = mysqli_connect("localhost", "root", "", "testing");
