@@ -1,3 +1,5 @@
 http://www.mkyong.com/jquery/how-to-add-remove-textbox-dynamically-with-jquery/
 https://www.grammarly.com/extension-uninstall?domain=localhost
+http://www.arifulhaque.com/remove-index-php-from-url-to-avoid-duplicate-content-issue/
+
 
