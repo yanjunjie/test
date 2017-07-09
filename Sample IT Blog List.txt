@@ -3,6 +3,8 @@ https://www.grammarly.com/extension-uninstall?domain=localhost
 http://www.arifulhaque.com/remove-index-php-from-url-to-avoid-duplicate-content-issue/
 https://www.formget.com/form-login-codeigniter/
 https://www.zerosack.org/blog/24484189674/What-is-difference-between-serialize()-&-FormData()-methods-in-jQuery.
+https://arjunphp.com/uploading-pdf-files-codeigniter/
+
 
 
 

@@ -1,0 +1,137 @@
+//v.01
+//PHP:
+public function publish_publicity()
+    {   
+        //Start upload picture
+        if(!empty($_FILES['publicity_photo']['name'])){ //if($_FILES['image']['error'] == 0){
+            $config['upload_path'] = 'publicity/images/publicity_img/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['publicity_photo']['name']);
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+            if($this->upload->do_upload('publicity_photo')){
+                $finfo=$this->upload->data();
+                $this->_createThumbnail($finfo['file_name']);
+                $publicity_photo = $finfo['raw_name'].'_thumb'.$finfo['file_ext'];
+                //$publicity_photo = $finfo['file_name'];
+            }else{
+                $publicity_photo = '';
+            }
+        }else{
+            $publicity_photo = '';
+        }
+        //End upload picture
+        $data = $this->input->post();
+        $dt = new DateTime("now", new DateTimeZone('Asia/Dhaka'));
+        $todayDate = $dt->format('Y-m-d h:i:s');
+        $data['publicity_userid']           = $this->session->userdata('user_name');
+        $data['publicity_usertype']         = $this->session->userdata('user_type');
+        $data['publicity_created_date']     = $todayDate;
+        $data['publicity_expired_date']     = $todayDate;
+        $data['publicity_photo']            = $publicity_photo;
+        $response = $this->MyModel->publish_publicity($data);
+        if ($response) {
+            $sdata['successMsg'] = "Data inserted successfully";
+        }else{
+            $sdata['failure'] = "Failed!! Data has not been inserted successfully";
+        }
+        $this->session->set_userdata( $sdata );
+        redirect('publicity/create_publicity');
+    }
+    /*
+     * Thumbnail image creation for landloard
+     */
+    function _createThumbnail($filename)
+    {
+        $config['image_library']    = "gd2";
+        $config['source_image']     = "publicity/images/publicity_img/" .$filename;
+        $config['create_thumb']     = TRUE;
+        $config['maintain_ratio']   = TRUE;
+        $config['width']            = "400";
+        $config['height']           = "200";
+        $this->load->library('image_lib',$config);
+        if(!$this->image_lib->resize())
+        {
+            echo $this->image_lib->display_errors();
+        }
+    } 
+    //End Thumbnail image creation for landloard
+	
+//Model:
+	public function publish_publicity($data)
+    {
+        $this->db->insert('publicity', $data);
+        return $this->db->insert_id();
+    }
+	
+//End v.01
+
+	//v.02 PDF and images
+	public function TenderFormData()
+    {
+        //Start upload file
+        if(!empty($_FILES['tender_specification']['name']) or !empty($_FILES['tender_notice']['name'])){ //if($_FILES['image']['error'] == 0){
+            $config['upload_path'] = 'uploads/tender/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+            $config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['tender_specification']['name']);
+            $config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['tender_notice']['name']);
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('tender_specification')){
+                $finfo=$this->upload->data();
+                //$this->_createThumbnail($finfo['file_name']);
+                $tender_specification = $finfo['raw_name'].$finfo['file_ext'];/*.'_thumb'.$finfo['file_ext']*/
+                //$tender_specification = $finfo['file_name'];
+            }else{
+                $tender_specification = '';
+            }
+
+            if($this->upload->do_upload('tender_notice')){
+                $finfo=$this->upload->data();
+                //$this->_createThumbnail($finfo['file_name']);
+                $tender_notice = $finfo['raw_name'].$finfo['file_ext'];/*.'_thumb'.$finfo['file_ext']*/
+                //$tender_specification = $finfo['file_name'];
+            }else{
+                $tender_notice = '';
+            }
+
+        }
+        //End upload file
+        if (!empty($_POST['tender_id'])){
+            $data = $this->input->post();
+            $data['tender_saved_by'] = $this->session->userdata('username');
+            if (!empty($tender_specification)){
+                $data['tender_specification'] = $tender_specification;
+            }
+            if (!empty($tender_notice)){
+                $data['tender_notice'] = $tender_notice;
+            }
+
+            $response = $this->MyModel->SaveTenderFormData('tbl_tender',$data);
+            if ($response) {
+                $sdata['success_alert'] = "Success! Saved successfully";
+            }else{
+                $sdata['failure_alert'] = "Failure! Not Saved successfully";
+            }
+            $this->session->set_userdata($sdata);
+
+            redirect('back/TenderList');
+        }
+
+    }
+	
+//Model
+	public function SaveTenderFormData($table, $data){
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+//End V.02
+
+//V.03
+
+//End V.03
+	
