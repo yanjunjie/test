@@ -14,14 +14,17 @@ $(document).ready(function (e) {
             success:function(data){
                 console.log("success");
                 console.log(data);
+				$("#imageUploadForm")[0].reset();
             },
             error: function(data){
                 console.log("error");
                 console.log(data);
             }
         });
+		
     }));
-
+	
+	//Optional
     $("#ImageBrowse").on("change", function() {
         $("#imageUploadForm").submit();
     });
