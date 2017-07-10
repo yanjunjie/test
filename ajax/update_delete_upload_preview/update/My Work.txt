@@ -1,4 +1,4 @@
-    //Update
+    //Only data Update
     $(document).on('submit', '#publicityUpdateForm', function(event){
         event.preventDefault();
         var publicityUpdateSubmitData = $('#publicityUpdateForm').serializeArray();
@@ -20,8 +20,9 @@
         });
 
     });
-
-    //Image Update
+	//End Only data Update
+	
+    //Update with Image
     $(document).on('submit', '#publicityUpdateForm', function(event){
         event.preventDefault();
         event.stopPropagation();
@@ -60,7 +61,7 @@
     $(document).on("change","#publicity_photo",function() {
         $("#publicityUpdateForm").submit();
     });
-    //End Update
+    //End Update with Image
 
     //PHP, Codeigniter:
     public function update()

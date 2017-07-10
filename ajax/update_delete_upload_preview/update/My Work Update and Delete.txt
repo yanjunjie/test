@@ -1,0 +1,101 @@
+ jQuery(function(){
+        //delete
+        $('.publicity_delete').on('click',function(){
+            var deleted_row = $(this).parent().parent();
+            var id = $(this).data('id');
+            var url = '<?php echo base_url("publicity/delete"); ?>';
+            if (confirm('Are you sure to delete?')) {
+                $.ajax({
+                    type:'post',
+                    url:url,
+                    cache: false,
+                    data:{publicity_id:id},
+                    success:function(data){
+                        if (data=='yes') {
+                            deleted_row.fadeOut().remove();
+                            alert("Deleted successfully"); 
+                        }
+                    },
+                    error:function(){
+                        alert('Error deleting');
+                    }
+                });
+            }
+        });
+		
+        //Update Form
+        $('.publicity_edit').on('click',function(){
+            var id = $(this).data('id');
+            var url = '<?php echo base_url("publicity/update_form"); ?>';
+            $.ajax({
+                type:'post',
+                url:url,
+                data:{publicity_id:id},
+                success:function(data){
+                    if (data) {
+                        $('#publicity_update_dialog_btn').trigger('click');
+                        $('#publicity_update_data').html(data);
+                    }
+                },
+                error:function(){
+                    alert('Error updating');
+                }
+            });
+        });
+		
+        //Update
+        $(document).on('submit', '#publicityUpdateForm', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            var publicityUpdateSubmitData = new FormData(this);
+            //var publicityUpdateSubmitData = $('#publicityUpdateForm').serialize();
+            console.log(publicityUpdateSubmitData);
+            var url = '<?php echo base_url("publicity/update"); ?>';
+            $.ajax({
+                type:'POST',
+                url: url,
+                data:publicityUpdateSubmitData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    //$("#publicityUpdateForm")[0].reset();
+                    if (data=='yes') {
+                        alert("Success! Updated successfully");
+                        $('.modal').modal('hide');
+                        window.location = "<?php echo base_url('publicity/publicity_action'); ?>";
+                    }
+                },
+                error: function(data){
+                    console.log("Error: "+data);
+                    if (data=='no') {
+                        alert("Failure! Not Updated successfully");
+                        $('.modal').modal('hide');
+                        window.location = "<?php echo base_url('publicity/publicity_action'); ?>";
+                    }
+                }
+            });
+        });
+        
+        $(document).on("change","#publicity_photo",function() {
+            $("#publicityUpdateForm").submit();
+        });
+        //End Update
+    });
+	
+    //update image preview
+    function publicity_update_image(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#publicity_update_photo_preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).on("change","#publicity_photo",function(){
+        publicity_update_image(this);
+        console.log('File selected');
+    });
+    //End update image preview
+	

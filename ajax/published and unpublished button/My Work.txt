@@ -3,8 +3,43 @@
 $(document).on('click','.TenderStatus',function (event) {
     event.preventDefault();
     var button = $(this);
-    var id = $(this).data('id');
-    var value = $(this).data('value');
+    var id = $(this).attr('data-id');
+    var value = $(this).attr('data-value');
+    console.log(value);
+    var url = baseUrl+"/back/StatusUpdateById";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {id:id, value:value},
+        success: function(data){
+            if(data=='yes'){
+                console.log('Status updated Successfully');
+                if (button.text() == 'Published'){
+                    button.text('Unpublished');
+                    button.attr('data-value','A');
+                    button.addClass('btn-danger');
+                    button.removeClass('btn-success');
+                }else{
+                    button.text('Published');
+                    button.attr('data-value','B');
+                    button.addClass('btn-success');
+                    button.removeClass('btn-danger');
+                }
+            }
+        },
+        error:function () {
+            console.log('Error: Status not updated');
+        }
+    });
+});
+
+//V.02 
+//Tender Status Change
+$(document).on('click','.TenderStatus',function (event) {
+    event.preventDefault();
+    var button = $(this);
+    var id = $(this).attr('data-id');
+    var value = $(this).attr('data-value');
     var url = baseUrl+"/back/StatusUpdateById";
     $.ajax({
         url: url,
@@ -28,7 +63,7 @@ $(document).on('click','.TenderStatus',function (event) {
     });
 });
 
-//V.02
+//V.03
 
 
 
