@@ -1,0 +1,34 @@
+//V.01
+//Tender Status Change
+$(document).on('click','.TenderStatus',function (event) {
+    event.preventDefault();
+    var button = $(this);
+    var id = $(this).data('id');
+    var value = $(this).data('value');
+    var url = baseUrl+"/back/StatusUpdateById";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {id:id, value:value},
+        success: function(data){
+            console.log('Status updated Successfully');
+            if (button.text() == 'Published'){
+                button.text('Unpublished');
+                button.attr('data-value','A');
+            }else{
+                button.text('Published');
+                button.attr('data-value','B');
+            }
+            button.toggleClass('btn-danger');
+            button.toggleClass('btn-success');
+        },
+        error:function () {
+            console.log('Error: Status not updated');
+        }
+    });
+});
+
+//V.02
+
+
+

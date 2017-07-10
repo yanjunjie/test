@@ -131,7 +131,47 @@ public function publish_publicity()
     }
 //End V.02
 
-//V.03
+//V.03 Multiple file uploads
+//Start upload file
+        if(!empty($_FILES['tender_specification']['name']) or !empty($_FILES['tender_notice']['name'])){ //if($_FILES['image']['error'] == 0){
 
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/tender/specification';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+            $config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['tender_specification']['name']);
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('tender_specification')){
+                $finfo=$this->upload->data();
+                //$this->_createThumbnail($finfo['file_name']);
+                $tender_specification = $finfo['raw_name'].$finfo['file_ext'];/*.'_thumb'.$finfo['file_ext']*/
+                //$tender_specification = $finfo['file_name'];
+            }else{
+                $tender_specification = '';
+            }
+
+            //Notice upload
+            $config = array();
+            $config['upload_path'] = 'uploads/tender/notice';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+            $config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['tender_notice']['name']);
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('tender_notice')){
+                $finfo=$this->upload->data();
+                //$this->_createThumbnail($finfo['file_name']);
+                $tender_notice = $finfo['raw_name'].$finfo['file_ext'];/*.'_thumb'.$finfo['file_ext']*/
+                //$tender_specification = $finfo['file_name'];
+            }else{
+                $tender_notice = '';
+            }
+
+        }
+        //End upload file
 //End V.03
 	

@@ -1,0 +1,39 @@
+//Published and Unpublished button
+//v.01
+if (result == '0' || result == '1' ){
+    alert("in");
+    $(myID).toggleClass("red");
+
+    if( $(myID).is('.green') )
+	$(myID).text('publish');
+
+    if( $(myID).is('.red') )
+	$(myID).text('unpublish');
+    alert("done");
+}
+//v.02
+$("button#publish").click(function() {
+	var id = $(this).attr("value");
+	var progress = '#'+$(this).attr('progress'+id);
+	$('#progress'+id).show();
+	if ($(this).text() == 'published')
+	    $(this).text('unpublished');
+	else
+	    $(this).text('published');
+	$(this).toggleClass('green');
+	$(this).toggleClass('red');
+	$.ajax({
+		type: "POST",
+		url: "ajax/blogPublishUnpublish.php",
+		data: "id="+ id ,
+		success:function(result){
+		    if (result == -1){
+			// add X button in case if fails !
+		    }
+		    $('#progress'+id).hide();
+	    }
+	});
+})
+
+//
+
