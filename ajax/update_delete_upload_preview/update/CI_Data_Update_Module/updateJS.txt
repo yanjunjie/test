@@ -1,0 +1,69 @@
+//Base URL
+//var baseUrl = window.location.origin;
+var baseUrl = window.location.origin+"/dew";
+
+//Tender Update with Image
+    //Tender Update Modal
+    $(document).on('click','.tenderUpdate',function (event) {
+        event.preventDefault();
+        var button = $(this);
+        var id = $(this).attr('data-id');
+        var url = baseUrl+"/back/TenderUpdateForm";
+
+        console.log(url);
+        $.ajax({
+            type:'post',
+            url:url,
+            data:{id:id},
+            success:function(data){
+                $('.TenderUpdatedForm').html(data);
+                //$('#tenderUpdateDialog').trigger('click');
+            },
+            error:function(){
+                //alert('Error updating');
+            }
+        });
+    });
+    //End Tender Update Modal
+
+    //Tender Updated Form Data
+    $(document).on('submit', '#TenderUpdateForm', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        var TenderUpdateFormData = new FormData(this);
+        //var TenderUpdateFormData = $('#publicityUpdateForm').serialize();
+        var url =  baseUrl+"/back/TenderUpdate";
+        var date = $("#tender_date").val();
+        console.log(date);
+        $.ajax({
+            type:'POST',
+            url: url,
+            data: TenderUpdateFormData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                //$("#publicityUpdateForm")[0].reset();
+                console.log(data);
+                alert("Success! Updated successfully");
+                $('.modal').modal('hide');
+                window.location = baseUrl+"/back/TenderList#TenderListView";
+                window.location.reload(true);
+            },
+
+            error: function(data){
+                console.log("Error: "+data);
+                alert("Failure! Not Updated successfully");
+                $('.modal').modal('hide');
+                window.location = baseUrl+"/back/TenderList#TenderListView";
+            }
+        });
+
+    });
+
+   /* $(document).on("change","#publicity_photo",function() {
+        $("#publicityUpdateForm").submit();
+    });*/
+
+    //End Tender Updated Form Data
+//End Tender Update with Image

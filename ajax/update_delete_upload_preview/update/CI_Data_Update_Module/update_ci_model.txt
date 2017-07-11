@@ -1,0 +1,30 @@
+    //update
+    public function update($table, $id, $data)
+    {
+        return $this->db->update($table, $data, array('id' => $id));
+    }
+
+//Universal
+
+    //Find all
+    public function FindAll($table)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->order_by("id", "desc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //Find by id
+    public function FindById($table, $id)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+//End Universal
+

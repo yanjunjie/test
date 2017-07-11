@@ -1,0 +1,171 @@
+<style>
+    .special {
+        font-weight: bold !important;
+        color: #fff !important;
+        background: #bc0000 !important;
+        text-transform: uppercase;
+    }
+</style>
+
+<!--Alert List-->
+<?php if($alert = $this->session->userdata('success_alert')): ?>
+    <div class="alert alert-success alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> <?php echo $alert; $this->session->unset_userdata('success_alert');?>
+    </div>
+<?php endif; ?>
+
+<?php if($alert = $this->session->userdata('failure_alert')): ?>
+    <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Failure!</strong> <?php echo $alert; $this->session->unset_userdata('failure_alert');?>
+    </div>
+<?php endif; ?>
+<!--End Alert List-->
+
+<!--Modal-->
+<?php $this->load->view('back/TenderUpdateFormModalPage');?>
+<!--End Modal-->
+
+<div class="TenderList">
+    <form action="<?php echo base_url('back/TenderFormData');?>" class="form-horizontal" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label for="tender_id" class="col-sm-2 control-label">Tender no</label>
+            <div class="col-sm-6">
+                <input type="text" name="tender_id" class="form-control" id="tender_id" placeholder="Tender no">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_name" class="col-sm-2 control-label">Tender Name</label>
+            <div class="col-sm-6">
+                <textarea name="tender_name" class="form-control" id="tender_name" id="tender_name" placeholder="Tender Name"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_date" class="col-sm-2 control-label">Published Date</label>
+            <div class="col-sm-6">
+                <div class="input-group date datepicker" >
+                    <input type="text" name="tender_date" class="form-control" id="tender_date" placeholder="Published Date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_type" class="col-sm-2 control-label">Tender Type</label>
+            <div class="col-sm-6">
+                <select name="tender_type" id="tender_type" class="form-control selectpicker" title="Choose one">
+                    <option value="Local" class="special">Local</option>
+                    <option value="International" class="special">International</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_submission_date" class="col-sm-2 control-label">Tender Submission Date</label>
+            <div class="col-sm-6">
+                <div class="input-group date datepicker" >
+                    <input type="text" name="tender_submission_date" class="form-control" id="tender_submission_date" placeholder="Published Date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_closing_date" class="col-sm-2 control-label">Tender Opening Date</label>
+            <div class="col-sm-6">
+                <div class="input-group date datepicker">
+                    <input type="text" name="tender_closing_date" class="form-control" id="tender_closing_date" placeholder="Tender Opening Date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="tender_specification" class="col-sm-2 control-label">Tender Specification</label>
+            <div class="col-sm-6">
+                <input type="file" name="tender_specification" class="form-control" id="tender_specification" placeholder="Tender Specification">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_notice" class="col-sm-2 control-label">Tender Notice</label>
+            <div class="col-sm-6">
+                <input type="file" name="tender_notice" class="form-control" id="tender_notice" placeholder="Tender Notice">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tender_status" class="col-sm-2 control-label">Tender Status</label>
+            <div class="col-sm-6">
+                <select name="tender_status" id="tender_status" class="form-control selectpicker" title="Choose one">
+                    <option value="A" class="special">Publushed</option>
+                    <option value="B" class="special">Unpublished</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+                <button type="submit" class="btn btn-info pull-right">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<!--Tender List View-->
+<div class="TenderListView">
+    <?php if (isset($AllTenderList)):?>
+        <fieldset>
+            <legend>Tender Notice<span style="padding-left:5px;color:#00CC00;"></span> </legend>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Tender no</th>
+                        <th>Tender Name</th>
+                        <th>Published Date</th>
+                        <th>Opening date</th>
+                        <th>Tender Type</th>
+                        <th>Date of Submission</th>
+                        <th>Tender Specification</th>
+                        <th>Tender Notice</th>
+                        <th colspan="2">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i=1; foreach ($AllTenderList as $key=>$TenderList): ?>
+                    <tr>
+                        <td><?php echo $i;?></td>
+                        <td><?php echo $TenderList->tender_id;?></td>
+                        <td><?php echo $TenderList->tender_name;?></td>
+                        <td><?php echo date('d/m/Y', strtotime($TenderList->tender_date));?></td>
+                        <td><?php echo date('d/m/Y', strtotime($TenderList->tender_closing_date));?></td>
+                        <td><?php echo $TenderList->tender_type;?></td>
+                        <td><?php echo date("d/m/Y", strtotime($TenderList->tender_submission_date)) ;?></td>
+                        <td style="text-align: center;">
+                            <?php if ($TenderList->tender_specification):?>
+                                <a class="btn btn-xs btn-primary" target="_blank" href="<?php echo base_url('uploads/tender/specification/'.$TenderList->tender_specification);?>">Download</a>
+                            <?php endif;?>
+                        </td>
+                        <td style="text-align: center;">
+                            <?php if ($TenderList->tender_notice):?>
+                                <a class="btn btn-xs btn-primary" target="_blank" href="<?php echo base_url('uploads/tender/notice/'.$TenderList->tender_notice);?>">Download</a>
+                            <?php endif;?>
+                        </td>
+                        <td><button type="button" class="btn btn-warning tenderUpdate" data-id="<?php echo $TenderList->id;?>" data-toggle="modal" data-target="#tenderUpdate"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
+                        <?php if ($TenderList->tender_status=='A'):?>
+                        <td><button data-id="<?php echo $TenderList->id;?>" data-value="B" type="button" class="btn btn-success TenderStatus">Published</button></td>
+                        <?php else: ?>
+                        <td><button data-id="<?php echo $TenderList->id;?>" data-value="A" type="button" class="btn btn-danger TenderStatus">Unpublished</button></td>
+                        <?php endif;?>
+                    </tr>
+                    <?php $i++; endforeach; ?>
+                </tbody>
+            </table>
+        </fieldset>
+    <?php endif;?>
+</div>
+<!--End Tender List View-->

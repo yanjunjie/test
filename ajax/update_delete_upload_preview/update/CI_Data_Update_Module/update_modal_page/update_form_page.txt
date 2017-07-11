@@ -1,0 +1,97 @@
+<div class="TenderUpdateForm">
+    <div class="TenderList">
+        <form id="TenderUpdateForm" action="<?php echo base_url('back/TenderUpdate');?>" class="form-horizontal" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="id" value="<?php echo isset($FindByIdData->id)?$FindByIdData->id:'';?>">
+            <div class="form-group">
+                <label for="tender_id" class="col-sm-2 control-label">Tender no</label>
+                <div class="col-sm-9">
+                    <input type="text" value="<?php echo isset($FindByIdData->tender_id)?$FindByIdData->tender_id:'';?>" name="tender_id" class="form-control" id="tender_id" placeholder="Tender no">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_name" class="col-sm-2 control-label">Tender Name</label>
+                <div class="col-sm-9">
+                    <textarea name="tender_name" class="form-control" id="tender_name" id="tender_name" placeholder="Tender Name"><?php echo isset($FindByIdData->tender_name)?$FindByIdData->tender_name:'';?></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_date" class="col-sm-2 control-label">Published Date</label>
+                <div class="col-sm-9">
+                    <div class="input-group date datepicker">
+                        <input type="text" value="<?php echo isset($FindByIdData->tender_date)?date("d/m/Y", strtotime($FindByIdData->tender_date)):'';?>" name="tender_date" class="form-control" id="tender_date" placeholder="Published Date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_type" class="col-sm-2 control-label">Tender Type</label>
+                <div class="col-sm-9">
+                    <select name="tender_type" id="tender_type" class="form-control" title="Choose one">
+                        <option value="Local" <?php if($FindByIdData->tender_type == "Local") echo "selected"; ?> >Local</option>
+                        <option value="International" <?php if($FindByIdData->tender_type == "International") echo "selected"; ?> >International</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_method" class="col-sm-2 control-label">Tender Submission Date</label>
+                <div class="col-sm-9">
+                    <div class="input-group date datepicker">
+                        <input type="text" value="<?php echo isset($FindByIdData->tender_submission_date)?date("d/m/Y", strtotime($FindByIdData->tender_submission_date)):'';?>" name="tender_submission_date" class="form-control" id="tender_submission_date" placeholder="Tender Sumission Date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_closing_date" class="col-sm-2 control-label">Tender Opening Date</label>
+                <div class="col-sm-9">
+                    <div class="input-group date datepicker">
+                        <input type="text" value="<?php echo isset($FindByIdData->tender_closing_date)?date("d/m/Y", strtotime($FindByIdData->tender_closing_date)):'';?>" name="tender_closing_date" class="form-control" id="tender_closing_date" placeholder="Tender Opening Date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="tender_specification" class="col-sm-2 control-label">Tender Specification</label>
+                <div class="col-sm-9">
+                    <input type="file" name="tender_specification" class="form-control" id="tender_specification" placeholder="Tender Specification">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_notice" class="col-sm-2 control-label">Tender Notice</label>
+                <div class="col-sm-9">
+                    <input type="file" name="tender_notice" class="form-control" id="tender_notice" placeholder="Tender Notice">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tender_status" class="col-sm-2 control-label">Tender Status</label>
+                <div class="col-sm-9">
+                    <select name="tender_status" id="tender_status" class="form-control" title="Choose one">
+                        <option value="A" <?php if($FindByIdData->tender_status == "A"); echo "selected"; ?> >Publushed</option>
+                        <option value="B" <?php if($FindByIdData->tender_status == "B"); echo "selected"; ?> >Unpublished</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-info pull-right">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //Date Picker
+    $(function () {
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+    });
+</script>
+
