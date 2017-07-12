@@ -1,5 +1,5 @@
     //update
-    public function update($table, $id, $data)
+    public function Update($table, $id, $data)
     {
         return $this->db->update($table, $data, array('id' => $id));
     }

@@ -99,7 +99,7 @@
         $data['tender_submission_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('tender_submission_date'))));
         $data['tender_closing_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('tender_closing_date'))));
 
-        $response = $this->MyModel->update('tbl_tender', $id, $data);
+        $response = $this->MyModel->Update('tbl_tender', $id, $data);
         if ($response) {
             echo "yes";
         }else{
