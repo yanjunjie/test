@@ -1,11 +1,24 @@
+//CRUD Oparation
+    //Insert
+    public function save($table, $data){
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
     //update
-    public function Update($table, $id, $data)
+    public function update($table, $id, $data)
     {
         return $this->db->update($table, $data, array('id' => $id));
     }
+    //delete
+    public function delete($table, $id)
+    {
+        return $this->db->delete($table, array('id' => $id));
+    }
 
-//Universal
-
+    /*
+     * Read
+     */
     //Find all
     public function FindAll($table)
     {
@@ -15,7 +28,6 @@
         $query = $this->db->get();
         return $query->result();
     }
-
     //Find by id
     public function FindById($table, $id)
     {
@@ -25,6 +37,4 @@
         $query = $this->db->get();
         return $query->row();
     }
-
-//End Universal
-
+//End CRUD Oparation

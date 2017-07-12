@@ -1,5 +1,0 @@
- //Save tender form data
-    public function Save($table, $data){
-        $this->db->insert($table, $data);
-        return $this->db->insert_id();
-    }
