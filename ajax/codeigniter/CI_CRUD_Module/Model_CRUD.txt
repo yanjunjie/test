@@ -37,4 +37,23 @@
         $query = $this->db->get();
         return $query->row();
     }
+    // Find All by Limit
+    public function FindAllByLimit($table, $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by('id', 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    // Find by ID & Limit
+    public function FindByIdAndLimit($table, $id='', $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by('id', 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $this->db->where(array('id' => $id));
+        $query = $this->db->get();
+        return $query->result();
+    }
 //End CRUD Oparation
