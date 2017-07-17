@@ -8,7 +8,12 @@
     //update
     public function update($table, $id, $data)
     {
-        return $this->db->update($table, $data, array('id' => $id));
+        $updated_status = $this->db->update($table, $data, array('id' => $id));
+        if($updated_status):
+            return $id;
+        else:
+            return false;
+        endif;
     }
     //delete
     public function delete($table, $id)
