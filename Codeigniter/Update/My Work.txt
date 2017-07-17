@@ -1,0 +1,45 @@
+ //Photo gallery Same page Update
+public function galleryUpdate()
+{
+    $data = array();
+    $data = $this->input->post();
+    $id = $this->input->post('id');
+
+    //Start upload file
+    if(!empty($_FILES['gallery_image']['name'])){ //if($_FILES['image']['error'] == 0){
+        //Specification upload
+        $config = array();
+        $config['upload_path'] = 'uploads/gallery/photo';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['overwrite'] = TRUE;
+        $extension = pathinfo($_FILES['gallery_image']['name'], PATHINFO_EXTENSION);
+        $config['file_name'] = $id.'.'.$extension;
+        //Load upload library and initialize configuration
+        $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('gallery_image')){
+            $finfo=$this->upload->data();
+            $this->create_thumbs($finfo['file_name']);
+            $data['gallery_image'] = $finfo['raw_name'].$finfo['file_ext'];
+        }
+    }
+    //End upload file
+
+    $response = $this->MyModel->update('tbl_photogallery',$id, $data);
+
+    if ($response) {
+        //Unlink main image
+        $result = $this->MyModel->FindById('tbl_photogallery', $response);
+        if ($result->gallery_image){
+            unlink('uploads/gallery/photo/'.$result->gallery_image);
+        }
+        $sdata['success_alert'] = "Updated successfully";
+    }else{
+        $sdata['failure_alert'] = "Not Updated successfully";
+    }
+    $this->session->set_userdata($sdata);
+
+    redirect('back/galleryCreate');
+}
+//End Photo gallery Same page Update
