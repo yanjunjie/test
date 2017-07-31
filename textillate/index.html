@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textillate.js</title>
+  <link href="assets/animate.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Rokkitt' rel='stylesheet' type='text/css'>
+  <body>
+
+  <h1 class="tlt">My Title</h1>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="assets/jquery.lettering.js"></script>
+<script src="jquery.textillate.js"></script>
+<script>
+$('.tlt').textillate({
+    loop: true,
+  in: { 
+    effect:'bounce',  
+    delayScale: 1,
+    delay: 150,
+    shuffle: false,
+    sync: false,
+    sequence: true,
+    reverse: false,
+  }, 
+  out: { 
+    effect: 'bounceOut',
+    reverse: false,
+    sync: false,
+    sequence: false,
+    shuffle: true,
+  } 
+});
+</script>
+
+  </body>
+</html>

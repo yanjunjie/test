@@ -1,0 +1,139 @@
+//Key Person List CRID
+    //Create page
+    public function keyPersonCreate($id='')
+    {
+        $data = array();
+        $data['title'] = "Photo Gellery | DEW Ltd";
+        $galleryCategory['galleryCategory'] = $this->MyModel->FindAll('gallery_category');
+
+        //update form
+        if (!empty($id)){
+            $galleryCategory['tbl_photogalleryUpdate'] = $this->MyModel->FindById('tbl_photogallery', $id);
+        }else{
+            $galleryCategory['tbl_photogallery'] = $this->MyModel->FindAll('tbl_photogallery');
+        }
+
+        $data['content'] = $this->load->view('back/galleryCreatePage', $galleryCategory, TRUE);
+        $this->load->view('back/BackMaster', $data);
+    }
+
+    //Save
+    public function keyPersonSave()
+    {
+        //Start upload file
+        if(!empty($_FILES['gallery_image']['name'])){ //if($_FILES['image']['error'] == 0){
+
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/gallery/photo';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            //$config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['gallery_image']['name']);
+
+            //Renaming file name by id
+            $temp['gallery_image'] = 'tempdata';
+            $tempDataSaveId = $this->MyModel->save('tbl_photogallery',$temp);
+
+            if($tempDataSaveId){
+                $filename = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['gallery_image']['name']);
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $config['file_name'] = $tempDataSaveId.'.'.$extension;
+            }
+            //End Renaming file name by id
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('gallery_image')){
+                $finfo=$this->upload->data();
+                $this->create_thumbs($finfo['file_name']);
+                $gallery_image = $finfo['raw_name'].$finfo['file_ext'];
+            }else{
+                $gallery_image = '';
+            }
+
+        }
+        //End upload file
+
+        if (!empty($_POST['pic_title']) or !empty($_POST['gallery_image'])){
+            $data = $this->input->post();
+
+            if (!empty($gallery_image)){
+                $data['gallery_image'] = $gallery_image;
+            }
+
+            //update or save data to gallery
+            if (!empty($tempDataSaveId)){
+                $response = $this->MyModel->update('tbl_photogallery',$tempDataSaveId, $data);
+                if ($response)
+                    $result = $this->MyModel->FindById('tbl_photogallery', $tempDataSaveId);
+            }else{
+                $response = $this->MyModel->save('tbl_photogallery',$data);
+                if ($response)
+                    $result = $this->MyModel->FindById('tbl_photogallery',$response);
+            }
+
+            if ($response) {
+                //unlink raw file
+                unlink('uploads/gallery/photo/'.$result->gallery_image);
+                $sdata['success_alert'] = "Saved successfully";
+            }else{
+                $sdata['failure_alert'] = "Not Saved successfully";
+            }
+            $this->session->set_userdata($sdata);
+
+            redirect('back/galleryCreate');
+        }else{
+            $sdata['failure_alert'] = "Try again";
+            $this->session->set_userdata($sdata);
+            redirect('back/galleryCreate');
+        }
+
+    }
+    //End save
+
+    //Update
+    public function keyPersonUpdate()
+    {
+        $data = array();
+        $data = $this->input->post();
+        $id = $this->input->post('id');
+
+        //Start upload file
+        if(!empty($_FILES['gallery_image']['name'])){ //if($_FILES['image']['error'] == 0){
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/gallery/photo';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['overwrite'] = TRUE;
+            $extension = pathinfo($_FILES['gallery_image']['name'], PATHINFO_EXTENSION);
+            $config['file_name'] = $id.'.'.$extension;
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('gallery_image')){
+                $finfo=$this->upload->data();
+                $this->create_thumbs($finfo['file_name']);
+                $data['gallery_image'] = $finfo['raw_name'].$finfo['file_ext'];
+            }
+        }
+        //End upload file
+
+        $response = $this->MyModel->update('tbl_photogallery',$id, $data);
+
+        if ($response) {
+            //Unlink main image
+            $result = $this->MyModel->FindById('tbl_photogallery', $response);
+            if ($result->gallery_image){
+                unlink('uploads/gallery/photo/'.$result->gallery_image);
+            }
+            $sdata['success_alert'] = "Updated successfully";
+        }else{
+            $sdata['failure_alert'] = "Not Updated successfully";
+        }
+        $this->session->set_userdata($sdata);
+
+        redirect('back/galleryCreate');
+    }
+    //End Key Person List CRUD
