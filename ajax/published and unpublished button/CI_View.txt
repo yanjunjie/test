@@ -1,0 +1,5 @@
+<?php if ($TenderList->tender_status=='A'):?>
+<td><button data-id="<?php echo $TenderList->id;?>" data-value="B" type="button" class="btn btn-success TenderStatus">Published</button></td>
+<?php else: ?>
+<td><button data-id="<?php echo $TenderList->id;?>" data-value="A" type="button" class="btn btn-danger TenderStatus">Unpublished</button></td>
+<?php endif;?>

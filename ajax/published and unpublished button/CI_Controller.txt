@@ -1,0 +1,13 @@
+    //Status Update
+    public function StatusUpdateById()
+    {
+        if (!empty($_POST['id']) and !empty($_POST['value'])){
+            $id = $_POST['id'];
+            $data['tender_status'] = $_POST['value'];
+            $result =$this->MyModel->update('tbl_tender', $id, $data);
+            if($result){
+                echo "yes";
+            }
+        }
+
+    }
