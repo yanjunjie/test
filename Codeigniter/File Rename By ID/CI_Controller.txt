@@ -1,0 +1,62 @@
+    //Create/Insert
+    public function jobCircularSave()
+    {
+        $data = $this->input->post();
+
+        //Start upload file
+        if(!empty($_FILES['circular_file']['name'])){ //if($_FILES['image']['error'] == 0){
+
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/job_circular';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+            //$config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['gallery_image']['name']);
+
+            //Renaming file name by id
+            $temp['circular_file'] = 'tempdata';
+            $tempDataSaveId = $this->MyModel->save('tbl_job_circular',$temp);
+
+            if($tempDataSaveId){
+                $filename = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['circular_file']['name']);
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $config['file_name'] = $tempDataSaveId.'.'.$extension;
+            }
+            //End Renaming file name by id
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('circular_file')){
+                $finfo=$this->upload->data();
+                //$this->create_thumbs($finfo['file_name']);
+                $data['circular_file'] = $finfo['raw_name'].$finfo['file_ext'];
+                $circular_file = $finfo['raw_name'].$finfo['file_ext'];
+            }
+        }
+        //End upload file
+
+        if (!empty($_POST['circular_name'])){
+
+            //update or save data to table
+            if (!empty($tempDataSaveId)){
+                $response = $this->MyModel->update('tbl_job_circular',$tempDataSaveId, $data);
+            }else{
+                $response = $this->MyModel->save('tbl_job_circular',$data);
+            }
+
+            if ($response) {
+                $sdata['success_alert'] = "Saved successfully";
+            }else{
+                $sdata['failure_alert'] = "Not Saved successfully";
+            }
+        }else{
+            $sdata['failure_alert'] = "Try again";
+            unlink('uploads/job_circular/'.isset($circular_file)?$circular_file:'');
+        }
+
+        $this->session->set_userdata($sdata);
+        redirect('back/jobCircularCreate');
+
+    }
+    //End save
