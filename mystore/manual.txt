@@ -1,0 +1,13 @@
+1. Prothome user browse kore index file open korbe.
+2. product file er madhome Database er Products will be displayed.
+3. Registration file er madhome Amar ei Site e visitor, se Member hobe.
+4. index file e pura web site er jonno 4ta main part dorker- (1) Banner-1st row (2) Link-2th row (3) Category+Body-3rd row (4) footer-4th row.
+
+4###: Somponno Web site ke 1ta table ja row e devided tharpor 
+    row k coloum e devided korte hobe.
+(i) 1 row ta Title display korar jonno.
+(ii) 2th Row er modhe ar ekta Table jekhane Link thakbe.
+(iii) 3rd row ta ar ekta Table e Devided hobe jekhane 1ta row & 2ta coloumn. Category & Body er jonno.
+(iv) Body ta per page er jonno Alada hobe Ar baki sob ekoyi thakbe.
+
+
