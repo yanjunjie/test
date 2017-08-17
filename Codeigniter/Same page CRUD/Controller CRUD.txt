@@ -136,4 +136,25 @@
 
         redirect('back/galleryCreate');
     }
+
+    //Delete
+    public function galleryCategoryDelete()
+    {
+        $id = $this->input->post('id');
+        $response = $this->MyModel->delete('gallery_category', $id);
+
+         if ($response) {
+            //Unlink main image
+            $result = $this->MyModel->FindById('tbl_photogallery', $response);
+            if ($result->gallery_image){
+                unlink('uploads/gallery/photo/'.$result->gallery_image);
+            }
+            $sdata['success_alert'] = "Updated successfully";
+        }else{
+            $sdata['failure_alert'] = "Not Updated successfully";
+        }
+
+        $this->session->set_userdata($sdata);
+        redirect('back/galleryCreate');
+    }
     //End Key Person List CRUD
