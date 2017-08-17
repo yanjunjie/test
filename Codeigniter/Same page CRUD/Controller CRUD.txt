@@ -1,4 +1,4 @@
-//Key Person List CRID
+    /* Your CRUD */
     //Create page
     public function keyPersonCreate($id='')
     {
@@ -157,4 +157,4 @@
         $this->session->set_userdata($sdata);
         redirect('back/galleryCreate');
     }
-    //End Key Person List CRUD
+    /* Your CRUD */
