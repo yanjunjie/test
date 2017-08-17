@@ -1,0 +1,86 @@
+//File Upload using Upload Library with Manupulation
+
+v.01
+    public function insert_customer()  {
+		$data=array();
+        $this->load->library('upload');
+        $config['upload_path'] = './uploads/Customerbiodata/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';
+        $config['max_size'] = '10000';
+        $this->upload->initialize($config);
+         
+        $data['Customer_Code']=  $this->input->post('Customer_id', TRUE);
+        $data['Customer_Name']=  $this->input->post('cus_name', TRUE);
+        $data['Customer_Type']=  $this->input->post('type', TRUE);
+        $data['Customer_Address']=  $this->input->post('address', TRUE);
+		$data['Gurantor_Name']=  $this->input->post('gur_name', TRUE);
+        $data['Gurantor_Contact']=  $this->input->post('gur_contact', TRUE);
+        $data['Gurantor_Address']=  $this->input->post('gur_address', TRUE);
+        $data['permanent_address']=  $this->input->post('praddress', TRUE);
+		$data['disttrict']=  $this->input->post('district', TRUE);
+        $data['Country_SlNo']=  $this->input->post('country', TRUE);
+        $data['Customer_Phone']=  $this->input->post('phone', TRUE);
+        $data['Customer_Mobile']=  $this->input->post('mobile',true);
+        $data['Customer_OfficePhone']=  $this->input->post('office_phone',true);
+        $data['Customer_Email']=  $this->input->post('email',true);
+        $data['Customer_Web']=  $this->input->post('web',true);
+        $data['Customer_Credit_Limit']=  $this->input->post('credit',true);
+        $data['Customer_brunchid']=  $this->session->userdata("BRANCHid");
+        $data['AddBy']= $this->session->userdata("FullName");
+        $data['AddTime']=  date("Y-m-d h:i:s");
+	$data['notes']=  $this->input->post('notes',true);
+
+	//Image Resize
+	if ($this->upload->do_upload('photo')){
+            $images1 = $this->upload->data();
+            $data['customerpic'] = $images1['file_name'];
+
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $images1['full_path']; //get original image
+	    $config['maintain_ratio'] = FALSE;
+            $config['width'] = 113;
+            $config['height'] = 142;
+            $this->load->library('image_lib', $config);
+            if (!$this->image_lib->resize()) {
+                $this->handle_error($this->image_lib->display_errors());
+            }
+        }
+
+		
+        $this->upload->do_upload('biodata');
+        $images = $this->upload->data();
+        $data['biodata'] = $images['file_name'];
+        $this->mt->save_data('tbl_customer',$data);
+        $this->load->view('Administrator/ajax/customer');
+    }
+    
+v.02
+//Image Resize / Manupulation with thumb
+if ( $this->upload->do_upload('em_photo')){
+   $images = $this->upload->data();
+   $data['Employee_Pic_org'] = $images['file_name'];
+
+
+   $config['image_library'] = 'gd2';
+
+   $config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
+
+   $config['new_image'] = 'uploads/'.'employeePhoto_thum/'.$this->upload->file_name;
+
+   $config['maintain_ratio'] = FALSE;
+
+   $config['width'] = 115;
+
+   $config['height'] = 137;
+
+   $this->load->library('image_lib', $config);
+
+   $this->image_lib->resize();
+
+   $data['Employee_Pic_thum'] = $this->upload->file_name;
+
+}
+
+$this->mt->save_data('tbl_employee', $data);
+
+//End upload library
