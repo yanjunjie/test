@@ -20,12 +20,8 @@
     {
         return $this->db->delete($table, array('id' => $id));
     }
-
-    /*
-     * Read
-     */
     //Find all
-    public function FindAll($table)
+    public function findAll($table)
     {
         $this->db->select('*');
         $this->db->from($table);
@@ -34,7 +30,7 @@
         return $query->result();
     }
     //Find all by asc
-    public function FindAllByAsc($table, $field)
+    public function findAllByAsc($table, $field)
     {
         $this->db->select('*');
         $this->db->from($table);
@@ -43,7 +39,7 @@
         return $query->result();
     }
     //Find all by desc
-    public function FindAllByDesc($table, $field)
+    public function findAllByDesc($table, $field)
     {
         $this->db->select('*');
         $this->db->from($table);
@@ -52,7 +48,7 @@
         return $query->result();
     }
     //Find by id
-    public function FindById($table, $id)
+    public function findById($table, $id)
     {
         $this->db->select('*');
         $this->db->from($table);
@@ -61,7 +57,7 @@
         return $query->row();
     }
     // Find All by Limit
-    public function FindAllByLimit($table, $limit='', $offset='') {
+    public function findAllByLimit($table, $limit='', $offset='') {
         $this->db->select('*');
         $this->db->order_by('id', 'DESC');
         $this->db->from($table);
@@ -70,7 +66,7 @@
         return $query->result();
     }
     // Find by ID & Limit
-    public function FindByIdAndLimit($table, $id='', $limit='', $offset='') {
+    public function findByIdAndLimit($table, $id='', $limit='', $offset='') {
         $this->db->select('*');
         $this->db->order_by('id', 'DESC');
         $this->db->from($table);
@@ -79,4 +75,4 @@
         $query = $this->db->get();
         return $query->result();
     }
-//End CRUD Operation
+    //End CRUD Operation
