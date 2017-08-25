@@ -1,0 +1,27 @@
+v.01 Setting for bootstrap-datetimepicker-master
+
+<!--Date picker-->
+<link rel="stylesheet" href="http://dewbn.com/assets/css/bootstrap-datetimepicker.min.css">
+<!--End Date picker-->
+
+<!--Date picker-->
+<script src="http://dewbn.com/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    //Date Picker
+    $(function () {
+        $('.datetimepicker1').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+    });
+</script>
+<!--End Date picker-->
+
+html: 
+ <div class='input-group date datetimepicker1' id='datetimepicker1'>
+    <input type='text' class="form-control" />
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+    </span>
+</div>
+
+v.02 Settings for ..
