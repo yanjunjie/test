@@ -1,13 +1,14 @@
 v.01 Setting for bootstrap-datetimepicker-master
 
 <!--Date picker-->
-<link rel="stylesheet" href="http://dewbn.com/assets/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css'); ?>">
 <!--End Date picker-->
 
 <!--Date picker-->
-<script src="http://dewbn.com/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<?php echo base_url('assets/js/moment.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 <script>
-    //Date Picker
+    //requires Moment.js
     $(function () {
         $('.datetimepicker1').datetimepicker({
             format: 'DD/MM/YYYY'
