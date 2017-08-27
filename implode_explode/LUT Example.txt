@@ -1,0 +1,59 @@
+<?php
+		$getids='';
+		$getprid='';
+		$getsql = mysql_query("SELECT * FROM tbl_rawmeterial_pur_info");
+		$numcol = mysql_num_rows($getsql);
+
+		while($getfact = mysql_fetch_array($getsql)){
+			 $getids.=$getfact['factid'].",";
+			 $getprid.=$getfact['rawm_ids'].",";
+
+		}
+
+        $getrest='';
+		$getprid = implode(',',array_unique(explode(',', $getprid)));
+
+		$getprid= trim($getprid,",");
+
+        $getlength = implode(',',array_unique(explode(',', $getids)));
+
+		if(!empty($getprid)){
+            //echo "SELECT * FROM `tbl_transfer` WHERE `product_id` IN ($getprid) Group By receiver";
+             $sqlrest = mysql_query("SELECT * FROM `tbl_transfer` WHERE `product_id` IN ($getprid) Group By receiver");
+             $numcol2 = mysql_num_rows($sqlrest);
+
+            while($rowrest = mysql_fetch_array($sqlrest)){
+                $getrest.=$rowrest['receiver'].",";
+            }
+
+			 $length = trim($getlength,",");
+			 $getall=$getlength.$getrest;
+
+			 $getall = implode(',',array_unique(explode(',', $getall)));
+			 $getall= trim($getall,",");
+			 $test=explode(",", $getall);
+
+			 natsort($test);
+
+			 $test = array_values($test);
+
+			 $piecest = explode(",", $length);
+			 $cont = count($piecest);
+			 $totcol = $cont+$numcol2;
+		}else{
+			$totcol =0;
+        }
+    ?>
+
+    //
+     <?php
+		   if(!empty($test)){
+		   foreach($test as $v2){
+				//echo "SELECT * FROM tbl_factory where factory_id='".$v2."' Order By factory_id Asc";
+			$sqldel = mysql_query("SELECT * FROM tbl_factory where factory_id='".$v2."' Order By factory_id Asc");
+            while($recorddel = mysql_fetch_array($sqldel)){ ?>
+                <th><?php $str = $recorddel['factory_name'];
+                echo substr($str, 0, 4); ?></th>
+            <?php } ?><?php } } ?>
+
+            
