@@ -30,7 +30,7 @@
         $('.renter_edit').on('click',function(){
 
             var id = $(this).data('id');
-            var url = '<?php echo base_url("super_admin/update_form"); ?>';
+            var url = '<?php echo base_url("super_admin/renter_update_form"); ?>';
 
             $.ajax({
                 type:'post',
@@ -40,11 +40,9 @@
                     if (data) {
                         $('#renter_update_dialog_btn').trigger('click');
                         $('#renter_update_data').html(data);
-                         console.log('hi1');
                         $('.datetimepicker').datetimepicker({
                             format: 'DD/MM/YYYY'
                         });
-                        console.log('hi2');
                     }
                 },
                 error:function(){
@@ -54,13 +52,13 @@
         });
 
         //Update
-        $(document).on('submit', '#renterUpdateForm', function(event){
+        /*$(document).on('submit', '#renterUpdateForm', function(event){
             event.preventDefault();
             event.stopPropagation();
             var renterUpdateSubmitData = new FormData(this);
             //var renterUpdateSubmitData = $('#renterUpdateForm').serialize();
             console.log(renterUpdateSubmitData);
-            var url = '<?php echo base_url("renter/update"); ?>';
+            var url = '<php echo base_url("renter/update"); ?>';
 
             $.ajax({
                 type:'POST',
@@ -74,7 +72,7 @@
                     if (data=='yes') {
                         alert("Success! Updated successfully");
                         $('.modal').modal('hide');
-                        window.location = "<?php echo base_url('renter/renter_action'); ?>";
+                        window.location = "<php echo base_url('renter/renter_action'); ?>";
                     }
                 },
                 error: function(data){
@@ -82,7 +80,7 @@
                     if (data=='no') {
                         alert("Failure! Not Updated successfully");
                         $('.modal').modal('hide');
-                        window.location = "<?php echo base_url('renter/renter_action'); ?>";
+                        window.location = "<php echo base_url('renter/renter_action'); ?>";
                     }
                 }
             });
@@ -91,7 +89,7 @@
         
         $(document).on("change","#renter_photo",function() {
             $("#renterUpdateForm").submit();
-        });
+        });*/
         //End Update
 
 
@@ -99,9 +97,8 @@
         function renter_update_image(input) {
             if (input.files && input.files[0]) {
             var reader = new FileReader();
-
                 reader.onload = function (e) {
-                    $('#renter_update_photo_preview').attr('src', e.target.result);
+                    $('#renter_photo_preview').attr('src', e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -113,6 +110,22 @@
             console.log('File selected');
         });
         //End update image preview
+
+        //Add Member dynamically to form field add
+        var count = 1;
+        $(document).on("click","#addMember", function(){
+            //alert('hi');
+            count = count + 1;
+            var html_code = "<tr id='row"+count+"'>";
+            html_code +="<td>"+count+"</td>";
+            html_code +='<td><input type="text" name="family_member_name[]" required="required"></td>';
+            html_code +='<td><input type="text" name="family_member_age[]" required="required"></td>';
+            html_code +='<td><input type="text" name="family_member_job[]" required="required"></td>';
+            html_code +='<td><input type="text" name="family_member_phone[]" required="required"></td>';
+            html_code +='<td><button type="button" data-row="row'+count+'" class="btn btn-danger btn-xs remove"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
+            html_code +='</tr>';
+            $('#member-add-table').append(html_code);
+        });
 
 
     } //End document ready
