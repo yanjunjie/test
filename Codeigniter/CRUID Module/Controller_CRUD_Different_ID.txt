@@ -1,0 +1,85 @@
+    /*
+    /*CRUD Operation
+    /*
+    //Insert
+    public function save($table, $data){
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
+    //update
+    public function update($table, $tid, $id, $data)
+    {
+        $updated_status = $this->db->update($table, $data, array($tid => $id));
+        if($updated_status):
+            return $id;
+        else:
+            return false;
+        endif;
+    }
+    //Batch Update
+    public function updateByBatch($table, $tid, $id, $batch){
+        return $this->db->insert_batch(self::$renter_familymember, $batch);
+    }
+    //delete
+    public function delete($table, $tid, $id)
+    {
+        return $this->db->delete($table, array($tid => $id));
+    }
+    //Find all
+    public function findAll($table, $tid)
+    {
+        $this->db->select('*', $tid);
+        $this->db->from($table);
+        $this->db->order_by($tid, "desc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //Find all by asc
+    public function findAllByAsc($table, $field)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->order_by($field, "asc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //Find all by desc
+    public function findAllByDesc($table, $field)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->order_by($field, "desc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //Find by id
+    public function findById($table, $tid, $id)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where($tid, $id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    // Find All by Limit
+    public function findAllByLimit($table, $tid, $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by($tid, 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    // Find by ID & Limit
+    public function findByIdAndLimit($table, $tid, $id='', $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by($tid, 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $this->db->where(array($tid => $id));
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //End CRUD Operation
+

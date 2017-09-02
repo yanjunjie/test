@@ -1,0 +1,64 @@
+//CRUD Oparation
+    //Insert
+    public function save($table, $data){
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
+    //update
+    public function update($table, $id, $data)
+    {
+        $updated_status = $this->db->update($table, $data, array('id' => $id));
+        if($updated_status):
+            return $id;
+        else:
+            return false;
+        endif;
+    }
+    //delete
+    public function delete($table, $id)
+    {
+        return $this->db->delete($table, array('id' => $id));
+    }
+
+    /*
+     * Read
+     */
+    //Find all
+    public function FindAll($table)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->order_by("id", "desc");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //Find by id
+    public function FindById($table, $id)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    // Find All by Limit
+    public function FindAllByLimit($table, $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by('id', 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    // Find by ID & Limit
+    public function FindByIdAndLimit($table, $id='', $limit='', $offset='') {
+        $this->db->select('*');
+        $this->db->order_by('id', 'DESC');
+        $this->db->from($table);
+        $this->db->limit($limit, $offset);
+        $this->db->where(array('id' => $id));
+        $query = $this->db->get();
+        return $query->result();
+    }
+//End CRUD Oparation

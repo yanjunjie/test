@@ -1,0 +1,61 @@
+//Photo Category CRUD
+//Modal
+$(document).on('click','.pGalleryUpdateBtn',function (event) {
+    event.preventDefault();
+
+    var id = $(this).attr('data-id');
+    var url = baseUrl+"/back/galleryCategoryUpdateAjaxForm";
+
+    $.ajax({
+        type:'post',
+        url:url,
+        data:{id:id},
+        success:function(data){
+            $('.galleryCatUpdateForm').html(data);
+        },
+        error:function(){
+            alert('Try again');
+        }
+    });
+});
+
+//Insert
+
+
+//Update
+$(document).on('submit', '#galleryCategoryUpdateForm', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var galleryUpdateFormData = new FormData(this);
+    //var TenderUpdateFormData = $('#publicityUpdateForm').serialize();
+    var url =  baseUrl+"/back/galleryCategoryUpdate";
+    $.ajax({
+        type:'POST',
+        url: url,
+        data: galleryUpdateFormData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success:function(data){
+            //$("#publicityUpdateForm")[0].reset();
+            console.log(data);
+            alert("Success! Updated successfully");
+            $('.modal').modal('hide');
+            window.location = baseUrl+"/back/galleryCategoryCreate";
+            window.location.reload(true);
+        },
+
+        error: function(data){
+            console.log("Error: "+data);
+            alert("Failure! Not Updated successfully");
+            $('.modal').modal('hide');
+            window.location = baseUrl+"/back/galleryCategoryCreate";
+        }
+    });
+
+});
+
+//Delete
+
+
+//End Photo Category CRUD

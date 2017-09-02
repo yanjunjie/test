@@ -1,0 +1,67 @@
+    //Photo Gallery Category CRUD
+    public function galleryCategoryCreate(){ //Create and Read
+        $data = array();
+        $data['title'] = "Gallery Event | DEW Ltd";
+        $gallery_category['gallery_category'] = $this->MyModel->FindAll('gallery_category');
+        //die(var_dump($gallery_category));
+        $data['content'] = $this->load->view('back/pgCategoryCreatePage', $gallery_category, TRUE);
+        $this->load->view('back/BackMaster', $data);
+    }
+
+    public function galleryCategoryInsert(){
+        if (!empty($_POST['gallery_cat_name'])){
+            $data = $this->input->post();
+            $data['gallery_cat_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('gallery_cat_date'))));
+            //Data save
+            $response = $this->MyModel->save('gallery_category', $data);
+
+            if ($response) {
+                $sdata['success_alert'] = "Saved successfully";
+            }else{
+                $sdata['failure_alert'] = "Not Saved successfully";
+            }
+            $this->session->set_userdata($sdata);
+
+            redirect('back/galleryCategoryCreate');
+        }else{
+            $sdata['failure_alert'] = "Try again";
+            $this->session->set_userdata($sdata);
+            redirect('back/galleryCategoryCreate');
+        }
+    }
+
+    public function galleryCategoryUpdateAjaxForm(){
+        if ($id = $this->input->post('id')){
+            $gallery_category['gallery_categoryById'] = $this->MyModel->FindById('gallery_category', $id);
+            $content = $this->load->view('back/galleryCategoryUpdateFormPage', $gallery_category, TRUE);
+            echo $content;
+        }
+    }
+
+    public function galleryCategoryUpdate()
+    {
+        //First of all unlink the files
+        $id = $this->input->post('id');
+
+        $data['gallery_cat_name'] = $this->input->post('gallery_cat_name');
+        $data['gallery_cat_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('gallery_cat_date'))));
+
+        $response = $this->MyModel->update('gallery_category', $id, $data);
+        if ($response) {
+            echo "yes";
+        }else{
+            echo "no";
+        }
+    }
+    
+    public function galleryCategoryDelete()
+    {
+        $id = $this->input->post('id');
+        $response = $this->MyModel->deletePublicity('gallery_category', $id);
+        if ($response) {
+            echo "yes";
+        }else{
+            echo "no";
+        }
+    }
+    //End Photo Gallery Category CRUD

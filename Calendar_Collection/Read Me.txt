@@ -18,7 +18,7 @@ v.01 Setting for bootstrap-datetimepicker-master
 <!--End Date picker-->
 
 html: 
- <div class='input-group date datetimepicker1' id='datetimepicker1'>
+<div class='input-group date datetimepicker1' id='datetimepicker1'>
     <input type='text' class="form-control" />
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-calendar"></span>
