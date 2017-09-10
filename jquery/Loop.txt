@@ -1,0 +1,41 @@
+//Looping on Object
+//v.01
+for(var i = 0; i < json.length; i++) {
+    var obj = json[i];
+
+    console.log(obj.id);
+}
+
+//v.02
+var data = [ 
+ {"Id": 10004, "PageName": "club"}, 
+ {"Id": 10040, "PageName": "qaz"}, 
+ {"Id": 10059, "PageName": "jjjjjjj"}
+];
+
+//option1
+$.each(data, function(i, item) {
+    alert(data[i].PageName);
+});​
+
+//op2
+$.each(data, function(i, item) {
+    alert(item.PageName);
+});
+
+
+//v.03
+var data.result = [ 
+ {"Id": 10004, "PageName": "club"}, 
+ {"Id": 10040, "PageName": "qaz"}, 
+ {"Id": 10059, "PageName": "jjjjjjj"}
+];
+
+$.each(data.result, function(i, item) {
+    alert(data.result[i].PageName);
+});​
+
+
+
+
+
