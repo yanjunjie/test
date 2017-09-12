@@ -1,0 +1,49 @@
+//v.01
+Create a MY_Controller.php file and save it inside the application/core folder. In it, something like:
+
+class MY_Controller extends CI_Controller {
+
+   public $site_data;
+
+   function __construct() {
+       parent::__construct();
+       $this->site_data = array('key' => 'value');
+   }
+}
+Throughout your controllers, views, $this->site_datais now available. Note that for this to work, all your other controllers need to extend MY_Controllerinstead of CI_Controller.
+
+
+//v.02
+core/MY_Controller.php
+
+<?php
+
+class MY_Controller extend CI_Controller {
+
+     public function __construct() {
+         parent::__construct();
+
+         //get your data
+         $global_data = array('some_var'=>'some_data');
+
+         //Send the data into the current view
+         //http://ellislab.com/codeigniter/user-guide/libraries/loader.html
+         $this->load->vars($global_data);
+
+     }  
+}
+controllers/welcome.php
+
+ class Welcome extend MY_Controller {
+      public function index() {
+          $this->load->view('welcome');
+      }
+ }
+views/welcome.php
+
+var_dump($some_var);
+
+Note: to get this vars in your functions or controllers, you can use $this->load->get_var('some_var')
+
+//v.03
+$this->load->vars('varname', $data)
