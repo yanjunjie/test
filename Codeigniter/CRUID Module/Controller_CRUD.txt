@@ -1,67 +1,143 @@
-    //Photo Gallery Category CRUD
-    public function galleryCategoryCreate(){ //Create and Read
+//ShipBuilding CRUD
+    //Create page
+    public function shipBuildingCreate($id='')
+    {
         $data = array();
-        $data['title'] = "Gallery Event | DEW Ltd";
-        $gallery_category['gallery_category'] = $this->MyModel->FindAll('gallery_category');
-        //die(var_dump($gallery_category));
-        $data['content'] = $this->load->view('back/pgCategoryCreatePage', $gallery_category, TRUE);
+        //$data['title'] = "Message MD | DEW Ltd";
+        $vdata['tbl_shipbuilding_all'] = $this->MyModel->FindAll('tbl_shipbuilding');
+
+        //update form
+        if (!empty($id)){
+            $vdata['tbl_shipbuilding_update'] = $this->MyModel->FindById('tbl_shipbuilding', $id);
+        }
+
+        $data['content'] = $this->load->view('back/shipbuildingCreatePage', $vdata, TRUE);
         $this->load->view('back/BackMaster', $data);
     }
 
-    public function galleryCategoryInsert(){
-        if (!empty($_POST['gallery_cat_name'])){
-            $data = $this->input->post();
-            $data['gallery_cat_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('gallery_cat_date'))));
-            //Data save
-            $response = $this->MyModel->save('gallery_category', $data);
+    //Save
+    public function shipBuildingSave()
+    {
+        $data = $this->input->post();
+
+        //Start upload file
+        if(!empty($_FILES['shipbuilding_pic']['name'])){ //if($_FILES['image']['error'] == 0){
+
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/shipBuilding';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            //$config['file_name'] = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['gallery_image']['name']);
+
+            //Renaming file name by id
+            $temp['shipbuilding_pic'] = 'tempdata';
+            $tempDataSaveId = $this->MyModel->save('tbl_shipbuilding',$temp);
+
+            if($tempDataSaveId){
+                $filename = date("Y-m-d-H-i-s")."_".str_replace(' ', '-', $_FILES['shipbuilding_pic']['name']);
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $config['file_name'] = $tempDataSaveId.'.'.$extension;
+            }
+            //End Renaming file name by id
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('shipbuilding_pic')){
+                $finfo=$this->upload->data();
+                //$this->create_thumbs($finfo['file_name']);
+                $data['shipbuilding_pic'] = $finfo['raw_name'].$finfo['file_ext'];
+            }
+        }
+        //End upload file
+
+        if (!empty($_POST['shipbuilding_title'])){
+
+            //update or save data to gallery
+            if (!empty($tempDataSaveId)){
+                $response = $this->MyModel->update('tbl_shipbuilding',$tempDataSaveId, $data);
+                if ($response)
+                    $result = $this->MyModel->FindById('tbl_shipbuilding', $tempDataSaveId);
+            }else{
+                $response = $this->MyModel->save('tbl_shipbuilding',$data);
+                if ($response)
+                    $result = $this->MyModel->FindById('tbl_shipbuilding',$response);
+            }
 
             if ($response) {
                 $sdata['success_alert'] = "Saved successfully";
             }else{
                 $sdata['failure_alert'] = "Not Saved successfully";
             }
-            $this->session->set_userdata($sdata);
-
-            redirect('back/galleryCategoryCreate');
         }else{
+            //Unlink main image
+            if ($config['file_name']){
+                unlink('uploads/shipBuilding/'.$config['file_name']);
+            }
+
+            //Delete temp data row
+            $result = $this->MyModel->FindById('tbl_shipbuilding', $tempDataSaveId);
+            if ($result){
+                $this->MyModel->delete("tbl_shipbuilding", $tempDataSaveId);
+            }
+
             $sdata['failure_alert'] = "Try again";
-            $this->session->set_userdata($sdata);
-            redirect('back/galleryCategoryCreate');
         }
-    }
 
-    public function galleryCategoryUpdateAjaxForm(){
-        if ($id = $this->input->post('id')){
-            $gallery_category['gallery_categoryById'] = $this->MyModel->FindById('gallery_category', $id);
-            $content = $this->load->view('back/galleryCategoryUpdateFormPage', $gallery_category, TRUE);
-            echo $content;
-        }
-    }
+        $this->session->set_userdata($sdata);
+        redirect('back/shipBuildingCreate');
 
-    public function galleryCategoryUpdate()
+    }
+    //End save
+
+    //Update
+    public function shipBuildingUpdate()
     {
-        //First of all unlink the files
+        $data = array();
+        $data = $this->input->post();
         $id = $this->input->post('id');
 
-        $data['gallery_cat_name'] = $this->input->post('gallery_cat_name');
-        $data['gallery_cat_date'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('gallery_cat_date'))));
+        //Start upload file
+        if(!empty($_FILES['shipbuilding_pic']['name'])){ //if($_FILES['image']['error'] == 0){
+            //Specification upload
+            $config = array();
+            $config['upload_path'] = 'uploads/shipBuilding';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['overwrite'] = TRUE;
+            $extension = pathinfo($_FILES['shipbuilding_pic']['name'], PATHINFO_EXTENSION);
+            $config['file_name'] = $id.'.'.$extension;
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
 
-        $response = $this->MyModel->update('gallery_category', $id, $data);
-        if ($response) {
-            echo "yes";
-        }else{
-            echo "no";
+            if($this->upload->do_upload('shipbuilding_pic')){
+                $finfo=$this->upload->data();
+                //$this->create_thumbs($finfo['file_name']);
+                $pic = $finfo['raw_name'].$finfo['file_ext'];
+            }
         }
-    }
-    
-    public function galleryCategoryDelete()
-    {
-        $id = $this->input->post('id');
-        $response = $this->MyModel->deletePublicity('gallery_category', $id);
-        if ($response) {
-            echo "yes";
-        }else{
-            echo "no";
+        //End upload file
+
+        if (!empty($pic)){
+            $data['shipbuilding_pic'] = $pic;
+
+            //Unlink main image first
+            $result = $this->MyModel->FindById('tbl_shipbuilding', $id);
+            if ($result->project_pic != $pic){
+                unlink('uploads/shipBuilding/'.$result->shipbuilding_pic);
+            }
         }
+
+        $response = $this->MyModel->update('tbl_shipbuilding',$id, $data);
+
+        if ($response) {
+            $sdata['success_alert'] = "Updated successfully";
+        }else{
+            $sdata['failure_alert'] = "Not Updated successfully";
+        }
+
+        $this->session->set_userdata($sdata);
+        redirect('back/shipBuildingCreate');
     }
-    //End Photo Gallery Category CRUD
+    //End ShipBuilding CRUD

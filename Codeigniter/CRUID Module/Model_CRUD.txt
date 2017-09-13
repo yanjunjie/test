@@ -162,12 +162,6 @@
         $query = $this->db->get();
         return $query->result();
     }
-
-    //Delete Row By ID
-    function deleteRowByID($table, $where)
-    {
-        return $this->db->delete($table, $where);
-    }
     
     //End CRUD Operation
 
