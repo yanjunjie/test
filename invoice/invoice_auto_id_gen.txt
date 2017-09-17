@@ -1,3 +1,5 @@
+//v.01
+
 $query0 = "select PurchaseMaster_InvoiceNo from tbl_purchasemaster Order By PurchaseMaster_InvoiceNo Desc limit 1";
 $qresult = mysql_query($query0);
 $row = mysql_fetch_assoc($qresult);
@@ -7,3 +9,15 @@ $si_length2=$si_length-10;
 $restnum=substr($ordnum1, -$si_length2);
 $sino = $restnum+1;
 $invoice = "M_".date("Y-m-").$sino;
+
+//v.02
+<div class="full clearfix">
+    <input type="text" class="inputclass" disabled="" style="width:200px" value="<?php $sql = mysql_query("SELECT * FROM tbl_salesmaster");
+        $rownumber ='00';$rownumber = mysql_num_rows($sql);
+        $rownumber = $rownumber+1;
+       echo 'WC'.date("Y-m-d").$rownumber;?>">
+    <input type="hidden" id="salesInvoiceno" value="<?php $sql = mysql_query("SELECT * FROM tbl_salesmaster");
+        $rownumber ='00';$rownumber = mysql_num_rows($sql);
+        $rownumber = $rownumber+1;
+       echo 'WC'.date("Y-m-d").$rownumber;?>">
+</div>
