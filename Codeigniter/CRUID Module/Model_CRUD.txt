@@ -16,10 +16,12 @@
             return false;
         endif;
     }
+    
     //delete
-    public function delete($table, $id)
+    public function delete($table, $tid, $id)
     {
-        return $this->db->delete($table, array('id' => $id));
+        $this->db->delete($table, array($tid => $id));
+        return $this->db->affected_rows();
     }
 
     /*
