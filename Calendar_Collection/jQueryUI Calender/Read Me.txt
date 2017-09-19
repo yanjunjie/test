@@ -1,0 +1,25 @@
+v.01 Setting for jQuery UI Datepicker
+<!--Date picker-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<!--End Date picker-->
+
+<!--Date picker-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+     $(function() {  
+        $( ".calender input" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true
+        });
+      });
+</script>
+<!--End Date picker-->
+
+html: 
+<div class="full clearfix" id="ashiqeCalender">
+    <input name="sales_date" id="sales_date" type="text" class="" style="width:200px">
+</div>
+
+v.02 Settings for ..
