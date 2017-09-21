@@ -21,3 +21,20 @@ $invoice = "M_".date("Y-m-").$sino;
         $rownumber = $rownumber+1;
        echo 'WC'.date("Y-m-d").$rownumber;?>">
 </div>
+
+//v.03 Day wise invoice number
+$query0 =mysql_query("SELECT * FROM sr_purchasemaster ORDER BY PurchaseMaster_SlNo DESC LIMIT 1");
+    $qresult = mysql_query($query0);
+    $row = mysql_fetch_array($qresult);
+    $ordnum1 = $row['PurchaseMaster_InvoiceNo'];
+    $si_length = strlen($ordnum1);
+
+    $previousDate = substr($si_length,0,10);
+
+    if(date("Y-m-d") == $previousDate ){
+        $restnum = substr($si_length,10);
+        $sino = $restnum+1;
+        $invoice = $restnum."-".$sino;
+    }else{
+        //
+    }
