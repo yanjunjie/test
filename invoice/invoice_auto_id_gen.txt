@@ -38,3 +38,15 @@ $query0 =mysql_query("SELECT * FROM sr_purchasemaster ORDER BY PurchaseMaster_Sl
     }else{
         //
     }
+
+
+//v.04
+$query2 ="select * from raw_meterial Order By raw_id Desc limit 1";
+$result = mysql_query($query2)or die(mysql_error());
+$row = mysql_fetch_array( $result);
+
+$sirial = $row['id']+1;
+$si_length = strlen((int)$sirial); 
+$str = '0000';
+$cutstr = substr($str, $si_length); 
+$sino = "raw_".$cutstr.$sirial;
