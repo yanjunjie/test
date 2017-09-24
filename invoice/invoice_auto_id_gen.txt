@@ -50,3 +50,16 @@ $si_length = strlen((int)$sirial);
 $str = '0000';
 $cutstr = substr($str, $si_length); 
 $sino = "raw_".$cutstr.$sirial;
+
+//v.05 my work
+$query0 = "select PurchaseMaster_InvoiceNo from tbl_purchasemaster Order By PurchaseMaster_SlNo Desc limit 1";
+$qresult = mysql_query($query0);
+$row = mysql_fetch_assoc($qresult);
+if($row['PurchaseMaster_InvoiceNo']){
+    $ordnum1 = $row['PurchaseMaster_InvoiceNo'];
+    $restnum=substr($ordnum1, 8);
+    $sino = (int)$restnum+1;
+    $invoice = date("Y-m-").$sino;
+}else{
+    $invoice = date("Y-m-")."1";
+}
