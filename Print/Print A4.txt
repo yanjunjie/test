@@ -1,0 +1,11 @@
+ <style>
+.dataTables_filter {
+display: none;
+}
+ @media print {
+    @page {
+        size: letter landscape;
+        margin:4.5cm 0 0;
+    }
+} 
+</style> 
