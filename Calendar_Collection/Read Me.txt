@@ -26,3 +26,11 @@ html:
 </div>
 
 v.02 Settings for ..
+<link rel="stylesheet" href="http://dewbn.com/assets/css/bootstrap-datetimepicker.min.css">
+<script src="http://dewbn.com/assets/template/bower_components/moment/min/moment.min.js"></script>
+<script src="http://dewbn.com/assets/js/bootstrap-datetimepicker.min.js"></script>
+
+
+$('#datetimepicker2').datetimepicker({
+    format: "YYYY-M-DD"
+});
