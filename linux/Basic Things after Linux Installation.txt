@@ -1,0 +1,16 @@
+#1 For Update Local Database with the most recent new version list of packages/softare/programs in Repositories.
+ 
+sudo apt-get update (or sudo aptitude update)
+
+#2 For Seeing of Swap Memory usage in percent:
+cat /proc/sys/vm/swappiness
+
+#3 For changing/Decreasing the usage of Swap Memory:
+sudo xed /etc/sysctl.conf
+
+Then a Text Editor will be opened and at the bottom of the file write as follows:
+vm.swappiness = 10
+
+And Save the file and restart your system and check it again.
+
+#4

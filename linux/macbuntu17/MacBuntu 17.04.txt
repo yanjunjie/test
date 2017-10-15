@@ -1,0 +1,101 @@
+Subscribe Us For Getting updates:
+YouTube : https://www.youtube.com/channel/UCgLL_Bie8pror101y2AxxRA
+
+you will need this command to install this theme:
+
+************************************************************************
+************************************************************************
+************************************************************************
+1.Docky:
+
+add-apt-repository ppa:docky-core/stable && apt-get update
+apt-get purge docky
+apt-get install docky
+************************************************************************
+
+2: MacBuntu OS Y Theme, Icons and cursors:
+
+sudo add-apt-repository ppa:noobslab/macbuntu
+sudo apt-get update
+sudo apt-get install macbuntu-os-icons-v9
+sudo apt-get install macbuntu-os-ithemes-v9
+
+
+3.Slingscold Launchpad
+
+sudo add-apt-repository ppa:noobslab/macbuntu
+sudo apt-get update
+sudo apt-get install slingscold
+************************************************************************
+
+4. Albert Spotlight
+
+sudo add-apt-repository ppa:noobslab/macbuntu
+sudo apt-get update
+sudo apt-get install albert
+************************************************************************
+
+5. Replace 'Ubuntu Desktop' text with 'Mac' on the Panel
+
+cd && wget -O Mac.po http://drive.noobslab.com/data/Mac/change-name-on-panel/mac.po
+
+cd /usr/share/locale/en/LC_MESSAGES; sudo msgfmt -o unity.mo ~/Mac.po;rm ~/Mac.po;cd
+
+************************************************************************
+
+6. Apple Logo in Launcher
+
+wget -O launcher_bfb.png http://drive.noobslab.com/data/Mac/launcher-logo/apple/launcher_bfb.png
+
+sudo mv launcher_bfb.png /usr/share/unity/icons/
+
+
+7: Tweak Tooks
+
+sudo apt-get install unity-tweak-tool
+sudo apt-get install gnome-tweak-tool
+
+************************************************************************
+install compizconfig-settings-manager
+
+sudo apt-get install compizconfig-settings-manager
+sudo apt-get install compiz-plugins compiz-plugins-extra
+sudo apt-get install gconf-editor
+************************************************************************
+************************************************************************
+************************************************************************
+
+
+
+Subscribe Us For Getting updates:
+YouTube : https://www.youtube.com/channel/UCgLL_Bie8pror101y2AxxRA
+
+##Install Mac Os X Sierra 10.12 on Vmware On Ubuntu or mint:https://www.youtube.com/watch?v=7QAsYobLJtE&t=4s
+
+##Install Mac Os X Sierra 10.12 on Virtualbox On Ubuntu or mint: https://www.youtube.com/watch?v=pVc6rxk3OUM
+
+##Linux Vs Windos: https://www.youtube.com/watch?v=Y9PFKHwxmd8&feature=youtu.be
+
+##MacBuntu 16: Mac theme for Ubuntu 16.04: https://www.youtube.com/watch?v=7V3d1bjAg8w
+
+##Top Things To do After Installing Linux Mint: https://www.youtube.com/watch?v=_-onb4lAn6k
+
+##Top 6 Things to Do aftre Installing Ubuntu:https://www.youtube.com/watch?v=ZcpWofRAs-A
+
+##How to Install Ubuntu: https://www.youtube.com/watch?v=c_Ja2PRt0cc
+
+##How To Dual Boot Ubuntu With Windwos: https://www.youtube.com/watch?v=K3lxFlM-3Rw
+
+##How to make Bootable Usb For Linux: https://www.youtube.com/watch?v=ABqSVH2JlaA
+
+##Dual Boot Linux Mint With Windows: https://www.youtube.com/watch?v=oAW-niPJiB4
+
+##How To Install Linux Mint 18: https://www.youtube.com/watch?v=IKtJvqTdQ2w
+
+##Install Adobe Photoshop CS6 on Linux: https://www.youtube.com/watch?v=LQF9mK0jPww
+
+##Triple Boot - Windows10, Ubuntu 16.04 and Lnux Mint 18: https://www.youtube.com/watch?v=rmRx0mUKwCM
+
+##Top Linux Apps 2016: https://www.youtube.com/watch?v=6jiibMVuG4Y
+
+##Customize Your Ubuntu 16.04: https://www.youtube.com/watch?v=aaHwOQHEngI

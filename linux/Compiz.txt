@@ -1,0 +1,5 @@
+sudo apt-get install compiz compiz-plugins-extra compiz compizconfig-settings-manager
+
+sudo apt-get update
+
+compiz --replace

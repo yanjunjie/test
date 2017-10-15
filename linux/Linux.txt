@@ -14,12 +14,51 @@ vim /var/www/html/index.php
 sudo systemctl apache2 restart
 sudo apachectl restart
 sudo apachectl status
-sudo tailf /var/log/apache2/error.log
+sudo tail -f /var/log/apache2/error.log
 sudo service apache2 restart
-sudo tailf /var/log/apache2/error.log
+sudo tail -f /var/log/apache2/error.log
 sudo vi /etc/apache2/apache2.conf 
 vim /var/www/html/index.php 
 sudo service apache2 restart
+
+//New Way:
+sudo apt-get install apache2 php mysql-server
+sudo apt-get install phpmyadmin php-curl php-gd php-cli libapache2-mod-php
+sudo apt-get install php libapache2-mod-php php-mcrypt php-mysql
+sudo apt-get install phpmyadmin apache2-utils
+sudo vi /etc/apache2/apache2.conf
+sudo apache2ctl configtest
+sudo ufw app list
+sudo ufw app info "Apache Full"
+sudo secure_mysql_installation
+sudo nano /etc/apache2/mods-enabled/dir.conf
+sudo apt-cache search php- | less
+sudo vi /var/www/html/bablu.php
+sudo mv /var/www/bablu.php /var/www/html/
+sudo grep PHP /var/log/syslog
+which apache2ctl
+which php
+service mysql status
+service apache2 status
+sudo systemctl status apache2
+sudo systemctl start apache2
+sudo systemctl enable apache2
+sudo apache2ctl restart
+sudo systemctl restart apache2
+sudo service apache2 restart
+
+N.B, phpMyAdmin:
+
+gksu gedit /etc/apache2/apache2.conf
+Then add the following line to the end of the file.
+
+Include /etc/phpmyadmin/apache.conf
+Then restart apache
+
+In details: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
+
+
+
 
 
 //
