@@ -51,15 +51,18 @@ $str = '0000';
 $cutstr = substr($str, $si_length); 
 $sino = "raw_".$cutstr.$sirial;
 
-//v.05 my work
-$query0 = "select PurchaseMaster_InvoiceNo from tbl_purchasemaster Order By PurchaseMaster_SlNo Desc limit 1";
-$qresult = mysql_query($query0);
-$row = mysql_fetch_assoc($qresult);
-if($row['PurchaseMaster_InvoiceNo']){
-    $ordnum1 = $row['PurchaseMaster_InvoiceNo'];
-    $restnum=substr($ordnum1, 8);
+//v.05 Daily new Invoice number, starting with 1
+<?php $query0 =mysql_query("SELECT * FROM tbl_salesmaster order by SaleMaster_SlNo DESC LIMIT 1");
+$row = mysql_fetch_array($query0);
+$ordnum1 = $row['SaleMaster_InvoiceNo'];
+$previousDate = substr($ordnum1,0,10); //2017-10-1922938
+
+if(date("Y-m-d") == $previousDate ){
+    $restnum = substr($ordnum1,11);
     $sino = (int)$restnum+1;
-    $invoice = date("Y-m-").$sino;
+    $invoice = date("Y-m-d")."-".$sino;
 }else{
-    $invoice = date("Y-m-")."1";
-}
+    $invoice = date("Y-m-d")."-"."1";
+}?>
+
+<input type="text" class="inputclass" disabled="" style="width:200px" value="<?php echo $invoice;?>">
