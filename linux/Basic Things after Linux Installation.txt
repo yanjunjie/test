@@ -13,4 +13,5 @@ vm.swappiness = 10
 
 And Save the file and restart your system and check it again.
 
-#4
+#4 Update grub boot loader!
+sudo update-grub

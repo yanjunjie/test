@@ -1,0 +1,5 @@
+#Extract the file to the opt folder
+sudo tar -xzvf PhpStorm-2017.2.4.tar.gz -C /opt
+
+#For Run the file Or Call the file as an excutable file 
+./phpstorm.sh
