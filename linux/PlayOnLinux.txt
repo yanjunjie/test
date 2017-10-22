@@ -4,3 +4,9 @@ In the terminal give command to install playonlinux along with the two dependenc
 
 PlayOnLinux is a front-end for wine. It permits you to easily install Windows Games and software on Linux.
 
+
+/// MS Core Fonts Install
+sudo dpkg -P ttf-mscorefonts-installer 
+	"OR" 
+sudo apt-get install ttf-mscorefonts-installer  
+
