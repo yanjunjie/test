@@ -1,0 +1,19 @@
+
+sudo su (for root acess)
+sudo add-apt-repository ppa:nae-team/ppa
+sudo apt-get update
+sudo apt-get install nautilus-refresh
+
+Once the package is installed, run following commands to restart nautilus or log out and log back in to see the changes.
+
+nautilus -q
+
+////////////OR
+sudo add-apt-repository ppa:nae-team/ppa
+sudo apt-get update
+sudo apt-get install nautilus-refresh
+
+Once the package is installed, run following commands to restart nautilus or log out and log back in to see the changes.
+
+nautilus -q
+
