@@ -1,0 +1,6 @@
+Install PlayOnLinux in Linux Mint (Ubuntu)
+In the terminal give command to install playonlinux along with the two dependency packages :
+ sudo apt-get install playonlinux curl p7zip-full
+
+PlayOnLinux is a front-end for wine. It permits you to easily install Windows Games and software on Linux.
+
