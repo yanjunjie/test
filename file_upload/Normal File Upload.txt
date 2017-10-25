@@ -11,6 +11,15 @@ if (!empty($img)){
     $file_source = $_FILES['img']['tmp_name'];
     move_uploaded_file($file_source, $destination);
     $img = "operation_mgmt_".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+
+    //for update and for delete old file
+    //$sql1 = "SELECT * FROM tbl_operation_mgmt WHERE id ='$id'";
+    //$result1 = mysql_query($sql1);
+    //$test = mysql_fetch_array($result1);
+    /if(file_exists("operation_mgmt_images/".$test['img'])){
+        //unlink("operation_mgmt_images/".$test['img']);
+        //unlink("operation_mgmt_images /thumb/$del_row[fld_pic]");
+    }
 }else{
     $img = '';
     //For update
