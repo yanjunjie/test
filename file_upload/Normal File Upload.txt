@@ -5,12 +5,15 @@ move_uploaded_file($file_temp_name, $destination);
 //End version 1.0
 
 //version 1.1, Start img upload
-$destination = 'operation_mgmt_images/'."operation_mgmt".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-$file_source = $_FILES['img']['tmp_name'];
-if (move_uploaded_file($file_source, $destination)){
-    $img = "operation_mgmt_".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-}else{
-    $img = ''; 
+$img = $_FILES['img']['name'];
+if (!empty($img)){
+    $destination = 'operation_mgmt_images/'."operation_mgmt".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+    $file_source = $_FILES['img']['tmp_name'];
+    if (move_uploaded_file($file_source, $destination)){
+        $img = "operation_mgmt_".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+    }else{
+        $img = '';
+    }
 }
 //End version 1.1, img upload
 
