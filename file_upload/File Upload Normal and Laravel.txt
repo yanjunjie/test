@@ -1,8 +1,4 @@
 /*//version 1.0
-$form_name=$_POST['form_name'];
-$form_email=$_POST['form_email'];
-$form_password=$_POST['form_password'];
-
 $destination	='images/'.uniqid().date('Y-m-d-H-i-s').$_FILES['form_file']['name'];
 $file_temp_name	=$_FILES['form_file']['tmp_name'];
 move_uploaded_file($file_temp_name, $destination);
