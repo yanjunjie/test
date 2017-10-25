@@ -1,17 +1,3 @@
-/*//version 1.0
-$destination	='images/'.uniqid().date('Y-m-d-H-i-s').$_FILES['form_file']['name'];
-$file_temp_name	=$_FILES['form_file']['tmp_name'];
-move_uploaded_file($file_temp_name, $destination);
-//end v1.0*/
-
-//version 2.0
-$file=$_FILES['form_file'];
-//$file_name= $file['name'];
-$file_type= $file['type'];
-$file_size= $file['size'];
-$file_path= $file['tmp_name'];
-//End version 2.0
-
 //Laravel File Upload
 //version 1.0
 /*$img_obj = $data->file('form_file');

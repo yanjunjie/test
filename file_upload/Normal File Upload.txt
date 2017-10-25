@@ -1,0 +1,61 @@
+//version 1.0
+$destination    ='images/'.uniqid().date('Y-m-d-H-i-s').$_FILES['form_file']['name'];
+$file_temp_name =$_FILES['form_file']['tmp_name'];
+move_uploaded_file($file_temp_name, $destination);
+//End version 1.0
+
+//version 2.0
+$file=$_FILES['form_file'];
+//$file_name= $file['name'];
+$file_type= $file['type'];
+$file_size= $file['size'];
+$file_path= $file['tmp_name'];
+//End version 2.0
+
+//version 3.0
+//Start img upload  with thumbnail creation
+$destination = 'operation_mgmt_images/'."operation_mgmt".date('Y-m-d-H-i-s').$_FILES['img']['name'];
+$file_source = $_FILES['img']['tmp_name'];
+if (move_uploaded_file($file_source, $destination)){
+    chmod("$destination",0777); //file is now editable
+}
+//$journalName = preg_replace('/\s+/', '_', $journalName);
+//End img upload
+
+///////// Start the thumbnail generation//////////////
+$n_width=100;          // Fix the width of the thumb nail images
+$n_height=140;         // Fix the height of the thumb nail imaage
+
+$tsrc="management_images /thumb/".$_FILES['file']['name'];   // Path where thumb nail image will be stored
+
+////////////// Starting of png thumb nail creation///////////
+if (@$_FILES['file']['type']=="image/png"){
+    $im=ImageCreateFrompng($add);
+    $width=ImageSx($im);              // Original picture width is stored
+    $height=ImageSy($im);                  // Original picture height is stored
+    $n_height=($n_width/$width) * $height; // Add this line to maintain aspect ratio
+    $newimage=imagecreatetruecolor($n_width,$n_height);
+    imageCopyResized($newimage,$im,0,0,0,0,$n_width,$n_height,$width,$height);
+    if (function_exists("imagepng")) {
+        Header("Content-type: image/png");
+        Imagepng($newimage,$tsrc);
+    }
+    elseif (function_exists("imagejpeg")) {
+        Header("Content-type: image/jpeg");
+        ImageJPEG($newimage,$tsrc);
+    }
+    chmod("$tsrc",0777);
+}////////// end of png file thumb nail creation//////////
+
+////////////// starting of JPG thumb nail creation//////////
+if($_FILES['file']['type']=="image/jpeg"){
+    $im=ImageCreateFromJPEG($add);
+    $width=ImageSx($im);              // Original picture width is stored
+    $height=ImageSy($im);             // Original picture height is stored
+    $n_height=($n_width/$width) * $height; // Add this line to maintain aspect ratio
+    $newimage=imagecreatetruecolor($n_width,$n_height);
+    imageCopyResized($newimage,$im,0,0,0,0,$n_width,$n_height,$width,$height);
+    ImageJpeg($newimage,$tsrc);
+    chmod("$tsrc",0777);
+}////////////// End of JPG thumb nail creation//////////
+//End version 3.0
