@@ -9,11 +9,15 @@ $img = $_FILES['img']['name'];
 if (!empty($img)){
     $destination = 'operation_mgmt_images/'."operation_mgmt".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
     $file_source = $_FILES['img']['tmp_name'];
-    if (move_uploaded_file($file_source, $destination)){
-        $img = "operation_mgmt_".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-    }else{
-        $img = '';
-    }
+    move_uploaded_file($file_source, $destination);
+    $img = "operation_mgmt_".date('Y-m-d-H-i-s').'.'.pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+}else{
+    $img = '';
+    //For update
+    //$sql1 = "SELECT * FROM tbl_operation_mgmt WHERE id ='$id'";
+    //$result1 = mysql_query($sql1);
+    //$test = mysql_fetch_array($result1);
+    //$img = $test['img'];
 }
 //End version 1.1, img upload
 
