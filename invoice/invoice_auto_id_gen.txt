@@ -26,11 +26,10 @@ $invoice = "M_".date("Y-m-").$sino;
 $query2 ="select * from tbl_salesmaster Order By SaleMaster_SlNo Desc limit 1";
 $result = mysql_query($query2)or die(mysql_error());
 $row = mysql_fetch_array($result);
-
 $str = $row['SaleMaster_InvoiceNo'];
-$str = substr($str,0,-1); //last character obmmited
-$sl = substr($str, -1)+1; //last character Picked
-$inv = $str.$sl; echo $inv;
+$last_char_omit = substr($str,0,-1); //last character obmmited
+$sl = (int)substr($str, -1) + 1; //last character Picked
+$inv = $last_char_omit.$sl; echo $inv;
 
 
 
