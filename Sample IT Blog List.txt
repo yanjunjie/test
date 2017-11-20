@@ -5,6 +5,8 @@ https://www.formget.com/form-login-codeigniter/
 https://www.zerosack.org/blog/24484189674/What-is-difference-between-serialize()-&-FormData()-methods-in-jQuery.
 https://arjunphp.com/uploading-pdf-files-codeigniter/
 http://www.codersmount.com/2012/11/upload-image-and-create-multiple-thumbnail-sizes-in-codeigniter/
+https://www.quicksprout.com/2013/12/16/how-i-learned-online-marketing-and-how-you-can-too/
+
 
 
 
