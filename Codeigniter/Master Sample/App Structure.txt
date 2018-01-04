@@ -1,0 +1,5 @@
+Pages:
+1. Master Layout
+2. Dashboard Page / Home Page
+3. Other Pages
+4. Include Pages like menu, header, footer, sidebar

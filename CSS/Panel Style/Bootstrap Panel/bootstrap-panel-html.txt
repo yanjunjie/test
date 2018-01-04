@@ -1,0 +1,6 @@
+<div class="service-area">
+    <div class="service service-primary">
+        <div class="service-heading">Panel with panel-primary class</div>
+        <div class="service-body">Panel Content</div>
+    </div>
+</div>
