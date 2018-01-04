@@ -1,0 +1,49 @@
+//Ajax
+var urldata = "<?php echo base_url(); ?>sales/sales_order/";
+$.ajax({
+    type: "POST",
+    url: "<?php echo base_url('sales/inv_check')?>",
+    data: {salesInvoiceno:salesInvoiceno},
+    success:function(data){
+        if (data=="duplicate"){
+            alert("Err!! Duplicate invoice number found, Please try another or Refresh browser");
+            return false;
+        }else{
+            $.ajax({
+                type: "POST",
+                url: urldata,
+                data: inputdata,
+                success:function(data){
+
+                    var err = data;
+                    if(err){
+                        if(confirm('Show Report')){
+                            window.location.href='<?php echo base_url(); ?>sales/sellAndPrint';
+                        }else{
+                            $("#SalescartRefresh").html(data);
+                            alert('Sell Success');
+                            return false;
+                        }
+                    }
+
+                }
+            });
+        }
+    }
+});
+
+
+//Controller
+//Invoice no check for duplicate entry
+    function inv_check()  {
+        $salesInvoiceno = $this->input->post('salesInvoiceno');
+        $query = "SELECT * FROM tbl_salesmaster where SaleMaster_InvoiceNo = '$salesInvoiceno'";
+        $result =  mysql_query($query);
+        $row = mysql_fetch_array($result);
+
+        if (isset($row['SaleMaster_InvoiceNo'])){
+            echo "duplicate";
+        }
+    }
+
+//
