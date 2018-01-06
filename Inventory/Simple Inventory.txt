@@ -1,0 +1,67 @@
+//Start For All prducts inventory
+    //Find inventory for check
+    $sql = mysql_query("SELECT * FROM tbl_saleinventory WHERE SaleInventory_Store='$SalesFrom' AND sellProduct_IdNo = '".$item['id']."'");
+    $rox = mysql_fetch_array($sql);
+
+    $id = $rox['SaleInventory_SlNo'];
+    $oldStock = $rox['SaleInventory_TotalQuantity'];
+
+    //Sale Inventory update
+    if($rox['sellProduct_IdNo']== $item['id']){
+        $addStock = array(
+            'sellProduct_IdNo'                      => $item['id'],
+            'SaleInventory_TotalQuantity'           => $oldStock+$item['qty'],
+            'SaleInventory_brunchid'                => $this->sbrunch,
+            'SaleInventory_Store'=>$SalesFrom,
+            "UpdateBy"                              =>$this->session->userdata("FullName"),
+            "UpdateTime"                            =>date("Y-m-d h:i:s")
+        );
+        $this->mt->update_data("tbl_saleinventory",$addStock,$id,'SaleInventory_SlNo');
+    }else{ //New sale inventory
+        $addStock = array(
+            'sellProduct_IdNo'                      => $item['id'],
+            'SaleInventory_TotalQuantity'           => $item['qty'],
+            'SaleInventory_brunchid'                => $this->sbrunch,
+            'SaleInventory_Store'                   =>$SalesFrom,
+            "AddBy"                                 =>$this->session->userdata("FullName"),
+            "AddTime"                               =>date("Y-m-d h:i:s")
+        );
+
+        $this->mt->save_data("tbl_saleinventory",$addStock);
+    }
+    //End For All products inventory
+
+    //Start For guide with conveyor products inventory
+    //Find inventory for check
+    if (isset($item['ProID2'])){
+        $sql = mysql_query("SELECT * FROM tbl_saleinventory WHERE SaleInventory_Store='$SalesFrom' AND sellProduct_IdNo = '".$item['ProID2']."'");
+        $rox = mysql_fetch_array($sql);
+
+        $id = $rox['SaleInventory_SlNo'];
+        $oldStock = $rox['SaleInventory_TotalQuantity'];
+
+        //Sale Inventory update
+        if($rox['sellProduct_IdNo']== $item['ProID2']){
+            $addStock = array(
+                'sellProduct_IdNo'                      => $item['ProID2'],
+                'SaleInventory_TotalQuantity'           => $oldStock+$item['proQTY2'],
+                'SaleInventory_brunchid'                => $this->sbrunch,
+                'SaleInventory_Store'                   =>$SalesFrom,
+                "UpdateBy"                              =>$this->session->userdata("FullName"),
+                "UpdateTime"                            =>date("Y-m-d h:i:s")
+            );
+            $this->mt->update_data("tbl_saleinventory",$addStock,$id,'SaleInventory_SlNo');
+        }else{ //New sale inventory
+            $addStock = array(
+                'sellProduct_IdNo'                      => $item['ProID2'],
+                'SaleInventory_TotalQuantity'           => $item['proQTY2'],
+                'SaleInventory_brunchid'                => $this->sbrunch,
+                'SaleInventory_Store'                   =>$SalesFrom,
+                "AddBy"                                 =>$this->session->userdata("FullName"),
+                "AddTime"                               =>date("Y-m-d h:i:s")
+            );
+
+            $this->mt->save_data("tbl_saleinventory",$addStock);
+        }
+    }
+    //End For guide with conveyor products inventory
