@@ -18,9 +18,9 @@
     }
     
     //delete
-    public function delete($table, $tid, $id)
+    public function delete($table, $fld, $id)
     {
-        $this->db->delete($table, array($tid => $id));
+        $this->db->delete($table, array($fld => $id));
         return $this->db->affected_rows();
     }
 
@@ -80,9 +80,9 @@
         return $this->db->insert_batch($table, $batch);
     }
     //update
-    public function update($table, $tid, $id, $data)
+    public function update($table, $fld, $id, $data)
     {
-        $updated_status = $this->db->update($table, $data, array($tid => $id));
+        $updated_status = $this->db->update($table, $data, array($fld => $id));
         if($updated_status):
             return $id;
         else:
@@ -90,64 +90,64 @@
         endif;
     }
     //Batch Update
-    public function updateByBatch($table, $tid, $batch){
-        return $this->db->update_batch($table, $batch, $tid);
+    public function updateByBatch($table, $fld, $batch){
+        return $this->db->update_batch($table, $batch, $fld);
     }
     //Update Previous or Last Row
-    public function updateLastRow($table, $tid, $where, $data){
-        $this->db->order_by($tid, "desc");
+    public function updateLastRow($table, $fld, $where, $data){
+        $this->db->order_by($fld, "desc");
         $this->db->limit(1);
         $this->db->where($where);
         $this->db->update($table, $data);
     }
     //delete
-    public function delete($table, $tid, $id)
+    public function delete($table, $fld, $id)
     {
-        return $this->db->delete($table, array($tid => $id));
+        return $this->db->delete($table, array($fld => $id));
     }
     //Find all
-    public function findAll($table, $tid='')
+    public function findAll($table, $fld='')
     {
         $this->db->select('*');
         $this->db->from($table);
-        $this->db->order_by($tid, "desc");
+        $this->db->order_by($fld, "desc");
         $query = $this->db->get();
         return $query->result();
     }
     //Find all by asc
-    public function findAllByAsc($table, $field)
+    public function findAllByAsc($table, $fld)
     {
         $this->db->select('*');
         $this->db->from($table);
-        $this->db->order_by($field, "asc");
+        $this->db->order_by($fld, "asc");
         $query = $this->db->get();
         return $query->result();
     }
     //Find by id
-    public function findById($table, $tid, $id)
+    public function findById($table, $fld, $id)
     {
         $this->db->select('*');
         $this->db->from($table);
-        $this->db->where($tid, $id);
+        $this->db->where($fld, $id);
         $query = $this->db->get();
         return $query->result();
     }
     // Find All by Limit
-    public function findAllByLimit($table, $tid, $limit='', $offset='') {
+    public function findAllByLimit($table, $fld, $limit='', $offset='') {
         $this->db->select('*');
-        $this->db->order_by($tid, 'DESC');
+        $this->db->order_by($fld, 'DESC');
         $this->db->from($table);
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result();
     }
     // Find by ID & Limit
-    public function findByIdAndLimit($table, $tid, $id='', $limit='', $offset='') {
+    public function findByIdAndLimit($table, $fld, $id='', $limit='', $offset='') {
         $this->db->select('*');
-        $this->db->order_by($tid, 'DESC');
+        $this->db->order_by($fld, 'DESC');
         $this->db->from($table);
         $this->db->limit($limit, $offset);
-        $this->db->where(array($tid => $id));
+        $this->db->where(array($fld => $id));
         $query = $this->db->get();
         return $query->result();
     }
