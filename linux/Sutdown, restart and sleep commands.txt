@@ -1,0 +1,25 @@
+//Folder open
+nautilus "$PWD"
+
+//Shutdown
+sudo shutdown -h now
+poweroff
+halt
+init 0
+sudo shutdown -h +5 {will poweroff after 5 min}
+
+
+//Restart
+reboot
+reboot -f
+init 6
+OR
+shutdown -r now
+shutdown -r +5 {will reboot after 5 min}
+
+//Hibernate
+sudo pm-hibernate
+
+
+//Suspend / Sleep
+sudo pm-suspend
