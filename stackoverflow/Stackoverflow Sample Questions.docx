@@ -1,0 +1,11 @@
+﻿////===============01================////
+I use Laravel framework and I have recently been informed that there is something named database seeding which produces a fake dataset for our tests. Is my understanding correct?
+
+Well that's pretty much odd. How it works? How it knows which type of data do I need in X column of database? And how it generates it?
+
+Also, Can't I make a seed of my real dataset (something like an export)? You know, I don't know English very well, that's why I cannot understand the concept of seed in database field.
+
+
+////=================02==============////
+
+
