@@ -1,0 +1,4 @@
+//Routing with name attribute
+https://dev-notes.eu/2016/11/generate-urls-to-named-routes-in-laravel/
+
+

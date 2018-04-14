@@ -8,4 +8,47 @@ Also, Can't I make a seed of my real dataset (something like an export)? You kno
 
 ////=================02==============////
 
+I am new to Laravel and have understand the Database Eloquent ORM but not understanding seeding meaning in context of Database.
+
+
+////=================03==============////
+
+I am following a tutorial called Incremental API in laracasts by Jeffrey Way.
+
+There is a different coding between Laravel 4 faker class seeding and laravel 5.4.
+
+I still followed the same code lines from the tutorials "Seeders Reloaded". Now, I am stuck with "Class LessonTagTableSeeder does not exist"
+
+
+////=================04==============////
+
+Is there any way to define the name of route group in laravel?
+
+What I'm trying to accomplish by this is to know that the current request belongs to which group so I can make active the main menu and sub menu by the current route action:
+
+Code:
+
+……
+
+
+Now what I want is to call a function or something which will give me the current route's group name.
+
+Examples:
+
+……..
+
+
+////=================05==============////
+
+I am new to Laravel and trying to understand the difference between the boot() method and the register() method in Service Provider classes. I have searched all over but haven't been able to find a clear answer. I will really be grateful for a better explanation and kind cooperation. 
+
+
+
+
+
+
+
+
+
+
 
