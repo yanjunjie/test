@@ -1,0 +1,88 @@
+CRUID Operaton:
+
+Insert, update, delete oparations:
+Edit or Update (View to URL): URL এ আমরা ID পাঠালাম বা Using Link
+<td><a class="btn btn-info" href="{!! Route('reg.edit',$singleDBdata->user_id) !!}">Edit</a></td>
+Query in Controller by ID and Controller to view:
+    public function edit($id)
+    {
+        $allDBdata=myFirstModel::findOrFail($id);
+        return view('dbTest.edit',compact('allDBdata'));
+    }
+
+In View after Update and Data will be sent from View to Controller:
+	{!! Form::open(array('route' => ['reg.update', $allDBdata->user_id],'method'=>'PUT')) !!}
+	In controller:
+	    public function update(Request $request, $id)
+    {
+        $inputData=$request->all();
+        $dbQueryData=myFirstModel::findOrfail($id);
+        $dbQueryData->update($inputData);
+        return redirect('reg');
+    }
+Delete:
+In View: Using Form
+<td>
+{!! Form::open(array('route' => ['reg.destroy', $singleDBdata->user_id],'method'=>'delete')) !!}
+{!! Form::hidden($singleDBdata->user_id) !!} <!-- this line is not needed -->
+{!! Form::submit('Delete', ['class'=>'btn btn-danger']) !!}
+{!! Form::close() !!}
+</td>
+In Controller:
+public function destroy($id)
+    {
+        $dbQueryData=myFirstModel::findOrfail($id);
+        $dbQueryData->delete($dbQueryData);
+        return redirect('reg');
+    }
+
+Searching Data from Database:
+In View:
+{!! Form::open(['route' => 'reg.index','method' => 'GET']) !!}
+	{{ Form::text('user_name')}}
+	{{ Form::submit('Search')}}
+	{!! Form::close() !!}
+In Controller:
+public function index(Request $request)
+    {
+        $count=1;
+        $allDBdata = myFirstModel::orderBy('user_name');
+        $user_name=$request->input('user_name');
+        if(!empty($user_name)){
+            $allDBdata->where('user_name', 'like', '%'.$user_name.'%');
+        }
+
+         $allDBdata = $allDBdata->paginate(3);
+        return view('dbTest.index', compact('allDBdata','count'));
+       
+        //return $allDBdata;
+    }
+	For Two search boxes:
+	In view:
+	{!! Form::open(['route' => 'reg.index','method' => 'GET']) !!}
+	<lavel>User Full name: </lavel>{{ Form::text('user_fullname')}}
+	<lavel>Username: </lavel>{{ Form::text('user_name')}}
+	{{ Form::submit('Search')}}
+	{!! Form::close() !!}
+	In Controller:
+public function index(Request $request)
+    {
+        $count=1;
+        $allDBdata = myFirstModel::orderBy('user_name');
+        $user_fullname=$request->input('user_fullname');
+        $user_name=$request->input('user_name');
+        if(!empty($user_fullname)){
+            $allDBdata->where('user_fullname', 'like', '%'.$user_fullname.'%');
+        }
+
+        if(!empty($user_name)){
+            $allDBdata->where('user_name', 'like', '%'.$user_name.'%');
+        }
+
+         $allDBdata = $allDBdata->paginate(3);
+        return view('dbTest.index', compact('allDBdata','count'));
+       
+        //return $allDBdata;
+    }
+
+
