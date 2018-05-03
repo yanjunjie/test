@@ -2,3 +2,8 @@
 https://dev-notes.eu/2016/11/generate-urls-to-named-routes-in-laravel/
 
 
+//Database Seeds and Model Factories
+https://laravel-news.com/learn-to-use-model-factories-in-laravel-5-1
+
+
+
