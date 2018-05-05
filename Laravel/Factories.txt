@@ -1,0 +1,28 @@
+//For Users
+
+$factory->define(App\User::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'username' => $faker->word,
+        'dob' => Carbon\Carbon::parse('November 10 1991'),
+        'password' => bcrypt(str_random(10)),
+        'remember_token' => str_random(10),
+    ];
+});
+
+
+//For Articles
+
+$factory->define(App\User::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => App\User::all()->random()->id,
+        'content' => $faker->paragraph(5),
+        'live' => $faker->boolean(70),
+        'post_on' => Carbon\Carbon::parse("+1 week"),
+    ];
+});
+
+
+
+

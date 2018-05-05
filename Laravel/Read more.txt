@@ -1,0 +1,17 @@
+//Raw method 01
+{{ substr($article->content, 0, 100) }}
+
+//Raw method 02
+{{ substr($article->content, 0, random_int(60, 150)) }}
+
+//Framework method 01
+{{ $article->shortContent }}
+
+Hence, we have to create an accessor for this
+
+public function getShortContentAttribute(){
+	return substr($this->content, 0, random_int(60, 150))."...";
+}
+
+
+

@@ -1,0 +1,38 @@
+//Posted on date difference
+{{ $article->created_at->diffForHumans() }}
+
+
+//To show login user
+{{ Auth::user()->username }}
+{{ Auth::user()->id }}
+
+
+//For editing we have to specify the PUT method on the form
+{{ method_field('PUT') }}
+
+{{ csrf_field() }}
+
+
+//For Checkbox, Radio Button
+<label>
+	<input type="checkbox" name="live" {{ $article->live == 1 ? 'checked' : '' }} /> Live
+</label>
+
+
+//For any other date are not recognized by Carbon instance except created_at and updated_at. Hence, we have to inform laravel about the date at the model
+
+protected $dates = ['post_on'];
+
+And now the post_on is the Carbon property and we can use the date from edit view
+
+{{ $article->post_on->format('Y-m-d\TH:i:s') }}
+
+
+//
+
+
+
+
+
+
+//
