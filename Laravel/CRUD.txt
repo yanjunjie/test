@@ -1,0 +1,150 @@
+//>>>>>>>>>>>>>>>>>>>>>>>>Eloquent ORM>>>>>>>>>>>>>>>>>>>>>>
+
+//+++++++++++++++Insert+++++++++++++++++++
+
+//Method 01
+
+Article::create($request->all());
+
+//Method 02
+
+Article::create([
+'user_id' => Auth::user()->id,
+'content' =>$request->content,
+'live' => $request->live,
+'post_on' =>$request->post_on
+]);
+
+//Method 03
+
+$article = new Article;
+$article->user_id = Auth::user()->id;
+$article->content = $request->content;
+$article->live = (boolean)$request->live;
+$article->post_on = $request->post_on;
+$article->save();
+
+
+//++++++++++++++++++Select++++++++++++++++++
+
+//Method 01:
+
+$articles = Article::all();
+return view('articles.index', compact('articles'));
+
+//Method 02:
+
+$articles = Article::whereLive(1)->get();
+$return articles;
+
+
+//Paginated Records
+
+$articles = Article::paginate(10);
+return view('articles.index', compact('articles'));
+
+//With soft deleted records
+
+$articles = Article::withTrashed()->paginate(10);
+return view('articles.index', compact('articles'));
+
+//Only soft deleted records
+
+$articles = Article::onlyTrashed()->paginate(10);
+return view('articles.index', compact('articles'));
+
+
+//Find By ID
+
+$article = Article::findOrFail($id);
+return $article;
+
+
+//+++++++++++++++++++Update+++++++++++++++++++
+
+$article = Article::findOrFail($id);
+$article->update($request->all());
+
+
+//+++++++++++++++++++Delete++++++++++++++++++++
+
+$article = Article::findOfFail($id);
+$article->delete();
+return redirect('/articles');
+
+//OR
+
+Article::destroy($id);
+return redirect('/articles');
+
+//For Multiple Deleting
+
+Article::destroy([1,2,3,4]);
+return redirect('/articles');
+
+
+//Soft deleting
+
+$article = Article::findOfFail($id);
+$article->delete();
+return redirect('/articles');
+
+
+N.B, For soft deleting we need an extra field to our table called deleted_at. Hence we have to go to the model and import the class like this: use Illuminate\Database\Eloquent\SoftDeletes; and finally we have to add an attribute like this: protected $dates = ['post_on','deleted_at']; And then we have to go to the migration file and add like this: $table->softDeletes(); and we have to refresh like this: php artisan migrate:refresh
+
+
+//Force deleting or Hard deleting
+
+$article = Article::findOrFail($id);
+$article->forceDelete();
+return redirect('/articles');
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Query Builder>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//+++++++++++++++++++++Insert++++++++++++++++++++++
+
+//Method 01:
+
+DB::table('articles')->insert($request->all());
+
+//Method 02: All but except _token field
+
+DB::table('articles')->insert($request->except('_token'));
+
+//Method 03:
+
+DB::table('articles')→insert([
+	'user_id' => Auth::user()->id,
+	'content' =>$request->content,
+	'live' => $request->live,
+	'post_on' =>$request->post_on
+]);
+
+
+//++++++++++++++++++++Select++++++++++++++++++++++++++
+
+//Method 01:
+
+$articles = DB::table('articles')->get();
+dd($article);
+
+//Method 02:
+
+$articles = DB::table('articles')->whereLive(1)->get();
+dd($article);
+
+//Method 03: Only one article return
+
+$article = Article::table('articles')->whereLive(1)->first();
+dd($article);
+
+
+//++++++++++++++++++++Update++++++++++++++++++++++++
+
+
+//++++++++++++++++++++Delete++++++++++++++++++++++++
+
+
+

@@ -3,7 +3,19 @@ public function getShortContentAttribute(){
 	return substr($this->content, 0, random_int(60, 150))."...";
 }
 
-//
+
+//Mutator 01
+public function setPostOnAttribute($value){
+	$this->attributes['post_on'] = Carbon::parse($value); 
+}
+
+//Mutator 02
+public function setLiveAttribute($value){
+	$this->attributes['live'] = (boolean)($value); 
+}
+
+
+
 
 
 
