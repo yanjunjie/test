@@ -1,0 +1,20 @@
+Error: file_put_contents(/var/www/html/laravel/w3public/storage/framework/sessions/9FIIC54hXTGY6E2jWBiXrRH1QZ52ytW3qhaC8Wnh): failed to open stream: No such file or 
+directory
+
+
+Solution:
+It causes for: composer install 
+
+So we need to use git but git ignors the update hence we have to delete everythin and download again from github
+
+Error: not key found
+php artisan key:generate
+
+
+
+Error: Laravel 5 error SQLSTATE[HY000] [1045] Access denied for user 'homestead'@'localhost' (using password: YES)
+
+Ans: in .env file, credentials has not shared
+
+
+
