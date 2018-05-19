@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="test">
+		<a href="#" v-on:click="cleckMe">W3public</a>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#test',
+			data:{
+				name: "Bablu",
+				age:28,
+				blogUrl: 'http://w3public.com'
+			},
+			methods:{
+				cleckMe: function (argument) {
+					alert("You clicked the button!");
+				}
+			}
+
+		});
+	</script>
+
+<script>
+	//Methods for logical works
+	/*methods:{
+		fullName: function (name, age) {
+			return age*2;
+		},
+	},*/
+
+
+	/*methods:{
+		fullName: function (name, age) {
+			return age*2;
+		},
+	},*/
+
+	/*methods:{
+		fullName: function (name, age) {
+			return {
+				myName:name,
+				myAge:age,
+			}
+		},
+	},*/
+
+	//Directives for binding with html attrubutes 
+
+	/*<a v-bind:href="blogUrl">W3public</a>*/
+
+	/*
+	<a href="#" v-on:click="cleckMe">W3public</a>
+	cleckMe: function (argument) {
+		alert("You clicked the button!");
+	}
+	*/
+
+	
+
+
+</script>
+
+
+</body>
+</html>
+
+
