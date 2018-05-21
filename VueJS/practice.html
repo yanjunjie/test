@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<style>
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+	<div id="app">
+		<p v-cloak>{{ message }}</p>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		setTimeout(function() {
+			new Vue({
+				el:'#app',
+				data:{
+					message: "Hi, I am Bablu Ahmed",
+				},
+
+			});
+		}, 5000);
+	</script>
+
+
+</body>
+</html>
+
+

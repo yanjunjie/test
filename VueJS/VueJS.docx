@@ -1,0 +1,253 @@
+﻿Two way data binding using v-model
+
+
+Example 01: The data floats both ways and updates its values.
+
+<div id="app">
+	<input type="text" v-model="name">
+	<p><strong>Name: </strong>{{name}}</p>
+</div>
+
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+<script>
+	new Vue({
+		el:'#app',
+		data:{
+			name: "",
+			age:28,
+		},
+	});
+</script>
+
+N.B, if we set default value for name: "Bablu Ahmed" and in the input element like value=”Test” then Vue will ignore the field value with default data property.
+
+Example 02: Modifiers for v-model directive.
+
+Trim, Number (parse.int in js), 
+
+
+	<div id="app">
+		<input type="text" v-model.number="age">
+		<p><strong>Name: </strong>{{name}}</p>
+		<p><strong>Type: </strong> {{ typeof age }}</p>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				name: "Bablu Ahmed",
+				age:28,
+			},
+
+		});
+	</script>
+
+
+Example 03: The lazy modifier update data value after the whole thing is written like jquery change event
+
+<div id="app">
+		<input type="text" v-model.number.lazy="age">
+		<p><strong>Name: </strong>{{age}}</p>
+		<p><strong>Type: </strong> {{ typeof age }}</p>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				name: "Bablu Ahmed",
+				age:28,
+			},
+
+		});
+	</script>
+
+
+
+
+Outputting HTML Elements
+
+
+For xss (Cross Site Security) and loading time consuming we need to render HTML by default it doesn’t encoded if include v-html then it shows as usual.
+
+For example 01:
+
+<div id="app">
+		<div v-html="html"></div>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				html: "<h1>Bablu Ahmed</h1>",
+			},
+
+		});
+	</script>
+
+N.B, Below code will not work
+
+<div id="app">
+	{{ html }}
+</div>
+
+
+Example 02: Outputting HTML elements only one time or just it will show initial data and never be changed anymore.
+
+<div id="app">
+		<h1 v-once>{{ title }}</h1>
+		<button v-on:click="title = 'Amar sonar Bangla'">Update once </button>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				title: "What is Vue JS?",
+			},
+
+		});
+	</script>
+
+
+
+Conditionally Rendering Elements
+
+if, else if, and else statement 
+
+Example 01:
+
+
+	<div id="app">
+		<p v-if="itemsInStock > 10">{{itemsInStock}} in stock</p>
+		<p v-else-if="itemsInStock > 0">Hurry up, there are just a few items left!</p>
+		<p v-else>Too bad, we're all out!</p>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				itemsInStock: 0,
+			},
+
+		});
+	</script>
+
+
+Example 02: We can use <template></template> markup for multiple elements and the markup will not render in html.
+
+
+
+	<div id="app">
+		<p v-if="itemsInStock > 10">{{itemsInStock}} in stock</p>
+		<p v-else-if="itemsInStock > 0">Hurry up, there are just a few items left!</p>
+		<p v-else>Too bad, we're all out!</p>
+
+		<template v-if="itemsInStock > 10">
+			<p>special Offer!</p>
+			<p>Looks like we have tons of products in stock...save 20% if you order now!</p>
+		</template>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				itemsInStock: 15,
+			},
+
+		});
+	</script>
+
+
+
+Showing and Hiding Elements (Toggle)
+
+Example 01:
+
+	<div id="app">
+		<p v-show="isBablu">Yes, I am Bablu</p>
+		<p v-show="!isBablu">No, I am not Bablu</p>
+		<button v-on:click="isBablu=!isBablu">Toggle</button>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				isBablu: true,
+			},
+
+		});
+	</script>
+
+
+
+Hiding Elements until until the Vue instance is Ready
+
+
+
+<style>
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+	<div id="app">
+		<p v-cloak>{{ message }}</p>
+	</div>
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+	<script>
+		setTimeout(function() {
+			new Vue({
+				el:'#app',
+				data:{
+					message: "Hi, I am Bablu Ahmed",
+				},
+
+			});
+		}, 5000);
+	</script>
+
+
+
+
+Looping through Elements
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,13 +1,28 @@
 //image validation
 $this->validate([
- 'select_file' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+ 'select_file' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048',//1024 = 1mb
 ]);
 
 //
 $this->validate([
- 'select_file' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+ 'select_file' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048', //1024 = 1mb
  'title'=>'required|max:255',
-  'slug'=>'required|alpha_dash|max:255|unique:posts,slug',
+  'slug'=>'required|alpha_dash|max:255|unique:posts,slug', //unique:table,column,except,idColumn
   'category_id'=>'required|integer',
   'body'=>'required',
 ]);
+
+//My work
+$this->validate([
+            'file' =>'image|mimes:jpeg,png,jpg,gif|max:2048', //1024 = 1mb
+            'title'=>'required|max:255',
+            'slug'=>'required|alpha_dash|max:255|unique:articles,slug', //unique:table,column,except,idColumn
+            'user_id'=>'required|integer',
+            'category_id'=>'required|integer',
+            'content'=>'required',
+        ]);
+
+
+//
+
+
