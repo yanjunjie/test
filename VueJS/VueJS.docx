@@ -231,14 +231,113 @@ Hiding Elements until until the Vue instance is Ready
 
 
 
+
+
+
+
 Looping through Elements
 
+Arrays:
+<div id="app">
+		<h2>Songs</h2>
+		<ul>
+			<li v-for="title in songTitles">{{title}}</li>
+		</ul>
+	</div>
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				songTitles: ['Jhoom','Jhor','Jol'],
+				employees: [
+					{"name":"Bablu Ahmed", "title":"Programmer"},
+					{"name":"Abdul Kuddus", "title":"Vue JS Expert"},
+					{"name":"Sakibur Rahman", "title":"Marketing Manager"},
+				],
+				companyName: "w3public.com",
+			},
+
+		});
+	</script>
 
 
+Objects:
+<div id="app">
+		<h2>Empployee Details</h2>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Title</th>
+				<th>Company</th>
+			</tr>
+			<tr v-for="employee in employees">
+				<td>{{employee.name}}</td>
+				<td>{{employee.title}}</td>
+				<td>{{companyName}}</td>
+			</tr>
+		</table>
+	</div>
 
 
+Accessing Loop index:
 
+<tr v-for="(employee, index) in employees">
+				<td>{{employee.name}}</td>
+				<td>{{employee.title}}</td>
+				<td>{{companyName}}</td>
+				<td>{{index}}</td>
+			</tr>
+
+Looping through object properties:
+
+<div id="app">
+		<h2>Empployee Details</h2>
+		<ul>
+			<li v-for="(value, property, index) in person">{{property}}:			{{value}}({{index}})</li>
+		</ul>
+	</div>
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				songTitles: ['Jhoom','Jhor','Jol'],
+				person: {"name":"Bablu Ahmed", "title":"Programmer"},
+				companyName: "w3public.com",
+			},
+
+		});
+	</script>
  
+
+
+Looping through number ranges:
+
+<ul>
+	<li v-for="n in 10">{{n}}</li>
+</ul>
+
+With index:
+
+<li v-for="(n, index) in 10">
+	{{n}}*{{index}} = {{n*index}}
+</li>
+
+Output:
+1*0 = 0
+2*1 = 2
+3*2 = 6
+4*3 = 12
+5*4 = 20
+6*5 = 30
+7*6 = 42
+8*7 = 56
+9*8 = 72
+10*9 = 90
+
+Update strategy of v-for:
+
 
 
 

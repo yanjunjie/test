@@ -3,33 +3,38 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-</head>
-<body>
 	<style>
-		[v-cloak]{
-			display: none;
+		table, th, td {
+		    border: 1px solid black;
+		    border-collapse: collapse;
 		}
 	</style>
+</head>
+<body>
 	<div id="app">
-		<p v-cloak>{{ message }}</p>
+		<h2>Empployee Details</h2>
+		<ul>
+			<li v-for="(n, index) in 10">
+				{{n}}*{{index}} = {{n*index}}
+			</li>
+		</ul>
 	</div>
 
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
-		setTimeout(function() {
-			new Vue({
-				el:'#app',
-				data:{
-					message: "Hi, I am Bablu Ahmed",
-				},
+		new Vue({
+			el:'#app',
+			data:{
+				songTitles: ['Jhoom','Jhor','Jol'],
+				person: {"name":"Bablu Ahmed", "title":"Programmer"},
+				companyName: "w3public.com",
+			},
 
-			});
-		}, 5000);
+		});
 	</script>
 
 
 </body>
 </html>
-
 
