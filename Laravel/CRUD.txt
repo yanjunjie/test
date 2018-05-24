@@ -68,7 +68,7 @@ $article->update($request->all());
 
 //+++++++++++++++++++Delete++++++++++++++++++++
 
-$article = Article::findOfFail($id);
+$article = Article::findOrFail($id);
 $article->delete();
 return redirect('/articles');
 
@@ -85,7 +85,7 @@ return redirect('/articles');
 
 //Soft deleting
 
-$article = Article::findOfFail($id);
+$article = Article::findOrFail($id);
 $article->delete();
 return redirect('/articles');
 

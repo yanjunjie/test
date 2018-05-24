@@ -1,9 +1,11 @@
 //JS.................................
  //Datatable
-    $('#dataTable').DataTable(
+    $('#dataTable_allarticle').DataTable(
     {
         "processing": true,  // Show processing
         "serverSide": true,  // Server side processing
+        "pageLength": 5,    // 5 rows per page
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
 
         "ajax":{
             url :  '<?= route("dataProcessing"); ?>',
@@ -15,20 +17,25 @@
             }
         },
 
-        /*Optional
-        // sortable or column's alignment
+       //Style
         "aoColumnDefs": [
-            { 'bSortable': false, 'aTargets': [0,1] }   ,
-            { className: "dt-center", "aTargets": [0,1,2,3] },
-        ], */
+            { "sWidth": "20%", "aTargets": 0 }, //<- start from zero
+            { "sWidth": "10%", "aTargets": 1 },
+            { "sWidth": "10%", "aTargets": 2 },
+        ],
 
-        "columns": [      //4 columns
+        //Columns
+        "columns": [
             {'data':'title'},
             {'data':'id'},
             {"data":"action","searchable":false,"orderable":false}
         ],
 
+
     });
+
+    $( ".dataTables_length select option:first" ).attr("selected","selected");
+
 
 //Route...............................
 
