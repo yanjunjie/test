@@ -64,7 +64,20 @@ return $article;
 
 $article = Article::findOrFail($id);
 $article->update($request->all());
+return back()->with('success','Post updated successfully');
 
+//OR
+$article = Article::findOrFail($id);
+$article->update(array_merge($request->all(), ['file'=>$filename,'category_id'=>$category_id,'slug'=>$slug]));
+return back()->with('success','Post updated successfully');
+
+//OR
+if(empty($request->live))
+	$article->update(array_merge($request->all(), ['live'=>false]));
+else
+	$article->update($request->all());
+
+return back()->with('success','Post updated successfully');
 
 //+++++++++++++++++++Delete++++++++++++++++++++
 
