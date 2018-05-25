@@ -8,8 +8,7 @@ Example 01: The data floats both ways and updates its values.
 	<p><strong>Name: </strong>{{name}}</p>
 </div>
 
-	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+
 <script>
 	new Vue({
 		el:'#app',
@@ -33,8 +32,6 @@ Trim, Number (parse.int in js),
 		<p><strong>Type: </strong> {{ typeof age }}</p>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -55,8 +52,6 @@ Example 03: The lazy modifier update data value after the whole thing is written
 		<p><strong>Type: </strong> {{ typeof age }}</p>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -82,8 +77,6 @@ For example 01:
 		<div v-html="html"></div>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -108,8 +101,6 @@ Example 02: Outputting HTML elements only one time or just it will show initial 
 		<button v-on:click="title = 'Amar sonar Bangla'">Update once </button>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -135,8 +126,6 @@ Example 01:
 		<p v-else>Too bad, we're all out!</p>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -163,8 +152,6 @@ Example 02: We can use <template></template> markup for multiple elements and th
 		</template>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -187,8 +174,6 @@ Example 01:
 		<button v-on:click="isBablu=!isBablu">Toggle</button>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
@@ -214,8 +199,6 @@ Hiding Elements until until the Vue instance is Ready
 		<p v-cloak>{{ message }}</p>
 	</div>
 
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		setTimeout(function() {
 			new Vue({
@@ -336,14 +319,145 @@ Output:
 9*8 = 72
 10*9 = 90
 
-Update strategy of v-for:
+
+Array: By default Vue doesn’t change any array value, if needed we have to change using Vue.set() method.
+
+<ul>
+	<li v-for="(array, index) in numbers">
+		{{array}}
+	</li>
+</ul>
+<button v-on:click="changeNumber">Change Number</button>
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				numbers: [1,2,3,4],
+			},
+
+			methods:{
+				changeNumber: function () {
+					Vue.set(this.numbers, 1, 10);
+					alert(this.numbers[1]);
+				}
+			},
+
+		});
+	</script> 
+
+
+Computed Properties: Computed properties are also function but when we will use it doesn’t need parenthesis. We can optimize performance using computed properties. This is because it doesn’t change a value of the dada until change it with new value.
+
+For example:
+
+<p>{{getFullname()}}</p>
+<p>{{counter}}</p>
+<button v-on:click="counter++">Full Name</button>
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				counter:1,
+				firstName:"Bablu",
+				lastName:"Ahmed",
+			},
+
+			methods:{
+				getFullname: function () {
+					alert("Assembling fullname...");
+					return this.firstName+" "+this.lastName;
+				}
+			},
+
+		});
+	</script>
+
+
+In above code, we can see the same code is executing again and again in every single click although the value is not change of the data property.
+
+We can solve it by using computed property as follows:
+
+<p>{{getFullName}}</p>
+<p>{{counter}}</p>
+<button v-on:click="counter++">Full Name</button>
+
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				counter:1,
+				firstName:"Bablu",
+				lastName:"Ahmed",
+			},
+
+			computed:{
+				getFullName: function () {
+					alert("Assembling fullname...");
+					return this.firstName+" "+this.lastName;
+				}
+			},
+
+		});
+	</script>
+
+
+Here, we can see that the value of farstName and lastName is not been changed and hence the alert is not showing and the of counter is been changed and it is showing.
 
 
 
+Character Length length checking Application
+
+<div id="app">
+	<!--two-way data binding to update the value of data-->
+	<input v-model="password" type="password"> 
+	<p v-if="password.length > 6">Awesome! Your password is longer than 6 characters</p>
+	<p v-else-if="password.length > 0">Please enter a longer password</p>
+	<p v-else>Enter a password</p>
+	
+</div>
+
+<script>
+		new Vue({
+			el:'#app',
+			data:{
+				password:'',
+			},
+
+		});
+	</script>
 
 
+Categories and Sub Categories Displaying Project
 
+<div id="app">
+		<ol>
+			<li v-for="proLanguage in proLanguages">
+				{{proLanguage.category}}
+				<ul>
+					<li v-for="sub in proLanguage.subCat">
+						{{sub}}
+					</li>
+				</ul>
+			</li>
+		</ol>
+	</div>
 
+	
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				proLanguages:[
+					{category: "Javascript", subCat: ["Vue JS","React JS", "Angular2 JS"]},
+					{category: "Databases", subCat: ["MySQL","PostgreSQL", "MariaDB"]}
+				]
+			},
+
+		});
+	</script>
 
 
 

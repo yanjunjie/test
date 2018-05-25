@@ -12,12 +12,16 @@
 </head>
 <body>
 	<div id="app">
-		<h2>Empployee Details</h2>
-		<ul>
-			<li v-for="(n, index) in 10">
-				{{n}}*{{index}} = {{n*index}}
+		<ol>
+			<li v-for="proLanguage in proLanguages">
+				{{proLanguage.category}}
+				<ul>
+					<li v-for="sub in proLanguage.subCat">
+						{{sub}}
+					</li>
+				</ul>
 			</li>
-		</ul>
+		</ol>
 	</div>
 
 	
@@ -26,9 +30,10 @@
 		new Vue({
 			el:'#app',
 			data:{
-				songTitles: ['Jhoom','Jhor','Jol'],
-				person: {"name":"Bablu Ahmed", "title":"Programmer"},
-				companyName: "w3public.com",
+				proLanguages:[
+					{category: "Javascript", subCat: ["Vue JS","React JS", "Angular2 JS"]},
+					{category: "Databases", subCat: ["MySQL","PostgreSQL", "MariaDB"]}
+				]
 			},
 
 		});
