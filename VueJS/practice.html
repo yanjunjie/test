@@ -12,16 +12,15 @@
 </head>
 <body>
 	<div id="app">
+		<!-- Movie name withe release year -->
 		<ol>
-			<li v-for="proLanguage in proLanguages">
-				{{proLanguage.category}}
-				<ul>
-					<li v-for="sub in proLanguage.subCat">
-						{{sub}}
-					</li>
-				</ul>
-			</li>
+			<li v-for="movie in formattedMovies">{{ movie }}</li>
 		</ol>
+		
+		<!-- Add new move to the move list and watch it with watcher -->
+
+		<button v-on:click="addMovie">Add Movie</button>
+
 	</div>
 
 	
@@ -29,12 +28,39 @@
 	<script>
 		new Vue({
 			el:'#app',
+			
 			data:{
-				proLanguages:[
-					{category: "Javascript", subCat: ["Vue JS","React JS", "Angular2 JS"]},
-					{category: "Databases", subCat: ["MySQL","PostgreSQL", "MariaDB"]}
-				]
+				movies: [
+					{name: "Aynabaji", year:"2016"},
+					{name: "Dhaka Attack", year:"2017"},
+					{name: "Doob", year:"2018"},
+				],
 			},
+			
+			computed: {
+				formattedMovies: function () {
+					return this.movies.map(function (movie) { //will return a new array i.e, ["Aynabaji (2016)", "Dhaka Attack (2017)", "Doob (2018)"]
+						return movie.name + ' ('+ movie.year +')';
+					});
+				}
+			},
+
+			methods:{
+				addMovie: function() {
+					this.movies.push({
+						name: "Pora Mon 2", year: "2018" 
+					});
+				}
+			},
+
+			watch: {
+				movies: function(movies) {
+					var newMovie = movies[movies.length - 1];
+					alert(newMovie.name + ' from ' + newMovie.year + ' was just added!');
+					
+				}
+			}
+
 
 		});
 	</script>
