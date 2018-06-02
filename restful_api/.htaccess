@@ -1,5 +1,5 @@
-# Turn on the Rewrite Engine
+# Mr. Apache please turn on the Rewrite Engine
 RewriteEngine on
 
 # Request routing
-RewriteRule ^([a-zA-Z_-]*)$ index.php?name=$1 [nc,qsa]
+RewriteRule ^([a-zA-Z_-]*)$ main.php?name=$1 [nc,qsa]

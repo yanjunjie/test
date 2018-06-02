@@ -8,60 +8,112 @@
 		    border: 1px solid black;
 		    border-collapse: collapse;
 		}
+
+		.highlighted{
+			background-color: #ddd;
+		}
+
+		.shape{
+			width: 150px;
+			height: 150px;
+			float: left;
+			margin: 10px;
+			background-color: blue;
+		}
+
+		.circle{
+			background-color: red;
+			border-radius: 50%;
+		}
+
+		.square{
+			background-color: blue;
+		}
+
+		.triangle {
+		    border-color: transparent transparent green transparent;
+		    border-style: solid;
+		    border-width: 0px 150px 150px 150px;
+		    height: 0px;
+		    width: 0px;
+		}
+
+		/* Animations */
+		.shape.animate{
+			animation-name: stretch;
+			animation-duration: 1.0s;
+			animation-timing-function: ease-out;
+		}
+
+		@keyframes stretch {
+			0%{
+				transform: scale(.3);
+			}
+
+			100%{
+				transform: scale(1.0);
+			}
+		}
+
 	</style>
 </head>
 <body>
 	<div id="app">
-		<!-- Movie name withe release year -->
-		<ol>
-			<li v-for="movie in formattedMovies">{{ movie }}</li>
-		</ol>
-		
-		<!-- Add new move to the move list and watch it with watcher -->
-
-		<button v-on:click="addMovie">Add Movie</button>
+		<div class="shape" v-bind:style="shapeStyles" v-on:click="changeShape"></div>
+		<div style="clear: both;"></div>
+		<h1>Employees</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Title</th>
+					<th>Company</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(employee, loopIndex) in employees" v-bind:class="{ highlighted: loopIndex % 2 }">
+					<td>{{employee.name}}</td>
+					<td>{{employee.title}}</td>
+					<td>{{companyName}}</td>
+				</tr>
+			</tbody>
+		</table>
 
 	</div>
-
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 	<script>
 		new Vue({
 			el:'#app',
 			
-			data:{
-				movies: [
-					{name: "Aynabaji", year:"2016"},
-					{name: "Dhaka Attack", year:"2017"},
-					{name: "Doob", year:"2018"},
+			data: {
+				shapeStyles: {},
+
+				employees: [
+					{ name: "Bablu", title: "Engr" },
+					{ name: "Sa", title: "Engr" }
 				],
-			},
-			
-			computed: {
-				formattedMovies: function () {
-					return this.movies.map(function (movie) { //will return a new array i.e, ["Aynabaji (2016)", "Dhaka Attack (2017)", "Doob (2018)"]
-						return movie.name + ' ('+ movie.year +')';
-					});
-				}
+
+				companyName: 'W3 Public'
 			},
 
-			methods:{
-				addMovie: function() {
-					this.movies.push({
-						name: "Pora Mon 2", year: "2018" 
-					});
-				}
-			},
+			methods: {
+				changeShape: function () {
 
-			watch: {
-				movies: function(movies) {
-					var newMovie = movies[movies.length - 1];
-					alert(newMovie.name + ' from ' + newMovie.year + ' was just added!');
+					//alert();
+					for (var i = 0; i < this.employees.length; i++) {
+					    // Iterate over numeric indexes from 0 to 5, as everyone expects.
+					    console.log(this.employees[i].name);
+					}
 					
+					if (typeof this.shapeStyles['border-radius'] !== 'undefined') {
+						Vue.set(this.shapeStyles, 'border-radius', undefined);
+					} else {
+						Vue.set(this.shapeStyles, 'border-radius', '50%');
+					}
 				}
 			}
-
-
+			
 		});
 	</script>
 

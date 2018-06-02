@@ -11,3 +11,45 @@ Schema::create('articles', function (Blueprint $table) {
     $table->softDeletes();
     $table->timestamps();
 });
+
+
+
+
+//For any other date are not recognized by Carbon instance except created_at and updated_at. Hence, we have to inform laravel about the date at the model
+
+protected $dates = ['post_on'];
+
+And now the post_on is the Carbon property and we can use the date from edit view
+
+{{ $article->post_on->format('Y-m-d\TH:i:s') }}
+
+
+//To Rename table name and add new fields
+ 
+
+php artisan make:migration rename_posts_to_articles
+
+At up:
+Schema::rename('posts','articles');
+
+At down:
+Schema::rename('articles','posts');
+
+For adding new fields or modifying:
+php artisan make:migration add_live_and_post_on_fields_to_the_articles_table --table=articles
+
+At up:
+Schema::table('articles',function ($table){
+	$table->boolean('live')->default(0);
+	$tabli->timestamp('post_on')->nullable->after('title');
+});
+
+At down:
+Schema::table('articles',function ($table){
+	$table->dropColumn(['live', 'post_on']);
+});
+
+//
+
+
+
