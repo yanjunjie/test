@@ -1,0 +1,5 @@
+# Mr. Apache please turn on the Rewrite Engine
+RewriteEngine on
+
+# Request routing
+RewriteRule ^([a-zA-Z_-]*)$ webService.php [nc,qsa]
