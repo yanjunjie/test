@@ -1,0 +1,14 @@
+body{
+  background-image: url("http://cloud.defaultwallpaper.com/wp-content/uploads/2017/10/galaxy_tab-a-6-1.png");
+  -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+}
+#formdiv{
+  background-image: url("https://hipertextual.com/files/2017/03/color-degradado-fondos-degradados-multicolor-51200-670x410.jpg");
+}
+span{
+  color: red;
+}
