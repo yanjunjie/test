@@ -1,0 +1,16 @@
+chmod +x sqldeveloper.sh
+ll
+sudo ln -s /opt/sqldeveloper/sqldeveloper.sh /usr/local/bin/sqldeveloper
+gedit /opt/sqldeveloper/sqldeveloper.sh
+
+Then comment like #cd ... and paste below code at the bottom of the file:
+
+unset -v GNOME_DESKTOP_SESSION_ID
+cd /opt/sqldeveloper/sqldeveloper/bin && bash sqldeveloper $*
+
+After save and close this file
+
+type sqldeveloper anywhire in the terminal then the sqldeveloper.sh file will run
+
+But we can create a shortcut for the desktop
+

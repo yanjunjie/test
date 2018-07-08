@@ -1,0 +1,34 @@
+1. Install JavaPackage: sudo apt-get install java-package
+2. Download Oracle JDK from Oracle downloads page
+3. Make a Debian package from the downloaded .tar.gz archive: make-jpkg jdk-YOUR_VERSION-linux-PLATFORM.tar.gz This command will produce a .deb package.
+4. Install the package in your favourite way (for example, sudo dpkg -i oracle-java8-jdk_8u40_amd64.deb)
+
+
+Another way...
+
+Installing Java 8 on Ubuntu:
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+//OR
+sudo apt-get install oracle-java9-installer
+
+Verify Installed Java Version:
+java -version
+
+Configuring the Java environment:
+
+sudo apt-get install oracle-java8-set-default
+//OR
+sudo apt-get install default-jdk
+
+sudo update-alternatives --config java
+
+
+Another way...
+
+sudo apt-get update  
+sudo apt-get install default-jre  
+sudo apt-get install default-jdk
+
+
