@@ -3,14 +3,32 @@ ll
 sudo ln -s /opt/sqldeveloper/sqldeveloper.sh /usr/local/bin/sqldeveloper
 gedit /opt/sqldeveloper/sqldeveloper.sh
 
-Then comment like #cd ... and paste below code at the bottom of the file:
+Then comment a line like #cd "`dirname $0`"/sql... and paste below code at the bottom of the file:
 
 unset -v GNOME_DESKTOP_SESSION_ID
 cd /opt/sqldeveloper/sqldeveloper/bin && bash sqldeveloper $*
 
 After save and close this file
 
-type sqldeveloper anywhire in the terminal then the sqldeveloper.sh file will run
+type sqldeveloper anywhire in the terminal then the sqldeveloper.sh file will run if it wants full path of jvm write as follows:
+/usr/lib/jvm/oracle-java8-jdk-amd64
 
-But we can create a shortcut for the desktop
+we can also create a shortcut for the desktop writing below code on terminal:
+
+cd /usr/share/applications/
+ls
+sudo gedit sqldeveloper.desktop
+
+And then a file will open and write the below code:
+
+[Desktop Entry]
+Exec=sqldeveloper
+Terminal=false
+StartupNotify=true
+Categories=GNOME;Oracle;
+Type=Application
+Icon=/opt/sqldeveloper/icon.png
+Name=Oracle SQL Developer
+
+After saving and colosing this file search this file in your computer if still not found restart the system 
 
