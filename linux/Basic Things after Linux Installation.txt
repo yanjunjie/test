@@ -15,3 +15,29 @@ And Save the file and restart your system and check it again.
 
 #4 Update grub boot loader!
 sudo update-grub
+
+
+For Ubuntu:
+1. Software and update (Fastest Repository location, other, additional dirver etc.)
+2. sudo apt update
+3. sudo apt upgrade
+4. sudo apt install ubuntu-restricted-extras openjdk-8-jre unrar rar libdvd-pkg
+5. gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+6. Enable 'Night Light' for better sleep
+>Settings>devices>Night light>enable & minimal
+7. sudo apt install gnome-tweak-tool
+>Tweeks>Top Bar>(Application, Batter p.., activees..,clock.. ) on
+8. sudo apt install chrome-gnome-shell
+9. sudo snap install communitheme
+10. sudo apt install gufw
+gufw>status on
+11. Applications installation:
+sudo snap install spotify simplenote vlc mailspring gimp corebird telegram-desktop
+sudo snap install slack --classic
+sudo snap install skype --classic
+12. Install GSConnect (For android user)
+13. tlp package install for better bettery performance
+14. Install Bleachbit System Cleaner
+sudo apt install bleachbit
+
+
