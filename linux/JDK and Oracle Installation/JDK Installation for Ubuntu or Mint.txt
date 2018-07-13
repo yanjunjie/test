@@ -26,4 +26,8 @@ sudo apt-get install default-jdk
 sudo update-alternatives --config java
 
 
+Another way...			
+sudo apt-get update
+sudo apt-get install default-jre
+sudo apt-get install default-jdk
 
