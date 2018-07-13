@@ -1,5 +1,6 @@
 chmod +x sqldeveloper.sh
 ll
+For making a link so that it can be used by writing command in terminal
 sudo ln -s /opt/sqldeveloper/sqldeveloper.sh /usr/local/bin/sqldeveloper
 gedit /opt/sqldeveloper/sqldeveloper.sh
 
@@ -12,6 +13,8 @@ After save and close this file
 
 type sqldeveloper anywhire in the terminal then the sqldeveloper.sh file will run if it wants full path of jvm write as follows:
 /usr/lib/jvm/oracle-java8-jdk-amd64
+
+If not work go to /user/lib and search jvm and go into jdk then copy the location and paste it to the terminal
 
 we can also create a shortcut for the desktop writing below code on terminal:
 
