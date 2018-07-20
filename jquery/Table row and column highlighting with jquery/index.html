@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		table, th, td {
+		    border: 1px solid black;
+		    border-collapse: collapse;
+		}
+
+		.hover {
+		    background:pink;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Customer Name</th>
+			<th>Contact No.</th>
+			<th>Address</th>
+			<th>Country</th>
+		</tr>	
+		<tr>
+			<td>Bablu Ahmed</td>
+			<td>01730910</td>
+			<td>93, C/1, Rampura, Dhaka</td>
+			<td>Bangladesh</td>
+		</tr>	
+		<tr>
+			<td>Alfreds Futterkiste</td>
+			<td>8901730</td>
+			<td>Obere Str. 57</td>
+			<td>Germany</td>
+		</tr>	
+		<tr>
+			<td>Around the Horn</td>
+			<td>88901730</td>
+			<td>120 Hanover Sq.</td>
+			<td>UK</td>
+		</tr>
+	</table>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		$('td').on('mouseover mouseout', function(){
+            $(this).prevAll().addBack().add($(this).parent().prevAll().children(':nth-child(' + ($(this).index() + 1) + ')')).toggleClass('hover');
+            $(this).nextAll().toggleClass('hover');
+		});
+	</script>
+</body>
+</html>
