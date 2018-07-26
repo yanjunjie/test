@@ -2,6 +2,12 @@ sudo apt-get update
 sudo apt-get upgrade 
 sudo apt-get install apache2 php mysql-server
 sudo apt-get install phpmyadmin php-cli php-curl php-gd
+
+If phpmyadmin do not work then follow the below instructon:
+sudo -H gedit /etc/apache2/apache2.conf
+Then add the following line to the end of the file:
+Include /etc/phpmyadmin/apache.conf
+
 sudo vi /etc/apache2/apache2.conf
 sudo vi /etc/apache2/mods-enabled/dir.conf 
 sudo apt-get install vim vim-gtk3 
