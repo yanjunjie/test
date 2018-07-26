@@ -17,7 +17,15 @@ sudo apachectl status
 sudo tail -f /var/log/apache2/error.log
 sudo service apache2 restart
 sudo tail -f /var/log/apache2/error.log
-sudo vi /etc/apache2/apache2.conf 
+
+Now fix Not Found The requested URL using below command:
+sudo vi /etc/apache2/apache2.conf
+
+A file will open write as follows:
+<Directory /var/www/html/>
+  AllowOverride All
+</Directory>
+
 vim /var/www/html/index.php 
 sudo service apache2 restart
 
