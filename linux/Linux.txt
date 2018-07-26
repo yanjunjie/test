@@ -26,8 +26,13 @@ A file will open write as follows:
   AllowOverride All
 </Directory>
 
-vim /var/www/html/index.php 
+Then run below two commands:
+sudo a2enmod rewrite
 sudo service apache2 restart
+
+If still not work then run the beolow command see the log and search google
+sudo vi /var/log/apache2/error.log
+
 
 //New Way:
 sudo apt-get install apache2 php mysql-server
