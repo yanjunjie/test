@@ -8,5 +8,27 @@ PlayOnLinux is a front-end for wine. It permits you to easily install Windows Ga
 /// MS Core Fonts Install
 sudo dpkg -P ttf-mscorefonts-installer 
 	"OR" 
-sudo apt-get install ttf-mscorefonts-installer  
+sudo apt-get install ttf-mscorefonts-installer 
+
+
+For Ubuntu:
+1. To add the PPA, open terminal (Ctrl+Alt+T) and run command:
+
+sudo add-apt-repository ppa:ricotz/unstable
+
+
+2. Remove previous Wine 1.8 or other regular Wine packages via command:
+
+sudo apt remove wine wine1.8 wine-stable libwine* fonts-wine* && sudo apt autoremove
+
+3. Finally update and install Wine 2.0 via:
+
+sudo apt update
+sudo apt install wine-stable
+
+How to Uninstall:
+
+To remove Wine 2.0, simply run the apt remove command in terminal with sudo privilege:
+
+sudo apt remove wine2.0 wine-staging && sudo apt autoremove
 

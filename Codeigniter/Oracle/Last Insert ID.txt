@@ -1,0 +1,18 @@
+function insert($tableName, $post)
+    {
+        $res = $this->db->insert($tableName, $post);
+
+        //Inserted id
+        if($res){
+            $query = $this->db->query("SELECT MAX(APPLICATION_ID) as ID FROM $tableName");
+            $row = $query->row();
+            $id = $row->ID;
+            return $id;
+        }else{
+            return false;
+        }
+
+        //return $this->db->insert_id();
+    }
+
+

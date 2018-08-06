@@ -1,0 +1,27 @@
+ public function getOrgModules() {
+        $session_info = $this->session->userdata('logged_in');
+        $org = $session_info['ORG_ID'];
+        $org_group = $session_info['USERGRP_ID'];
+        $org_group_level = $session_info['USERLVL_ID'];
+        $user = $session_info['USER_ID'];
+        //$this->db->distinct();
+        return $this->db->query("SELECT DISTINCT SA_ORG_MODULES.SA_MODULE_ID, SA_ORG_MODULES.SA_MODULE_NAME,
+              ATI_MODULES.MODULE_NAME_BN,
+              ATI_MODULES.MODULE_ICON,
+              ATI_MODULES.CATEGORY,
+              ATI_MODULES.SL_NO
+            FROM SA_UGLW_MLINK
+            LEFT JOIN SA_ORG_MODULES ON SA_UGLW_MLINK.SA_MODULE_ID = SA_ORG_MODULES.SA_MODULE_ID
+            LEFT JOIN ATI_MODULES ON SA_ORG_MODULES.MODULE_IDS = ATI_MODULES.MODULE_ID
+            WHERE SA_UGLW_MLINK.USERGRP_ID = '$org_group'
+                  AND SA_UGLW_MLINK.UG_LEVEL_ID = '$org_group_level'
+                  OR SA_UGLW_MLINK.USER_ID = '$user'
+                  AND SA_UGLW_MLINK.ORG_ID = '$org'
+                  OR SA_UGLW_MLINK.CREATE_ = '1'
+                  OR SA_UGLW_MLINK.READ = '1'
+                  OR SA_UGLW_MLINK.UPDATE_ = '1'
+                  OR SA_UGLW_MLINK.DELETE_ = '1'
+                  OR SA_UGLW_MLINK.STATUS = '1'
+            ORDER BY SA_ORG_MODULES.SA_MODULE_ID, ATI_MODULES.SL_NO
+            ")->result();
+    }

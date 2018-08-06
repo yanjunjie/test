@@ -1,0 +1,25 @@
+
+    public function get_all_module_links($modid) {
+        $session_info = $this->session->userdata('logged_in');
+        $org = $session_info['ORG_ID'];
+        $user = $session_info['USER_ID'];
+        $org_group = $session_info['USERGRP_ID'];
+        $org_group_level = $session_info['USERLVL_ID'];
+        $level_sql = "";
+        if ($org_group_level != "") {
+            $level_sql = " AND SA_UGLW_MLINK.UG_LEVEL_ID = '$org_group_level'";
+        }
+
+        return $this->db->query("
+            SELECT ATI_MODULE_LINKS.LINK_ID,ATI_MODULE_LINKS.LINK_NAME,ATI_MODULE_LINKS.LINK_NAME_BN,ATI_MODULE_LINKS.URL_URI,SA_UGLW_MLINK.SA_MLINKS_ID
+            FROM SA_UGLW_MLINK,SA_ORG_MLINKS,ATI_MODULE_LINKS
+            WHERE SA_UGLW_MLINK.SA_MLINKS_ID = SA_ORG_MLINKS.SA_MLINKS_ID
+            AND SA_ORG_MLINKS.LINK_ID = ATI_MODULE_LINKS.LINK_ID                
+            AND ((SA_UGLW_MLINK.ORG_ID = '$org' 
+            AND SA_UGLW_MLINK.USERGRP_ID = '$org_group' $level_sql) OR SA_UGLW_MLINK.USER_ID = '$user')
+            AND SA_UGLW_MLINK.SA_MODULE_ID = '$modid'
+            AND (SA_UGLW_MLINK.CREATE_ = 1 OR SA_UGLW_MLINK.READ = 1 OR SA_UGLW_MLINK.UPDATE_ = 1 OR SA_UGLW_MLINK.DELETE_ = 1 OR SA_UGLW_MLINK.STATUS = 1)
+            order by ATI_MODULE_LINKS.SL_NO asc
+        ")->result();
+
+    }
