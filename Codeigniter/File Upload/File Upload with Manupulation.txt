@@ -135,6 +135,27 @@ unlink('/upload/applicant/photo/'.'photo_'.$ADM_ROLL_NO.'.'.$file_ext);
 unlink('/upload/applicant/signature/'.'signature_'.$ADM_ROLL_NO.'.'.$file_ext);
 
 
+//v.05, blob file upload
+
+   $applicant_photo = '';
+    $signature_photo = '';
+
+    //Start Profile
+    if(!empty($_FILES['photo']['name'])){
+        //die(var_dump('hi'));
+
+        $allowed =  array('gif','png' ,'jpg','jpeg');
+        $filename = $_FILES['photo']['name'];
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+        if(!in_array($ext,$allowed) ) {
+            $this->session->set_flashdata('Error', 'This type of file is not allowed');
+            redirect('admission/directAdmission');
+        }
+
+        $applicant_photo = file_get_contents($_FILES['photo']['tmp_name']);
+    }
+//End Start Profile
 
 
 

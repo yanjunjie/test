@@ -1,0 +1,69 @@
+//This function  is use for student image preview before upload
+
+//Jquery
+    function upload_img(input) {
+        var fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (input.files && input.files[0]) {
+            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+            isSuccess = fileTypes.indexOf(extension) > -1;
+            //var fsize = $('#propic')[0].files[0].size;
+
+            var sizeInKB = (input.files[0].size)/1024; //Normally files are in bytes but for KB divide by 1024
+            var sizeLimit= 30;
+
+            if (sizeInKB >= sizeLimit) {
+                alert("Max file size 30KB");
+                isSuccess = false;
+                $('#img_id').attr('src', '');
+                $('#p_img_id').attr('src', '');
+                return false;
+            }
+
+
+            if (isSuccess) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = reader.result;
+
+                    image.onload = function () {
+
+                            $('#img_id').attr('src', e.target.result);
+                            $('#p_img_id').attr('src', e.target.result);
+
+
+                    };
+                }
+                reader.readAsDataURL(input.files[0]);
+            }else{
+                alert("This file type does not support");
+            }
+        }
+    }
+
+
+//HTML
+
+<div class="form-group">
+                                        <label class="control-label col-md-5">Your Photo  <span class="red">*</span></label>
+
+                                        <div class="col-md-5">
+                                            <div class="avatar-zone">
+                                                <img id="img_id" src="<?php echo base_url('upload/default/default_pic.png'); ?>"
+                                                     alt="select photo" style="width: 150px;"/>
+                                            </div>
+                                            <div style="cursor: pointer;" class="overlay-layer">Choose File</div>
+                                            <input type='file' style="cursor: pointer; display: none" name="photo" id="propic" onchange="upload_img(this);" class="upload_btn">
+                                        </div>
+                                        <!--<div class="col-md-2">
+                                            <i class="fa fa-info-circle pointer2" data-content="Select your photo"
+                                               data-placement="right" data-toggle="popover" data-container="body"
+                                               data-original-title="" title="Help"></i>
+                                        </div>-->
+                                    </div>
+
+
+
+
+//
+
