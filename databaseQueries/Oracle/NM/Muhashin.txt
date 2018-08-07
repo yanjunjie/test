@@ -1,0 +1,11 @@
+declare
+    V_EXAMCAT_MAP_ID varchar2(16);
+begin
+    PRC_BUILD_PK ('', 'SEQ_NM_APPLICATION', 'T', '1', V_EXAMCAT_MAP_ID,'Y');
+    
+    --dbms_output.put_line(V_EXAMCAT_MAP_ID);
+end;
+
+/
+
+NM_APPLICATION

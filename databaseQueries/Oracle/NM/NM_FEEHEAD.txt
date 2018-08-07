@@ -1,0 +1,54 @@
+CREATE TABLE NM_FEEHEAD
+(
+  FEEHEAD_ID        VARCHAR2(16 BYTE),
+  ACCOUNT_ID        VARCHAR2(16 BYTE),
+  FEEHEAD_NAME      VARCHAR2(100 BYTE)          NOT NULL,
+  REMARKS           VARCHAR2(500 BYTE),
+  ACTIVE_FLAG       VARCHAR2(1 BYTE),
+  ENTERED_BY        VARCHAR2(16 BYTE),
+  ENTRY_TIMESTAMP   DATE,
+  UPDATED_BY        VARCHAR2(16 BYTE),
+  UPDATE_TIMESTAMP  DATE,
+  COMPANY_NO        VARCHAR2(10 BYTE)           DEFAULT 1
+);
+
+
+CREATE OR REPLACE TRIGGER TRG_FEEHEAD
+   AFTER INSERT OR UPDATE OR DELETE
+   ON NM_FEEHEAD    FOR EACH ROW
+BEGIN
+
+
+   IF INSERTING THEN
+      insert INTO dc_testmst(TEST_NO,
+                                USER_DEFINE_TEST_NO,
+                                TEST_NAME,
+                                RATE,
+                                SERVICE_TYPE,
+                                VAT_APPLICABLE,
+                                ACTIVE_STATUS)
+                                
+       values(:NEW.FEEHEAD_ID,
+                 :NEW.FEEHEAD_ID,
+                 :NEW.FEEHEAD_NAME,
+                 0,
+                 'NM',
+                 'N',
+                 :NEW.ACTIVE_FLAG);       
+   ELSIF UPDATING THEN
+        UPDATE  dc_testmst
+        SET TEST_NAME = NVL(:NEW.FEEHEAD_NAME,:OLD.FEEHEAD_NAME),
+               ACTIVE_STATUS = NVL(:NEW.ACTIVE_FLAG, :OLD.ACTIVE_FLAG) 
+        WHERE TEST_NO = :OLD.FEEHEAD_ID;
+       
+   ELSIF DELETING THEN
+      DELETE       dc_testmst
+      WHERE TEST_NO = :OLD.FEEHEAD_ID;
+   END IF;
+END;
+/
+
+
+ALTER TABLE NM_FEEHEAD ADD (
+  CONSTRAINT PK_NM_FEEHEAD
+  PRIMARY KEY  (FEEHEAD_ID));
