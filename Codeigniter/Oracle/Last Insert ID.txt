@@ -1,8 +1,9 @@
+//v.01
 function insert($tableName, $post)
     {
         $res = $this->db->insert($tableName, $post);
 
-        //Inserted id
+        //Last Inserted id
         if($res){
             $query = $this->db->query("SELECT MAX(APPLICATION_ID) as ID FROM $tableName");
             $row = $query->row();
@@ -14,5 +15,55 @@ function insert($tableName, $post)
 
         //return $this->db->insert_id();
     }
+
+
+//v.02
+
+function insert($tableName, $post)
+    {
+        $res = $this->db->insert($tableName, $post);
+
+        //Last Inserted id
+        if($res){
+            $query = $this->db->query("select * from $tableName where rowid = (select max(rowid) from $tableName)");
+            $row = array_values($query->row_array());
+            $id = $row[0];
+            return $id;
+        }else{
+            return false;
+        }
+
+        //return $this->db->insert_id();
+    }
+
+
+//v.03
+
+    function insert($tableName, $post)
+    {
+        $res = $this->db->insert($tableName, $post);
+        
+        if($this->session->userdata('my_db')=='ORACLE')
+        {
+            //Last Inserted id
+            if($res){
+                $query = $this->db->query("select * from $tableName where rowid = (select max(rowid) from $tableName)");
+                $row = array_values($query->row_array());
+                $id = $row[0];
+                return $id;
+            }else{
+                return false;
+            }
+
+        }else
+            return $this->db->insert_id(); 
+        
+    }
+
+
+//v.04
+
+
+
 
 

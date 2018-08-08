@@ -1,0 +1,5 @@
+select MAX(ROWID) from nm_application;
+
+select * from nm_application where rowid=(select max(rowid) from nm_application);
+
+N.B, rowid is unique and keyword for every record
