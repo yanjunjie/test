@@ -83,7 +83,7 @@ if(!empty($_FILES['renter_photo']['name'])){ //if($_FILES['image']['error'] == 0
 }else{
     $renter_photo = '';
 }
-//End upload picture
+
 
 function createThumbnail($filename)
     {
@@ -100,17 +100,18 @@ function createThumbnail($filename)
         }
     }
 
-
-//End upload library
+//End upload picture
 
 
 //v.04
 //Only Image upload
 
-//Start Profile
-    if(!empty($_FILES['APPLICANT_PHOTO']['name'])){ //if($_FILES['image']['error'] == 0){
-        $file_ext = pathinfo($_FILES['APPLICANT_PHOTO']['name'],PATHINFO_EXTENSION);
-        
+    $applicant_photo_name = '';
+    
+    //Start Profile
+    if(!empty($_FILES['photo']['name'])){ //if($_FILES['image']['error'] == 0){
+        $file_ext = pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION);
+
         $config['upload_path'] = 'uploads/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = 'signature_'.$ADM_ROLL_NO.'.'.$file_ext;
@@ -118,14 +119,10 @@ function createThumbnail($filename)
         //Load upload library and initialize configuration
         $this->load->library('upload',$config);
 
-        if($this->upload->do_upload('APPLICANT_PHOTO')){
+        if($this->upload->do_upload('photo')){
             $finfo = $this->upload->data(); //upload the file to the above mentioned path
             $applicant_photo_name = $finfo['file_name'];
-        }else{
-            $applicant_photo_name = '';
         }
-    }else{
-        $applicant_photo_name = '';
     }
     //End Start Profile
 

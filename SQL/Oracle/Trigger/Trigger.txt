@@ -1,0 +1,65 @@
+//v.01
+
+CREATE OR REPLACE TRIGGER friends_trigger
+BEFORE INSERT ON friends
+FOR EACH ROW
+BEGIN
+:new.friendID := friends_auto_incr.nextval;
+END;
+
+
+//v.02
+
+CREATE OR REPLACE TRIGGER  BI_PRIVILEGE
+  before insert on PRIVILEGE              
+  for each row  
+begin   
+  if :NEW.PRIVILEGE_ID is null then 
+    select PRIVILEGE_SEQ.nextval into :NEW.PRIVILEGE_ID from dual; 
+  end if; 
+end; 
+If you're using Oracle 11G or greater then you can use this instead:
+
+  if :NEW.PRIVILEGE_ID is null then 
+    :NEW.PRIVILEGE_ID := PRIVILEGE_SEQ.nextval; 
+  end if;
+
+
+//v.03
+
+CREATE SEQUENCE t1_id_seq 
+  start with 10000 
+  increment by 1;
+
+CREATE TRIGGER trigger_name
+  BEFORE INSERT ON t1
+  FOR EACH ROW
+DECLARE
+BEGIN
+  IF( :new.id IS NULL )
+  THEN
+    :new.id := t1_id_seq.nextval;
+  END IF;
+END;
+If you're on an earlier version, you'll need to do a SELECT INTO to get the next value from the sequence
+
+CREATE TRIGGER trigger_name
+  BEFORE INSERT ON t1
+  FOR EACH ROW
+DECLARE
+BEGIN
+  IF( :new.id IS NULL )
+  THEN
+    SELECT t1_id_seq.nextval
+      INTO :new.id
+      FROM dual;
+  END IF;
+END;
+
+
+//
+
+
+
+
+

@@ -1,0 +1,12 @@
+ function get_next_sequence_value($sequenceName = '')
+    {
+        $conn = $this->db->conn_id;
+        $sql = "SELECT $sequenceName.NEXTVAL FROM dual";
+        $stmt = oci_parse($conn, $sql);
+        oci_execute($stmt)
+        or die("Unable to Execute Query .");
+
+        while ($row = oci_fetch_assoc($stmt)) {
+            return $row['NEXTVAL'];
+        }
+    }

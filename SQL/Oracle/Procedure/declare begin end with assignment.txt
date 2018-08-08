@@ -1,0 +1,31 @@
+:= is the assignment operator in PL/SQL (Oracle's procedural extension to SQL). You use this to assign values to variables. If you just use = then this is checking for equality rather than assigning a value.
+
+Here is a very simple example using the assignment operator to assign values to variables:
+
+Declare
+   v1 number;
+   v2 number;
+   res number;
+Begin
+   --initialise values
+   v1 := 2;
+   v2 := 2;
+   res := v1 + v2;
+   dbms_output.put_line(res);
+end;
+
+
+//Forward slash "/"
+
+It acts as Terminator of the statement.
+
+"/" is only required for PL/SQL blocks or for PL/SQL objects xecuting a DML statement. It is not required for views or tables.
+
+
+Because ; are used for PL/SQL to end a statement ; cannot be used by SQLPLUS to mean "terminate the current statement, execute it and store it to the SQLPLUS buffer" because we want the whole PL/SQL block to be completely in the buffer, then execute it. PL/SQL blocks must end with:
+
+END;
+/
+
+
+
