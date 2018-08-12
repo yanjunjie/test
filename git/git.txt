@@ -21,3 +21,5 @@ v.03
 After local resetting reset origin:
 
 git push origin <branch_name> --force
+
+
