@@ -1,0 +1,39 @@
+Controller:
+
+$data["breadcrumbs"] = array(
+            "Home" => "portal/index",
+            "Sign Up" => "#"
+        );
+        $data['content_view_page'] = 'portal/sign_up_form';
+
+        $this->template->display($data);
+
+
+View:
+
+<!-- Being Page Title -->
+<?php if (!empty($breadcrumbs)): ?>
+    <div class="container">
+        <div class="page-title clearfix">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    foreach ($breadcrumbs as $key => $value):
+                        if ($value != '#'):
+                            ?>
+                            <h6><a href="<?php echo site_url("$value"); ?>"><?php echo $key; ?></a></h6>
+                        <?php else: ?>
+                            <h6><span class="page-active"><?php echo $key; ?></span></h6>
+                        <?php
+                        endif;
+                    endforeach;
+                    ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+

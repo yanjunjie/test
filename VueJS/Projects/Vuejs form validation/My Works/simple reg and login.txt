@@ -1,0 +1,316 @@
+<style>
+    body{
+        background-image: url("http://cloud.defaultwallpaper.com/wp-content/uploads/2017/10/galaxy_tab-a-6-1.png");
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+    }
+    .formdiv{
+        background-image: url("https://hipertextual.com/files/2017/03/color-degradado-fondos-degradados-multicolor-51200-670x410.jpg");
+    }
+    span{
+        color: red;
+    }
+</style>
+
+<div class="middle-box loginscreen  animated fadeInDown">
+    <br>
+    <div id="app">
+        <component :is='currentView' @change-compo-btn="changeComponent($event)"></component>
+    </div>
+
+    <template id="login-template">
+        <div class="col-md-offset-4 col-md-4">
+            <div class="panel panel-info formdiv">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Login</h3>
+                </div>
+                <div class="panel-body">
+                    <form @submit.prevent='submit' class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="collegeCode">College Code</label>
+                            <div class="col-md-8">
+                                <input type="text" id="collegeCode" placeholder="College Code" name="collegeCode" class="form-control" v-model='collegeCode'>
+                                <span v-if='msg.collegeCode'>{{msg.collegeCode}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="registrationNo">Registration No.</label>
+                            <div class="col-md-8">
+                                <input type="text" id="registrationNo" placeholder="Registration No." name="registrationNo" class="form-control" v-model='registrationNo'>
+                                <span v-if='msg.registrationNo'>{{msg.registrationNo}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Roll No.</label>
+                            <div class="col-md-8">
+                                <input type="text" id="rollNo" placeholder="Roll No." name="rollNo" class="form-control" v-model='rollNo'>
+                                <span v-if='msg.rollNo'>{{msg.rollNo}}</span>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Login" :disabled='disableSubmitButton' class="btn btn-success pull-left">
+                                <button class="pull-right btn btn-warning" @click='changeToSignup' href="#">Signup</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="signup-template">
+        <div class="col-md-offset-4 col-md-4">
+            <div class="panel panel-info formdiv">
+                <div class="panel-heading">
+                    <h3 class="panel-title">SignUp</h3>
+                </div>
+                <div class="panel-body">
+                    <form @submit.prevent='submit' class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="collegeCode">College Code</label>
+                            <div class="col-md-8">
+                                <input type="text" id="collegeCode" placeholder="College Code" name="collegeCode" class="form-control" v-model='collegeCode'>
+                                <span v-if='msg.collegeCode'>{{msg.collegeCode}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="registrationNo">Registration No.</label>
+                            <div class="col-md-8">
+                                <input type="text" id="registrationNo" placeholder="Registration No." name="registrationNo" class="form-control" v-model='registrationNo'>
+                                <span v-if='msg.registrationNo'>{{msg.registrationNo}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Roll No.</label>
+                            <div class="col-md-8">
+                                <input type="text" id="rollNo" placeholder="Roll No." name="rollNo" class="form-control" v-model='rollNo'>
+                                <span v-if='msg.rollNo'>{{msg.rollNo}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Merit Position</label>
+                            <div class="col-md-8">
+                                <input type="text" id="meritPosition" placeholder="Merit Position" name="meritPosition" class="form-control" v-model='meritPosition'>
+                                <span v-if='msg.meritPosition'>{{msg.meritPosition}}</span>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Sign Up" :disabled='disableSubmitButton' class="btn btn-success pull-left">
+                                <button class="pull-right btn btn-warning" @click='changeToLogin' href="#">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+    //Start Vue
+
+    //Login Component
+    Vue.component('login',{
+
+        template:'#login-template',
+
+        data(){
+            return {
+                collegeCode:'',
+                registrationNo:'',
+                rollNo:'',
+                msg:[],
+                disableSubmitButton : true,
+            }
+        },
+
+        watch:{
+            collegeCode(value){
+                this.check_collegeCode(value);
+            },
+            registrationNo(value){
+                this.check_registrationNo(value);
+            },
+            rollNo(value){
+                this.check_rollNo(value);
+            }
+        },
+
+        methods:{
+            changeToSignup()
+            {
+                this.$emit('change-compo-btn','signup'); //signup is value and change-compo-btn is custom button
+            },
+
+            check_collegeCode(value)
+            {
+                if (value)
+                {
+                    this.msg['collegeCode'] = '';
+                }else{
+                    this.msg['collegeCode'] = 'Enter correct college code';
+                }
+            },
+
+            check_registrationNo(value)
+            {
+                if (value)
+                {
+                    this.msg['registrationNo'] = '';
+                }
+                else
+                {
+                    this.msg['registrationNo'] = 'Enter correct registration no.';
+                }
+            },
+
+            check_rollNo(value)
+            {
+                if (value)
+                {
+                    this.msg['rollNo'] = '';
+                }
+                else
+                {
+                    this.msg['rollNo'] = 'Enter correct roll no.';
+                }
+            },
+            submit()
+            {
+                console.log('submited');
+            }
+        },
+        updated()
+        {
+            if(this.collegeCode && this.registrationNo && this.rollNo)
+            {
+                this.disableSubmitButton = false;
+            }
+            else
+                this.disableSubmitButton = true;
+        }
+    });
+
+    //Signup Component
+    Vue.component('signup',{
+        template:'#signup-template',
+        data(){
+            return {
+                collegeCode:'',
+                registrationNo:'',
+                rollNo:'',
+                meritPosition:'',
+                msg:[],
+                disableSubmitButton : true,
+            }
+        },
+
+        watch:{
+            collegeCode(value){
+                this.check_collegeCode(value);
+            },
+            registrationNo(value){
+                this.check_registrationNo(value);
+            },
+            meritPosition(value){
+                this.check_meritPosition(value);
+            }
+        },
+
+        methods:{
+            changeToLogin()
+            {
+                this.$emit('change-compo-btn','login'); //signup is value and change-compo-btn is custom button
+            },
+
+            check_collegeCode(value)
+            {
+                if (value)
+                {
+                    this.msg['collegeCode'] = '';
+                }else{
+                    this.msg['collegeCode'] = 'Enter correct college code';
+                }
+            },
+
+            check_registrationNo(value)
+            {
+                if (value)
+                {
+                    this.msg['registrationNo'] = '';
+                }
+                else
+                {
+                    this.msg['registrationNo'] = 'Enter correct registration no.';
+                }
+            },
+
+            check_rollNo(value)
+            {
+                if (value)
+                {
+                    this.msg['rollNo'] = '';
+                }
+                else
+                {
+                    this.msg['rollNo'] = 'Enter correct roll no.';
+                }
+            },
+
+            check_meritPosition(value)
+            {
+                if (value)
+                {
+                    this.msg['rollNo'] = '';
+                }
+                else
+                {
+                    this.msg['rollNo'] = 'Enter correct roll no.';
+                }
+            },
+            submit()
+            {
+                console.log('submited');
+            }
+        },
+        updated()
+        {
+            if(this.collegeCode && this.registrationNo && this.rollNo)
+            {
+                this.disableSubmitButton = false;
+            }
+            else
+                this.disableSubmitButton = true;
+        }
+    });
+
+    //View Main Template
+    new Vue({
+        el:'#app',
+        data:{
+            currentView:'login'
+        },
+        methods:{
+            changeComponent(newComp){
+                this.currentView = newComp;
+            }
+        }
+    });
+    //End Vue
+
+</script>
+
