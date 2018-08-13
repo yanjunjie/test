@@ -1,0 +1,66 @@
+  function applicantLogin()
+    {
+
+        if ($this->session->userdata('applicant_logged_in') == TRUE) {
+            redirect('applicant/index', 'refresh');
+        }
+
+        $this->form_validation->set_rules('registrationNo', 'Registration no', 'required|callback_checkApplicantLogin');
+        $this->form_validation->set_rules('passwordLogin', 'Password', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            redirect('portal/login', 'refresh');
+        } else {
+            $session_info = $this->session->userdata('applicant_logged_in');
+
+            if ($session_info['ACT_FG'] == 1) {
+                //$this->session->set_flashdata('Success', "Welcome To KYAU - Student Panel!");
+                redirect('Applicant/index', 'refresh');
+            }
+        }
+    }
+
+    /**
+     * @methodName checkStudentLogin()
+     * @access
+     * @param
+     * @author      Rakib Roni <rakib@atilimited.net>
+     * @return      check studnet login permission
+     */
+    function checkApplicantLogin($registrationNo)
+    {
+        $PASSWORD = $this->input->post('passwordLogin');
+        $where['PASSWORD'] = $this->input->post('passwordLogin');
+        $where['REGISTRATION_NO'] = $registrationNo;
+
+        $result = $this->auth_model->applicantLogin($registrationNo,$PASSWORD);
+        //$result = $this->utilities->findByAndWhere('APPLICANT_USER', $where);
+
+       // die(var_dump($result));
+
+        if (!empty($result))
+        {
+            $sess_array = array(
+                'APPLICANT_USER_ID' => $result->APPLICANT_USER_ID,
+                'FULL_NAME' => $result->FULL_NAME,
+                'COLLEGE_CODE' => $result->COLLEGE_CODE,
+                'REGISTRATION_NO' => $result->REGISTRATION_NO,
+                'ROLL_NO' => $result->ROLL_NO,
+                'EMAIL' => $result->EMAIL,
+                'PASSWORD' => $result->PASSWORD
+            );
+
+            if ($result->ACT_FG != 0) {
+                $this->session->set_userdata('applicant_logged_in', $sess_array);
+                return TRUE;
+            } else {
+                $this->form_validation->set_message('check_database', 'Something Wrong');
+                return false;
+            }
+
+        } else {
+            $this->form_validation->set_message('check_database', 'Whoops! We didn\'t recognise your username or password. Please try again.');
+            return false;
+        }
+    }
+

@@ -28,14 +28,7 @@
                     <h3 class="panel-title">Login</h3>
                 </div>
                 <div class="panel-body">
-                    <form @submit.prevent='submit' class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="collegeCode">College Code</label>
-                            <div class="col-md-8">
-                                <input type="text" id="collegeCode" placeholder="College Code" name="collegeCode" class="form-control" v-model='collegeCode'>
-                                <span v-if='msg.collegeCode'>{{msg.collegeCode}}</span>
-                            </div>
-                        </div>
+                    <form action="<?php echo base_url()?>portal/applicantLogin" enctype="multipart/form-data" class="form-horizontal" method="post">
                         <div class="form-group">
                             <label class="control-label col-md-4" for="registrationNo">Registration No.</label>
                             <div class="col-md-8">
@@ -44,10 +37,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-4" for="rollNo">Roll No.</label>
+                            <label class="control-label col-md-4" for="passwordLogin">Password</label>
                             <div class="col-md-8">
-                                <input type="text" id="rollNo" placeholder="Roll No." name="rollNo" class="form-control" v-model='rollNo'>
-                                <span v-if='msg.rollNo'>{{msg.rollNo}}</span>
+                                <input type="password" id="passwordLogin" placeholder="Password" name="passwordLogin" class="form-control" v-model='passwordLogin'>
+                                <span v-if='msg.passwordLogin'>{{msg.passwordLogin}}</span>
                             </div>
                         </div>
                         <br>
@@ -55,7 +48,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" value="Login" :disabled='disableSubmitButton' class="btn btn-success pull-left">
-                                <button class="pull-right btn btn-warning" @click='changeToSignup' href="#">Signup</button>
+                                <a class="pull-right btn btn-warning btn-xs" @click='changeToSignup' href="#">Signup</a>
                             </div>
 
                         </div>
@@ -72,7 +65,14 @@
                     <h3 class="panel-title">SignUp</h3>
                 </div>
                 <div class="panel-body">
-                    <form @submit.prevent='submit' class="form-horizontal">
+                    <form action="<?php echo base_url()?>portal/onlineApplicantReg" enctype="multipart/form-data" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="full_name">Full Name</label>
+                            <div class="col-md-8">
+                                <input type="text" id="full_name" placeholder="Full Name" name="full_name" class="form-control" v-model='full_name'>
+                                <span v-if='msg.full_name'>{{msg.full_name}}</span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-4" for="collegeCode">College Code</label>
                             <div class="col-md-8">
@@ -95,10 +95,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-4" for="rollNo">Merit Position</label>
+                            <label class="control-label col-md-4" for="passwordReg">Password</label>
                             <div class="col-md-8">
-                                <input type="text" id="meritPosition" placeholder="Merit Position" name="meritPosition" class="form-control" v-model='meritPosition'>
-                                <span v-if='msg.meritPosition'>{{msg.meritPosition}}</span>
+                                <input type="password" id="passwordReg" placeholder="Password" name="passwordReg" class="form-control" v-model='passwordReg'>
+                                <span v-if='msg.passwordReg'>{{msg.passwordReg}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="email">E-mail</label>
+                            <div class="col-md-8">
+                                <input type="text" id="email" placeholder="E-mail" name="email" class="form-control" v-model='email'>
+                                <span v-if='msg.email'>{{msg.email}}</span>
                             </div>
                         </div>
                         <br>
@@ -106,7 +113,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" value="Sign Up" :disabled='disableSubmitButton' class="btn btn-success pull-left">
-                                <button class="pull-right btn btn-warning" @click='changeToLogin' href="#">Login</button>
+                                <a class="pull-right btn btn-warning btn-xs" @click='changeToLogin' href="#">Back to Login</a>
                             </div>
                         </div>
                     </form>
@@ -130,23 +137,19 @@
 
         data(){
             return {
-                collegeCode:'',
                 registrationNo:'',
-                rollNo:'',
+                passwordLogin:'',
                 msg:[],
                 disableSubmitButton : true,
             }
         },
 
         watch:{
-            collegeCode(value){
-                this.check_collegeCode(value);
-            },
             registrationNo(value){
                 this.check_registrationNo(value);
             },
-            rollNo(value){
-                this.check_rollNo(value);
+            passwordLogin(value){
+                this.check_passwordLogin(value);
             }
         },
 
@@ -154,16 +157,6 @@
             changeToSignup()
             {
                 this.$emit('change-compo-btn','signup'); //signup is value and change-compo-btn is custom button
-            },
-
-            check_collegeCode(value)
-            {
-                if (value)
-                {
-                    this.msg['collegeCode'] = '';
-                }else{
-                    this.msg['collegeCode'] = 'Enter correct college code';
-                }
             },
 
             check_registrationNo(value)
@@ -178,15 +171,15 @@
                 }
             },
 
-            check_rollNo(value)
+            check_passwordLogin(value)
             {
                 if (value)
                 {
-                    this.msg['rollNo'] = '';
+                    this.msg['passwordLogin'] = '';
                 }
                 else
                 {
-                    this.msg['rollNo'] = 'Enter correct roll no.';
+                    this.msg['passwordLogin'] = 'Enter Password.';
                 }
             },
             submit()
@@ -196,7 +189,7 @@
         },
         updated()
         {
-            if(this.collegeCode && this.registrationNo && this.rollNo)
+            if(this.passwordLogin && this.registrationNo)
             {
                 this.disableSubmitButton = false;
             }
@@ -210,24 +203,35 @@
         template:'#signup-template',
         data(){
             return {
+                full_name:'',
                 collegeCode:'',
                 registrationNo:'',
                 rollNo:'',
-                meritPosition:'',
+                email:'',
+                passwordReg:'',
                 msg:[],
                 disableSubmitButton : true,
             }
         },
 
         watch:{
+            full_name(value){
+                this.check_full_name(value);
+            },
             collegeCode(value){
                 this.check_collegeCode(value);
             },
             registrationNo(value){
                 this.check_registrationNo(value);
             },
-            meritPosition(value){
-                this.check_meritPosition(value);
+            passwordReg(value){
+                this.check_passwordReg(value);
+            },
+            rollNo(value){
+                this.check_rollNo(value);
+            },
+            email(value){
+                this.check_email(value);
             }
         },
 
@@ -237,13 +241,23 @@
                 this.$emit('change-compo-btn','login'); //signup is value and change-compo-btn is custom button
             },
 
+            check_full_name(value)
+            {
+                if (value)
+                {
+                    this.msg['full_name'] = '';
+                }else{
+                    this.msg['full_name'] = 'Please enter your full name';
+                }
+            },
+
             check_collegeCode(value)
             {
                 if (value)
                 {
                     this.msg['collegeCode'] = '';
                 }else{
-                    this.msg['collegeCode'] = 'Enter correct college code';
+                    this.msg['collegeCode'] = 'Please enter correct college code';
                 }
             },
 
@@ -255,7 +269,7 @@
                 }
                 else
                 {
-                    this.msg['registrationNo'] = 'Enter correct registration no.';
+                    this.msg['registrationNo'] = 'Please enter correct registration no.';
                 }
             },
 
@@ -267,21 +281,34 @@
                 }
                 else
                 {
-                    this.msg['rollNo'] = 'Enter correct roll no.';
+                    this.msg['rollNo'] = 'Please enter correct roll no.';
                 }
             },
 
-            check_meritPosition(value)
+            check_passwordReg(value)
             {
                 if (value)
                 {
-                    this.msg['rollNo'] = '';
+                    this.msg['passwordReg'] = '';
                 }
                 else
                 {
-                    this.msg['rollNo'] = 'Enter correct roll no.';
+                    this.msg['passwordReg'] = 'Please enter password.';
                 }
             },
+
+            check_email(value)
+            {
+                if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test(value))
+                {
+                    this.msg['email'] = '';
+                }
+                else
+                {
+                    this.msg['email'] = 'Please enter correct email.';
+                }
+            },
+
             submit()
             {
                 console.log('submited');
@@ -289,7 +316,7 @@
         },
         updated()
         {
-            if(this.collegeCode && this.registrationNo && this.rollNo)
+            if(this.collegeCode && this.registrationNo && this.rollNo && this.passwordReg && this.email)
             {
                 this.disableSubmitButton = false;
             }

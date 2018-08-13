@@ -1,0 +1,5 @@
+INSERT INTO user_account_statement(statement_id,session_key,login_id,user_id,
+        account_number,from_date,to_date,ipaddress,create_date_time)
+   VALUES(1070,'fe79e0345986b5a439c26f731234868b53f877366f529','2335','204254','108142',
+          to_date('2014-08-18','yyyy-mm-dd'),to_date('2014-08-23','yyyy-mm-dd'),
+                  '106.79.126.249',to_date('2014-08-23 16:45:06','yyyy-mm-dd hh24:mi:ss'));

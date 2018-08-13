@@ -1,0 +1,13 @@
+function insertData($post, $tableName)
+    {
+        $this->db->trans_start();
+        $this->db->insert($tableName, $post);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() == TRUE) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+
+    }
