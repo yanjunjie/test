@@ -2,4 +2,14 @@
 
 Ans: (i) Table Name shuld be upper case 
 
+2. ORA-01861: literal does not match format string:
+
+Ans: i. Date format problem
+
+3. ORA-00904: "APPLICANT_USER_ID": invalid identifier
+
+Ans: The attribute name is not exist
+
+4. 
+
 
