@@ -10,6 +10,8 @@ Ans: i. Date format problem
 
 Ans: The attribute name is not exist
 
-4. 
+4. ORA-00932: inconsistent datatypes: expected CHAR got NUMBER
+
+Ans: Single quote on number type data
 
 

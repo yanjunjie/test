@@ -32,6 +32,7 @@ Example 01:
     //Start Signature
     if(!empty($_FILES['signature']['name']))
     {
+        $this->load->library('upload');
         $file_ext = pathinfo($_FILES['signature']['name'],PATHINFO_EXTENSION);
 
         $config2['upload_path'] = 'upload/applicant/signature/';

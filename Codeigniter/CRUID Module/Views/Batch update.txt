@@ -1,0 +1,61 @@
+v.01            
+
+$NM_APP_QUALIFICATION = $this->utilities->findById('NM_APP_QUALIFICATION', 'APPLICATION_ID', $applicant_id);
+
+            //academic information insertion
+            $EXAM_NAME = array_values($this->input->post("EXAM_NAME"));
+            $PASSING_YEAR = array_values($this->input->post("PASSING_YEAR"));
+            $BOARD = array_values($this->input->post("BOARD", true));
+            $GROUP = array_values($this->input->post("GROUP"));
+            $GPA = array_values($this->input->post("GPA"));
+            $INSTITUTE = array_values($this->input->post("INSTITUTE"));
+
+            for($i = 0; $i < count($EXAM_NAME); $i++)
+            {
+                $applicant_academic_info[] = array(
+                    'REG_QUALI_ID' => $NM_APP_QUALIFICATION[$i]->REG_QUALI_ID,
+                    'EXAM_ID' => $EXAM_NAME[$i],
+                    'PASSING_YEAR' => intval($PASSING_YEAR[$i]),
+                    'BOARD_ID' => $BOARD[$i],
+                    'EXAMGROUP_ID' => $GROUP[$i],
+                    'GPA' => $GPA[$i],
+                    'INSTITUTE_NAME' => $INSTITUTE[$i]
+                );
+            }
+
+            $this->utilities->updateByBatch('NM_APP_QUALIFICATION','REG_QUALI_ID', $applicant_academic_info);
+
+
+
+
+//If new academic information is added in form then insert instead of update
+
+            if($this->input->post("NEW_EXAM_NAME"))
+            {
+                $NEW_EXAM_NAME = array_values($this->input->post("NEW_EXAM_NAME"));
+                $NEW_PASSING_YEAR = array_values($this->input->post("NEW_PASSING_YEAR"));
+                $NEW_BOARD = array_values($this->input->post("NEW_BOARD", true));
+                $NEW_GROUP = array_values($this->input->post("NEW_GROUP"));
+                $NEW_GPA = array_values($this->input->post("NEW_GPA"));
+                $NEW_INSTITUTE = array_values($this->input->post("NEW_INSTITUTE"));
+                
+                for($i = 0; $i < count($NEW_EXAM_NAME); $i++)
+                {
+                    $new_applicant_academic_info[] = array(
+                        'APPLICATION_ID' => $applicant_id,
+                        'EXAM_ID' => $NEW_EXAM_NAME[$i],
+                        'PASSING_YEAR' => intval($NEW_PASSING_YEAR[$i]),
+                        'BOARD_ID' => $NEW_BOARD[$i],
+                        'EXAMGROUP_ID' => $NEW_GROUP[$i],
+                        'GPA' => $NEW_GPA[$i],
+                        'INSTITUTE_NAME' => $NEW_INSTITUTE[$i]
+                    );
+                }
+
+                $this->utilities->saveByBatch('NM_APP_QUALIFICATION', $new_applicant_academic_info);
+            }
+
+
+//v.02
+
+

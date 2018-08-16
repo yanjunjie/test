@@ -79,16 +79,28 @@
     public function saveByBatch($table, $batch){
         return $this->db->insert_batch($table, $batch);
     }
+        
     //update
-    public function update($table, $fld, $id, $data)
+    public function update($table, $where, $data)
     {
-        $updated_status = $this->db->update($table, $data, array($fld => $id));
+        // get the record that you want to update
+        $this->db->where($where);
+        $query = $this->db->get($table);
+
+        // getting the Id
+        $row = array_values($query->row_array());
+        $updated_id = $row[0];
+        
+        // updating the record
+        $updated_status = $this->db->update($table, $data, $where);
+
         if($updated_status):
-            return $id;
+            return $updated_id;
         else:
             return false;
         endif;
     }
+
     //Batch Update
     public function updateByBatch($table, $fld, $batch){
         return $this->db->update_batch($table, $batch, $fld);

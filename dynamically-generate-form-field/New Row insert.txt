@@ -1,0 +1,60 @@
+v.01
+//New row add for education qualification
+
+    $('#add_edu_qua').click(function(){
+        let count = $('#edu_qua_tbl_bdy tr').length;
+	count = count + 1;
+        var html_code = "<tr id='row"+count+"'>";
+        html_code +='<td><input class="form-control" type="text" name="EXAM_NAME[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="PASSING_YEAR[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="BOARD[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="GROUP[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="GPA[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="INSTITUTE[row'+count+']" required="required"></td>';
+        html_code +='<td><button type="button" data-row="row'+count+'" class="btn btn-danger btn-xs remove_row pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
+        html_code +='</tr>';
+        $('#edu_qua_tbl_bdy').append(html_code);
+    });
+
+    $(document).on('click','.remove_row',function(){
+        var delete_row = $(this).data("row");
+        $('#' + delete_row).remove();
+    });
+
+
+//For Update
+
+    $('#add_edu_qua').click(function(){
+        let count = $('#edu_qua_tbl_bdy tr').length;
+        count = count + 1;
+        var html_code = "<tr id='row"+count+"'>";
+        html_code +='<td>'+ count +'</td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_EXAM_NAME[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_PASSING_YEAR[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_BOARD[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_GROUP[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_GPA[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="NEW_INSTITUTE[row'+count+']" required="required"></td>';
+        html_code +='<td><button type="button" data-row="row'+count+'" class="btn btn-danger btn-xs remove_row pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
+        html_code +='</tr>';
+        $('#edu_qua_tbl_bdy').append(html_code);
+    });
+
+    $(document).on('click','.remove_row',function(){
+        var delete_row = $(this).data("row");
+        $('#' + delete_row).remove();
+    });
+
+
+//v.02
+
+
+
+
+
+
+
+
+
+
+

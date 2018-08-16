@@ -1,0 +1,38 @@
+//v.01, Select option update
+
+<select name="DEGREE_ID" id="DEGREE_ID" data-placeholder="Choose a country..." class="chosen-select form-control" tabindex="2">
+    <option selected="selected" disabled="disabled" value="">Select a Course</option>
+    
+    <?php foreach ($degree as $row) {
+        if( $applicantData[0]->COURSE_ID == $row->COURSE_ID ) //Saved value == $row[$i]
+        { ?>
+            <option selected="selected" value="<?php echo $row->RELIGION_NO ?>"><?php echo $row->RELIGION_NAME ?></option>
+        <?php } ?>
+            <option value="<?php echo $row->RELIGION_NO ?>"><?php echo $row->RELIGION_NAME ?></option>
+    <?php } ?>
+
+</select>
+
+
+//To Remove duplicate dropdown option elements with same value
+
+$(".select option").val(function(idx, val) {//one by one accessed
+    $(this).siblings('[value="'+ val +'"]').remove(); //at a time all accessed
+});
+
+How it works:
+while options are accessed one by one (by .val()) - lookup for .sibling() options that have the same "[value='"+ this.value +"']" and .remove() them.
+
+
+//v.02, Radio button value update
+
+<input type="radio" name="type" value="S" <?php if ($type == 'S') echo 'checked="checked"'; ?>" /> Student<br />
+<input type="radio" name="type" value="T" <?php if ($type == 'T') echo 'checked="checked"'; ?>" /> Teacher<br />
+
+
+//v.03
+
+
+
+
+
