@@ -6,7 +6,8 @@ git reset --hard 0d1d7fc32
 # Alternatively, if there's work to keep:
 git stash
 git reset --hard 0d1d7fc32
-git stash pop
+git stash pop //for delete stash
+git stash apply //for use stash
 
 
 v.02
@@ -14,12 +15,20 @@ To revert to a previous commit, ignoring any changes:
 git reset --hard HEAD
 where HEAD is the last commit in your current branch
 
+
 v.03
 
+Quick rebase: remove only a specific commit using its id:
+
+git rebase --onto commit-id^ commit-id
 
 
-After local resetting reset origin:
+Alternatives: you could also try:
+
+git cherry-pick commit-id
+
+
+[N.B]: After local resetting reset origin:
 
 git push origin <branch_name> --force
-
 

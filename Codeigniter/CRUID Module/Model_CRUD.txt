@@ -81,18 +81,20 @@
     }
         
     //update
-    public function update($table, $where, $data)
+    public function update($table, $fld, $id, $data)
     {
         // get the record that you want to update
-        $this->db->where($where);
-        $query = $this->db->get($table);
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where(array($fld => $id));
+        $query = $this->db->get();
 
         // getting the Id
         $row = array_values($query->row_array());
         $updated_id = $row[0];
-        
+
         // updating the record
-        $updated_status = $this->db->update($table, $data, $where);
+        $updated_status = $this->db->update($table, $data, array($fld => $id));
 
         if($updated_status):
             return $updated_id;

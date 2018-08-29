@@ -48,6 +48,80 @@ v.01
 
 //v.02
 
+    //New row add for education qualification
+    var count = 1;
+    $('#add_edu_qua').click(function(){
+        count = count + 1;
+
+        let sl = 1;
+        sl = $('#edu_qua_tbl_bdy tr').length;
+
+        var html_code = "<tr id='row"+count+"'>";
+        html_code +="<td>"+ ++sl +"</td>";
+        //html_code +='<td><input class="form-control" type="text" name="EXAM_NAME[row'+count+']" required="required"></td>';
+        html_code +="<td>" +
+            "<select name='EXAM_NAME[row"+count+"]' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
+            "<option selected='selected' disabled='disabled' value=''>Select Exam Name</option>"+
+            "<?php foreach($NM_EXAM as $ky=>$row) {
+                echo '<option value=\"'.$row->EXAM_ID. '\">' . $row->EXAM_NAME . '</option>';
+            } ?>"+
+            "</select>"+
+            "</td>";
+        html_code +='<td><input class="form-control" type="text" name="PASSING_YEAR[row'+count+']" required="required"></td>';
+        //html_code +='<td><input class="form-control" type="text" name="BOARD[row'+count+']" required="required"></td>';
+        html_code +="<td>" +
+            "<select name='BOARD[row"+count+"]' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
+            "<option selected='selected' disabled='disabled' value=''>Select Board Name</option>"+
+            "<?php foreach($NM_BOARD as $ky=>$row) {
+                echo '<option value='."$row->BOARD_ID". '>' . $row->BOARD_NAME . '</option>';
+            } ?>"+
+            "</select>"+
+            "</td>";
+        //html_code +='<td><input class="form-control" type="text" name="GROUP[row'+count+']" required="required"></td>';
+        html_code +="<td>" +
+            "<select name='GROUP[row"+count+"]' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
+            "<option selected='selected' disabled='disabled' value=''>Select Group</option>"+
+            "<?php foreach($NM_EXAMGROUP as $ky=>$row) {
+                echo '<option value='."$row->EXAMGROUP_ID". '>' . $row->EXAMGROUP_NAME . '</option>';
+            } ?>"+
+            "</select>"+
+            "</td>";
+        html_code +='<td><input class="form-control" type="text" name="GPA[row'+count+']" required="required"></td>';
+        html_code +='<td><input class="form-control" type="text" name="INSTITUTE[row'+count+']" required="required"></td>';
+        html_code +='<td><button type="button" data-row="row'+count+'" class="btn btn-danger btn-xs remove_row pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
+        html_code +='</tr>';
+        $('#edu_qua_tbl_bdy').append(html_code);
+
+
+        var config = {
+            '.chosen-select'           : {allow_single_deselect:true},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+
+    });
+    
+    //End New row add for education qualification
+    
+    $(document).on('click','.remove_row',function(){
+        var delete_row = $(this).data("row");
+        $('#' + delete_row).remove();
+    });
+    
+
+//For update:
+
+
+
+
+
+//v.03
+
 
 
 

@@ -6,15 +6,18 @@
     }
 
     //update
-    public function update($table, $id, $data)
+   function update($tableName, $data, $condition)
     {
-        $updated_status = $this->db->update($table, $data, array('id' => $id));
-        if($updated_status):
-            return $id;
-        else:
-            return false;
-        endif;
+        $this->db->trans_start();
+        $this->db->update($tableName, $data, $condition);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() == TRUE) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
+
     //delete
     public function delete($table, $id)
     {

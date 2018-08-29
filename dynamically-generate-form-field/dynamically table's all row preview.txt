@@ -1,0 +1,63 @@
+v.01
+
+//Education Qualification preview
+    var edu_qua_tr = [];
+    $("#edu_qua_tbl_bdy tr").each(function (index, element){
+	var edu_qua_td = [];
+	$(this).find('td').each(function (index, element){
+
+	    if($(this).find('input,select').val()){ //find("input").val()
+		edu_qua_td.push('<td>' + $(this).find('input,select').val() + '</td>');
+	    }
+
+	});
+
+	edu_qua_td = edu_qua_td.join(' ');
+	edu_qua_tr.push('<tr>'+ edu_qua_td +'</tr>');
+
+    });
+
+    var edu_qua_trs = edu_qua_tr.join(' ');
+    $('#edu_qua_prev').html(edu_qua_trs);
+    //End education Qualification preview
+
+
+//v.02
+
+//Education Qualification preview
+    var edu_qua_tr = [];
+    $("#edu_qua_tbl_bdy tr").each(function (index, element){
+        var edu_qua_td = [];
+        $(this).find('td').each(function (index, element){
+
+            if($(this).find('select,input'))
+            {
+                if($(this).find('select :selected').text())
+                {
+                    edu_qua_td.push('<td>' + $(this).find('select option:selected').text() + '</td>');
+                }
+                else if($(this).find('input').val())
+                {
+                    edu_qua_td.push('<td>' + $(this).find('input').val() + '</td>');
+                }
+
+            }
+
+
+        });
+
+        edu_qua_td = edu_qua_td.join(' ');
+        edu_qua_tr.push('<tr>'+ edu_qua_td +'</tr>');
+
+    });
+
+    var edu_qua_trs = edu_qua_tr.join(' ');
+    $('#edu_qua_prev').html(edu_qua_trs);
+    //End education Qualification preview
+
+
+//v.03
+
+
+
+
