@@ -1,0 +1,226 @@
+<link href="<?php echo base_url(); ?>assets/css/plugins/datapicker/jquery-ui.datepicker.css" rel="stylesheet">
+<link href="<?php echo base_url(); ?>assets/keyboard/keyboard.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo base_url()?>/assets/css/plugins/jQueryUI/jquery-ui.css">
+
+<style>
+    .active a{
+        background-color: #00c5c6 !important;
+    }
+    .flexy {
+        display: block;
+        width: 90%;
+        border: 1px solid #eee;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+    .avatar-zone {
+        width: 140px;
+        height: 200px;
+
+    }
+
+    .avatar-zone img{
+        cursor: pointer;
+    }
+
+    .overlay-layer {
+        width: 150px;
+        height: 30px;
+        position: absolute;
+        margin-top: -47px;
+        opacity: 0.5;
+        background-color: #000000;
+        z-index: 0;
+        font-size: 15px;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: 30px;
+    }
+    .avatar-zone-sig {
+        width: 140px;
+        height: 92px;
+
+    }
+    .avatar-zone-sig img{
+        cursor: pointer;
+    }
+    .overlay-layer-sig {
+        width: 150px;
+        height: 30px;
+        position: absolute;
+        margin-top: -44px;
+        opacity: 0.5;
+        background-color: #000000;
+        z-index: 0;
+        font-size: 15px;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .upload_btn {
+        position: absolute;
+        width: 200px;
+        height: 40px;
+        margin-top: -40px;
+        z-index: 10;
+        opacity: 0;
+    }
+
+    .red {
+        color: red
+    }
+
+    .pointer2 {
+        cursor: pointer;
+    }
+
+    .div-background {
+        background-color: #D9E0E7;
+        padding: 20px;
+        border-radius: 10px
+    }
+
+    .toggle-div {
+        display: none;
+        background-color: #FCF8E3;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .toggle-div-course {
+        display: none;
+        background-color: #FCF8E3;
+        padding: 10px;
+        border-radius: 10px;
+        width: 400px;
+    }
+
+    .toggle-div1 {
+        background-color: #FCF8E3;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>
+<link href="<?php echo base_url(); ?>assets/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<div id="admission_form_div">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Select Students for Admission</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
+                    <i class="fa fa-wrench"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="table_data_tables.html#">Config option 1</a>
+                    </li>
+                    <li><a href="table_data_tables.html#">Config option 2</a>
+                    </li>
+                </ul>
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+
+            <table class="table table-striped table-bordered table-hover dataTables" >
+                <thead>
+                    <tr>
+                        <th>Applicant Name</th>
+                        <th>Applicant ID</th>
+                        <th>Merit Position</th>
+                        <th>Quota</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gradeX">
+                        <th>Applicant Name</th>
+                        <th>Applicant ID</th>
+                        <th>Merit Position</th>
+                        <th>Quota</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+<!--<script src="<?php //echo base_url();                                                                                                                                         ?>assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>-->
+
+<script src="<?php echo base_url(); ?>assets/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/keyboard/keyboard.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script>
+
+    $( function() {
+        $( ".datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd-mm-yy' ,
+            yearRange: '1980:2000'
+        });
+    });
+
+//Datatable
+    $(document).ready(function() {
+        $('.dataTables').DataTable({
+            //Options
+            "processing": true,  // Show processing
+            "serverSide": true,  // Server side processing
+            "pageLength": 5,    // 5 rows per page
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
+
+            //Load data for the table's content
+            "ajax":{
+                url :  '<?= site_url("admission/dataTables"); ?>',
+                type : "POST",
+                dataType: 'json'
+            },
+
+            //Style
+            "aoColumnDefs": [
+                { "sWidth": "20%", "aTargets": 0 }, //<- start from zero
+                { "sWidth": "10%", "aTargets": 1 },
+                { "sWidth": "10%", "aTargets": 2 },
+                { "sWidth": "10%", "aTargets": 3 },
+                { "sWidth": "10%", "aTargets": 4 }
+            ],
+
+            //Set column definition initialisation properties.
+            "columnDefs": [
+                {"targets": [0],"orderable": true},
+                {"targets": [ -1 ], "orderable": true},
+                {"targets": [ -2 ], "orderable": true}
+            ]
+
+
+            //Columns
+            /*"columns": [
+                {'data':'title'},
+                {'data':'id'},
+                {"data":"action","searchable":false,"orderable":false}
+            ],*/
+        });
+
+        $( ".dataTables_length select option:first" ).attr("selected","selected");
+
+        function confirmDel(){
+            if (confirm('Are you sure to delete?')) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    });
+
+//End Datatable
+
+</script>

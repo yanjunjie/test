@@ -1,0 +1,56 @@
+//v.01
+
+$(document).on("click", ".selectAsMerit", function(){
+
+            $(this).removeClass('btn-danger').addClass('btn-success');
+
+            $.ajax({
+
+                url: "index.php?publish=" + pkey,
+                success: function(msg){
+                    if(msg == "selectedAsMerit")
+                    {
+                        $(this).removeClass('btn-danger').addClass('btn-success');
+                    }else{
+                        $(this).removeClass('btn-success').addClass('btn-danger');
+                    }
+                }
+            });
+
+        });
+
+
+
+//V.02
+
+  //Select Merit List
+        $(document).on("click", ".selectAsMerit", function(){
+
+            var deleted_row = $(this).parent().parent();
+            deleted_row.fadeOut(); //deleted_row.remove();
+
+            var id = $(this).data('id');
+
+            var url = '<?= site_url("admission/selected_as_merit"); ?>';
+            $.ajax({
+                type:'post',
+                url:url,
+                cache: false,
+                data:{APPLICATION_ID:id},
+                success:function(data){
+                    console.log(data);
+                    if (data=='yes') {
+                        deleted_row.fadeOut(); //deleted_row.remove();
+                    }
+                },
+                error:function(){
+                    alert('Error Selecting');
+                }
+            });
+        });
+
+
+
+//V.03
+
+

@@ -1,4 +1,4 @@
-1. 
+1. //Deprecated because only committee table has been created
 CREATE TABLE NM_ADMITCOMMITTEE
 
 (

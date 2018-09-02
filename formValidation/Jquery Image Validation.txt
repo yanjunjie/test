@@ -1,0 +1,49 @@
+//V.01
+
+    //This function  is use for student image preview before upload
+    function upload_img(input) {
+        var fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (input.files && input.files[0]) {
+            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+                isSuccess = fileTypes.indexOf(extension) > -1;
+            //var fsize = $('#propic')[0].files[0].size;
+
+            var sizeInKB = (input.files[0].size)/1024; //Normally files are in bytes but for KB divide by 1024
+            var sizeLimit= 30;
+
+            if (sizeInKB >= sizeLimit) {
+                alert("Max file size 30KB");
+                isSuccess = false;
+                $('#img_id').attr('src', '');
+                $('#p_img_id').attr('src', '');
+                $('#propic').val('');
+                return false;
+            }
+
+
+            if (isSuccess) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = reader.result;
+
+                    image.onload = function () {
+
+                        $('#img_id').attr('src', e.target.result);
+                        $('#p_img_id').attr('src', e.target.result);
+
+
+                    };
+                }
+                reader.readAsDataURL(input.files[0]);
+            }else{
+                alert("This file type does not support");
+            }
+        }
+    }
+
+
+//v.02
+
+
+

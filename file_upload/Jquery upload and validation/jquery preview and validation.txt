@@ -16,6 +16,7 @@
                 isSuccess = false;
                 $('#img_id').attr('src', '');
                 $('#p_img_id').attr('src', '');
+                $('#propic').val('');
                 return false;
             }
 

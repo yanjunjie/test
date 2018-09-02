@@ -1,0 +1,18 @@
+$(document).on("click", ".selectAsMerit", function(){
+
+            $(this).removeClass('btn-danger').addClass('btn-success');
+
+            $.ajax({
+
+                url: "index.php?publish=" + pkey,
+                success: function(msg){
+                    if(msg == "selectedAsMerit")
+                    {
+                        $(this).removeClass('btn-danger').addClass('btn-success');
+                    }else{
+                        $(this).removeClass('btn-success').addClass('btn-danger');
+                    }
+                }
+            });
+
+        });

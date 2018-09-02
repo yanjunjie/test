@@ -64,6 +64,32 @@ function insert($tableName, $post)
 //v.04
 
 
+function insert($tableName, $post)
+    {
+        $res = $this->db->insert($tableName, $post);
 
+        if($this->session->userdata('my_db')=='ORACLE')
+        {
+            //First select id attribute name
+            $query = $this->db->get($tableName);
+            $row = array_keys($query->row_array());
+            $id_attr = $row[0];
+
+            //Last Inserted id
+            if($res){
+                $query2 = $this->db->query("select MAX($id_attr) from $tableName");
+                $row2 = array_values($query2->row_array());
+                $id = $row2[0];
+                return $id;
+            }else{
+                return false;
+            }
+
+        }else
+            return $this->db->insert_id();
+
+    }
+
+//v.05
 
 
