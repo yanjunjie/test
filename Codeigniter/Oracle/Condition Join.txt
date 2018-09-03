@@ -1,4 +1,4 @@
-
+//v.01
     public function get_all_module_links($modid) {
         $session_info = $this->session->userdata('logged_in');
         $org = $session_info['ORG_ID'];
@@ -23,3 +23,36 @@
         ")->result();
 
     }
+
+
+//v.02
+
+//Call
+//function findByLeftJoinT2($table1, $table2, $t2attr, $t1id, $where=array(), $group_by_id='', $order_by_id='')
+        $where = " where t1.ACTIVE_FLAG = 'N'";
+        $master_tbl = $this->utilities->findByLeftJoinT2('NM_APPLICATION','NM_QUOTA','QUOTA_ID','QUOTA_ID',$where,'APPLICATION_ID','MERIT_POSITION');
+
+//Find By Left Join using tow Tables
+    function findByLeftJoinT2($table1, $table2, $t2attr, $t1id, $where, $group_by_id='', $order_by_id='')
+    {
+        //die(var_dump($where));
+        if($this->session->userdata('my_db')=='ORACLE')
+        {
+            return $this->db->query("
+            SELECT t1.*, t2.* FROM ".$table1." t1 LEFT JOIN ".$table2." t2 ON t2.".$t2attr." = t1.".$t1id.$where." ORDER BY ".$order_by_id." DESC
+        ")->result();
+        }
+        else
+        {
+            $this->db->select("t1.*,t2.*");
+            $this->db->from($table1." t1");
+            $this->db->join($table2." t2", "t2.".$t2attr." = t1.".$t1id,'left');
+            $this->db->where($where);
+            $this->db->group_by('t1.'.$group_by_id);
+            $this->db->order_by('t1.'.$order_by_id, "DESC");
+            $query = $this->db->get();
+            return $query->result();
+        }
+    }
+
+//

@@ -151,7 +151,7 @@ ALTER TABLE NM_MERITLIST ADD (
 /
 
 
-CREATE OR REPLACE TRIGGER TRG_NM_MERITLIST
+TRIGGER TRG_NM_MERITLIST
 
    BEFORE INSERT ON NM_MERITLIST  REFERENCING NEW AS NEW OLD AS OLD
 
@@ -176,8 +176,6 @@ EXCEPTION
       NULL;
 
 END;
-
-/
 
 
 --=====================================================================================
