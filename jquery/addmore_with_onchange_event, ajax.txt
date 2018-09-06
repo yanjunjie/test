@@ -1,0 +1,178 @@
+//HTML
+
+<br><hr>
+<h4 style="color: green">Committee Members Selection</h4>
+
+<div class="row2 div-background">
+    <div class="col-md-10">
+        <table id="academic_list" class="table table-bordered dataTable">
+            <thead>
+                <tr>
+                    <th width="2%">SL No.</th>
+                    <th width="50%">Department</th>
+                    <th width="40%">Employee Name</th>
+                </tr>
+            </thead>
+            <tbody id="committee_tbl_bdy">
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <select name="DEPT_NO[row1]" id="DEPT_NO_row1" onchange="DEPT_NO('1')" data-placeholder="Choose One..." class="chosen-select form-control" tabindex="2">
+                            <option selected="selected" disabled="disabled" value="">-Select-</option>
+                            <?php foreach($HR_DEPT as $ky=>$row) {?>
+                                <option value="<?php echo $row->DEPT_NO; ?>"><?php echo $row->DEPT_NAME; ?></option>
+                            <?php } ?>
+                        </select>
+                    </td>
+                    <td>
+                        <span id="EMP_NO_COLUMN1">
+                            <select name="EMP_NO[row1]" id="EMP_NO_row1" onchange="EMP_NO('1')" data-placeholder="Choose One..." class="chosen-select form-control" tabindex="2">
+                                <option selected="selected" disabled="disabled" value="">-Select-</option>
+                                    <?php foreach($NM_EMPLOYEES as $ky=>$row) {?>
+                                        <option value="<?php echo $row->EMP_NO; ?>"><?php echo $row->EMP_NAME ." - (".$row->EMP_NO.") "; ?></option>
+                                    <?php } ?>
+                            </select>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" id="addmore_committee" class="btn btn-primary pull-right"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+//JS
+
+    //New row add for education qualification
+    $('#addmore_committee').click(function(){
+
+        let count = $('#committee_tbl_bdy tr').length;
+        console.log(count);
+        count++;
+
+        var html_code = "<tr id='row"+count+"'>";
+        html_code +="<td>"+ count +"</td>";
+        html_code +="<td>" +
+            "<select name='DEPT_NO[row"+count+"]' id='DEPT_NO_row"+count+"' onchange='DEPT_NO("+count+")' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
+            "<option selected='selected' disabled='disabled' value=''>-Select-</option>"+
+            "<?php foreach($HR_DEPT as $ky=>$row) {
+                echo '<option value=\"'.$row->DEPT_NO. '\">' . $row->DEPT_NAME . '</option>';
+            } ?>"+
+            "</select>"+
+            "</td>";
+        html_code +="<td><span id='EMP_NO_COLUMN"+count+"'>" +
+            "<select name='EMP_NO[row"+count+"]' id='EMP_NO_row"+count+"' onchange='EMP_NO("+count+")' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
+            "<option selected='selected' disabled='disabled' value=''>-Select-</option>"+
+            "<?php foreach($NM_EMPLOYEES as $ky=>$row) {
+                echo '<option value='."$row->EMP_NO". '>' . $row->EMP_NAME ." - (".$row->EMP_NO.")". '</option>';
+            } ?>"+
+            "</select>"+
+            "</span></td>";
+        html_code +='<td><button type="button" data-row="row'+count+'" class="btn btn-danger btn-xs remove_row pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
+
+        $('#committee_tbl_bdy').append(html_code);
+
+
+        var config = {
+            '.chosen-select'           : {allow_single_deselect:true},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+
+    });
+
+    $(document).on('click','.remove_row',function(){
+        var delete_row = $(this).data("row");
+        $('#' + delete_row).remove();
+    });
+    //End New row add for education qualification
+
+
+    //Department ID
+    function DEPT_NO(id){
+
+        var column_id = id;
+        var dept_id = $('#DEPT_NO_row'+id).val();
+        //console.log(dept_id);
+        var html = '';
+
+        $.ajax({
+
+            type: "POST",
+            url: "<?=base_url();?>committee/dept_wise_employee_select",
+            data:  {DEPT_NO:dept_id,column_id:column_id},
+            success:function(data){
+                if(data != "no"){
+                    $('#EMP_NO_COLUMN'+id).html(data);
+                }else{
+                    console.log('No data found');
+                }
+
+                console.log('hi');
+            }
+        });
+
+    }
+
+     //Employee ID
+    function EMP_NO(id){
+        var emp_id = $('#EMP_NO_row'+id).val();
+        console.log(emp_id);
+
+    }
+
+
+
+//PHP (Codeigniter)
+
+public function dept_wise_employee_select()
+{
+    $DEPT_NO = $this->input->post('DEPT_NO');
+
+    //Select Options
+    $data['NM_EMPLOYEES'] = $this->utilities->findAllByAttribute('NM_EMPLOYEES', array('DEPT_NO' => $DEPT_NO));
+    $data['column_id'] = $this->input->post('column_id');
+
+    if(!empty($data['NM_EMPLOYEES'])){
+        $committee_name_list_ajax = $this->load->view('admin/committee_name_list_ajax', $data, true);
+        echo $committee_name_list_ajax;
+    }else
+        echo 'no';
+    exit();
+
+}
+
+
+//Ajax Page
+
+<select name="EMP_NO[row<?php echo $column_id;?>]" id="EMP_NO_row<?php echo $column_id;?>" onchange="EMP_NO(<?php echo $column_id;?>)" data-placeholder="Choose One..." class="chosen-select form-control" tabindex="2">
+    <option selected="selected" disabled="disabled" value="">-Select-</option>
+    <?php foreach($NM_EMPLOYEES as $ky=>$row) {?>
+        <option value="<?php echo $row->EMP_NO; ?>"><?php echo $row->EMP_NAME ." - (".$row->EMP_NO.") "; ?></option>
+    <?php } ?>
+</select>
+
+
+<script>
+    var config = {
+        '.chosen-select'           : {allow_single_deselect:true},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>
+
+
+
+

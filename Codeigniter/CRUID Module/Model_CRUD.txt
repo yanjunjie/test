@@ -115,9 +115,9 @@
         $this->db->update($table, $data);
     }
     //delete
-    public function delete($table, $fld, $id)
+    public function delete($table, $where)
     {
-        return $this->db->delete($table, array($fld => $id));
+        return $this->db->delete($table, array($where));
     }
     //Find all
     public function findAll($table, $fld='')

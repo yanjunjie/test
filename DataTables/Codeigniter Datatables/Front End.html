@@ -194,26 +194,18 @@
                 { "sWidth": "10%", "aTargets": 4 }
             ],
 
+            order: [[ 2, "desc" ]],
+
             //Set column definition initialisation properties.
             columns: [
                 null,
                 null,
                 null,
-                { "searchable": true, "orderable": false },
-                { "searchable": true, "orderable": false }
+                { "searchable": false, "orderable": false },
+                { "searchable": false, "orderable": false }
             ]
 
         });
-
-        $( ".dataTables_length select option:first" ).attr("selected","selected");
-
-        function confirmDel(){
-            if (confirm('Are you sure to delete?')) {
-                return true;
-            }else{
-                return false;
-            }
-        }
     });
 
 //End Datatable

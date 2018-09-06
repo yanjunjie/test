@@ -3,9 +3,11 @@
  //Datatables
     private function _get_datatables_query($table)
     {
-        $column = array('FULL_NAME_ENG','APPLICATION_ID', 'MERIT_POSITION', 'QUOTA_NAME', 'ACTION');
+
+        //Searchable columns
+        $column = array('FULL_NAME_ENG','APPLICATION_ID', 'MERIT_POSITION');
         $order = array('MERIT_POSITION' => 'desc');
-        
+
         $this->db->from($table);
 
         $i = 0;
@@ -15,6 +17,7 @@
             {
                 ($i === 0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
             }
+
             $column[$i] = $item;
             $i++;
         }
@@ -58,3 +61,4 @@
         return $this->db->count_all_results();
     }
     //End Datatables
+
