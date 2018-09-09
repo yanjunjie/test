@@ -1,0 +1,25 @@
+<style>
+    /*Profile*/
+    .profile-thumb {
+        background-size: cover !important;
+        background-position: center center;
+        background-repeat: no-repeat;
+        position: relative;
+        max-height: 200px;
+        max-width: 200px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        border-radius: 50%;
+    }
+    .profile-thumb {
+        background-color: rgba(243,246,248,.94);
+        border: 4px solid #fff;
+        box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.3), 0 1.5px 3px 0 rgba(0,0,0,.3);
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+</style>
+

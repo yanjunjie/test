@@ -1,0 +1,80 @@
+//V.01
+<td><p><?php echo $row->ACTIVE_FLAG=='Y'?'<span style="color:green;">Selected</span>':'<span style="color:red;">Not Selected</span>'; ?></p></td>
+
+JS:
+
+ //Refresh particular element with jQuery
+ $("#printabledivasd").load(location.href + " #printabledivasd"); // Add space between URL and selector.
+
+
+//v.02
+<td>
+    <?php if($row->ACTIVE_FLAG=='N'): ?>
+    <button data-id="<?php echo $row->APPLICATION_ID; ?>" class="btn btn-info btn-xs selectAsMerit">Add to Merit List </button> <button data-id="<?php echo $row->APPLICATION_ID; ?>" class="btn btn-primary btn-xs details">Details</button>
+    <?php else: ?>
+    <button data-id="<?php echo $row->APPLICATION_ID; ?>" class="btn btn-danger btn-xs deselectAsMerit">Remove From Merit List </button> <button data-id="<?php echo $row->APPLICATION_ID; ?>" class="btn btn-primary btn-xs details">Details</button>
+    <?php endif; ?>
+</td>
+
+
+//JS:
+
+   //Select to Merit List
+    $(document).on("click", ".selectAsMerit", function(){
+
+        var id = $(this).data('id');
+
+        var url = '<?= site_url("admission/selected_as_merit"); ?>';
+        $.ajax({
+            type:'post',
+            url:url,
+            cache: false,
+            data:{APPLICATION_ID:id},
+            success:function(data){
+                console.log(data);
+                if (data=='yes') {
+                    //Reload particular element with jQuery
+                    $("#printabledivasd").load(location.href + " #printabledivasd"); // Add space between URL and selector.
+                }
+            },
+            error:function(){
+                alert('Error Selecting');
+            }
+        });
+    });
+
+    //Deselect from Merit List
+    $(document).on("click", ".deselectAsMerit", function(){
+
+        var id = $(this).data('id');
+
+        var url = '<?= site_url("admission/deselected_as_merit"); ?>';
+        $.ajax({
+            type:'post',
+            url:url,
+            cache: false,
+            data:{APPLICATION_ID:id},
+            success:function(data){
+                console.log(data);
+                if (data=='yes') {
+                    //Datatable Refresh
+                    //$('.dataTables').DataTable().ajax.reload();
+
+                    //Refresh particular element with jQuery
+                    $("#printabledivasd").load(location.href + " #printabledivasd"); // Add space between URL and selector.
+
+                }
+            },
+            error:function(){
+                alert('Error Deselecting');
+            }
+        });
+    });
+
+
+
+//V.03
+
+
+
+
