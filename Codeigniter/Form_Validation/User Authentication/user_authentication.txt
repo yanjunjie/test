@@ -75,33 +75,10 @@ class Login extends CI_Controller
 ?>
 
 
-
-//Model:
-// Read data using username and password
-    public function login($data) {
-        $condition = "username ='" . $data['username'] . "' AND " . "password ='" . $data['password'] . "'";
-        $this->db->select('*');
-        $this->db->from('user');
-        $this->db->where($condition);
-        $query = $this->db->get();
-        return $query->row();
-    }
-
-    //Temp
-    //Admin login info
-    public function logincheck($user_name, $user_pass, $user_type){
-        $this->db->select('*');
-        $this->db->from(self::$admin);
-        $this->db->where('adm_username', $user_name);
-        $this->db->where('adm_userpass', $user_pass);
-        $this->db->where('user_type', $user_type);
-        $query = $this->db->get();
-        return $query->row();
-    }
-	
-	
 //Html:
-	<?php if (isset($error_alert)): ?>
+
+//v.01
+<?php if (isset($error_alert)): ?>
     <div class="alert alert-danger alert-dismissable fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Failure!</strong> <?php echo isset($error_alert)?$error_alert:''; ?>
@@ -111,7 +88,7 @@ class Login extends CI_Controller
     <?php if(validation_errors() != false): ?>
         <div class="alert alert-danger alert-dismissable fade in">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Failure!</strong> <?php echo validation_errors();?>
+            <?php echo validation_errors();?>
         </div>
     <?php endif; ?>
 
@@ -120,7 +97,35 @@ class Login extends CI_Controller
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Success!</strong> <?php echo isset($success_alert)?$success_alert:''; ?>
         </div>
-    <?php endif; ?>
+<?php endif; ?>
 
-//	
+
+//v.02
+
+<div class="wrapper wrapper-content">
+    <div class="msg">
+        <?php
+        if ($this->session->flashdata('Success') != false) {
+            echo '<div role="alert" class="alert alert-success alert-dismissible">';
+            echo '<button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>';
+            echo '<p>' . $this->session->flashdata('Success') . '</p>';
+            echo '</div>';
+        } elseif ($this->session->flashdata('Error') != false) {
+            echo '<div role="alert" class="alert alert-danger alert-dismissible">';
+            echo '<button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>';
+            echo '<p>' . $this->session->flashdata('Error') . '</p>';
+            echo '</div>';
+        } elseif ($this->session->flashdata('Info') != false) {
+            echo '<div role="alert" class="alert alert-info alert-dismissible">';
+            echo '<button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span></button>';
+            echo '<p>' . $this->session->flashdata('Info') . '</p>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+    <?php echo $_content; ?>
+</div>	
+
+
+
 
