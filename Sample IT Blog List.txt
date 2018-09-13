@@ -6,6 +6,7 @@ https://www.zerosack.org/blog/24484189674/What-is-difference-between-serialize()
 https://arjunphp.com/uploading-pdf-files-codeigniter/
 http://www.codersmount.com/2012/11/upload-image-and-create-multiple-thumbnail-sizes-in-codeigniter/
 https://www.quicksprout.com/2013/12/16/how-i-learned-online-marketing-and-how-you-can-too/
+https://websiteforstudents.com/resetting-mysql-root-password-on-ubuntu-16-04-17-10-and-18-04-lts/
 
 
 
