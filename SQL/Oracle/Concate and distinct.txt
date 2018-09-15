@@ -1,0 +1,35 @@
+SQL SELECT DISTINCT Statement:
+
+1. SELECT DISTINCT returns only distinct (different) values.
+2. SELECT DISTINCT eliminates duplicate records from the results.
+3. DISTINCT can be used with aggregates: COUNT, AVG, MAX, etc.
+4. DISTINCT operates on a single column. DISTINCT for multiple columns is not supported.
+
+
+Example:
+
+SELECT DISTINCT E.DEPT_NO, E.DEPT_NAME
+FROM HRV_EMPJOBDETAILS E
+ORDER BY E.DEPT_NAME
+
+
+The Oracle CONCAT(val1, val2) function or double pipe (||) returns the result (a string) of concatenating multiple string values
+
+Example:
+
+SELECT E.EMP_NO, E.NAME||' ('||E.USER_DEFINE_EMP_NO||')' EMP_NAME
+FROM HRV_EMPJOBDETAILS E
+ORDER BY E.NAME
+
+
+SELECT E.EMP_NO, E.NAME||' ('||E.USER_DEFINE_EMP_NO||')' EMP_NAME
+FROM HRV_EMPJOBDETAILS E
+WHERE ACTIVE_STATUS = 'Y'
+ORDER BY E.NAME
+
+SELECT E.EMP_NO, E.NAME||' ('||E.USER_DEFINE_EMP_NO||')' EMP_NAME
+FROM HRV_EMPJOBDETAILS E
+WHERE E.ACTIVE_STATUS = 'Y' AND E.DEPT_NO = $attr
+ORDER BY E.NAME
+
+

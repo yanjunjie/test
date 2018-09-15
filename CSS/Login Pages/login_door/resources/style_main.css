@@ -1,0 +1,117 @@
+/*++++ Font Import ++++++*/
+@import url('https://fonts.googleapis.com/css?family=Nunito:600,700,700i,800');
+/*++++++++ START STYLE FOR PAGE: index.php ++++++++++++*/
+/*++++++++ Style for NX Front Page Door Animation ++++++++++++++*/
+.cover {
+	position: absolute;
+	width: 299px;
+	height: 340px;
+	left: 35%;
+	top: 23%;  
+	z-index: 1;
+	background: url("back.png") no-repeat;
+	background-size: 299px;
+}
+.left_gate {
+	position: absolute;
+	bottom: 0; right: 50%; left: 0; top: 0;
+	-webkit-transition: all 0.8s ease-out;
+	-moz-transition: all 0.8s ease-out;
+	-ms-transition: all 0.8s ease-out;
+	-o-transition:all 0.8s ease-out;
+	transition: all 0.8s ease-out;
+
+}
+.cover:hover .left_gate {
+	right: 100%; left: -50%;
+}
+
+.right_gate {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	right: 0;
+	top: 0;
+	-webkit-transition: all 0.8s ease-out;
+	-moz-transition: all 0.8s ease-out;
+	-ms-transition: all 0.8s ease-out;
+	-o-transition: all 0.8s ease-out;
+	transition: all 0.8s ease-out;
+}
+.cover:hover .right_gate {
+	left: 100%; right: -50%;
+}
+
+.slide_in {
+	overflow: hidden;
+}
+.slide_in .left_gate {
+	background: url("left.png") no-repeat;
+	background-size: 150px;
+}
+.slide_in .right_gate {
+	background: url("right.png") no-repeat;
+	background-size: 150px;
+}
+/*+++++++++ Login Form Design +++++++++++++*/
+#login_name{
+	position: absolute;
+	left: 10%;
+	top: 35%;
+	z-index: -1;
+}
+#login_name input:hover{
+	z-index: 2;
+}
+#login_name input {
+	font-family: 'Nunito', sans-serif;
+	font-size: 15px;
+	margin-bottom: 5px;
+	outline: none;
+	width: 200px;
+	padding: 10px 10px;
+	transition: all 0.25s ease-in-out;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border: 2px solid rgba(255, 255, 242, 0.9);
+}
+
+#login_name input:focus {
+	box-shadow: 0 0 5px rgba(255, 255, 242, 0.9);
+	-webkit-box-shadow: 0 0 5px rgba(255, 255, 242, 0.9);
+	-moz-box-shadow: 0 0 5px rgba(255, 255, 242, 0.9);
+	border: 2px solid rgba(255, 255, 242, 0.9);
+}
+input#logIn_button{
+	margin-bottom: 5px;
+	outline: none;
+	width: 113px;
+	padding: 10px 10px;
+	transition: all 0.25s ease-in-out;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 2px solid rgba(255, 255, 242, 0.9);
+}
+/*++++++++++ Login Button Higlight Design ++++++++++++*/
+.myButton {
+	float: right;
+	background-color:#CB4335;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Nunito', sans-serif;
+	font-size:25px;
+	font-weight:bold;
+	padding:10px 10px;
+	text-decoration:none;
+}
+/*++++++++ END STYLE FOR PAGE: index.php ++++++++++++*/

@@ -170,44 +170,123 @@
     });
 
 //Datatable
-    $(document).ready(function() {
-        $('.dataTables').DataTable({
-            //Options
-            "processing": true,  // Show processing
-            "serverSide": true,  // Server side processing
-            "pageLength": 5,    // 5 rows per page
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
+        //Commi, session, course select
+    $(document).on("click", "#commSessCourseSubmit", function(event){
+            event.preventDefault();
+            event.stopPropagation();
 
-            //Load data for the table's content
-            ajax:{
-                url :  '<?= site_url("admission/dataTables"); ?>',
-                type : "POST",
-                dataType: 'json'
+            //var data = $("#sesCourseComForm").serializeArray();
+
+            var DEGREE_ID = $('#DEGREE_ID').val();
+            if(!DEGREE_ID){
+                alert("Please slect Course");
+                return false;
+            }
+            var SESSION_ID = $('#SESSION_ID').val();
+
+            if(!SESSION_ID){
+                alert("Please slect Session");
+                return false;
+            }
+            var COMMITTEE_ID = $('#COMMITTEE_ID').val();
+
+            if(!COMMITTEE_ID){
+                alert("Please slect Committee");
+                return false;
+            }
+
+            var urlData = {DEGREE_ID:DEGREE_ID, SESSION_ID:SESSION_ID, COMMITTEE_ID:COMMITTEE_ID};
+
+            //Meritlist button enable because datatable has no success method
+            datatableSuccessFunc(urlData);
+
+            //Ajax for refresh merit list view
+            ajaxCommitteeCourseAndSesWiseMeritlist(urlData);
+            //Ajax for refresh waiting list view
+            ajaxCommitteeCourseAndSesWiseWaitinglist(urlData);
+
+            //Destroy the old datatable
+            $('.dataTables').dataTable().fnDestroy();
+
+            //Datatable
+            $('.dataTables').DataTable({
+                //Options
+                //"processing": true,  // Show processing
+                "serverSide": true,  // Server side processing
+                "pageLength": 5,    // 5 rows per page
+                "bDestroy": true,   //For reinitialize
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
+
+                //Load data for the table's content
+                ajax:{
+                    url :  '<?= site_url("admission/dataTables"); ?>',
+                    type : "POST",
+                    data: urlData,
+
+                },
+
+                "initComplete":function( settings, json){
+                    console.log(settings);
+
+                },
+
+                //Style
+                aoColumnDefs: [
+                    { "sWidth": "15%", "aTargets": 0 }, //<- start from zero
+                    { "sWidth": "15%", "aTargets": 1 },
+                    { "sWidth": "15%", "aTargets": 2 },
+                    { "sWidth": "15%", "aTargets": 3 },
+                    { "sWidth": "25%", "aTargets": 4 }
+                ],
+
+                order: [[ 2, "desc" ]],
+
+                //Set column definition initialisation properties.
+                columns: [
+                    null,
+                    null,
+                    null,
+                    { "searchable": false, "orderable": false },
+                    {
+                        "data": null,
+                        "render": function(data, type, full, meta){
+                            return full[4] + ", " + full[5];
+                        }
+                    }
+                ]
+
+            });
+            //End datatable
+
+
+        }); //End Commi, session, course select
+
+
+    //Ajax for anable meritlist and waiting List button because datatable has no success method
+    function datatableSuccessFunc(urlData){
+        $.ajax({
+            url :  '<?= site_url("admission/dataTables"); ?>',
+            type : "POST",
+            data: urlData,
+            cache: false,
+
+            success:function(data){
+
+                let parseData = $.parseJSON(data);
+
+                if (parseData.res == "no") {
+                    alert('You are not a member of the Committee');
+                    $('.selected_as_button_grp').hide();
+                }else{
+                    $('.selected_as_button_grp').show();
+                }
             },
 
-            //Style
-            aoColumnDefs: [
-                { "sWidth": "20%", "aTargets": 0 }, //<- start from zero
-                { "sWidth": "10%", "aTargets": 1 },
-                { "sWidth": "10%", "aTargets": 2 },
-                { "sWidth": "10%", "aTargets": 3 },
-                { "sWidth": "10%", "aTargets": 4 }
-            ],
-
-            order: [[ 2, "desc" ]],
-
-            //Set column definition initialisation properties.
-            columns: [
-                null,
-                null,
-                null,
-                { "searchable": false, "orderable": false },
-                { "searchable": false, "orderable": false }
-            ]
-
+            error:function(){
+                alert('Error Selecting');
+            }
         });
-    });
-
+    }
 //End Datatable
 
 </script>
