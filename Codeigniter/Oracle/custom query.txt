@@ -1,0 +1,24 @@
+//v.01
+function admission()
+    {
+        $APPLICATION_ID = $this->input->post('APPLICATION_ID');
+        $columns = "APPLICATION_ID,SESSION_ID,COURSE_ID,FULL_NAME_ENG,FULL_NAME_BNG,BIRTH_DATE,GENDER,BLOOD_GROUP,MARITAL_STATUS,MOBILE_NUMBER,EMAIL_ADDRESS,NATIONALITY,APPLICANT_SIGN_DATE,EXAM_DATE,FATHER_NAME_ENG,FATHER_NAME_BNG,FATHER_MOBILE,FATHER_EMAIL,FATHER_OCCU_ID,MOTHER_NAME_ENG,MOTHER_NAME_BNG,MOTHER_MOBILE,MOTHER_EMAIL,MOTHER_OCCU_ID,GUARDIAN_SIGN,LG_NAME,LG_DETAILS,LG_OCCU_ID,LG_MOBILE,LG_EMAIL,LG_VILLAGE,LG_POST_OFFICE,LG_UPAZILLA,LG_DISTRICT,RELATION_WITH_LG,PRE_VILLAGE,PRE_POST_OFFICE,PRE_UPAZILLA,PRE_DISTRICT,PRE_MOBILE,PER_VILLAGE,PER_POST_OFFICE,PER_MOBILE,PER_UPAZILLA,PER_DISTRICT,EDU_QUALI_ID,COMPANY_NO,RELIGION_NO";
+        $where = " WHERE APPLICATION_ID = '$APPLICATION_ID'";
+        $res = $this->utilities->insertBySelect('NM_ADMISSION', 'NM_APPLICATION', $columns, $where);
+
+        if($res)
+        {
+            echo "yes";
+        }
+        exit();
+    }
+
+public function insertBySelect($table_to='', $table_from='', $columns='', $where='')
+     {
+        return $this->db->query("INSERT INTO $table_to ($columns)
+            SELECT $columns 
+            FROM $table_from $where");
+     }
+
+
+//v.02

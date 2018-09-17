@@ -1,0 +1,70 @@
+create or replace PROCEDURE prc_build_pk (
+   p_schemaname     IN       VARCHAR2,
+   p_sequencename   IN       VARCHAR2,
+   p_prefix         IN       VARCHAR2,
+   p_company_no     IN       VARCHAR2,
+   p_pk             OUT      VARCHAR2,
+   p_yrmnflag       IN       VARCHAR2 DEFAULT 'Y'
+)
+--********************
+-- updated by - SHAHIDUL Islam 21-09-13 
+--For fixed length of every sequence and sequence will cycle after reach maximum number.
+--********************
+AUTHID CURRENT_USER
+IS
+   PRAGMA AUTONOMOUS_TRANSACTION;
+   schema_exist      NUMBER;
+   tab_exist         NUMBER;
+   column_exist      NUMBER;
+   sequence_exist    NUMBER;
+   sql_stmt          VARCHAR2 (32000);
+   seq_number        NUMBER;
+   seq_name_length   NUMBER (30);
+   v_company_no      VARCHAR2 (16);
+   v_seqlength       INT;
+BEGIN
+  
+   SELECT LENGTH (p_sequencename)
+     INTO seq_name_length
+     FROM DUAL;
+
+   IF seq_name_length > 30 THEN
+      DBMS_OUTPUT.put_line
+         ('Length of Sequence-Name exceeds convention. Please provide a name between 1 and 30 in length.'
+         );
+   ELSE
+      SELECT COUNT (object_name)
+        INTO sequence_exist
+        FROM user_objects
+       WHERE UPPER (object_type) = 'SEQUENCE'
+         AND UPPER (object_name) = UPPER (p_sequencename);
+
+      IF sequence_exist > 0 THEN
+         NULL;                              -- no need to create the sequence
+      ELSE
+         
+           sql_stmt :=
+                  'CREATE SEQUENCE '
+               || p_sequencename
+               || ' START WITH 1 INCREMENT BY 1 MINVALUE 1 MAXVALUE 999999 CACHE 20 CYCLE ORDER';
+
+     
+        EXECUTE IMMEDIATE sql_stmt;
+         
+      END IF;
+
+      -- now select the next value of the sequence
+      sql_stmt := 'select ' || p_sequencename || '.NEXTVAL FROM DUAL';
+
+      EXECUTE IMMEDIATE sql_stmt INTO seq_number;
+
+     IF p_yrmnflag = 'Y' THEN
+     p_pk :=p_prefix
+            ||TO_CHAR(SYSDATE, 'RRMM')||LPAD(nvl(p_company_no,'1'),2,0)||LPAD(TO_CHAR (seq_number),6, '0');
+     ELSE
+     p_pk :=p_prefix
+            ||TO_CHAR(SYSDATE, 'RRMM')||LPAD(nvl(p_company_no,'1'),2,0)||LPAD(TO_CHAR (seq_number),6, '0');
+     END IF;
+     
+   END IF;
+END;
