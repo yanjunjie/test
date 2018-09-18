@@ -1,0 +1,75 @@
+
+//########## Datatable print ####################################################################
+<?php
+$organization_info=$this->utilities->findByAttribute('SA_ORGANIZATIONS', array('STATUS' => 1));
+      $ABBR=$organization_info->ABBR;
+      $WEBSITE=$organization_info->WEBSITE;
+     $ORG_NAME=$organization_info->ORG_NAME;
+     $EMAIL=$organization_info->EMAIL;
+     $PHONE=$organization_info->PHONE;
+     $org_log= base_url('upload/organization/logo/'.$organization_info->LOGO); 
+?>
+var logo= "<?php    echo  $org_log;  ?>"
+var date= new Date().toLocaleString();
+var table_title=$(".gridTable").attr("table-title");
+var table_msg=$(".gridTable").attr("table-msg");
+if(table_title =''){
+    table_title='';
+}
+if(table_msg =''){
+    table_msg='';
+}
+        //alert(table_title);
+        $('.gridTable').DataTable( {
+
+            dom: 'Blfrtip',                
+            buttons: [
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Print',
+                title: table_title,
+                messageTop: table_msg,
+                className: 'btn btn-xs btn-outline btn-success',
+                exportOptions: {
+                    columns: ':visible', 
+
+                }, 
+                customize: function ( win ) {
+                   $(win.document.body)
+                   .css( 'font-size', '10pt' )
+                   .prepend(
+                    '<div><img src="'+ logo  +'" style="position:relative; display:inline-block; top:0; left:0;width:60px; vertical-align:middle;" /><h1 style="display:inline-block;vertical-align:middle; margin-left:20px; "><?php echo $ORG_NAME; ?></h1><span style="float:right">'+ date +'</span><hr style="border-color:orange;"></div>'
+                    );
+
+
+
+               },
+               footer: true,
+               autoPrint: true,
+
+           },                                
+           {
+            extend: 'pdf',
+            text: '<i class="fa fa-file-pdf-o"></i> PDF',
+            className: 'btn btn-xs btn-outline btn-danger',
+            title: $('h1').text(),
+            exportOptions: {
+                columns: ':visible', 
+            } ,
+            footer: true
+        }, 
+        {
+            extend: 'colvis',
+            text: '<i class="fa fa-eye"></i> Visible',
+            title: $('h1').text(),
+            className: 'btn btn-xs btn-outline btn-primary',
+            exportOptions: {
+                columns: ':visible',  
+            },
+            footer: true,
+            autoPrint: true,
+        },
+        ], 
+    });
+//########## Datatable print ####################################################################
+

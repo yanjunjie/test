@@ -15,3 +15,30 @@ Ans: The attribute name is not exist
 Ans: Single quote on number type data
 
 
+5.
+Error report -
+SQL Error: ORA-00913: too many values
+00913. 00000 -  "too many values"
+
+6. Message: oci_fetch_object(): ORA-01830: date format picture ends before converting entire input string
+
+Ans:
+
+I think you should not rely on the implicit conversion. It is a bad practice.
+
+Instead you should try like this:
+
+datenum >= to_date('11/26/2013','mm/dd/yyyy')
+
+//OR
+datenum >= date '2013-09-01'
+
+//OR
+select * from nm_admission where trunc(entry_timestamp)= to_date('09-sep-2018','dd-mm-rrrr');
+select * from nm_admission where to_char(entry_timestamp)= to_date('09-SEP-2018','DD-MM-YY'); //to_char too expensive
+
+7.
+
+
+
+
