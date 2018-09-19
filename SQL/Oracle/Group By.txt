@@ -1,0 +1,55 @@
+//v.01
+Group By 
+SELECT b.STUDENT_ID,b.SESSION_ID, b.REGISTRATION_NO, b.FULL_NAME_EN,c.PROGRAM_ID, c.PROGRAM_NAME 
+FROM student_semesterinfo a, student_personal_info b, ins_program c 
+WHERE a.STUDENT_ID = b.STUDENT_ID AND b.PROGRAM_ID = c.PROGRAM_ID 
+GROUP BY b.STUDENT_ID,b.SESSION_ID, b.REGISTRATION_NO, b.FULL_NAME_EN,c.PROGRAM_ID, c.PROGRAM_NAME
+
+..OR using Distinct
+
+SELECT distinct b.STUDENT_ID,b.SESSION_ID, b.REGISTRATION_NO, b.FULL_NAME_EN,c.PROGRAM_ID, c.PROGRAM_NAME 
+FROM student_semesterinfo a, student_personal_info b, ins_program c 
+WHERE a.STUDENT_ID = b.STUDENT_ID AND b.PROGRAM_ID = c.PROGRAM_ID 
+
+
+//v.02
+
+..Error
+
+SELECT department, class, MAX(number) AS “Highest number of students”
+
+FROM students
+
+GROUP BY department;
+
+...Solution:
+
+SELECT department, class, MAX(number) AS “Highest number of students”
+
+FROM students
+
+GROUP BY department, class;
+
+
+//v.03
+
+select max(count(*))
+from  ristoranti r,prenotazioni p 
+where p.data <'14' and p.data >'3' and r.codice=p.ristorante
+group by r.quartiere
+
+If you use max(count(*)) you can't select r.quartiere
+Like select r.quartiere,max(count(*))
+
+
+//
+
+
+
+
+
+
+
+
+
+

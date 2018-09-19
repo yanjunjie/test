@@ -1,6 +1,6 @@
 1. SQL Error: ORA-00942: table or view does not exist
 
-Ans: (i) Table Name shuld be upper case 
+Ans: Table Name shuld be upper case 
 
 2. ORA-01861: literal does not match format string:
 
@@ -15,10 +15,8 @@ Ans: The attribute name is not exist
 Ans: Single quote on number type data
 
 
-5.
-Error report -
-SQL Error: ORA-00913: too many values
-00913. 00000 -  "too many values"
+5. Error: ORA-00913: too many values
+
 
 6. Message: oci_fetch_object(): ORA-01830: date format picture ends before converting entire input string
 
@@ -37,7 +35,41 @@ datenum >= date '2013-09-01'
 select * from nm_admission where trunc(entry_timestamp)= to_date('09-sep-2018','dd-mm-rrrr');
 select * from nm_admission where to_char(entry_timestamp)= to_date('09-SEP-2018','DD-MM-YY'); //to_char too expensive
 
-7.
+7.ORA-00911: invalid character
+
+Ans: Remove the ; or back tick etc. inside a query
+
+8. ORA-00909: invalid number of arguments
+
+Ans: It hepens most probably in concatenation oparation
+
+9. ORA-00979: not a GROUP BY expression
+
+Ans: GROUP BY clause does not contain all the expressions or columns that are in the SELECT clause
+
+10. ORA-00937: not a single-group group function
+
+Ans: We have to use group by clouse because select statement contains froup function like avg, sum, min, max ...
+
+11. ORA-01741: illegal zero-length identifier
+
+Ans: Unspected Quotation 
+
+12. ORA-00923: FROM keyword not found where expected
+
+13. ORA-01722: invalid number
+Ans: ORA-01722 invalid number. Cause: The attempted conversion of a character string to a number failed because the character string was not a valid numeric literal
+
+14. ORA-00923: FROM keyword not found where expected
+
+Ans: unspected opening or closing bracket
+
+
+
+
+
+
+
 
 
 

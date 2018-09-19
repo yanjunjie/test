@@ -3,3 +3,20 @@ INSERT INTO user_account_statement(statement_id,session_key,login_id,user_id,
    VALUES(1070,'fe79e0345986b5a439c26f731234868b53f877366f529','2335','204254','108142',
           to_date('2014-08-18','yyyy-mm-dd'),to_date('2014-08-23','yyyy-mm-dd'),
                   '106.79.126.249',to_date('2014-08-23 16:45:06','yyyy-mm-dd hh24:mi:ss'));
+
+
+
+//v.01
+select * from nm_admission where trunc(entry_timestamp) = '09-SEP-2018';
+select * from nm_admission where trunc(entry_timestamp) = to_date('09-SEP-2018','DD-MM-YY');
+select * from nm_admission where to_char(entry_timestamp) = to_date('09-SEP-2018','DD-MM-YY');
+
+In Mysql:
+
+select * from NM_ADMISSION where MONTH(APPLICANT_SIGN_DATE) = 11;
+
+Oracle:
+
+SELECT * FROM NM_ADMISSION WHERE TO_CHAR(APPLICANT_SIGN_DATE,'MM') = '11';
+
+

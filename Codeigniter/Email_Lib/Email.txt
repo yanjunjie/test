@@ -1,0 +1,89 @@
+//v.01 Error version
+
+
+function index()
+{
+    $this->load->library('email');
+
+    $config['protocol']    = 'smtp';
+    $config['smtp_host']    = 'ssl://smtp.gmail.com';
+    $config['smtp_port']    = '465';
+    $config['smtp_timeout'] = '7';
+    $config['smtp_user']    = 'mygmail@gmail.com';
+    $config['smtp_pass']    = '*******';
+    $config['charset']    = 'utf-8';
+    $config['newline']    = "\r\n";
+    $config['mailtype'] = 'text'; // or html
+    $config['validation'] = TRUE; // bool whether to validate email or not  
+
+   //[N.B, Above style sometimes not work so turn into array]    
+
+    $this->email->initialize($config);
+
+
+    $this->email->from('mygmail@gmail.com', 'myname');
+    $this->email->to('target@gmail.com'); 
+
+    $this->email->subject('Email Test');
+    $this->email->message('Testing the email class.');  
+
+    $this->email->send();
+
+    echo $this->email->print_debugger();
+
+     $this->load->view('email_view');
+
+   }
+
+
+//v.02
+
+$config = Array(
+    'protocol' => 'smtp',
+    'smtp_host' => 'ssl://smtp.googlemail.com',
+    'smtp_port' => 465,
+    'smtp_user' => 'xxx',
+    'smtp_pass' => 'xxx',
+    'mailtype'  => 'html', 
+    'charset'   => 'iso-8859-1',
+    'wordwrap'  => TRUE,
+    'crlf' => "\r\n",
+    'newline' => "\r\n"
+);
+$this->load->library('email');
+$this->email->initialize($config);
+
+// Now set 'to', 'from', 'message', etc.
+
+ $this->email->from('info@besteadbd.com');
+ $this->email->to("besteadbd@gmail.com");
+ $this->email->subject('Verify Code');
+ $this->email->message($d['FullName'].' '.'Code : '.$verifycode);
+
+ if($this->email->send())
+ {
+     echo "Your email sent.!";
+ } else {
+     show_error($this->email->print_debugger());
+ }
+
+//OR
+
+if ( ! $this->email->send())
+{
+        // Generate error and Parameters will be cleared
+}
+
+//OR
+
+if ($this->email->send(FALSE))
+{
+        // Parameters won't be cleared
+}
+
+
+//v.03
+
+
+
+
