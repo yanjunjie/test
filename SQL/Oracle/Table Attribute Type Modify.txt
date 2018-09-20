@@ -12,6 +12,10 @@ truncate table inv_issue_chd;
 alter table inv_issue_chd
 modify ISSUED_QTY number(10,2);
 
+--OR
+alter table tbl_name drop column col_name;
+alter table tbl_name add col_name varchar2(4000);
+
 
 /
 --Now reload data after modifying 
@@ -23,4 +27,6 @@ select * from inv_issue_chd_200918;
 drop table inv_issue_chd_200918;
 
 --Done!
+
+
 

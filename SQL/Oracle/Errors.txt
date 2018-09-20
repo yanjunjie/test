@@ -74,6 +74,25 @@ Ans: Not a valid date format
 17. ORA-00904: "SUBSTRING": invalid identifier
 Ans: SUBSTRING is not a function of Oracle. Use SUBSTR insead of SUBSTRING
 
+18. ORA-00932: inconsistent datatypes: expected - got CLOB
+Ans: 
+*Large objects (LOBs) are not supported in comparison conditions.
+*You cannot specify LOB columns in the ORDER BY clause of a query, the GROUP BY clause of a query, or an aggregate function.
+*You cannot specify a LOB column in a SELECT... DISTINCT or SELECT... UNIQUE statement or in a join.
+*However, you can specify a LOB attribute of an object type column in a SELECT... DISTINCT statement, a query that uses the UNION, or a MINUS set operator if the object type of the column has a MAP or ORDER function defined on it.
+*If your values are always less than 4k, you can use.
+
+19. ORA-22859: invalid modification of columns
+Ans:
+We have to delete the column then add again
+
+alter table tbl_name drop column col_name;
+alter table tbl_name add col_name varchar2(4000);
+
+20.
+Ans:
+
+
 
 
 
