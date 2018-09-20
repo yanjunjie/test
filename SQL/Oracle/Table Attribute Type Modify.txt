@@ -1,0 +1,26 @@
+/
+--For Backup one table data to another table
+create table inv_issue_chd_200918
+as select * from inv_issue_chd;
+
+/
+--Truncate the table for empty
+truncate table inv_issue_chd;
+
+/
+--Now modify attribute type
+alter table inv_issue_chd
+modify ISSUED_QTY number(10,2);
+
+
+/
+--Now reload data after modifying 
+insert into inv_issue_chd
+select * from inv_issue_chd_200918;
+
+/
+--Drop the backup table
+drop table inv_issue_chd_200918;
+
+--Done!
+

@@ -56,17 +56,6 @@ group by prs.PR_RET_DATE,prc.ITEM_ID,itm.ITEM_NAME,itm.UNIT_ID,u.UNIT_NAME;
 
 //v.03
 
-TO_DATE('$fromDate', 'YYYY-MM-DD') returns oracle date format.
-Let's consider $fromDate is 2017-09-01 then the oracle will return 01-SEP-2017
-
-If we want 01-09-2017 then we have to use to_char() as follows:
-
-Syntax:
-to_char(oracle_db_date, displaying_format)
-to_char(TO_DATE('$fromDate', 'YYYY-MM-DD'),'DD-MM-YYYY')
-
-
-//v.04
 
 
 

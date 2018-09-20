@@ -1,0 +1,25 @@
+//v.01
+
+Two char needs when one attribute type character and other is number specially in comparing. In the below code, b.LKP_ID is number type so it can be converted into character but a.OCCUPATION is character type so it can not be converted into number
+
+select a.*, b.LKP_NAME as FATHER_OCCU 
+from student_gurdianinfo a LEFT JOIN M00_LKPDATA b ON a.OCCUPATION=to_char(b.LKP_ID)
+WHERE a.STUDENT_ID=31 AND a.GUARDIAN_TYPE='F';
+
+//v.02 
+After selecting date from Oracle we can convert it into different format for viewing
+
+select BIRTH_DATE, to_char(BIRTH_DATE,'YYYY-MM-DD')
+from nm_admission
+
+...OR
+
+select BIRTH_DATE, to_char(BIRTH_DATE,'YYYY/MM/DD')
+from nm_admission
+
+//v.03
+
+
+
+
+

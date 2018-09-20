@@ -4,11 +4,11 @@ Ans: Table Name shuld be upper case
 
 2. ORA-01861: literal does not match format string:
 
-Ans: i. Date format problem
+Ans: The value trying to match is not valid i.e. Date format problem
 
 3. ORA-00904: "APPLICANT_USER_ID": invalid identifier
 
-Ans: The attribute name is not exist
+Ans: The attribute name is not exist in the table or spelling mistake
 
 4. ORA-00932: inconsistent datatypes: expected CHAR got NUMBER
 
@@ -37,7 +37,7 @@ select * from nm_admission where to_char(entry_timestamp)= to_date('09-SEP-2018'
 
 7.ORA-00911: invalid character
 
-Ans: Remove the ; or back tick etc. inside a query
+Ans: Remove the semicolon (;) or backtick (``) etc. from inside a query
 
 8. ORA-00909: invalid number of arguments
 
@@ -49,7 +49,7 @@ Ans: GROUP BY clause does not contain all the expressions or columns that are in
 
 10. ORA-00937: not a single-group group function
 
-Ans: We have to use group by clouse because select statement contains froup function like avg, sum, min, max ...
+Ans: We have to use group by clouse because select statement contains aggregate function like avg, sum, min, max ...
 
 11. ORA-01741: illegal zero-length identifier
 
@@ -58,12 +58,21 @@ Ans: Unspected Quotation
 12. ORA-00923: FROM keyword not found where expected
 
 13. ORA-01722: invalid number
-Ans: ORA-01722 invalid number. Cause: The attempted conversion of a character string to a number failed because the character string was not a valid numeric literal
+Ans: The attempted conversion of a character string to a number failed because the character string was not a valid numeric literal
 
 14. ORA-00923: FROM keyword not found where expected
 
 Ans: unspected opening or closing bracket
 
+15. ORA-01747: invalid user.table.column, table.column, or column specification
+Ans: You tried to reference a column name, but the column name used is a reserved word in Oracle.
+
+
+16. ORA-01843: not a valid month
+Ans: Not a valid date format
+
+17. ORA-00904: "SUBSTRING": invalid identifier
+Ans: SUBSTRING is not a function of Oracle. Use SUBSTR insead of SUBSTRING
 
 
 
