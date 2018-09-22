@@ -1,5 +1,4 @@
-
-Git Reset:
+//Git Reset:
 v.01
 git reset --hard 0d1d7fc32
 
@@ -31,4 +30,26 @@ git cherry-pick commit-id
 [N.B]: After local resetting reset origin:
 
 git push origin <branch_name> --force
+
+
+//Git Remove origin and add new origin:
+
+git remote rm origin
+git remote add origin https://bablukpik2@bitbucket.org/bablukpik2/kyamc_mcms.git
+git push -u origin master
+
+is used to a add a new remote
+
+//OR
+git remote set-url origin git@github.com:User/UserRepo.git
+
+is used to change the url of an existing remote repository
+
+git push -u origin master
+
+
+//
+
+
+
 
