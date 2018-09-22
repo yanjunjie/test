@@ -1,6 +1,7 @@
 /*++++ Font Import ++++++*/
 @import url('https://fonts.googleapis.com/css?family=Nunito:600,700,700i,800');
 /*++++++++ START STYLE FOR PAGE: index.php ++++++++++++*/
+
 /*++++++++ Style for NX Front Page Door Animation ++++++++++++++*/
 .cover {
 	position: absolute;
@@ -9,7 +10,7 @@
 	left: 35%;
 	top: 23%;  
 	z-index: 1;
-	background: url("back.png") no-repeat;
+	background: url("images/back.png") no-repeat;
 	background-size: 299px;
 	box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.3), 0 1.5px 3px 0 rgba(0,0,0,.3);
     box-sizing: border-box;
@@ -48,11 +49,11 @@
 	overflow: hidden;
 }
 .slide_in .left_gate {
-	background: url("left.png") no-repeat;
+	background: url("images/left.png") no-repeat;
 	background-size: 150px;
 }
 .slide_in .right_gate {
-	background: url("right.png") no-repeat;
+	background: url("images/right.png") no-repeat;
 	background-size: 150px;
 }
 /*+++++++++ Login Form Design +++++++++++++*/
@@ -71,7 +72,7 @@
 	margin-bottom: 5px;
 	outline: none;
 	width: 200px;
-	padding: 10px 10px;
+	padding: 5px 10px;
 	transition: all 0.25s ease-in-out;
 	-webkit-transition: all 0.25s ease-in-out;
 	-moz-transition: all 0.25s ease-in-out;
