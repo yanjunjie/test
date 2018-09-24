@@ -1,0 +1,30 @@
+ADD BANGLA FONT (EX: SOLAIMANLIPI) OR OTHER TTF FONT TO MPDF
+June 16, 2015
+MPDF is a great tool to work with UTF-8 complex texts such as Bangla and indic scripts. You can add your own fonts to MPDF and use it with CSS properties as well.
+
+1. just add this line in your config_fonts.php file inside the mpdf folder (user 6.0 or latest) “solaimanlipi” => array( ‘R’ => “SolaimanLipi.ttf”, ‘useOTL’ => 0xFF, ),
+
+2. copy the solaimanlipi.ttf inside the ttfonts folder.
+
+3. change your css styles for the PDF scripts.
+
+body, p, div { font-size: 14pt; font-family: solaimanlipi;}
+
+h3 { font-size: 15pt; margin-bottom:0; font-family: solaimanlipi; }
+
+4. now run it, you will have the solaimanlipi integrated in mpdf.
+
+
+Links: http://jobnstudy.blogspot.com/2016/10/how-to-write-bengali-bangla-unicode-pdf.html
+
+
+-------------------------------------------Version 7.x..............................................
+
+1. First open the Config\FontVariables file and set your font like above
+
+'fontdata' => $fontData + [
+        'kalpurush' => [
+            'R' => 'SolaimanLipi.ttf',
+            ‘useOTL’ => 0xFF
+        ]
+    ],

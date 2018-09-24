@@ -1,0 +1,71 @@
+<style>
+    @page {
+        header: page-header;
+        footer: page-footer;
+    }
+    body {
+        font-family: 'examplefont', sans-serif;
+    }
+
+    .clear{
+        clear:both;
+    }
+    .header_area{
+        vertical-align: middle;
+    }
+    .header{
+        overflow: hidden;
+        border-bottom: 1px solid black;
+    }
+    .header_left{
+        text-align: left;
+        float: left;
+        width: 315px;
+    }
+    .logo{
+        float: left;
+        width: 50px;
+        margin-bottom: 5px;
+    }
+    .slogan{
+        float: right;
+        width: 260px;
+        padding-top: 15px;
+    }
+
+    .header_right{
+        text-align: right;
+        float: right;
+        width: 100px;
+    }
+
+
+</style>
+
+<htmlpageheader name="page-header">
+    <div class="header_area clear">
+        <div class="header">
+            <div class="header_left">
+                <div class="logo"><img src="{{ Session::get('orgLogo') }}" width="50px" height="50px" alt="DAE Logo"></div>
+                <div class="slogan">{{ Session::get('orgName') }}</div>
+            </div>
+            <div class="header_right">
+                {DATE j-m-Y}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</htmlpageheader>
+
+<htmlpagefooter name="page-footer">
+    <div style="border-bottom: 1px solid #000;"></div>
+    <table style="width: 100%">
+        <tr>
+            <td> {PAGENO}</td>
+            <td style="text-align: right">{{ Session::get('orgAddress') }}</td>
+        </tr>
+    </table>
+
+
+</htmlpagefooter>
+
