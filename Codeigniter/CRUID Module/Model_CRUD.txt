@@ -146,6 +146,7 @@
         $query = $this->db->get();
         return $query->result();
     }
+
     // Find All by Limit
     public function findAllByLimit($table, $fld, $limit='', $offset='') {
         $this->db->select('*');
@@ -155,13 +156,32 @@
         $query = $this->db->get();
         return $query->result();
     }
-    // Find by ID & Limit
+     // Find by ID & Limit
     public function findByIdAndLimit($table, $fld, $id='', $limit='', $offset='') {
         $this->db->select('*');
         $this->db->order_by($fld, 'DESC');
         $this->db->from($table);
         $this->db->limit($limit, $offset);
         $this->db->where(array($fld => $id));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // Find by multiple && condition
+    public function findByAndWhere($table, $where) {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where($where);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // Find by multiple && with || condition
+    public function findByOrWhere($table, $where, $or_where) {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where($where);
+        $this->db->or_where($or_where);
         $query = $this->db->get();
         return $query->result();
     }

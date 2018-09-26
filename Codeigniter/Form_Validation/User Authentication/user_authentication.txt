@@ -85,13 +85,6 @@ class Login extends CI_Controller
     </div>
     <?php endif; ?>
 
-    <?php if(validation_errors() != false): ?>
-        <div class="alert alert-danger alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <?php echo validation_errors();?>
-        </div>
-    <?php endif; ?>
-
     <?php if (isset($success_alert)): ?>
         <div class="alert alert-success alert-dismissable fade in">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -127,5 +120,16 @@ class Login extends CI_Controller
 </div>	
 
 
+//v.03 Validation Errors
+
+    <?php if(validation_errors() != false): ?>
+        <div class="alert alert-danger alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <?php echo validation_errors();?>
+        </div>
+    <?php endif; ?>
+
+
+//v.04
 
 

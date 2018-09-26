@@ -1,6 +1,6 @@
 <style>
     body{
-        background-image: url("http://cloud.defaultwallpaper.com/wp-content/uploads/2017/10/galaxy_tab-a-6-1.png");
+        background-image: url("<?php echo base_url(); ?>upload/default/bg.jpg");
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -15,8 +15,14 @@
     }
 </style>
 
+
 <div class="middle-box loginscreen  animated fadeInDown">
     <br>
+    <div class="img_area" style="width: 150px; margin: 0 auto;">
+        <div class="img text-center">
+            <img style="max-width: 100%; height: auto; display:block; margin-bottom: 10px;" class="img-responsive img-circle" src="<?php echo base_url(); ?>upload/default/images.png" alt="">
+        </div>
+    </div>
     <div id="app">
         <component :is='currentView' @change-compo-btn="changeComponent($event)"></component>
     </div>
@@ -30,10 +36,10 @@
                 <div class="panel-body">
                     <form action="<?php echo base_url()?>portal/applicantLogin" enctype="multipart/form-data" class="form-horizontal" method="post">
                         <div class="form-group">
-                            <label class="control-label col-md-4" for="registrationNo">Registration No.</label>
+                            <label class="control-label col-md-4" for="registrationNo">Email</label>
                             <div class="col-md-8">
-                                <input type="text" id="registrationNo" placeholder="Registration No." name="registrationNo" class="form-control" v-model='registrationNo'>
-                                <span v-if='msg.registrationNo'>{{msg.registrationNo}}</span>
+                                <input type="text" id="email" placeholder="Email Address" name="email" class="form-control" v-model='email'>
+                                <span v-if='msg.email'>{{msg.email}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -43,14 +49,15 @@
                                 <span v-if='msg.passwordLogin'>{{msg.passwordLogin}}</span>
                             </div>
                         </div>
+
                         <br>
                         <br>
+
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" value="Login" :disabled='disableSubmitButton' class="btn btn-success pull-left">
                                 <a class="pull-right btn btn-warning btn-xs" @click='changeToSignup' href="#">Signup</a>
                             </div>
-
                         </div>
                     </form>
                 </div>
@@ -76,22 +83,43 @@
                         <div class="form-group">
                             <label class="control-label col-md-4" for="collegeCode">College Code</label>
                             <div class="col-md-8">
-                                <input type="text" id="collegeCode" placeholder="College Code" name="collegeCode" class="form-control" v-model='collegeCode'>
+                                <input type="text" id="collegeCode" placeholder="College Code of Examination Centre" name="collegeCode" class="form-control" v-model='collegeCode'>
                                 <span v-if='msg.collegeCode'>{{msg.collegeCode}}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-4" for="registrationNo">Registration No.</label>
                             <div class="col-md-8">
-                                <input type="text" id="registrationNo" placeholder="Registration No." name="registrationNo" class="form-control" v-model='registrationNo'>
+                                <input type="text" id="registrationNo" placeholder="Reg. No. of Admission Test" name="registrationNo" class="form-control" v-model='registrationNo'>
                                 <span v-if='msg.registrationNo'>{{msg.registrationNo}}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-4" for="rollNo">Roll No.</label>
                             <div class="col-md-8">
-                                <input type="text" id="rollNo" placeholder="Roll No." name="rollNo" class="form-control" v-model='rollNo'>
+                                <input type="text" id="rollNo" placeholder="Roll No. of Admission Test" name="rollNo" class="form-control" v-model='rollNo'>
                                 <span v-if='msg.rollNo'>{{msg.rollNo}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Test Score</label>
+                            <div class="col-md-8">
+                                <input type="text" id="test_score" placeholder="Test Score" name="test_score" class="form-control" v-model='test_score'>
+                                <span v-if='msg.test_score'>{{msg.test_score}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Merit Score</label>
+                            <div class="col-md-8">
+                                <input type="text" id="merit_score" placeholder="Merit Score" name="merit_score" class="form-control" v-model='merit_score'>
+                                <span v-if='msg.merit_score'>{{msg.merit_score}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="rollNo">Merit Position</label>
+                            <div class="col-md-8">
+                                <input type="text" id="merit_position" placeholder="Merit Position" name="merit_position" class="form-control" v-model='merit_position'>
+                                <span v-if='msg.merit_position'>{{msg.merit_position}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -137,7 +165,7 @@
 
         data(){
             return {
-                registrationNo:'',
+                email:'',
                 passwordLogin:'',
                 msg:[],
                 disableSubmitButton : true,
@@ -145,8 +173,8 @@
         },
 
         watch:{
-            registrationNo(value){
-                this.check_registrationNo(value);
+            email(value){
+                this.check_email(value);
             },
             passwordLogin(value){
                 this.check_passwordLogin(value);
@@ -159,15 +187,15 @@
                 this.$emit('change-compo-btn','signup'); //signup is value and change-compo-btn is custom button
             },
 
-            check_registrationNo(value)
+            check_email(value)
             {
-                if (value)
+                if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test(value))
                 {
-                    this.msg['registrationNo'] = '';
+                    this.msg['email'] = '';
                 }
                 else
                 {
-                    this.msg['registrationNo'] = 'Enter correct registration no.';
+                    this.msg['email'] = 'Please enter correct email.';
                 }
             },
 
@@ -189,7 +217,7 @@
         },
         updated()
         {
-            if(this.passwordLogin && this.registrationNo)
+            if(this.passwordLogin && !this.msg['email'])
             {
                 this.disableSubmitButton = false;
             }
@@ -207,6 +235,9 @@
                 collegeCode:'',
                 registrationNo:'',
                 rollNo:'',
+                test_score:'',
+                merit_score:'',
+                merit_position:'',
                 email:'',
                 passwordReg:'',
                 msg:[],
@@ -229,6 +260,15 @@
             },
             rollNo(value){
                 this.check_rollNo(value);
+            },
+            test_score(value){
+                this.check_test_score(value);
+            },
+            merit_score(value){
+                this.check_merit_score(value);
+            },
+            merit_position(value){
+                this.check_merit_position(value);
             },
             email(value){
                 this.check_email(value);
@@ -285,6 +325,42 @@
                 }
             },
 
+            check_test_score(value)
+            {
+                if (!isNaN(value))
+                {
+                    this.msg['test_score'] = '';
+                }
+                else
+                {
+                    this.msg['test_score'] = 'Please enter test score in number.';
+                }
+            },
+
+            check_merit_score(value)
+            {
+                if (!isNaN(value))
+                {
+                    this.msg['merit_score'] = '';
+                }
+                else
+                {
+                    this.msg['merit_score'] = 'Please enter merit score in number.';
+                }
+            },
+
+            check_merit_position(value)
+            {
+                if (!isNaN(value))
+                {
+                    this.msg['merit_position'] = '';
+                }
+                else
+                {
+                    this.msg['merit_position'] = 'Please enter merit position in number.';
+                }
+            },
+
             check_passwordReg(value)
             {
                 if (value)
@@ -316,12 +392,14 @@
         },
         updated()
         {
-            if(this.collegeCode && this.registrationNo && this.rollNo && this.passwordReg && this.email)
+            if(this.collegeCode && this.registrationNo && this.rollNo && this.passwordReg && this.test_score && this.merit_score && this.merit_position && this.email && !this.msg['email'] && !this.msg['merit_position'])
             {
                 this.disableSubmitButton = false;
             }
             else
+            {
                 this.disableSubmitButton = true;
+            }
         }
     });
 
@@ -340,4 +418,29 @@
     //End Vue
 
 </script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').on('keyup', '.numericOnly', function () {
+            var val = $(this).val();
+            $(this).val(val.replace(/[^\d]/g, ''));
+        });
+        
+    });
+
+    $( function() {
+        $( "#datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd-mm-yy' ,
+            yearRange: '1980:2000'
+      });
+    } );
+
+</script>
+
+
 
