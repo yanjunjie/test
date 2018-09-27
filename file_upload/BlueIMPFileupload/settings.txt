@@ -290,3 +290,43 @@ lidate.js"></script>
 <!-------------------------End Jquery File Upload-------------------------->
 
 
+
+//3. Options
+
+..............As soon as selecting files will start uploading
+ $('#fileupload').fileupload({
+    dataType: 'json',
+    url: '<?php echo base_url(); ?>asset/applicant/blueimp/server/php/',
+    add: function (e, data) {
+        //Renaming files name
+        var count = data.files.length;
+        var i;
+        for (i = 0; i < count; i++) {
+            data.files[i].uploadName =
+                Math.floor(Math.random() * 1000) + '_' + data.files[i].name;
+        }
+        data.submit();
+    }
+});
+
+
+..............Triggering a button to upload files 
+
+$(function () {
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        url: '<?php echo base_url(); ?>asset/applicant/blueimp/server/php/',
+        add:function (e, data) {
+           $("#uploadBtn").off('click').on('click',function () {           
+             data.submit();
+           });
+        }
+    });
+});
+
+
+
+
+
+
+

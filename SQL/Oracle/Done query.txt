@@ -127,6 +127,11 @@ WHERE UPPER (user_name) = UPPER ('S180901000203') --Username
 AND UPPER(security_word) = pkg_password.encrypt_passmd5 ('a119525259') --Pass
 AND ACTIVE_FLAG = 'Y';
 
+/
+insert into UM_LABRATORIES (LAB_NAME,LAB_DESC,CRE_BY,ORG_ID,ORDER_NO) values('Pathology', 'Desc', '2','1','2');
+/
+
+
 
 
 
