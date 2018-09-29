@@ -68,6 +68,27 @@ git commit --amend
 
 N.B, git reset --soft HEAD^ and git reset --soft HEAD~ are the same thing. HEAD~ and HEAD^ are synonyms and HEAD^2 means last two commits
 
+
+Merge using Rebase Interactive
+1. Use the git rebase -i HEAD~n command to display a list of the last n commits in your default text editor.
+git rebase -i HEAD~3 # Displays a list of the last 3 commits on the current branch
+
+2. Replace pick with Options before each commit message you want to change i.e.
+
+pick e499d89 Delete CNAME
+reword 0c39034 Better README
+reword f7fde4a Change the commit message but push the same commit.
+
+Options:
+p, pick = use commit
+r, reword = use commit, but edit the commit message
+e, edit = use commit, but stop for amending
+s, squash = use commit, but meld into previous commit
+f, fixup = like "squash", but discard this commit's log message
+x, exec = run command (the rest of the line) using shell
+
+3. Forece push
+
 //
 
 
