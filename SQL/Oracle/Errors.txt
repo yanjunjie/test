@@ -92,7 +92,9 @@ alter table tbl_name add col_name varchar2(4000);
 20. ORA-04063: view "db.view_name" has errors
 Ans: I faced the same problem normally when an attribute name is modified or deleted from any table of the view then this error occurs. I deleted a column from a table and got this error, to solve it I recreate the view after removing the attribute that exists in the view but not exists in the table
 
-21.
+21. ORA-00918: column ambiguously defined
+
+Ans: DB can't undarstand the attribute name in joining multiple table 
 
 
 

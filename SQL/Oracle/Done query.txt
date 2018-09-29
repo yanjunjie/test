@@ -131,6 +131,33 @@ AND ACTIVE_FLAG = 'Y';
 insert into UM_LABRATORIES (LAB_NAME,LAB_DESC,CRE_BY,ORG_ID,ORDER_NO) values('Pathology', 'Desc', '2','1','2');
 /
 
+select x.EXP_NAME, l.lab_name, s.EMP_NAME
+from UM_LAB_EXPERIMENT x
+left join UM_LAB_EXP_ASSIGN xa on x.EXP_ID=xa.EXP_ID
+left join UM_LABRATORIES l on l.lab_id = xa.lab_id
+left join UM_LAB_SUPERVISOR_ASSIGN sa on sa.EXP_ID=x.EXP_ID  
+left join HR_EMPLOYEE s on s.EMP_NO = sa.EMP_NO
+
+/
+select x.EXP_NAME, l.lab_name
+from UM_LABRATORIES l
+left join UM_LAB_EXP_ASSIGN xa on xa.lab_id=l.lab_id
+left join UM_LAB_EXPERIMENT x on x.EXP_ID=xa.EXP_ID  
+where xa.EXP_ID = 1;
+
+/
+
+select l.lab_name
+from UM_LABRATORIES l
+left join UM_LAB_EXP_ASSIGN xa on xa.lab_id=l.lab_id
+where xa.EXP_ID = 1;
+
+/
+select l.lab_name
+from UM_LABRATORIES l
+left join UM_LAB_EXP_ASSIGN xa on xa.lab_id=l.lab_id
+where xa.EXP_ID = 1;
+
 
 
 

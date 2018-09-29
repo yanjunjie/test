@@ -1,3 +1,4 @@
+
 //Git Reset:
 v.01
 git reset --hard 0d1d7fc32
@@ -38,6 +39,7 @@ git remote rm origin
 git remote add origin https://bablukpik2@bitbucket.org/bablukpik2/kyamc_mcms.git
 git push -u origin master
 
+
 is used to a add a new remote
 
 //OR
@@ -48,7 +50,28 @@ is used to change the url of an existing remote repository
 git push -u origin master
 
 
+//Merge Commit
+If there are multiple commits, you can use git rebase -i to squash two commits into one.
+
+If there are only two commits you want to merge, and they are the "most recent two", the following commands can be used to combine the two commits into one:
+
+git reset --soft HEAD^
+git commit --amend
+
+...OR
+
+git reset --soft "HEAD~n"
+Assuming ~n is number of commits to softly un-commit (i.e. ~1, ~2,...)
+Then, use following command to modify the commit message.
+
+git commit --amend
+
+N.B, git reset --soft HEAD^ and git reset --soft HEAD~ are the same thing. HEAD~ and HEAD^ are synonyms and HEAD^2 means last two commits
+
 //
+
+
+
 
 
 
