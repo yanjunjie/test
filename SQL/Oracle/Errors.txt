@@ -103,7 +103,18 @@ Ans:
 
 The ORA-01858 error is an issue of syntax and formatting. When prompted with the error, the user will receive an accompanying message that will state that “a non-numeric character was located where a digit was expected”. ... The error pops up when the user then tries to pass the date in the DD-MON-YYYY format.
 
-//
+23. ORA-00933: SQL command not properly ended
+Ans:
+
+24. ORA-00904: "ORG_ID": invalid identifier
+Ans:
+
+25. ORA-00928: missing SELECT keyword
+
+
+
+
+
 
 
 
