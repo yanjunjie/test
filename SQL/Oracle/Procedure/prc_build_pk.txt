@@ -68,3 +68,47 @@ BEGIN
      
    END IF;
 END;
+
+
+//V.02
+create or replace PROCEDURE                 "PRC_PK" 
+    (
+    p_seq_name       IN       VARCHAR2,
+    p_company_no     IN       VARCHAR2,
+    p_pk             OUT      NUMBER
+    )
+
+--*********************************************
+-- Built by - Md. Khairul Alam, on 01-DEC-2011
+-- PK will be generated for a Century
+-- Sequence must be as START WITH 1 MAXVALUE 99999999 MINVALUE 1 CYCLE
+--*********************************************
+
+    AUTHID CURRENT_USER
+IS
+    PRAGMA AUTONOMOUS_TRANSACTION;
+    sql_stmt         VARCHAR2(300);
+    v_org            NUMBER;
+    v_val            NUMBER;
+
+BEGIN
+    IF p_company_no IS NOT NULL THEN
+        v_org := TO_NUMBER(p_company_no);
+    ELSE
+        v_org := 1;
+    END IF;
+
+    sql_stmt:= 'SELECT '||p_seq_name||'.NEXTVAL FROM DUAL';
+    EXECUTE IMMEDIATE sql_stmt INTO v_val;
+
+    IF v_val < 100000000 THEN
+        p_pk:= (((TO_NUMBER(TO_CHAR(SYSDATE, 'RR'))*100)+v_org)*100000000)+v_val;
+    ELSE
+        DBMS_OUTPUT.put_line ('Sequence generates a value greater than 99999999 that exceeds convention.');
+    END IF;
+END; 
+
+
+//v.03
+
+

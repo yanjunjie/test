@@ -8,11 +8,13 @@ Ans: The value trying to match is not valid i.e. Date format problem
 
 3. ORA-00904: "APPLICANT_USER_ID": invalid identifier
 
-Ans: The attribute name is not exist in the table or spelling mistake
+Ans: The attribute name is not exist in the table or spelling mistake or should be in uppercase
 
 4. ORA-00932: inconsistent datatypes: expected CHAR got NUMBER
 
-Ans: Single quote on number type data
+Ans: 
+1. Single quote on number type data
+2. Datatype should be Character which is now number
 
 
 5. Error: ORA-00913: too many values
@@ -96,9 +98,12 @@ Ans: I faced the same problem normally when an attribute name is modified or del
 
 Ans: DB can't undarstand the attribute name in joining multiple table 
 
+22. ORA-01858: a non-numeric character was found where a numeric was expected
+Ans: 
 
+The ORA-01858 error is an issue of syntax and formatting. When prompted with the error, the user will receive an accompanying message that will state that “a non-numeric character was located where a digit was expected”. ... The error pops up when the user then tries to pass the date in the DD-MON-YYYY format.
 
-
+//
 
 
 

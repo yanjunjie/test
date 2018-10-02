@@ -1,0 +1,157 @@
+//Dependency Default View
+<span id="PROGRAM_ID_DEPEN">
+        <select required="required" name="PROGRAM_ID" id="PROGRAM_ID" data-placeholder="Choose Program" class="chosen-select form-control" tabindex="4">
+            <option value="" selected disabled>-Select-</option>
+                <?php foreach($INS_PROGRAM as $ky=>$row2) {?>
+                    <option value="<?php echo $row2->PROGRAM_ID; ?>" <?php echo  set_select("PROGRAM_ID", "$row2->PROGRAM_ID"); ?> ><?php echo $row2->PROGRAM_NAME; ?></option>
+                <?php } ?>
+        </select>
+    </span>
+
+
+
+//Dependency Ajax View:===================================================
+<select required="required" name="PROGRAM_ID" id="PROGRAM_ID" data-placeholder="Choose Program" class="chosen-select form-control" tabindex="4">
+    <option value="" selected disabled>-Select-</option>
+    <?php foreach($result as $ky=>$row2) {?>
+        <option value="<?php echo $row2->PROGRAM_ID; ?>" <?php echo  set_select("PROGRAM_ID", "$row2->PROGRAM_ID"); ?> ><?php echo $row2->PROGRAM_NAME; ?></option>
+    <?php } ?>
+</select>
+
+<script>
+    var config = {
+        '.chosen-select'           : {allow_single_deselect:true},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>
+
+
+//Dependency Ajax======================================================
+   //Program Dependency List //One to Many
+    $(document).on("change", "#FACULTY_ID", function () {
+        var FACULTY_ID = $(this).val();
+        $.ajax({
+
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view",
+            data:  {table:'INS_PROGRAM',attr:'FACULTY_ID', attr_val:FACULTY_ID, url_data:'', view:'admin/lab_schedule/program_dependency'},
+            success:function(data){
+                if(data != "no"){
+                    $('#PROGRAM_ID_DEPEN').html(data);
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
+
+    //Degree Dependency List  //Many to One
+    $(document).on("change", "#PROGRAM_ID", function () {
+        var PROGRAM_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_detail_id",
+            data:  {master_table:'INS_DEGREE', detail_table:'INS_PROGRAM', attr_master:'DEGREE_ID',  attr_detail:'DEGREE_ID', attr_detail_val:PROGRAM_ID, view:'admin/lab_schedule/degree_dependency'},
+            success:function(data){
+                if(data != "no" && data != "err")
+                {
+                    $('#DEGREE_ID_DEPEN').html(data);
+                }
+                else if(data == "err")
+                {
+                    $('#DEGREE_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
+
+
+//Dependency Serverside Method============================================
+
+     //Ajax Find Dependency View by ID //One to Many relationship
+    public function ajax_find_view()
+    {
+        $table=$this->input->post('table');
+        $attr=$this->input->post('attr');
+        $attr_val=$this->input->post('attr_val');
+        $url_data=$this->input->post('url_data');
+        $view = $this->input->post('view');
+
+
+        if($view and ($attr_val or $url_data ) and $table)
+        {
+            $data = array(
+                'result'=>$url_data?$this->utilities->findByAndWhere($table, $url_data):$this->utilities->findAllById($table, $attr, $attr_val)
+            );
+
+            $dependency = $this->load->view($view,$data,true);
+            echo $dependency;
+        }
+        else
+        {
+            echo "no";
+        }
+        exit();
+    }
+
+    //Ajax Find Dependency View by Detail ID //Many to One relationship
+    public function ajax_find_view_by_detail_id()
+    {
+        $data = array();
+        $master_table=$this->input->post('master_table');
+        $detail_table=$this->input->post('detail_table');
+        $attr_master=$this->input->post('attr_master');
+        $attr_detail=$this->input->post('attr_detail');
+        $attr_detail_val=$this->input->post('attr_detail_val');
+        $view = $this->input->post('view');
+
+        if($view and $attr_detail_val and $attr_detail  and $attr_master and $detail_table and $master_table)
+        {
+            $result_detail = $this->utilities->findByAttribute($detail_table, array($attr_detail => $attr_detail_val));
+
+            if($result_detail)
+            {
+                $attr_master_val = $result_detail-> $attr_master;
+                
+                $result_detail = $this->utilities->findByAttribute($master_table, array($attr_master => $attr_master_val));
+
+                if ($result_detail)
+                {
+                    $data = array(
+                        'result'=>$result_detail
+                    );
+                    $dependency = $this->load->view($view,$data,true);
+                    echo $dependency;
+                }
+                else
+                {
+                   echo 'not_found' ;
+                }
+            }
+            else
+            {
+                echo "err";
+            }
+        }
+        else
+        {
+            echo "no";
+        }
+        exit();
+    }
+
+//=======================================================
+
+

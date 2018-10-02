@@ -200,10 +200,16 @@
     }
     
     //Find By Left Join using tow Tables
-    function findByLeftJoinT2Q($table1, $table2, $t2_attr, $t1_attr, $where) //$where = " where t2.EXP_ID = '$id'";
+    function findByLeftJoinT2($table1, $table2, $t2_attr, $t1_attr, $where) //$where = " where t2.EXP_ID = '$id'";
     {
+        //First select id attribute name
+        $query = $this->db->get($table1); //details table
+        $row = array_keys($query->row_array());
+        $id_attr = $row[0];
+
+        //Do query
         return $this->db->query("
-            SELECT t1.*, t2.* FROM " .$table1. " t1 LEFT JOIN " .$table2. " t2 ON t2." .$t2_attr. " = t1." .$t1_attr. "$where
+            SELECT DISTINCT t1.$id_attr, t1.*, t2.* FROM " .$table1. " t1 LEFT JOIN " .$table2. " t2 ON t2." .$t2_attr. " = t1." .$t1_attr. "$where
         ")->result();
     }
     //End CRUD Operation

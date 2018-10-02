@@ -54,6 +54,54 @@ Example 01:
 //v.02
 
 
+//Reset Files Key if have
+    if(!empty($_FILES['aca_file']['name'])) {
+        $_FILES['aca_file']['name'] = array_values($_FILES['aca_file']['name']);
+        $_FILES['aca_file']['type'] = array_values($_FILES['aca_file']['type']);
+        $_FILES['aca_file']['tmp_name'] = array_values($_FILES['aca_file']['tmp_name']);
+        $_FILES['aca_file']['error'] = array_values($_FILES['aca_file']['error']);
+        $_FILES['aca_file']['size'] = array_values($_FILES['aca_file']['size']);
+    }
+
+//Start Academic docs upload
+if(!empty($_FILES['aca_file']['name']))
+{
+
+    $filesCount = count($_FILES['aca_file']['name']);
+
+
+    for($j = 0; $j < $filesCount; $j++){
+        $_FILES['file']['name']     = $_FILES['aca_file']['name'][$j];
+        $_FILES['file']['type']     = $_FILES['aca_file']['type'][$j];
+        $_FILES['file']['tmp_name'] = $_FILES['aca_file']['tmp_name'][$j];
+        $_FILES['file']['error']     = $_FILES['aca_file']['error'][$j];
+        $_FILES['file']['size']     = $_FILES['aca_file']['size'][$j];
+
+        $file_ext3 = pathinfo($_FILES['file']['name'],PATHINFO_EXTENSION);
+
+        // File upload configuration
+        $config3['upload_path'] = 'upload/applicant/docs/';
+        is_file($config3['upload_path'])?chmod($config3['upload_path'], 0755):''; //Upload permission
+        $config3['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config3['file_name'] = 'msheet_'.date("Y-m-d-H-i-s").'.'.$file_ext3;
+
+        // Load and initialize upload library
+        $this->upload->initialize($config3);
+
+        // Upload file to server
+        if($this->upload->do_upload('file')){
+            // Uploaded file data
+            $fileData = $this->upload->data();
+            $applicant_marksheet_path = $fileData['file_name'];
+        }
+    }
+}
+//End Academic docs upload
+
+//v.03
+
+
+
 
 
 

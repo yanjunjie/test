@@ -1,0 +1,64 @@
+//Current Date
+public function oracle_date($timestamp='')
+	{
+        $this->load->helper('date');
+        if($timestamp=='date'){
+            $datestring = '%d-%M-%y';
+        }
+        else
+        {
+            $datestring = '%d-%M-%Y %h.%i.%s %a';
+        }
+
+        $time = time();
+        $timestamp = strtoupper(mdate($datestring, $time));
+        return $timestamp;
+	}
+
+//Input date
+
+    public function oracle_date_input($input,$timestamp='')
+    {
+        $this->load->helper('date');
+        if($timestamp=='date'){
+            $datestring = date('d-M-Y',strtotime($input));
+        }
+        else
+        {
+            $datestring = date('d-M-Y h.i.s a',strtotime($input));
+        }
+
+        $time = time();
+        $timestamp = strtoupper(mdate($datestring, $time));
+        return $timestamp;
+    }
+
+//Automatic
+Link: 
+https://apex.oracle.com/pls/apex/germancommunities/apexcommunity/tipp/6381/index-en.html
+https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions180.htm
+
+alter session set time_zone='Europe/Berlin';
+alter session set nls_date_format='DD-MON-RR';
+class MY_Controller extends CI_Controller {
+
+
+  function __construct()
+  {
+      parent::__construct();
+      if ($this->session->userdata('logged_in') == FALSE) {
+          redirect('auth/login', 'refresh');
+      }
+      $this->user_session = $this->session->userdata('logged_in');
+      $this->load->model('utilities');
+      $this->load->library("form_validation");
+      $this->db->query("alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS'");
+  }
+  
+
+}
+
+
+//
+
+

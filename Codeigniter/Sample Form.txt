@@ -1,0 +1,12 @@
+<div class="form-group">
+        <label class="col-md-5 control-label">Program: <span class="red">*</span></label>
+
+        <div class="col-md-5">
+            <select required="required" name="PROGRAM_ID" id="PROGRAM_ID" data-placeholder="Choose Program" class="chosen-select form-control" tabindex="4">
+                <?php foreach($INS_PROGRAM as $ky=>$row2) {?>
+                    <option value="<?php echo $row2->PROGRAM_ID; ?>" <?php echo  set_select("PROGRAM_ID", "$row2->PROGRAM_ID"); ?> ><?php echo $row2->PROGRAM_NAME; ?></option>
+                <?php } ?>
+            </select>
+            <span class="red"><?php echo form_error('PROGRAM_ID'); ?></span>
+        </div>
+    </div>

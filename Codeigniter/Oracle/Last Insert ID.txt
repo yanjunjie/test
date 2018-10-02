@@ -64,32 +64,43 @@ function insert($tableName, $post)
 //v.04
 
 
-function insert($tableName, $post)
+public function save2($table, $data)
     {
-        $res = $this->db->insert($tableName, $post);
+        $res = $this->db->insert($table, $data);
 
-        if($this->session->userdata('my_db')=='ORACLE')
+        //First select id attribute name
+        $query = $this->db->get($table);
+        $row = array_keys($query->row_array());
+        $id_attr = $row[0];
+       
+        //Last Inserted id
+        if($res)
         {
-            //First select id attribute name
-            $query = $this->db->get($tableName);
-            $row = array_keys($query->row_array());
-            $id_attr = $row[0];
-
-            //Last Inserted id
-            if($res){
-                $query2 = $this->db->query("select MAX($id_attr) from $tableName");
-                $row2 = array_values($query2->row_array());
-                $id = $row2[0];
-                return $id;
-            }else{
-                return false;
-            }
-
-        }else
-            return $this->db->insert_id();
-
+            $query2 = $this->db->query("select MAX($id_attr) from $table");
+            $row2 = array_values($query2->row_array());
+            $id = $row2[0];
+            return $id;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 //v.05
+function insert($tableName, $post)
+    {
+        //First insert data
+        $res = $this->db->insert($tableName, $post);
 
+        //Get inserted id
+        if($res){
+            $row = $this->db->query("SELECT ID FROM YOUR_TABLE ORDER BY ID DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY")->row();
+            $id = $row->ID;
+            return $id;
+        }else{
+            return false;
+        }
+
+    }
 
