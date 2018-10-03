@@ -1,0 +1,88 @@
+//academic information insertion
+    $EXAM_NAME = $this->input->post("EXAM_NAME");
+    $PASSING_YEAR = $this->input->post("PASSING_YEAR");
+    $BOARD = $this->input->post("BOARD");
+    $GROUP = $this->input->post("GROUP");
+    $GPA = $this->input->post("GPA");
+    $INSTITUTE = $this->input->post("INSTITUTE");
+
+
+    $i = 0;
+    foreach ($EXAM_NAME as $key => $value)
+    {
+        $applicant_academic_info = array(
+            'APPLICATION_ID' => $applicant_id,
+            'EXAM_ID' => $EXAM_NAME[$i],
+            'PASSING_YEAR' => $PASSING_YEAR[$i],
+            'BOARD_ID' => $BOARD[$i],
+            'EXAMGROUP_ID' => $GROUP[$i],
+            'GPA' => $GPA[$i],
+            'INSTITUTE_NAME' => $INSTITUTE[$i]
+        );
+
+        $applicant_marksheet_path = '';
+        //Start Marksheet upload
+        if(!empty($_FILES['msheet_file']['name'][$i]))
+        {
+            $_FILES['file']['name']     = $_FILES['msheet_file']['name'][$i];
+            $_FILES['file']['type']     = $_FILES['msheet_file']['type'][$i];
+            $_FILES['file']['tmp_name'] = $_FILES['msheet_file']['tmp_name'][$i];
+            $_FILES['file']['error']     = $_FILES['msheet_file']['error'][$i];
+            $_FILES['file']['size']     = $_FILES['msheet_file']['size'][$i];
+
+            $file_ext3 = pathinfo($_FILES['file']['name'],PATHINFO_EXTENSION);
+
+            // File upload configuration
+            $config3['upload_path'] = 'upload/applicant/docs/';
+            is_file($config3['upload_path'])?chmod($config3['upload_path'], 0755):''; //Upload permission
+            $config3['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config3['file_name'] = 'msheet_'.date("Y-m-d-H-i-s").'.'.$file_ext3;
+
+            // Load and initialize upload library
+            $this->upload->initialize($config3);
+
+            // Upload file to server
+            if($this->upload->do_upload('file')){
+                // Uploaded file data
+                $fileData = $this->upload->data();
+                $applicant_marksheet_path = $fileData['file_name'];
+            }
+        }
+        //End Marksheet upload
+
+        $applicant_certificate_path = '';
+        //Start Certificate upload
+        if(!empty($_FILES['cer_file']['name'][$i]))
+        {
+            $_FILES['file_cer']['name']     = $_FILES['cer_file']['name'][$i];
+            $_FILES['file_cer']['type']     = $_FILES['cer_file']['type'][$i];
+            $_FILES['file_cer']['tmp_name'] = $_FILES['cer_file']['tmp_name'][$i];
+            $_FILES['file_cer']['error']     = $_FILES['cer_file']['error'][$i];
+            $_FILES['file_cer']['size']     = $_FILES['cer_file']['size'][$i];
+
+            $file_ext4 = pathinfo($_FILES['file_cer']['name'],PATHINFO_EXTENSION);
+
+            // File upload configuration
+            $config4['upload_path'] = 'upload/applicant/docs/';
+            is_file($config4['upload_path'])?chmod($config4['upload_path'], 0755):''; //Upload permission
+            $config4['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config4['file_name'] = 'cer_'.date("Y-m-d-H-i-s").'.'.$file_ext4;
+
+            // Load and initialize upload library
+            $this->upload->initialize($config4);
+
+            // Upload file to server
+            if($this->upload->do_upload('file_cer')){
+                // Uploaded file data
+                $fileData2 = $this->upload->data();
+                $applicant_certificate_path = $fileData2['file_name'];
+            }
+        }
+        //End Certificate upload
+
+        $applicant_academic_info['APPLICANT_MARKSHEET_PATH']=$applicant_marksheet_path;
+        $applicant_academic_info['APPLICANT_CERTIFICATE_PATH']=$applicant_certificate_path;
+
+        $this->utilities->insert('NM_APP_QUALIFICATION', $applicant_academic_info);
+        $i++;
+    }

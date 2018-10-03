@@ -77,6 +77,72 @@
         });
     });
 
+//Ajax Find Dependency View by Detail ID //One to Many and Many to One relationship
+    public function ajax_find_view_by_map()
+    {
+       $data = array();
+       $master_table1=$this->input->post('master_table1');
+       $attr_master1_val=$this->input->post('attr_master1_val');
+
+       $master_table2=$this->input->post('master_table2');
+       $attr_master2=$this->input->post('attr_master2');
+
+       $detail_table=$this->input->post('detail_table');
+       $attr_detail=$this->input->post('attr_detail'); //initial attr of master1 although detail_table contains master2 attr
+       $view = $this->input->post('view');
+
+        //One to many
+        $result_multiple = $this->utilities->findAllById($detail_table, $attr_detail, $attr_master1_val);
+
+
+        //Many to One
+        if($result_multiple)
+        {
+            $arr_duplicate_values =array();
+            foreach ($result_multiple as $key=>$obj)
+            {
+                foreach ($obj as $key2=>$value)
+                {
+                    if($key2 ==$attr_master2)
+                    {
+                        $arr_duplicate_values[] = $value;
+
+                    }
+                }
+
+            }
+
+            //Query for M to O
+            $arr_unique_values = array_unique($arr_duplicate_values);
+
+            foreach ($arr_unique_values as $value)
+            {
+                $result[] = $this->utilities->findByAttribute($master_table2, array('ACTIVE_STATUS' => '1', $attr_master2=>$value));
+            }
+
+            //$result = $this->utilities->findByAttribute($master_table2, array('ACTIVE_STATUS' => '1'));
+
+            if ($result)
+            {
+                $data = array(
+                    'result'=>$result
+                );
+                $dependency = $this->load->view($view,$data,true);
+                echo $dependency;
+            }
+            else
+            {
+                echo 'not_found' ;
+            }
+        }
+        else
+        {
+            echo "err";
+        }
+
+       exit();
+    }
+
 
 //Dependency Serverside Method============================================
 
@@ -151,6 +217,31 @@
         }
         exit();
     }
+
+
+//Batch Dependency List  //One to Many and Many to One
+    $(document).on("change", "#PROGRAM_ID", function () {
+        var PROGRAM_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_map",
+            data:  {master_table1:'INS_PROGRAM', attr_master1_val:PROGRAM_ID, master_table2:'ACA_BATCH', attr_master2:'BATCH_ID', detail_table:'ACA_BATCH_PROG', attr_detail:'PROGRAM_ID', view:'admin/lab_schedule/batch_dependency'},
+            success:function(data){
+                if(data != "no" && data != "err")
+                {
+                    $('#DEPT_ID_DEPEN').html(data);
+                }
+                else if(data == "err")
+                {
+                    $('#BATCH_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
 
 //=======================================================
 

@@ -1,0 +1,11 @@
+//Unlink Previous photo
+    if(!empty($applicant_photo_path))
+    {
+        $applicnt_personal_info['APPLICANT_PHOTO_PATH'] = $applicant_photo_path;
+
+        $result1 = $this->utilities->FindById('NM_APPLICATION','REGISTRATION_NUMBER', $this->input->post('REGISTRATION_SL'));
+
+        if(!empty($result1[0]->APPLICANT_PHOTO_PATH)){
+            unlink('upload/applicant/photo/'.$result1[0]->APPLICANT_PHOTO_PATH);
+        }
+    }

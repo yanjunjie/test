@@ -80,27 +80,21 @@
         return $this->db->insert_batch($table, $batch);
     }
         
-    //update
+    //update single row
     public function update($table, $fld, $id, $data)
     {
-        // get the record that you want to update
-        $this->db->select('*');
-        $this->db->from($table);
-        $this->db->where(array($fld => $id));
-        $query = $this->db->get();
-
-        // getting the Id
-        $row = array_values($query->row_array());
-        $updated_id = $row[0];
-
-        // updating the record
         $updated_status = $this->db->update($table, $data, array($fld => $id));
 
         if($updated_status):
-            return $updated_id;
+            return $id;
         else:
             return false;
         endif;
+    }
+   //update2 for multi update
+    public function update2($table, $data, $where)
+    {
+        return $this->db->update($table, $data, $where);
     }
 
     //Batch Update
@@ -137,7 +131,12 @@
         $query = $this->db->get();
         return $query->result();
     }
-    //Find by id
+   //Find Row by ID
+    function findRowById($tableName, $attribute, $value)
+    {
+        return $this->db->query("SELECT * FROM $tableName WHERE $attribute = '$value'")->row();
+    }
+    //Find Result by ID
     public function findById($table, $fld, $id)
     {
         $this->db->select('*');
