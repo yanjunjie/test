@@ -1,0 +1,17 @@
+1. body-perser
+2. bootstrap
+3. dateformat
+4. ejs
+5. express
+6. express-partials
+7. jquery
+8. mysql
+9. tether
+10. express-validator
+11. method-override
+12. express-flash
+13. cookie-parser
+14. express-session
+15. express-myconnection
+
+i.e. npm install --save body-parser OR npm install express -save
