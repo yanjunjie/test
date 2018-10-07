@@ -1,0 +1,24 @@
+function findStudentData($EXP_ID, $SDL_DT, $YSESSION_ID, $DEGREE_ID, $FACULTY_ID, $DEPT_ID, $PROGRAM_ID, $BATCH_ID, $SECTION_ID)
+    {
+        return $this->db->query("
+            select distinct std.STUDENT_ID, std.REGISTRATION_NO,std.FULL_NAME_EN,std.EMAIL_ADRESS,std.MOBILE_NO, (SELECT COUNT(*) FROM UMS_LAB_SCHEDULE WHERE STUDENT_ID=std.STUDENT_ID and EXP_ID='$EXP_ID' and SDL_DT='$SDL_DT') IS_EXIST, s.SESSION_NAME, sy.DINYEAR, d.DEGREE_NAME, dpt.DEPT_NAME, p.PROGRAM_NAME, b.BATCH_TITLE, f.FACULTY_NAME   
+            FROM STUDENT_PERSONAL_INFO std
+            LEFT JOIN INS_SESSION s ON s.SESSION_ID = std.ADM_SESSION_ID
+            LEFT JOIN ADM_YSESSION sy ON sy.SESSION_ID = s.SESSION_ID
+            LEFT JOIN INS_DEGREE d ON d.DEGREE_ID = std.DEGREE_ID
+            LEFT JOIN INS_DEPT dpt ON dpt.DEPT_ID = std.DEPT_ID
+            LEFT JOIN INS_PROGRAM p ON p.PROGRAM_ID = std.PROGRAM_ID
+            LEFT JOIN ACA_BATCH b ON b.BATCH_ID = std.BATCH_ID
+            LEFT JOIN INS_FACULTY f ON f.FACULTY_ID = std.FACULTY_ID
+            where std.ADM_SESSION_ID = '$YSESSION_ID'
+            And std.DEGREE_ID='$DEGREE_ID'
+            And std.FACULTY_ID='$FACULTY_ID'
+            And std.DEPT_ID='$DEPT_ID'
+            And std.PROGRAM_ID='$PROGRAM_ID'
+            And std.BATCH_ID='$BATCH_ID'
+            And std.SECTION_ID='$SECTION_ID'
+            GROUP BY std.STUDENT_ID, std.REGISTRATION_NO,std.FULL_NAME_EN,std.EMAIL_ADRESS,std.MOBILE_NO, s.SESSION_NAME, sy.DINYEAR, d.DEGREE_NAME, dpt.DEPT_NAME, p.PROGRAM_NAME, b.BATCH_TITLE, f.FACULTY_NAME
+        
+        ")->result_array();
+    }
+

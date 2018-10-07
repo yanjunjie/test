@@ -1,0 +1,9 @@
+//v.01 
+
+SELECT * from TABLE1 WHERE Col1 NOT IN (SELECT Col1 FROM TABLE2) --Don't use this, use not exists
+SELECT * from TABLE1 T1 WHERE NOT EXISTS (SELECT Col1 FROM TABLE2 T2 WHERE T1.Col1 = T2.Col2)
+
+
+
+
+

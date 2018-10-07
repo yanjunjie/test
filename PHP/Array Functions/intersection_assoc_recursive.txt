@@ -1,0 +1,58 @@
+     /**
+     * Recursively computes the intersection of arrays using keys for comparison.
+
+     *
+
+     * @param   array $array1 The array with master keys to check.
+
+     * @param   array $array2 An array to compare keys against.
+
+     * @return  array associative array containing all the entries of array1 which have keys that are present in array2.
+
+     **/
+
+
+	function array_intersect_key_recursive(array $array1, array $array2) {
+	    $array1 = array_intersect_key($array1, $array2);
+	    foreach ($array1 as $key => &$value) {
+		if (is_array($value) && is_array($array2[$key])) {
+		    $value = recursive_array_intersect_key($value, $array2[$key]);
+		}
+	    }
+	    return $array1;
+	}
+
+
+
+//v.02
+
+function array_intersect_assoc_recursive(&$arr1, &$arr2) {
+    if (!is_array($arr1) || !is_array($arr2)) {
+        //return $arr1 == $arr2; // Original line
+        return (string) $arr1 == (string) $arr2;
+    }
+    $commonkeys = array_intersect(array_keys($arr1), array_keys($arr2));
+    $ret = array();
+    foreach ($commonkeys as $key) {
+        $ret[$key] =& array_intersect_assoc_recursive($arr1[$key], $arr2[$key]);
+    }
+    return $ret;
+}
+
+//v.03
+
+function array_intersect_recursive() {
+
+    foreach(func_get_args() as $arg) {
+        $args[] = array_map('serialize', $arg);
+    }
+    $result = call_user_func_array('array_intersect', $args);
+
+    return array_map('unserialize', $result);
+}
+
+$result = array_intersect_recursive($aArray, $jump);
+
+
+
+

@@ -111,6 +111,13 @@ Ans:
 
 25. ORA-00928: missing SELECT keyword
 
+26. ORA-01756: quoted string not properly terminated
+Ans:
+
+27. ORA-01847: day of month must be between 1 and last day of month
+Ans: Getting only time portion not date portion
+
+
 
 
 
