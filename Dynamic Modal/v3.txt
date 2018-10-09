@@ -1,0 +1,17 @@
+First you have handle the each event when the buttons are clicked. then you can set the content by dynamically to the title and content of modal using javascript.
+ 
+// give the id to title tag of modal
+ <span class="gray-bckg" id="modal_title"></span>
+ //give the id to content tag of modal
+ <div class="dialog-content clearfix" id="content"></div>
+now add the script
+
+ //with script
+ $("#button1").on("click",function(e){
+      $("#content").val("this is button1 content");
+      $(".modal").open();
+ });
+ $("#button2").on("click",function(e){
+      $("#content").val("this is button2 content");
+      $(".modal").open();
+ });

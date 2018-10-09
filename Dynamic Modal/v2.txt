@@ -1,0 +1,66 @@
+Step: 01, I created a modal.blade.php
+
+<div id="{{ $id or 'modal' }}" class="modal fade" role="dialog">                
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header text-center">
+                    <h2>{{ $title }}</h2>
+                </div>
+
+                <div class="modal-body">
+                    <div class="panel-body"></div>                              
+                </div>
+
+            </div>                    
+        </div>
+    </div>                
+</div>
+
+Step: 02 And now when I want to pop-up a modal I use this
+
+@component('whereyourmodalisplaced.modal', [
+    'id' => 'task-show', //If you use multi modal on same page, always use ID
+    'title' => 'Edit a task'])
+@endcomponent
+
+//...OR
+
+I'm updating the modal contact with ajax when needed with this kind of behaviour
+
+<a  href=""
+data-endpoint="{{ route('tasks.show' , ['tasks' => $task->id]) }}" 
+data-target="task-show .modal-content .panel-body"
+data-modal="task-show"
+data-cache="false"
+data-async="true"
+data-toggle="modal" >{{ $task->name }}</a>
+
+
+Step: 03 And make sure to always have this in your code
+
+$('body').on('click', 'a[data-async="true"]', function(e)
+{
+    e.preventDefault();
+
+    var self = $(this),
+        url = self.data('endpoint'),
+        target = self.data('target'),                
+        modal = self.data('modal');
+
+    $.ajax({
+        url: url,
+        type: self.data('method'),
+        cache : self.data('cache'),
+        success: function(data)
+        { 
+           if (target !== 'undefined'){ $('#'+target).html( data ); }
+           if (modal !== 'undefined'){ $('#'+modal).modal( 'show' ); }
+        }
+    });
+});
+
+
+
