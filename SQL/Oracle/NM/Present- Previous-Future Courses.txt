@@ -1,3 +1,5 @@
+V.01//Present, Previous and Future Courses
+
 select SUBJECT_UDID, SUBJECT_NAME, credit_earned, grade_point, grade_score, semester_number
 from
 (select SUBJECT_UDID, SUBJECT_NAME, credit_earned, (points/credit_earned) grade_point, grade_score, semester_number
@@ -41,5 +43,58 @@ where SEMESTER_MAP_ID in (select SEMESTER_MAP_ID
 FROM nm_resultmst m, nm_resultchd d
 WHERE m.RESULTMST_ID = d.RESULTMST_ID
 and D.ADMISSION_ID = :P_ADMISSION_ID))
+
+
+V.02//Present, Previous and Future Courses
+
+select SUBJECT_UDID, SUBJECT_NAME, credit_earned, grade_point, grade_score, semester_number
+from
+(select SUBJECT_UDID, SUBJECT_NAME, credit_earned, (points/credit_earned) grade_point, grade_score, semester_number
+from
+(SELECT SUBJECT_UDID, SUBJECT_NAME,
+CREDIT_EARNED,
+(TO_NUMBER (
+fnc_gradepoint (
+(SUM (
+( (NVL (OBTAIN_MARK, 0) / NVL (MAX_MARK, 0))
+* NVL (WEIGHT, 0))
+* 100)
+/ SUM (NVL (WEIGHT, 0))),
+'P'))
+* CREDIT_EARNED)
+points,
+fnc_gradepoint (
+SUM (
+( (NVL (OBTAIN_MARK, 0) / NVL (MAX_MARK, 0)) * NVL (WEIGHT, 0))
+* 100)
+/ SUM (NVL (WEIGHT, 0)),
+'G')
+grade_score,
+semester_number
+FROM nmv_result 
+where ADMISSION_ID = :P_ADMISSION_ID 
+GROUP BY SUBJECT_UDID, SUBJECT_NAME,CREDIT_EARNED, semester_number)
+union
+select distinct u.SUBJECT_UDID, u.SUBJECT_NAME, u.CREDIT_EARNED, null grade_point, null grade_score, s.SEMESTER_NUMBER
+from nm_semester_map s, nm_subject_map u
+where s.SEMESTER_MAP_ID = u.SEMESTER_MAP_ID
+and u.SUBJECT_UDID not in (select distinct SUBJECT_UDID 
+from nm_subject_map
+where SUBJECT_MAP_ID in (select m.SUBJECT_MAP_ID
+FROM nm_resultmst m, nm_resultchd d
+WHERE m.RESULTMST_ID = d.RESULTMST_ID
+and D.ADMISSION_ID = :P_ADMISSION_ID))) 
+where semester_number = (select nvl(max(SEMESTER_NUMBER),0) + 2 -- 0 Previous, 1 current, 2 Future
+from nm_semester_map
+where SEMESTER_MAP_ID in (select SEMESTER_MAP_ID
+FROM nm_resultmst m, nm_resultchd d
+WHERE m.RESULTMST_ID = d.RESULTMST_ID
+and D.ADMISSION_ID = :P_ADMISSION_ID))
+
+
+V.03//Present, Previous and Future Courses
+
+
+
 
 

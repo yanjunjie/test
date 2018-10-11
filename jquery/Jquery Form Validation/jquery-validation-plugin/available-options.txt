@@ -1,0 +1,35 @@
+required
+minlength
+email
+debug
+maxWords
+minWords
+rangeWords
+letterswithbasicpunc
+alphanumeric
+lettersonly
+nowhitespace
+ziprange
+zipcodeUS
+integer
+vinUS
+dateITA
+dateNL
+time
+time12h
+phoneUS
+phoneUK
+mobileUK
+phonesUK
+postcodeUK
+strippedminlength
+email2 (optional TLD)
+url2 (optional TLD)
+creditcardtypes
+ipv4
+ipv6
+pattern
+require_from_group
+skip_or_fill_minimum
+accept
+extension
