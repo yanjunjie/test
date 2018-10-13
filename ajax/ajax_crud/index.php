@@ -3,10 +3,8 @@
 ?>
 <html>
 	<head>
-	<title>Ajax submit</title>
+	<title>Ajax CRUD</title>
 		<link rel="stylesheet" href="css/bootstrap.css">
-		<script src="js/jquery.min.js"></script>
-		<script src="js/myscript.js"></script>
 	</head>
 	<body>
 	<div id="create_view">
@@ -21,7 +19,7 @@
 						<label>Email:</label>
 						<input class="form-control" type="email" name="email" id="email">
 					</div>
-					<button id="submit" class="btn btn-danger">Submit </button>
+					<button id="submit" class="btn btn-danger submit">Submit </button>
 				</form>
 				<div style="color:green;" id="success"></div>
 			</div>
@@ -59,5 +57,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/common-1.0.js"></script>
 	</body>
 </html>
