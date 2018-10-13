@@ -1,0 +1,4 @@
+select nvl(BATCH_MAP_ID,(select BATCH_MAP_ID from nm_batch_map where COURSE_ID = a.COURSE_ID and SESSION_ID = a.SESSION_ID)) BATCH_MAP_ID,
+ADMISSION_ID, FULL_NAME_ENG
+from NM_ADMISSION a
+where nvl(ACTIVE_FLAG,'N') = 'Y'

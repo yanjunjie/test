@@ -117,6 +117,9 @@ Ans:
 27. ORA-01847: day of month must be between 1 and last day of month
 Ans: Getting only time portion not date portion
 
+28. ORA-00936: missing expression
+Ans: In select statement getting extra comma before from keyword
+
 
 
 
