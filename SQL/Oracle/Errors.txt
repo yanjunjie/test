@@ -120,6 +120,9 @@ Ans: Getting only time portion not date portion
 28. ORA-00936: missing expression
 Ans: In select statement getting extra comma before from keyword
 
+29. SP2-0552: Bind variable "P_ADMISSION_ID" not declared.
+
+
 
 
 

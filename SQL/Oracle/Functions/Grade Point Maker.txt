@@ -1,0 +1,33 @@
+//v.01
+
+FUNCTION fnc_gradepoint (p_mark NUMBER, p_result varchar2)
+RETURN varchar2
+IS
+v_gradepoint varchar2(5);
+BEGIN
+select grade 
+into v_gradepoint
+from
+(select 
+case when p_mark between MIN_SCORE and MAX_SCORE then
+case when p_result = 'P' then
+to_char(to_number(GRADE_POINT))
+when p_result = 'G' then
+to_char(GRADE_NAME)
+end
+else
+null
+end grade 
+from nm_grade)
+where grade is not null; 
+
+RETURN v_gradepoint;
+
+exception
+when others then
+RETURN ' ';
+end;
+
+//v.02
+
+

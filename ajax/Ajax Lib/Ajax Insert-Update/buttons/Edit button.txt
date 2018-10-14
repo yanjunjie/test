@@ -1,0 +1,7 @@
+//v.01
+<span id="update_personalInfo_btn" title="Update Personal Info"
+  class="btn btn-success btn-xs pull-right"
+  data-action="student/updateStudentPersonalDetails/<?php echo $student_id; ?>"><i
+        class="fa fa-edit"></i> Edit </span>
+
+//v.02
