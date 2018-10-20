@@ -20,46 +20,59 @@ Insert: For inserting data into database follow the below instructions
 */
 
 window.onload = function() {
-  $(document).on('click','.submit',function(e){
+  $(document).on('click','.acb',function(e){
 		e.preventDefault();
 		e.stopPropagation();
+		//Ajax CRUD Button (ACB)
 		var thisBtn = $(this);
+		//Form
         var thisForm = thisBtn.closest("form");
+        //Type //which action will perform i.e, create c or insert i, read r, update u, delete d
+      	/*var dataType = thisBtn.attr("data-type");
+      	if(!dataType)
+		{
+			alert('Please enter action type simply data-type');
+			return false;
+		}*/
+        //Data Action
         var dataAction = thisBtn.attr("data-action");
         	dataAction = dataAction?dataAction:'';
+		//Data Param
 		var dataParam = thisBtn.attr("data-param");
 			dataParam = dataParam?dataParam:'';
+		//Method
         var method = thisForm.attr('method');
         	method = method?method:"POST";
+		//Form Data
         var formData = new FormData(thisForm[0]);
 
-        //Form action
+        //Form action raw //First check 'form action' otherwise check 'data action'
 		var formAction = thisForm.attr('action');
-			formAction = formAction?formAction:'';
+      	var action = formAction?formAction:dataAction?dataAction:'';
 
-		//Form action's parameter
-		var actionParam = formAction.substr(formAction.lastIndexOf('/') + 1);
-        	actionParam = actionParam?actionParam:'';
+		//Action Param
+		var actionParam = action.substr(action.lastIndexOf('/') + 1);
+        	actionParam = actionParam?actionParam:dataParam?dataParam:'';
 
-        //Action Param must be number or number+character i.e, 1,2,3... or foo3bar5
+        //Action Param must be number or number+character i.e, 1,2,3... or foo3bar5 //Checking Action Param or not
 		var pattern =/\d+/;
 		var isNumberTheParam = pattern.test(actionParam); //true
         	actionParam=isNumberTheParam?actionParam:''; 
 
-		//Form action without parameter
-        var str = formAction.substr(formAction.lastIndexOf('/') + 1) + '$';
-			formAction = formAction.replace( new RegExp(str), '' ); 
-		
-		//New Form action
-		var newFormAction = formAction?formAction:dataAction?dataAction:window.location.href;		
+		//Form action without parameter <---------------
+	  	action = actionParam?action.replace( new RegExp(actionParam), '' ):action;
+
+      	//First check 'form action parameter' otherwise check 'data param' <---------------
+      	var param = actionParam?actionParam:dataParam?dataParam:'';
+
+		//URLs
         var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-		
-console.log(formAction);
-console.log(actionParam);
+        var samePageUrl = window.location.href;
+
 		$.ajax({
             type: method,
             data: formData,
-            url: formAction+actionParam,
+            url: param?action+'/'+param:action,
             processData: false,
             contentType: false,
             beforeSend: function () {
