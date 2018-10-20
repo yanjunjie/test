@@ -122,6 +122,9 @@ Ans: In select statement getting extra comma before from keyword
 
 29. SP2-0552: Bind variable "P_ADMISSION_ID" not declared.
 
+30. ORA-01427: single-row subquery returns more than one row
+Ans: In subquery got more than one record, So it may be conditional error or more than one record with the same id in the inner table/inner query.
+We can fix it using IN condition.
 
 
 
