@@ -1,0 +1,170 @@
+<table id="tableCrntAcdm" class="img_border table table-bordered table-hover">
+    <tbody>
+        <!--Admission-->
+        <tr class="tr_info">
+            <th colspan="5" style="text-align: center;"><strong>Admission</strong></th>
+        </tr>
+        <tr>
+            <th>Sl No</th>
+            <th>Fee Head</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due/Advance Amount</th>
+        </tr>
+        <?php $i=0; $total_amt=0; $total_pmt=0; $total_due=0; foreach ($fees_and_waiver as $key=>$row):
+             if($row->YEAR_ID!='15') continue;
+        ?>
+        <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $row->ITEM_NAME; ?></td>
+            <td><?php echo round($row->BILL_AMT); $total_amt += $row->BILL_AMT; ?></td>
+            <td><?php echo round($row->TOT_PRICE); $total_pmt += $row->TOT_PRICE; ?></td>
+            <td><?php echo round($row->BILL_AMT - $row->TOT_PRICE); $total_due += $row->BILL_AMT - $row->TOT_PRICE; ?></td>
+        </tr>
+        <?php endforeach;?>
+        <tr class="tr_noborder">
+            <td colspan="2"></td>
+            <td>Total Amount: <?php echo round($total_amt); ?></td>
+            <td>Total Payment: <?php echo round($total_pmt); ?></td>
+            <td>Total Due: <?php echo round($total_due); ?></td>
+        </tr>
+        <!---/Admission-->
+
+        <tr class="tr_noborder">
+            <th colspan="5"><br></th>
+        </tr>
+
+        <!--1st Year-->
+        <tr class="tr_info">
+            <th colspan="5" style="text-align: center;"><strong>1st Year</strong></th>
+        </tr>
+        <tr>
+            <th>Sl No</th>
+            <th>Fee Head</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due/Advance Amount</th>
+        </tr>
+        <?php $i=0; $total_amt=0; $total_pmt=0; $total_due=0; foreach ($fees_and_waiver as $key=>$row):
+             if($row->YEAR_ID!='11') continue;
+        ?>
+        <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $row->ITEM_NAME; ?></td>
+            <td><?php echo round($row->BILL_AMT); $total_amt += $row->BILL_AMT; ?></td>
+            <td><?php echo round($row->TOT_PRICE); $total_pmt += $row->TOT_PRICE; ?></td>
+            <td><?php echo round($row->BILL_AMT - $row->TOT_PRICE); $total_due += $row->BILL_AMT - $row->TOT_PRICE; ?></td>
+        </tr>
+        <?php endforeach;?>
+        <tr class="tr_noborder">
+            <td colspan="2"></td>
+            <td>Total Amount: <?php echo round($total_amt); ?></td>
+            <td>Total Payment: <?php echo round($total_pmt); ?></td>
+            <td>Total Due: <?php echo round($total_due); ?></td>
+        </tr>
+        <!---/1st Year-->
+
+        <tr class="tr_noborder">
+            <th colspan="5"><br></th>
+        </tr>
+
+        <!--2nd Year-->
+        <tr class="tr_info">
+            <th colspan="5" style="text-align: center;"><strong>2nd Year</strong></th>
+        </tr>
+        <tr>
+            <th>Sl No</th>
+            <th>Fee Head</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due/Advance Amount</th>
+        </tr>
+        <?php $i=0; $total_amt=0; $total_pmt=0; $total_due=0; foreach ($fees_and_waiver as $key=>$row):
+             if($row->YEAR_ID!='12') continue;
+        ?>
+        <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $row->ITEM_NAME; ?></td>
+            <td><?php echo round($row->BILL_AMT); $total_amt += $row->BILL_AMT; ?></td>
+            <td><?php echo round($row->TOT_PRICE); $total_pmt += $row->TOT_PRICE; ?></td>
+            <td><?php echo round($row->BILL_AMT - $row->TOT_PRICE); $total_due += $row->BILL_AMT - $row->TOT_PRICE; ?></td>
+        </tr>
+        <?php endforeach;?>
+        <tr class="tr_noborder">
+            <td colspan="2"></td>
+            <td>Total Amount: <?php echo round($total_amt); ?></td>
+            <td>Total Payment: <?php echo round($total_pmt); ?></td>
+            <td>Total Due: <?php echo round($total_due); ?></td>
+        </tr>
+        <!---/2nd Year-->
+
+        <tr class="tr_noborder">
+            <th colspan="5"><br></th>
+        </tr>
+
+        <!--3rd Year-->
+        <tr class="tr_info">
+            <th colspan="5" style="text-align: center;"><strong>3rd Year</strong></th>
+        </tr>
+        <tr>
+            <th>Sl No</th>
+            <th>Fee Head</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due/Advance Amount</th>
+        </tr>
+        <?php $i=0; $total_amt=0; $total_pmt=0; $total_due=0; foreach ($fees_and_waiver as $key=>$row):
+             if($row->YEAR_ID!='13') continue;
+        ?>
+        <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $row->ITEM_NAME; ?></td>
+            <td><?php echo round($row->BILL_AMT); $total_amt += $row->BILL_AMT; ?></td>
+            <td><?php echo round($row->TOT_PRICE); $total_pmt += $row->TOT_PRICE; ?></td>
+            <td><?php echo round($row->BILL_AMT - $row->TOT_PRICE); $total_due += $row->BILL_AMT - $row->TOT_PRICE; ?></td>
+        </tr>
+        <?php endforeach;?>
+        <tr class="tr_noborder">
+            <td colspan="2"></td>
+            <td>Total Amount: <?php echo round($total_amt); ?></td>
+            <td>Total Payment: <?php echo round($total_pmt); ?></td>
+            <td>Total Due: <?php echo round($total_due); ?></td>
+        </tr>
+        <!---/3rd Year-->
+
+        <tr class="tr_noborder">
+            <th colspan="5"><br></th>
+        </tr>
+
+        <!--4th Year-->
+        <tr class="tr_info">
+            <th colspan="5" style="text-align: center;"><strong>4th Year</strong></th>
+        </tr>
+        <tr>
+            <th>Sl No</th>
+            <th>Fee Head</th>
+            <th>Amount</th>
+            <th>Paid Amount</th>
+            <th>Due/Advance Amount</th>
+        </tr>
+        <?php $i=0; $total_amt=0; $total_pmt=0; $total_due=0; foreach ($fees_and_waiver as $key=>$row):
+             if($row->YEAR_ID!='14') continue;
+        ?>
+        <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $row->ITEM_NAME; ?></td>
+            <td><?php echo round($row->BILL_AMT); $total_amt += $row->BILL_AMT; ?></td>
+            <td><?php echo round($row->TOT_PRICE); $total_pmt += $row->TOT_PRICE; ?></td>
+            <td><?php echo round($row->BILL_AMT - $row->TOT_PRICE); $total_due += $row->BILL_AMT - $row->TOT_PRICE; ?></td>
+        </tr>
+        <?php endforeach;?>
+        <tr class="tr_noborder">
+            <td colspan="2"></td>
+            <td>Total Amount: <?php echo round($total_amt); ?></td>
+            <td>Total Payment: <?php echo round($total_pmt); ?></td>
+            <td>Total Due: <?php echo round($total_due); ?></td>
+        </tr>
+        <!---/4th Year-->
+
+    </tbody>
+</table>

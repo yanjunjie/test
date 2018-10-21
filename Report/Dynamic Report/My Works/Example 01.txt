@@ -1,0 +1,50 @@
+<div id="courseTbl">
+    <h3>Payment Information</h3>
+    <table id="tableCrntAcdm" class="img_border table table-bordered table-hover">
+        <tbody>
+            <?php
+            foreach ($fees_and_waiver_outer as $row_outer)
+            {
+                ?>
+                <tr class="tr_info">
+                    <td colspan="5" style="text-align: center;"><b><?php echo $row_outer->YEAR_NAME; ?></b></td>
+                </tr>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Fee Head</th>
+                    <th>Amount</th>
+                    <th>Paid Amount</th>
+                    <th>Due/Advance Amount</th>
+                </tr>
+                <?php
+                $slno=0; $total_amt=0; $total_pmt=0; $total_due=0;
+                foreach ($fees_and_waiver_inner as $row_inner)
+                {
+                    if ($row_inner->YEAR_MAP_ID == $row_outer->YEAR_MAP_ID): ?>
+                        <tr>
+                            <td><?php echo ++$slno; ?></td>
+                            <td><?php echo $row_inner->ITEM_NAME; ?></td>
+                            <td><?php echo round($row_inner->BILL_AMT); $total_amt += $row_inner->BILL_AMT; ?></td>
+                            <td><?php echo round($row_inner->TOT_PRICE); $total_pmt += $row_inner->TOT_PRICE; ?></td>
+                            <td><?php echo round($row_inner->BILL_AMT - $row_inner->TOT_PRICE); $total_due += $row_inner->BILL_AMT - $row_inner->TOT_PRICE; ?></td>
+                        </tr>
+                    <?php endif;
+                }
+                ?>
+                <tr class="tr_footer">
+                    <td colspan="2" style="text-align: right">Total: </td>
+                    <td><?php echo round($total_amt); ?></td>
+                    <td><?php echo round($total_pmt); ?></td>
+                    <td><?php echo round($total_due); ?></td>
+                </tr>
+                <tr class="tr_noborder">
+                    <th colspan="5"><br></th>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+
