@@ -159,7 +159,7 @@ window.onload = function() {
 				else
 				{
 					//Server side error
-					alert('Error! Please try again later');
+					alert('Internal Error! Please try again later');
 				}
             }
         });
