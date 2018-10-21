@@ -15,7 +15,7 @@
 	<div id="create_read">
 		<div class="container">
 			<div style="margin-top:5%;" class="col-sm-4 col-sm-offset-4 well" >
-				<form role="form" data-action="ajax.php/12" id="rform" method="POST">
+				<form role="form" data-action="ajax.php" id="rform" method="POST">
 					<div class="form-group">
 						<label>Name:</label>
 						<input class="form-control" type="name" name="name" id="name">
@@ -24,7 +24,7 @@
 						<label>Email:</label>
 						<input class="form-control" type="email" name="email" id="email">
 					</div>
-					<button id="submit" class="btn btn-danger acb" data-param="10" data-action="ajax.php/11">Submit </button>
+					<button id="submit" class="btn btn-danger acb" data-action="ajax.php" data-action-type="d">Submit</button>
 				</form>
 				<div style="color:green;" id="success"></div>
 			</div>

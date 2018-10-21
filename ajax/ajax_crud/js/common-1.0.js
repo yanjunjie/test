@@ -15,7 +15,8 @@ Insert: For inserting data into database follow the below instructions
 	N.B, If you don't mention any action then by default the action will be the same page
 	     and this is good for framework i.e, Laravel, Codeigniter
 4. In the action page, after successfully inserting data echo "yes" and for error echo "no"
-5. For the insert, submit button's text must be "Submit" or "Save" 
+5. For performing the insert action we must have a data-action-type attribute
+	and value will be i.e, create or c or insert or i
 
 */
 
@@ -25,15 +26,42 @@ window.onload = function() {
 		e.stopPropagation();
 		//Ajax CRUD Button (ACB)
 		var thisBtn = $(this);
+
+		/*
+		*Data-Action-Type
+	  	*For which an action will perform i.e, create or c or insert or i, read or r or v, update or u or m, delete or d or destroy
+	  	*/
+
+	  	var dataActionType = thisBtn.attr("data-action-type");
+	  	if(!dataActionType)
+		{
+			alert('Please set the value of data-action-type attribute');
+			return false;
+		}
+		if(dataActionType=='create'||dataActionType=='c'||dataActionType=='insert'||dataActionType=='i')
+		{
+            dataActionType='c';
+		}
+		else if(dataActionType=='read'||dataActionType=='r'||dataActionType=='view'||dataActionType=='v')
+		{
+		  dataActionType='r';
+		}
+		else if(dataActionType=='update'||dataActionType=='u'||dataActionType=='modify'||dataActionType=='m')
+		{
+		  dataActionType='u';
+		}
+		else if(dataActionType=='delete'||dataActionType=='d'||dataActionType=='destroy')
+		{
+		  dataActionType='d';
+		}
+		else
+		{
+            alert('You don\'t set appropriate value of data-action-type attribute');
+            return false;
+		}
+
 		//Form
         var thisForm = thisBtn.closest("form");
-        //Type //which action will perform i.e, create c or insert i, read r, update u, delete d
-      	/*var dataType = thisBtn.attr("data-type");
-      	if(!dataType)
-		{
-			alert('Please enter action type simply data-type');
-			return false;
-		}*/
         //Data Action
         var dataAction = thisBtn.attr("data-action");
         	dataAction = dataAction?dataAction:'';
@@ -69,6 +97,17 @@ window.onload = function() {
         var baseUrl = window.location.protocol + "//" + window.location.host + "/";
         var samePageUrl = window.location.href;
 
+        //Check action param set or not for update/delete action
+        if(dataActionType=='u'||dataActionType=='d')
+		{
+			if(!param)
+			{
+				alert("Please set the value of the action parameter");
+				return false;
+			}
+		}
+
+		//Ajax for CRUD
 		$.ajax({
             type: method,
             data: formData,
@@ -81,12 +120,30 @@ window.onload = function() {
             success: function (data) {
 				if($.trim(data)=="yes")
 				{
-					alert('Success!');
+					if(dataActionType=='c')
+					{
+						alert("Success! Data has been inserted successfully");
+					}
+                    else if(dataActionType=='u')
+                    {
+                        alert("Success! Data has been updated successfully");
+                    }
+                    else if(dataActionType=='d')
+                    {
+                        alert("Success! Data has been deleted successfully");
+                    }
+                    else
+					{
+						//The Action is not performed successfully
+                        alert("Oops! Error occurred please try again");
+					}
+
 					$("#create_read").load(location.href + " #create_read");
 				}
 				else
 				{
-					alert('Error! Please try again');
+					//Server side error
+					alert('Error! Please try again later');
 				}
             }
         });
