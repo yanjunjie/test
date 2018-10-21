@@ -17,6 +17,8 @@ Insert: For inserting data into database follow the below instructions
 4. In the action page, after successfully inserting data echo "yes" and for error echo "no"
 5. For performing the insert action we must have a data-action-type attribute
 	and value will be i.e, create or c or insert or i
+6. For Raw insert operation (not any framework i.e, raw PHP) set extra attrubute called data-env="raw"
+	And catch the url data using $_GET['id'] or $_POST['id']
 
 */
 
@@ -107,11 +109,25 @@ window.onload = function() {
 			}
 		}
 
+		//Middleware env i.e, raw, laravel or lara, codeigniter or ci
+	  	let formURL = 'error/404'; //temp url
+      	var dataEnv = thisBtn.attr("data-env");
+	  	if(dataEnv=="raw")
+	  	{
+            formURL=param?action+'?id='+param:action;
+		}
+		else
+		{
+            formURL=param?action+'/'+param:action;
+		}
+		//To access param using $_POST['id']
+      	formData.id=param;
+
 		//Ajax for CRUD
 		$.ajax({
             type: method,
             data: formData,
-            url: param?action+'/'+param:action,
+            url: formURL,
             processData: false,
             contentType: false,
             beforeSend: function () {
