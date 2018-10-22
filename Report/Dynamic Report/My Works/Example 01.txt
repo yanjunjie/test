@@ -1,3 +1,18 @@
+<!--Report Style-->
+<style>
+    .tr_info > th, .tr_info > td {
+        background: #19aa8d;
+        color: #fff;
+    }
+    .tr_noborder>th,.tr_noborder>td{
+         border: 0px solid transparent !important;
+    }
+    .tr_footer>th,.tr_footer>td{
+        background: #ffeaea;
+        font-weight: bold;
+    }
+</style>
+
 <div id="courseTbl">
     <h3>Payment Information</h3>
     <table id="tableCrntAcdm" class="img_border table table-bordered table-hover">
