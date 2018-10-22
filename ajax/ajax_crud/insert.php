@@ -1,21 +1,29 @@
-<?php //require_once('connection/index.php');
-	include('config.php');
-?>
+<?php include('config.php');
 
-<?php
-	if(!empty($_POST['name']))
+	if(!empty($_POST['name']) && !empty($_POST['actionType']))
 	{
-		//die(var_dump($_POST['id']));
-		$name=$_POST['name'];
-		$email=$_POST['email'];
-		$sql="INSERT INTO info (name, email) VALUES('$name','$email')";
-		if(mysqli_query($conn,$sql))
+		if($_POST['actionType']=='c')
 		{
-			echo "yes";
+            $name=$_POST['name'];
+            $email=$_POST['email'];
+            $sql="INSERT INTO info (name, email) VALUES('$name','$email')";
+			if(mysqli_query($conn,$sql))
+			{
+				echo "200"; //OK
+			}
+			else
+			{
+				echo "500"; //Internal Server Error
+			}
 		}
 		else
-			echo "no";
-
-		exit();
+		{
+			echo '205'; //Reset Content
+		}
 	}
+	else
+	{
+		echo '204'; //No Content
+	}
+	exit();
 ?>

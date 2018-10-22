@@ -15,12 +15,12 @@ Insert: For inserting data into database follow the below instructions
 	ii) You can set your action using data-action attribute in the submit button i.e, data-action="..."
 	N.B, If you don't mention any action then by default the action will be the same page
 	     and this is good for framework i.e, Laravel, Codeigniter
-4. In the action page, after successfully inserting data echo "yes" and for error echo "no"
+4. In the action page, after successfully inserting data echo "200" and for error echo "500"
 5. For performing the insert action we must have a data-action-type attribute
 	and value will be i.e, create or c or insert or i
 6. For Raw insert operation (not any framework i.e, raw PHP) set extra attrubute called data-env="raw"
 	And catch the url data using $_GET['id'] or $_POST['id']
-
+7. In server side, actionType must be c for create, r for read, u for update, d for delete
 */
 
 window.onload = function() {
@@ -109,12 +109,14 @@ window.onload = function() {
 				alert("Please set the value of the action parameter");
 				return false;
 			}
-
+            //Remove all of Form Data except id if have
+            thisForm?thisForm.trigger('reset'):'';
 			//To access param using $_POST['id']
       		formData.append('id', param);
-      		//Action type i.e, create, read, update, delete
-      		formData.append('actionType', dataActionType);
 		}
+
+		//Action type i.e, create, read, update, delete
+	  	formData.append('actionType', dataActionType);
 
 		//Middleware env i.e, raw, laravel or lara, codeigniter or ci
 	  	let formURL = 'error/404'; //temp url
@@ -139,7 +141,7 @@ window.onload = function() {
                 $(".loadingImg").html("");
             },
             success: function (data) {
-				if($.trim(data)=="yes")
+				if($.trim(data)=="200")
 				{
 					if(dataActionType=='c')
 					{
@@ -162,15 +164,22 @@ window.onload = function() {
 					//Refresh a part of the page
 					$("#create_read").load(location.href + " #create_read");
 				}
-				else if($.trim(data)=="no")
+				else if($.trim(data)=="500")
 				{
 					alert('Sorry, we can\'t perform this action. Please try again');
 				}
-				else
+				else if($.trim(data)=="204")
 				{
 					//Server side error
-					alert('Internal Error! Please try again later');
+					alert('Error! Server is not returning any content');
 				}
+                else if($.trim(data)=="205")
+                {
+                    //Server side error
+                    alert('Error! Please set a appropriate action type');
+                }
+                else
+                    alert('Sorry, we can\'t perform this action. Please try again');
             }
         });
         //End Ajax

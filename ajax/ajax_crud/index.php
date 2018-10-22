@@ -25,7 +25,7 @@
 						<input class="form-control" type="email" name="email" id="email">
 					</div>
 					<button id="submit" class="btn btn-danger acb"
-                        data-action="ajax.php" data-param="12" data-action-type="u" data-env="raw">Submit</button>
+                        data-action="insert.php" data-param="" data-action-type="i" data-env="raw">Submit</button>
 				</form>
 				<div style="color:green;" id="success"></div>
 			</div>

@@ -8,20 +8,21 @@
 			$sql="DELETE FROM info WHERE id='$id'";
 			if(mysqli_query($conn,$sql))
 			{
-				echo "yes";
+				echo "200"; //OK
 			}
 			else
-				echo "no";
+            {
+                echo "500"; //Internal Server Error
+            }
 		}
 		else
 		{
-			echo '500';
+			echo '205'; //Reset Content
 		}
 	}
 	else
 	{
-		echo '404';
+		echo '204'; //No Content
 	}
-
 	exit();
 ?>
