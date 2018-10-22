@@ -1,4 +1,5 @@
 import * as config from './config.js';
+import * as formValidation from './check-form-validation.js';
 /*
 Author: Md. Bablu Mia
 Copyright: Copyright all rights reserved, 2018
@@ -129,7 +130,7 @@ window.onload = function() {
 		{
             formURL=param?action+'/'+param:action;
 		}
-		
+		console.log(formValidation.testt());
 		//Ajax for CRUD
 		$.ajax({
             type: method,
