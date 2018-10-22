@@ -15,51 +15,119 @@ Insert: For inserting data into database follow the below instructions
 	N.B, If you don't mention any action then by default the action will be the same page
 	     and this is good for framework i.e, Laravel, Codeigniter
 4. In the action page, after successfully inserting data echo "yes" and for error echo "no"
-5. For the insert, submit button's text must be "Submit" or "Save" 
+5. For performing the insert action we must have a data-action-type attribute
+	and value will be i.e, create or c or insert or i
+6. For Raw insert operation (not any framework i.e, raw PHP) set extra attrubute called data-env="raw"
+	And catch the url data using $_GET['id'] or $_POST['id']
 
 */
 
 window.onload = function() {
-  $(document).on('click','.submit',function(e){
+  $(document).on('click','.acb',function(e){
 		e.preventDefault();
 		e.stopPropagation();
+		//Ajax CRUD Button (ACB)
 		var thisBtn = $(this);
+
+		/*
+		*Data-Action-Type
+	  	*For which an action will perform i.e, create or c or insert or i, read or r or v, update or u or m, delete or d or destroy
+	  	*/
+
+	  	var dataActionType = thisBtn.attr("data-action-type");
+	  	if(!dataActionType)
+		{
+			alert('Please set the value of data-action-type attribute');
+			return false;
+		}
+		if(dataActionType=='create'||dataActionType=='c'||dataActionType=='insert'||dataActionType=='i')
+		{
+            dataActionType='c';
+		}
+		else if(dataActionType=='read'||dataActionType=='r'||dataActionType=='view'||dataActionType=='v')
+		{
+		  dataActionType='r';
+		}
+		else if(dataActionType=='update'||dataActionType=='u'||dataActionType=='modify'||dataActionType=='m')
+		{
+		  dataActionType='u';
+		}
+		else if(dataActionType=='delete'||dataActionType=='d'||dataActionType=='destroy')
+		{
+		  dataActionType='d';
+		}
+		else
+		{
+            alert('You don\'t set appropriate value of data-action-type attribute');
+            return false;
+		}
+
+		//Form
         var thisForm = thisBtn.closest("form");
+        //Data Action
         var dataAction = thisBtn.attr("data-action");
         	dataAction = dataAction?dataAction:'';
+		//Data Param
 		var dataParam = thisBtn.attr("data-param");
 			dataParam = dataParam?dataParam:'';
+		//Method
         var method = thisForm.attr('method');
         	method = method?method:"POST";
+		//Form Data
         var formData = new FormData(thisForm[0]);
 
-        //Form action
+        //Form action raw //First check 'form action' otherwise check 'data action'
 		var formAction = thisForm.attr('action');
-			formAction = formAction?formAction:'';
+      	var action = formAction?formAction:dataAction?dataAction:'';
 
-		//Form action's parameter
-		var actionParam = formAction.substr(formAction.lastIndexOf('/') + 1);
-        	actionParam = actionParam?actionParam:'';
+		//Action Param
+		var actionParam = action.substr(action.lastIndexOf('/') + 1);
+        	actionParam = actionParam?actionParam:dataParam?dataParam:'';
 
-        //Action Param must be number or number+character i.e, 1,2,3... or foo3bar5
+        //Action Param must be number or number+character i.e, 1,2,3... or foo3bar5 //Checking Action Param or not
 		var pattern =/\d+/;
 		var isNumberTheParam = pattern.test(actionParam); //true
         	actionParam=isNumberTheParam?actionParam:''; 
 
-		//Form action without parameter
-        var str = formAction.substr(formAction.lastIndexOf('/') + 1) + '$';
-			formAction = formAction.replace( new RegExp(str), '' ); 
-		
-		//New Form action
-		var newFormAction = formAction?formAction:dataAction?dataAction:window.location.href;		
+		//Form action without parameter <---------------
+	  	action = actionParam?action.replace( new RegExp(actionParam), '' ):action;
+
+      	//First check 'form action parameter' otherwise check 'data param' <---------------
+      	var param = actionParam?actionParam:dataParam?dataParam:'';
+
+		//URLs
         var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-		
-console.log(formAction);
-console.log(actionParam);
+        var samePageUrl = window.location.href;
+
+        //Check action param set or not for update/delete action
+        if(dataActionType=='u'||dataActionType=='d')
+		{
+			if(!param)
+			{
+				alert("Please set the value of the action parameter");
+				return false;
+			}
+		}
+
+		//Middleware env i.e, raw, laravel or lara, codeigniter or ci
+	  	let formURL = 'error/404'; //temp url
+      	var dataEnv = thisBtn.attr("data-env");
+	  	if(dataEnv=="raw")
+	  	{
+            formURL=param?action+'?id='+param:action;
+		}
+		else
+		{
+            formURL=param?action+'/'+param:action;
+		}
+		//To access param using $_POST['id']
+      	formData.id=param;
+
+		//Ajax for CRUD
 		$.ajax({
             type: method,
             data: formData,
-            url: formAction+actionParam,
+            url: formURL,
             processData: false,
             contentType: false,
             beforeSend: function () {
@@ -68,12 +136,30 @@ console.log(actionParam);
             success: function (data) {
 				if($.trim(data)=="yes")
 				{
-					alert('Success!');
+					if(dataActionType=='c')
+					{
+						alert("Success! Data has been inserted successfully");
+					}
+                    else if(dataActionType=='u')
+                    {
+                        alert("Success! Data has been updated successfully");
+                    }
+                    else if(dataActionType=='d')
+                    {
+                        alert("Success! Data has been deleted successfully");
+                    }
+                    else
+					{
+						//The Action is not performed successfully
+                        alert("Oops! Error occurred please try again");
+					}
+
 					$("#create_read").load(location.href + " #create_read");
 				}
 				else
 				{
-					alert('Error! Please try again');
+					//Server side error
+					alert('Internal Error! Please try again later');
 				}
             }
         });
