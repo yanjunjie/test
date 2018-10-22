@@ -68,10 +68,12 @@ sudo service apache2 restart
 
 N.B, phpMyAdmin:
 
-gksu gedit /etc/apache2/apache2.conf
-Then add the following line to the end of the file.
+gedit /etc/apache2/apache2.conf
+
+Then add the following line to the end of the file:
 
 Include /etc/phpmyadmin/apache.conf
+
 Then restart apache
 
 In details: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04

@@ -15,7 +15,7 @@
 	<div id="create_read">
 		<div class="container">
 			<div style="margin-top:5%;" class="col-sm-4 col-sm-offset-4 well" >
-				<form role="form" data-action="ajax.php" id="rform" method="POST">
+				<form role="form" id="rform" method="POST">
 					<div class="form-group">
 						<label>Name:</label>
 						<input class="form-control" type="name" name="name" id="name">
@@ -25,7 +25,7 @@
 						<input class="form-control" type="email" name="email" id="email">
 					</div>
 					<button id="submit" class="btn btn-danger acb"
-                        data-action="ajax.php/12" data-action-type="d" data-env="raw">Submit</button>
+                        data-action="ajax.php" data-param="12" data-action-type="u" data-env="raw">Submit</button>
 				</form>
 				<div style="color:green;" id="success"></div>
 			</div>
@@ -53,7 +53,11 @@
 						<tr>
 							<td><?php echo $row['name']?></td>
 							<td><?php echo $row['email']?></td>
-							<td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+							<td>
+								<button class="btn btn-warning btn-xs acb"
+                        data-action="update.php" data-param="<?php echo $row['id']?>" data-action-type="u" data-env="raw">Edit</button> | <button class="btn btn-danger btn-xs acb"
+                        data-action="delete.php" data-param="<?php echo $row['id']?>" data-action-type="d" data-env="raw">Delete</button>
+                    		</td>
 						</tr>
 
 				    <?php } ?>
@@ -64,6 +68,6 @@
 		</div>
 	</div>
 	<script src="js/jquery.min.js"></script>
-	<script src="js/common-1.0.js"></script>
+	<script type="module" src="js/common-1.0.js"></script>
 	</body>
 </html>

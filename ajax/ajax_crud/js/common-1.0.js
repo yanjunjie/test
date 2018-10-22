@@ -1,3 +1,4 @@
+import * as config from './config.js';
 /*
 Author: Md. Bablu Mia
 Copyright: Copyright all rights reserved, 2018
@@ -34,7 +35,7 @@ window.onload = function() {
 	  	*For which an action will perform i.e, create or c or insert or i, read or r or v, update or u or m, delete or d or destroy
 	  	*/
 
-	  	var dataActionType = thisBtn.attr("data-action-type");
+	  	var dataActionType = $.trim(thisBtn.attr("data-action-type"));
 	  	if(!dataActionType)
 		{
 			alert('Please set the value of data-action-type attribute');
@@ -96,8 +97,9 @@ window.onload = function() {
       	var param = actionParam?actionParam:dataParam?dataParam:'';
 
 		//URLs
-        var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-        var samePageUrl = window.location.href;
+        var baseUrl = window.location.protocol + "//" + window.location.host + "/"; //http://localhost/
+        var samePageUrl = window.location.href; //http://localhost/test/ajax/ajax_crud/
+        var customUrl = config.baseURL('test/'); //http://localhost/test/
 
         //Check action param set or not for update/delete action
         if(dataActionType=='u'||dataActionType=='d')
@@ -107,12 +109,17 @@ window.onload = function() {
 				alert("Please set the value of the action parameter");
 				return false;
 			}
+
+			//To access param using $_POST['id']
+      		formData.append('id', param);
+      		//Action type i.e, create, read, update, delete
+      		formData.append('actionType', dataActionType);
 		}
 
 		//Middleware env i.e, raw, laravel or lara, codeigniter or ci
 	  	let formURL = 'error/404'; //temp url
       	var dataEnv = thisBtn.attr("data-env");
-	  	if(dataEnv=="raw")
+	  	if(dataEnv=="raw" && (dataActionType=='u'||dataActionType=='d'))
 	  	{
             formURL=param?action+'?id='+param:action;
 		}
@@ -120,9 +127,7 @@ window.onload = function() {
 		{
             formURL=param?action+'/'+param:action;
 		}
-		//To access param using $_POST['id']
-      	formData.id=param;
-
+		
 		//Ajax for CRUD
 		$.ajax({
             type: method,
@@ -138,23 +143,28 @@ window.onload = function() {
 				{
 					if(dataActionType=='c')
 					{
-						alert("Success! Data has been inserted successfully");
+						alert("Success! Record inserted successfully");
 					}
                     else if(dataActionType=='u')
                     {
-                        alert("Success! Data has been updated successfully");
+                        alert("Success! Record updated successfully");
                     }
                     else if(dataActionType=='d')
                     {
-                        alert("Success! Data has been deleted successfully");
+                        alert("Success! Record deleted successfully");
                     }
                     else
 					{
-						//The Action is not performed successfully
-                        alert("Oops! Error occurred please try again");
+						//An unknown action performed
+                        alert("Oops! An error occurred, an unknown action performed");
 					}
 
+					//Refresh a part of the page
 					$("#create_read").load(location.href + " #create_read");
+				}
+				else if($.trim(data)=="no")
+				{
+					alert('Sorry, we can\'t perform this action. Please try again');
 				}
 				else
 				{
