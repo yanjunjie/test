@@ -158,8 +158,7 @@ window.onload = function() {
                     }
                     else
 					{
-						//An unknown action performed
-                        alert("Oops! An error occurred, an unknown action performed");
+                        alert("Oops! An unknown action performed");
 					}
 
 					//Refresh a part of the page
@@ -167,17 +166,16 @@ window.onload = function() {
 				}
 				else if($.trim(data)=="500")
 				{
-					alert('Sorry, we can\'t perform this action. Please try again');
+					//Coding/Query error
+					alert("Sorry, we can't perform this action");
 				}
-				else if($.trim(data)=="204")
+				else if($.trim(data)=="400")
 				{
-					//Server side error
-					alert('Error! Server is not returning any content');
+					alert('Error! Invalid request');
 				}
-                else if($.trim(data)=="205")
+                else if($.trim(data)=="403")
                 {
-                    //Server side error
-                    alert('Error! Please set a appropriate action type');
+                    alert('Error! Please set an appropriate action type');
                 }
                 else
                     alert('Sorry, we can\'t perform this action. Please try again');

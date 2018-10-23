@@ -18,12 +18,12 @@ if(!empty($_POST['name']) && !empty($_POST['actionType']))
     }
     else
     {
-        echo '205'; //Reset Content
+        echo '403'; //Forbidden
     }
 }
 else
 {
-    echo '204'; //No Content
+    echo '400'; //Bad Request
 }
 exit();
 ?>

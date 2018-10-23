@@ -16,14 +16,14 @@
 				echo "500"; //Internal Server Error
 			}
 		}
-		else
-		{
-			echo '205'; //Reset Content
-		}
-	}
-	else
-	{
-		echo '204'; //No Content
-	}
+        else
+        {
+            echo '403'; //Forbidden
+        }
+    }
+    else
+    {
+        echo '400'; //Bad Request
+    }
 	exit();
 ?>
