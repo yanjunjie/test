@@ -1,5 +1,5 @@
 import * as config from './config.js';
-import * as formValidation from './check-form-validation.js';
+import * as formValidation from './custom-form-validation.js';
 /*
 Author: Md. Bablu Mia
 Copyright: Copyright all rights reserved, 2018

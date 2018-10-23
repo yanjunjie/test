@@ -1,0 +1,8 @@
+Model:
+ -Utilities.php
+
+Controller:
+ -Lab_schedule.php
+
+Views:
+ -lab_schedule
