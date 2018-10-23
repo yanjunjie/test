@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1398b4b-22c7-46be-9951-207c075545d0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/check-form-validation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/common-1.0.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/common-1.0.js" afterDir="false" />
-    </list>
+    <list default="true" id="e1398b4b-22c7-46be-9951-207c075545d0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,12 +195,12 @@
       <workItem from="1540058557271" duration="8447000" />
       <workItem from="1540146658903" duration="8948000" />
       <workItem from="1540227831986" duration="7919000" />
-      <workItem from="1540268328053" duration="5133000" />
+      <workItem from="1540268328053" duration="5739000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30447000" />
+    <option name="totallyTimeSpent" value="31053000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="47" y="-4" width="1319" height="772" extended-state="6" />

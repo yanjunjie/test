@@ -126,6 +126,14 @@ Ans: In select statement getting extra comma before from keyword
 Ans: In subquery got more than one record, So it may be conditional error or more than one record with the same id in the inner table/inner query.
 We can fix it using IN condition.
 
+31. ORA-01031: insufficient privileges
+Ans:
+
+32. ORA-00932: inconsistent datatypes: expected - got BLOB
+
+33. oci_execute(): ORA-12899: value too large for column "SHNIBPS_DEV01"."APPLICANT_PERSONAL_INFO"."HEIGHT_FEET" (actual: 6, maximum: 5)
+
+
 
 
 

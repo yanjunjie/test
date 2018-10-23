@@ -75,7 +75,7 @@
                 <input type="submit" class="btn btn-primary btn-sm" value="Submit">
             </div>
         </div>
-
+	</div>
     </form>
 
     <div class="clearfix"></div>
