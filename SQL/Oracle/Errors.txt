@@ -132,6 +132,17 @@ Ans:
 32. ORA-00932: inconsistent datatypes: expected - got BLOB
 
 33. oci_execute(): ORA-12899: value too large for column "SHNIBPS_DEV01"."APPLICANT_PERSONAL_INFO"."HEIGHT_FEET" (actual: 6, maximum: 5)
+34.ORA-02291: integrity constraint (SHNIBPS_DEV01.FK_SKILL_DEV_ELEMENT_1) violated - parent key not found
+Ans:
+Cause: A foreign key value has no matching primary key value.
+Action: Delete the foreign key or add a matching primary key.
+
+35. ORA-01400: cannot insert NULL into ("SHNIBPS_DEV01"."SKILL_DEV_ELEMENT"."CRE_DT")
+36.ORA-02296: cannot enable 
+37. ORA-01758: table must be empty to add mandatory (NOT NULL) column
+
+
+
 
 
 

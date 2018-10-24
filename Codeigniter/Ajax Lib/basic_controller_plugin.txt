@@ -1,0 +1,20 @@
+//Existence checkin, exists or not a value in a table
+    public function check_existence()
+    {
+        $table=$this->input->post('table');
+        $attr=$this->input->post('attr');
+        $val=$this->input->post('val');
+        $res = $this->utilities->findById($table, $attr, $val);
+        if($res)
+        {
+            echo "200";
+        }
+        else
+        {
+            echo "204";
+        }
+        exit();
+    }
+
+
+//

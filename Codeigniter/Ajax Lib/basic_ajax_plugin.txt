@@ -1,0 +1,24 @@
+//Existence checkin, exists or not a value in a table
+    $(document).on('keyup', "#custom_reg_no", function () {
+        var custom_reg_no = $(this).val();
+        var label =$(this).parent().parent().find('label').text();
+        label =label.replace("*", "");
+
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url()?>admission/check_existence',
+            data: {table:'APPLICANT_PERSONAL_INFO', attr:'SBLN_ROLL_NO', val:custom_reg_no },
+            success: function (data) {
+                if(data=='200')
+                {
+                    $('#custom_reg_no_exists').html(label+" already exists");
+                }
+                else
+                {
+                    $('#custom_reg_no_exists').html('');
+                }
+            }
+        });
+    });
+
+//
