@@ -1,0 +1,21 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+	width: 960px;
+	margin: 0 auto;
+}
+
+.bg-container{
+	background: #ddd;
+}
+
+.bg-row{
+	background: #eee;
+}
+
+.bg-col{
+	background: #fff;
+}
