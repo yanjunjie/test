@@ -1,0 +1,8 @@
+Model:
+ -Utilities.php
+
+Controller:
+ -Institution_setup.php
+
+Views:
+ -institution_setup

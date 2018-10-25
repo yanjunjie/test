@@ -1,5 +1,5 @@
 //Existence checkin, exists or not a value in a table
-    $(document).on('keyup', "#custom_reg_no", function () {
+    $(document).on('keyup change', "#custom_reg_no", function () {
         var custom_reg_no = $(this).val();
         var label =$(this).parent().parent().find('label').text();
         label =label.replace("*", "");
@@ -12,10 +12,12 @@
                 if(data=='200')
                 {
                     $('#custom_reg_no_exists').html(label+" already exists");
+                    $('#admission_form_btn').attr('disabled','disabled');
                 }
                 else
                 {
                     $('#custom_reg_no_exists').html('');
+                    $('#admission_form_btn').removeAttr('disabled','disabled');
                 }
             }
         });
