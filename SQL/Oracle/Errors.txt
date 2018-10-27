@@ -140,6 +140,8 @@ Action: Delete the foreign key or add a matching primary key.
 35. ORA-01400: cannot insert NULL into ("SHNIBPS_DEV01"."SKILL_DEV_ELEMENT"."CRE_DT")
 36.ORA-02296: cannot enable 
 37. ORA-01758: table must be empty to add mandatory (NOT NULL) column
+38. ORA-00960: ambiguous column naming in select list
+
 
 
 

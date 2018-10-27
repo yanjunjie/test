@@ -44,10 +44,10 @@
 
                                 foreach ($UM_LABRATORIES_S as $sub_row)
                                 {
-                                    if( $row->LAB_ID == $sub_row->LAB_ID ) //Saved value == $row[$i]
+                                    if( $row->LAB_ID == $sub_row->LAB_ID ) //Saved/Setup/Static value == $row[$i]/Details/Inner Loop
                                     {?>
 
-                                    <option selected value="<?php echo $sub_row->LAB_ID ?>" ><?php echo $sub_row->LAB_NAME ?></option>
+                                    <option selected value="<?php echo $row->LAB_ID ?>" ><?php echo $row->LAB_NAME ?></option>
 
                                 <?php } }?>
 

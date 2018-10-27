@@ -1,4 +1,5 @@
 //Existence checkin, exists or not a value in a table
+
     $(document).on('keyup change', "#custom_reg_no", function () {
         var custom_reg_no = $(this).val();
         var label =$(this).parent().parent().find('label').text();
@@ -23,4 +24,161 @@
         });
     });
 
-//
+
+//Ajax Delete by ID
+    window.onload = function() {
+        $(document).on('click','.delete',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var INSTITUTE_ID = $(this).attr('data-id');
+            var url = '<?php echo base_url("setup/ajax_delete"); ?>';
+
+            if (confirm('Are you sure to delete?')) {
+                $.ajax({
+                    type:'post',
+                    url:url,
+                    data:{table:"UM_INSTITUTIONS",attr:"INSTITUTE_ID",id:INSTITUTE_ID},
+                    success:function(data){
+                        if (data=='200') {
+                            alert("Deleted successfully");
+                            $("#instituteList").load(location.href + " #instituteList");
+                            //location.reload();
+                        }
+                    },
+                    error:function(){
+                        alert('Error deleting');
+                    }
+                });
+            }
+        });
+	//End Delete
+    }
+    //End Window Load
+
+
+
+//Ajax Find View by ID //One to Many relationship
+    $(document).on("change", "#FACULTY_ID", function () {
+        var FACULTY_ID = $(this).val();
+        $.ajax({
+
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_id",
+            data:  {table:'INS_PROGRAM',attr:'FACULTY_ID', attr_val:FACULTY_ID, url_data:'', view:'admin/lab_schedule/program_dependency'},
+            success:function(data){
+                if(data != "no"){
+                    $('#PROGRAM_ID_DEPEN').html(data);
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
+
+
+//Ajax Find View by Detail Table ID //Many to One relationship
+   
+    $(document).on("change", "#PROGRAM_ID", function () {
+        var PROGRAM_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_detail_id",
+            data:  {master_table:'INS_DEGREE', detail_table:'INS_PROGRAM', attr_master:'DEGREE_ID',  attr_detail:'DEGREE_ID', attr_detail_val:PROGRAM_ID, view:'admin/lab_schedule/degree_dependency'},
+            success:function(data){
+                if(data != "no" && data != "err")
+                {
+                    $('#DEGREE_ID_DEPEN').html(data);
+                }
+                else if(data == "err")
+                {
+                    $('#DEGREE_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
+
+
+//Ajax Find View by Master Table ID  //One to Many and Many to One
+
+    $(document).on("change", "#PROGRAM_ID", function () {
+        var PROGRAM_ID = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_map",
+            data:  {master_table1:'INS_PROGRAM', attr_master1_val:PROGRAM_ID, master_table2:'ACA_BATCH', attr_master2:'BATCH_ID', detail_table:'ACA_BATCH_PROG', attr_detail:'PROGRAM_ID', view:'admin/lab_schedule/batch_dependency'},
+            success:function(data){
+                if(data != "no" && data != "err")
+                {
+                    $('#BATCH_ID_DEPEN').html(data);
+                }
+                else if(data == "err")
+                {
+                    $('#BATCH_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
+                }
+                else
+                {
+                    console.log('No data found');
+                }
+            }
+        });
+    });
+
+
+
+//Ajax Form Submission
+    $(document).on("click", ".afs", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        //Submit Button
+        var thisBtn = $(this);
+        //Form
+        var thisForm = thisBtn.closest("form");
+        //Form Data
+        var formData = new FormData(thisForm[0]);
+        //Form Action
+        var dataAction = thisBtn.attr("data-action");
+        dataAction = dataAction?dataAction:'';
+
+        //First check 'form action' otherwise check 'data action'
+        var formAction = thisForm.attr('action');
+        var action = formAction?formAction:(dataAction?dataAction:'');
+
+
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success:function(data){
+                if(data=='yes')
+                {
+                    alert('Success! Data inserted successfully');
+                    $("#assignment_list").load(location.href + " #assignment_list");
+                    //$("#find_gen_sdl").trigger("click");
+                }
+                else if(data=='no')
+                {
+                    alert('Error! Data not inserted successfully')
+                }
+                else
+                {
+                    alert('Error! Try again');
+                }
+            }
+        });
+    });
+
+
+
+
+
+
+
+

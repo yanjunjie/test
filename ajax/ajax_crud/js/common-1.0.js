@@ -80,7 +80,7 @@ window.onload = function() {
 
         //Form action raw //First check 'form action' otherwise check 'data action'
 		var formAction = thisForm.attr('action');
-      	var action = formAction?formAction:dataAction?dataAction:'';
+      	var action = formAction?formAction:(dataAction?dataAction:'');
 
 		//Action Param
 		var actionParam = action.substr(action.lastIndexOf('/') + 1);

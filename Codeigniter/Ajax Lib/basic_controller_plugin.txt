@@ -17,4 +17,165 @@
     }
 
 
+//Ajax Delete by ID
+    public function ajax_delete_by_id()
+    {
+        $table=$this->input->post('table');
+        $attr=$this->input->post('attr');
+        $id=$this->input->post('id');
+        $res = $this->db->delete($table,array($attr=>$id));
+        if($res){
+            echo '200';
+        }
+	else
+	{
+	    echo '500';
+	}
+	exit();
+    }
+
+
+//Ajax Find View by ID //One to Many relationship
+    public function ajax_find_view_by_id()
+    {
+        $table=$this->input->post('table');
+        $attr=$this->input->post('attr');
+        $attr_val=$this->input->post('attr_val');
+        $url_data=$this->input->post('url_data');
+        $view = $this->input->post('view');
+
+
+        if($view and ($attr_val or $url_data ) and $table)
+        {
+            $data = array(
+                'result'=>$url_data?$this->utilities->findByAndWhere($table, $url_data):$this->utilities->findAllById($table, $attr, $attr_val)
+            );
+
+            $dependency = $this->load->view($view,$data,true);
+            echo $dependency;
+        }
+        else
+        {
+            echo "no";
+        }
+        exit();
+    }
+
+
+//Ajax Find View by Detail Table ID //Many to One relationship
+
+ public function ajax_find_view_by_detail_id()
+    {
+        $data = array();
+        $master_table=$this->input->post('master_table');
+        $detail_table=$this->input->post('detail_table');
+        $attr_master=$this->input->post('attr_master');
+        $attr_detail=$this->input->post('attr_detail');
+        $attr_detail_val=$this->input->post('attr_detail_val');
+        $view = $this->input->post('view');
+
+        if($view and $attr_detail_val and $attr_detail  and $attr_master and $detail_table and $master_table)
+        {
+            $result_detail = $this->utilities->findByAttribute($detail_table, array($attr_detail => $attr_detail_val));
+
+            if($result_detail)
+            {
+                $attr_master_val = $result_detail-> $attr_master;
+
+                $result_detail = $this->utilities->findByAttribute($master_table, array($attr_master => $attr_master_val));
+
+                if ($result_detail)
+                {
+                    $data = array(
+                        'result'=>$result_detail
+                    );
+                    $dependency = $this->load->view($view,$data,true);
+                    echo $dependency;
+                }
+                else
+                {
+                   echo 'not_found' ;
+                }
+            }
+            else
+            {
+                echo "err";
+            }
+        }
+        else
+        {
+            echo "no";
+        }
+        exit();
+    }
+
+
+//Ajax Find View by Master Table ID  //One to Many and Many to One
+
+    public function ajax_find_view_by_map()
+    {
+       $data = array();
+       $master_table1=$this->input->post('master_table1');
+       $attr_master1_val=$this->input->post('attr_master1_val');
+
+       $master_table2=$this->input->post('master_table2');
+       $attr_master2=$this->input->post('attr_master2');
+
+       $detail_table=$this->input->post('detail_table');
+       $attr_detail=$this->input->post('attr_detail'); //initial attr of master1 although detail_table contains master2 attr
+       $view = $this->input->post('view');
+
+        //One to many
+        $result_multiple = $this->utilities->findAllById($detail_table, $attr_detail, $attr_master1_val);
+
+        //Many to One
+        if($result_multiple)
+        {
+            $arr_duplicate_values =array();
+            foreach ($result_multiple as $key=>$obj)
+            {
+                foreach ($obj as $key2=>$value)
+                {
+                    if($key2 ==$attr_master2)
+                    {
+                        $arr_duplicate_values[] = $value;
+
+                    }
+                }
+
+            }
+
+            //Query for M to O
+            $arr_unique_values = array_unique($arr_duplicate_values);
+
+            foreach ($arr_unique_values as $value)
+            {
+                $result[] = $this->utilities->findByAttribute($master_table2, array('ACTIVE_STATUS' => '1', $attr_master2=>$value));
+            }
+
+            if ($result)
+            {
+                $data = array(
+                    'result'=>$result
+                );
+                $dependency = $this->load->view($view,$data,true);
+                echo $dependency;
+            }
+            else
+            {
+                echo 'not_found' ;
+            }
+        }
+        else
+        {
+            echo "err";
+        }
+
+       exit();
+    }
+
+
 //
+
+
+

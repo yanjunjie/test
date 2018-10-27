@@ -165,9 +165,39 @@ and PROGRAM_ID='61'
 and ADM_SESSION_ID='41' 
 order by APPLICANT_ID desc
 /
+SELECT a.*,f.*, b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br FROM student_acadimicinfo a
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID
+left join m00_lkpdata d on a.BOARD = d.LKP_ID
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+WHERE a.STUDENT_ID ='$student_id' order by STU_AI_ID asc
+/
+SELECT a.STU_AI_ID, a.STUDENT_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,RESULT_GRADE,a.RESULT_GRADE_WA,a.CGPA_MARKPCT,a.SCALE_MARKS,a.PASSING_YEAR, b.LKP_NAME as ed,
+c.LKP_NAME as mg,
+d.LKP_NAME as br, 
+g.SD_ID, g.DIRECTORY_PATH 
+FROM student_acadimicinfo a 
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID 
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID 
+left join m00_lkpdata d on a.BOARD = d.LKP_ID 
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID 
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID 
+left join SKILL_DEV_DIRECTORY g on g.SD_ID = f.SD_ID 
+WHERE a.STUDENT_ID ='342'
+group by a.STU_AI_ID,a.STUDENT_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,RESULT_GRADE,a.RESULT_GRADE_WA,a.CGPA_MARKPCT,a.SCALE_MARKS,a.PASSING_YEAR, b.LKP_NAME,c.LKP_NAME,d.LKP_NAME, g.SD_ID, g.DIRECTORY_PATH 
+order by a.STU_AI_ID asc;
+/
+SELECT a.STU_AI_ID, a.STUDENT_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,RESULT_GRADE,a.RESULT_GRADE_WA,a.CGPA_MARKPCT,a.SCALE_MARKS,a.PASSING_YEAR
+--g.SD_ID, g.DIRECTORY_PATH 
+FROM student_acadimicinfo a 
+left join m00_lkpdata b on b.LKP_ID=a.EXAM_DEGREE_ID
 
-
-
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID 
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID 
+left join SKILL_DEV_DIRECTORY g on g.SD_ID = f.SD_ID 
+WHERE a.STUDENT_ID ='342'
+grou
 
 
 
