@@ -1,41 +1,44 @@
-//Existence checkin, exists or not a value in a table
-    public function check_existence()
+<?php
+class Ci_ajax_lib{
+
+//Existence checking, exists or not a value in a table
+    public function cia_is_existence()
     {
         $table=$this->input->post('table');
         $attr=$this->input->post('attr');
-        $val=$this->input->post('val');
-        $res = $this->utilities->findById($table, $attr, $val);
+        $id=$this->input->post('id');
+        $res = $this->utilities->findById($table, $attr, $id);
         if($res)
         {
-            echo "200";
+            echo "yes";
         }
         else
         {
-            echo "204";
+            echo "no";
         }
         exit();
     }
 
 
 //Ajax Delete by ID
-    public function ajax_delete_by_id()
+    public function cia_delete_by_id()
     {
         $table=$this->input->post('table');
         $attr=$this->input->post('attr');
         $id=$this->input->post('id');
         $res = $this->db->delete($table,array($attr=>$id));
         if($res){
-            echo '200';
+            echo 'yes';
         }
 	else
 	{
-	    echo '500';
+	    echo 'no';
 	}
 	exit();
     }
 
 
-//Ajax Find View by ID //One to Many relationship
+//Ajax Find View by ID (One to Many relationship)
     public function ajax_find_view_by_id()
     {
         $table=$this->input->post('table');
@@ -62,7 +65,7 @@
     }
 
 
-//Ajax Find View by Detail Table ID //Many to One relationship
+//Ajax Find View by Detail Table ID (Many to One relationship)
 
  public function ajax_find_view_by_detail_id()
     {
@@ -110,7 +113,7 @@
     }
 
 
-//Ajax Find View by Master Table ID  //One to Many and Many to One
+//Ajax Find View by Master Table ID (One to Many and Many to One)
 
     public function ajax_find_view_by_map()
     {
@@ -177,5 +180,14 @@
 
 //
 
+
+
+
+
+
+
+
+}
+//End Class
 
 
