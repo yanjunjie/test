@@ -178,7 +178,124 @@ class Ci_ajax_lib{
     }
 
 
-//
+//Insertion Test
+    public function insertion()
+    {
+		//note the s in the function name (keys)
+		function array_keys_exists($array,$keys) 
+		{
+		    foreach($keys as $k) 
+		    {
+		        if(isset($array[$k])) 
+		        {
+		        	return true;
+		        }
+		    }
+		    
+		}
+
+
+		/*
+			$this->db->trans_begin();
+            $assi_data['SUBMISSION_DT'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('SUBMISSION_DT'))));
+            $assi_data['SESSION_ID'] = $this->input->post('YSESSION_ID');
+            $assi_data['CRE_BY'] = $this->user['EMP_ID'];
+            $assi_data['CRE_DT'] = date("Y-m-d G:i:s");
+
+            unset($_POST['YSESSION_ID']);
+            $assi_data = array_merge($_POST, $assi_data);
+
+            $this->utilities->insert('UMS_ASSIGNMENTS', $assi_data);
+
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                    //$this->session->set_flashdata('Error', 'Error! Data not inserted successfully.');
+                    echo 'no';
+            }
+            else
+            {
+                $this->db->trans_commit();
+                //$this->session->set_flashdata('Success', 'Success! Data inserted successfully.');
+                echo 'yes';
+            }
+            exit();
+            //redirect('lab_schedule/generate_schedule');
+		*/
+
+
+
+		//useful to validate a form for example
+		/*<form>
+		    <input type="text" name="field1" /><br />
+		    <input type="text" name="field2" /><br />
+		    <input type="text" name="field3" /><br />
+		    <input type="text" name="field4" /><br />
+		    <input type="text" name="field5" /><br />
+		</form>*/
+
+		/*if(!array_keys_exists($_POST,
+		array("field1","field2","field3","field4","field5")
+		)) 
+		{
+		    //some fields are missing, dont do anything (maybe hacking)
+		}
+		else
+		{
+		    //code ...
+		}*/
+
+
+		/*if(preg_match("/".$key."/i", join(",", array_keys($arr))))                
+        return true; 
+    else 
+        return false;*/
+
+	}
+
+	//Remove array element(s) if exists
+	function array_keys_exists_remove($array,$keys)
+	{
+	    foreach($keys as $k)
+	    {
+	        if(isset($array[$k]))
+	        {
+	            unset($array[$k]);
+	        }
+	        return $array;
+	    }
+	}
+
+	//Search and replace an element by its value in array
+	public function array_replace_values ($find, $replace, $array) {
+	    if (!is_array($array)) {
+	        return str_replace($find, $replace, $array);
+	    }
+
+	    $newArray = [];
+	    foreach ($array as $key => $value) {
+	        $newArray[$key] = array_replace_by_value($find, $replace, $value);
+	    }
+	    return $newArray;
+	}
+
+	//Search and replace by keys in array // This replaces value not keys
+	public function array_replace_keys($array, $keys)
+    {
+        //Here $keys is also an associative array, if match $array's key and $keys's key then replace the value of $array's value by $kyes's value
+        foreach ($keys as $search => $replace)
+        {
+            if ( isset($array[$search]))
+            {
+                $array[$replace] = $array[$search];
+                unset($array[$search]);
+            }
+        }
+        //return $array;
+        //If $keys have extra element then merge it with main array
+        return array_merge($array,$keys);
+    }
 
 
 

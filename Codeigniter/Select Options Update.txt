@@ -1,0 +1,30 @@
+//v.01, Single Option Create and Update
+
+<select name="DEPT_ID" id="DEPT_ID" data-placeholder="Choose Department" class="chosen-select form-control" tabindex="4">
+    <option value="" selected disabled>-Select-</option>
+     
+     //Create
+     <?php foreach($INS_DEPT as $ky=>$row2) {?>
+         <option value="<?php echo $row2->DEPT_ID; ?>" <?php echo  set_select("DEPT_ID", "$row2->DEPT_ID"); ?> ><?php echo $row2->DEPT_NAME; ?></option>
+     <?php } ?>
+
+     //Update
+     <?php foreach ($INS_DEPT as $row2) {
+
+         if( $row2->DEPT_ID == $UMS_ASSIGNMENTS_BY_ID->DEPT_ID ) //$row[$i] == Saved value
+         {?>
+             <option selected value="<?php echo $row2->DEPT_ID ?>" ><?php echo $row2->DEPT_NAME ?></option>
+             <?php
+         }
+         ?>
+
+        <option value="<?php echo $row2->DEPT_ID ?>"><?php echo $row2->DEPT_NAME ?></option>
+         <?php
+     }
+     ?>
+</select>
+
+
+//v.02, Multiple Option Create and Update
+
+
