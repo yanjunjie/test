@@ -8,51 +8,63 @@ let refreshArea = ''; //i.e, 'cia_refresh_area'
 //cia is Codeigniter Ajax and it is a prefix
 //-------------------------------------------------------------------------------------------
 
-//Existence checking, exists or not a value in a table ++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Existence checking, exists or not a value in a table +++++++++++++++++++++++++++++++++++++
+$(document).on('keyup change', "cia_is_existence", function () {
+    let id = $(this).val();
+    let label =$(this).closest('.form-group').find('label').text();
+    label =label.replace("*", "");
+    /*
+        *** Dynamic Settings:
+            1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
+        *** Default Settings:
+     */
+    let urlD = "<?php echo base_url('admission/is_existence')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    let attrD = "";
+    let tableD = "";
+    let submitBtnD = ""; //For id "#submitBtn" and class ".submitBtn"
+    //End Default Settings
 
-    $(document).on('keyup change', "cia_is_existence", function () {
-        let id = $(this).val();
-        let label =$(this).parent().parent().find('label').text();
-        label =label.replace("*", "");
+    let dataUrl = $(this).attr('data-url');
+    //data-url or Manually set url
+    let url = dataUrl?dataUrl:urlD;
+    //data-attr or 2. Manually set table's attribute name
+    let dataAttr = $(this).attr('data-attr');
+    let attr = dataAttr?dataAttr:attrD;
+    let dataTableName = $(this).attr('data-table');
+    //data-table or 2. Manually set table name
+    let table = dataTableName?dataTableName:tableD;
+    
+    let msgSpan = $(this).next('span');
+    if(!msgSpan)
+    {
+        console.log('Please create an span tag after input element');
+    }
+    
+    let submitBtn = $(this).closest('form').find('.submitBtn');
+    let submitButton=submitBtn?submitBtn:submitBtnD;
+    if(!submitButton)
+    {
+        console.log('Please add a class to the submit button named "submitBtn"');
+    }
 
-        /*
-            *** Dynamic Settings:
-                1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
-            *** Default Settings:
-         */
-        let urlD = "<?php echo base_url('admission/is_existence')?>";  //baseUrl+"ci_ajax_lib/is_existence"
-        let attrD = "";
-        let tableD = "";
-        //End Default Settings
-
-        let dataUrl = $(this).attr('data-url');
-        //data-url or Manually set url
-        let url = dataUrl?dataUrl:urlD;
-        //data-attr or 2. Manually set table's attribute name
-        let dataAttr = $(this).attr('data-attr');
-        let attr = dataAttr?dataAttr:attrD;
-        let dataTableName = $(this).attr('data-table');
-        //data-table or 2. Manually set table name
-        let table = dataTableName?dataTableName:tableD;
-
-        $.ajax({
-            type: "POST",
-            url: url, //check_existence
-            data: {table:table, attr:attr, id:id },
-            success: function (data) {
-                if($.trim(data)=='yes')
-                {
-                    $('#custom_reg_no_exists').html(label+" already exists");
-                    $('#admission_form_btn').attr('disabled','disabled');
-                }
-                else
-                {
-                    $('#custom_reg_no_exists').html('');
-                    $('#admission_form_btn').removeAttr('disabled','disabled');
-                }
+    $.ajax({
+        type: "POST",
+        url: url, //check_existence
+        data: {table:table, attr:attr, id:id },
+        success: function (data) {
+            if($.trim(data)=='yes')
+            {
+                $(msgSpan).html(label+" already exists");
+                $(submitButton).attr('disabled','disabled');
             }
-        });
+            else
+            {
+                $(msgSpan).html('');
+                $(submitButton).removeAttr('disabled','disabled');
+            }
+        }
     });
+});
 
 //Ajax Form Submission/Creation +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_insert", function (e) {
