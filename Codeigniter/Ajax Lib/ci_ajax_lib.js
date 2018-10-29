@@ -9,7 +9,7 @@ let refreshArea = ''; //i.e, 'cia_refresh_area'
 //-------------------------------------------------------------------------------------------
 
 //Existence checking, exists or not a value in a table +++++++++++++++++++++++++++++++++++++
-$(document).on('keyup change', "cia_is_existence", function () {
+$(document).on('keyup change', ".cia_attr_exists", function () {
     let id = $(this).val();
     let label =$(this).closest('.form-group').find('label').text();
     label =label.replace("*", "");
@@ -18,10 +18,10 @@ $(document).on('keyup change', "cia_is_existence", function () {
             1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
         *** Default Settings:
      */
-    let urlD = "<?php echo base_url('admission/is_existence')?>";  //baseUrl+"ci_ajax_lib/is_existence"
-    let attrD = "";
-    let tableD = "";
-    let submitBtnD = ""; //For id "#submitBtn" and class ".submitBtn"
+    let urlD = "<?php echo base_url('admission/cia_attr_exists')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    let attrD = "REGISTRATION_NUMBER";
+    let tableD = "NM_APPLICATION";
+    let submitBtnD = ".submitBtn"; //For id "#submitBtn" and class ".submitBtn"
     //End Default Settings
 
     let dataUrl = $(this).attr('data-url');
@@ -33,13 +33,13 @@ $(document).on('keyup change', "cia_is_existence", function () {
     let dataTableName = $(this).attr('data-table');
     //data-table or 2. Manually set table name
     let table = dataTableName?dataTableName:tableD;
-    
+
     let msgSpan = $(this).next('span');
     if(!msgSpan)
     {
         console.log('Please create an span tag after input element');
     }
-    
+
     let submitBtn = $(this).closest('form').find('.submitBtn');
     let submitButton=submitBtn?submitBtn:submitBtnD;
     if(!submitButton)
@@ -56,6 +56,7 @@ $(document).on('keyup change', "cia_is_existence", function () {
             {
                 $(msgSpan).html(label+" already exists");
                 $(submitButton).attr('disabled','disabled');
+                $(submitButton).off('click');
             }
             else
             {

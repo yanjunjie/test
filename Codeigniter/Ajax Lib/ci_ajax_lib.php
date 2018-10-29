@@ -2,7 +2,7 @@
 class Ci_ajax_lib{
 
 //Existence checking, exists or not a value in a table
-    public function cia_is_existence()
+    public function cia_attr_exists()
     {
         $table=$this->input->post('table');
         $attr=$this->input->post('attr');
