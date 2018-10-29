@@ -14,6 +14,7 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
     let label =$(this).closest('.form-group').find('label').text();
     label =label.replace("*", "");
     /*
+        ###Validate any Field has duplicate value, Made by Bablu Ahmed
         *** Dynamic Settings:
             1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
         *** Default Settings:
@@ -34,13 +35,13 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
     //data-table or 2. Manually set table name
     let table = dataTableName?dataTableName:tableD;
 
-    let msgSpan = $(this).next('span');
+    let msgSpan = $(this).next('span').length;
     if(!msgSpan)
     {
         console.log('Please create an span tag after input element');
     }
 
-    let submitBtn = $(this).closest('form').find('.submitBtn');
+    let submitBtn = $(this).closest('form').find('.submitBtn').length;
     let submitButton=submitBtn?submitBtn:submitBtnD;
     if(!submitButton)
     {

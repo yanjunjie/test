@@ -9,19 +9,13 @@
      <?php } ?>
 
      //Update
-     <?php foreach ($INS_DEPT as $row2) {
-
-         if( $row2->DEPT_ID == $UMS_ASSIGNMENTS_BY_ID->DEPT_ID ) //$row[$i] == Saved value
-         {?>
-             <option selected value="<?php echo $row2->DEPT_ID ?>" ><?php echo $row2->DEPT_NAME ?></option>
-             <?php
-         }
-         ?>
-
-        <option value="<?php echo $row2->DEPT_ID ?>"><?php echo $row2->DEPT_NAME ?></option>
-         <?php
+     <?php foreach ($INS_DEPT as $row2)
+     {
+        //$row[$i] == Saved value
+         echo '<option '.(($row2->DEPT_ID == $UMS_ASSIGNMENTS_BY_ID->DEPT_ID) ? "selected":"").' value="'.$row2->DEPT_ID.'">'.$row2->DEPT_NAME.'</option>';
      }
      ?>
+
 </select>
 
 
