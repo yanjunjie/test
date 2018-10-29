@@ -4,9 +4,11 @@
     <option value="" selected disabled>-Select-</option>
      
      //Create
-     <?php foreach($INS_DEPT as $ky=>$row2) {?>
-         <option value="<?php echo $row2->DEPT_ID; ?>" <?php echo  set_select("DEPT_ID", "$row2->DEPT_ID"); ?> ><?php echo $row2->DEPT_NAME; ?></option>
-     <?php } ?>
+     <?php foreach ($INS_DEPT as $row2)
+	{
+	    echo '<option value="'.$row2->DEPT_ID.'">'.$row2->DEPT_NAME.'</option>';
+	}
+     ?>
 
      //Update
      <?php foreach ($INS_DEPT as $row2)
