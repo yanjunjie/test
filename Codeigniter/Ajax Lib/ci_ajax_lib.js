@@ -8,42 +8,46 @@ let refreshArea = ''; //i.e, 'cia_refresh_area'
 //cia is Codeigniter Ajax and it is a prefix
 //-------------------------------------------------------------------------------------------
 
-//Existence checking, exists or not a value in a table +++++++++++++++++++++++++++++++++++++
+//Validate any Field has duplicate value
 $(document).on('keyup change', ".cia_attr_exists", function () {
     let id = $(this).val();
+    let cia_settings = $(this).siblings('.cia_settings');
     let label =$(this).closest('.form-group').find('label').text();
     label =label.replace("*", "");
+
     /*
-        ###Validate any Field has duplicate value, Made by Bablu Ahmed
+        ### Server side duplicate checking is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
         *** Dynamic Settings:
-            1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
+            * 1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
+            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-url="<---?php echo base_url('admission/cia_attr_exists')?>">
         *** Default Settings:
      */
-    let urlD = "<?php echo base_url('admission/cia_attr_exists')?>";  //baseUrl+"ci_ajax_lib/is_existence"
-    let attrD = "REGISTRATION_NUMBER";
-    let tableD = "NM_APPLICATION";
-    let submitBtnD = ".submitBtn"; //For id "#submitBtn" and class ".submitBtn"
+    let tableD = "";
+    let attrD = "";
+    let urlD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
     //End Default Settings
 
-    let dataUrl = $(this).attr('data-url');
+    let dataUrl = cia_settings.attr('data-url');
     //data-url or Manually set url
     let url = dataUrl?dataUrl:urlD;
     //data-attr or 2. Manually set table's attribute name
-    let dataAttr = $(this).attr('data-attr');
+    let dataAttr = cia_settings.attr('data-attr');
     let attr = dataAttr?dataAttr:attrD;
-    let dataTableName = $(this).attr('data-table');
+    let dataTableName = cia_settings.attr('data-table');
     //data-table or 2. Manually set table name
     let table = dataTableName?dataTableName:tableD;
 
-    let msgSpan = $(this).next('span').length;
-    if(!msgSpan)
+    let spanElement = $(this).nextAll('span');
+    let spanExists = $(this).nextAll('span').length;
+    if(!spanExists)
     {
         console.log('Please create an span tag after input element');
     }
 
-    let submitBtn = $(this).closest('form').find('.submitBtn').length;
-    let submitButton=submitBtn?submitBtn:submitBtnD;
-    if(!submitButton)
+    let submitBtn = $(this).closest('form').find('.submitBtn');
+    let submitBtnExists = $(this).closest('form').find('.submitBtn').length;
+    if(!submitBtnExists)
     {
         console.log('Please add a class to the submit button named "submitBtn"');
     }
@@ -55,14 +59,14 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
         success: function (data) {
             if($.trim(data)=='yes')
             {
-                $(msgSpan).html(label+" already exists");
-                $(submitButton).attr('disabled','disabled');
-                $(submitButton).off('click');
+                $(spanElement).html(label+" already exists");
+                $(submitBtn).attr('disabled','disabled');
+                $(submitBtn).off('click');
             }
             else
             {
-                $(msgSpan).html('');
-                $(submitButton).removeAttr('disabled','disabled');
+                $(spanElement).html('');
+                $(submitBtn).removeAttr('disabled','disabled');
             }
         }
     });
