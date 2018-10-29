@@ -46,15 +46,40 @@ $(document).on("click", ".cia_insert", function (e) {
     let thisBtn = $(this);
     //Form
     let thisForm = thisBtn.closest("form");
+    /*
+        Settings:
+        1. Action, 2. Form Data, 3. Refresh Area (After Inserting, Updating, and Deleting Data, Refresh a part of the page)
+        For Example:
+        <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
+     */
+    let cia_settings = thisForm.find(".cia_settings");
+    //Form Action
+    let dataAction = cia_settings.attr("data-action");
+    let formAction = thisForm.attr('action');
+    //First check 'data action' otherwise check 'form action'
+    let action = dataAction?dataAction:(formAction?formAction:'');
+    if(!action)
+    {
+        alert("Please set the data-action or form-action");
+        return false;
+    }
+
     //Form Data
     let formData = new FormData(thisForm[0]);
-    //Form Action
-    let dataAction = thisBtn.attr("data-action");
-    let formAction = thisForm.attr('action');
-    //First check 'form action' otherwise check 'data action'
-    let action = formAction?formAction:(dataAction?dataAction:'');
-    //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-    refreshArea = refreshArea?refreshArea:thisBtn.parent().closest("#cia_refresh_area").attr('id'); //1. Set refresh area id, or 2. Use closest id
+    if(!formData)
+    {
+        alert("No Form Data Found!");
+        return false;
+    }
+
+    //Refresh Area
+    let dataRefreshId= cia_settings.attr("data-refresh-id");
+    refreshArea = dataRefreshId?dataRefreshId:(refreshArea?refreshArea:'');
+    if(!refreshArea)
+    {
+        alert("Please set the data-refresh-id");
+        return false;
+    }
 
     $.ajax({
         type: "POST",
