@@ -14,10 +14,26 @@ let refreshArea = ''; //i.e, 'cia_refresh_area'
         let id = $(this).val();
         let label =$(this).parent().parent().find('label').text();
         label =label.replace("*", "");
-        //Add the following data attributes
-        let url = ($(this).attr('data-url'))?($(this).attr('data-url')):(baseUrl+"ci_ajax_lib/is_existence"); //1. data-url, or 2. Custom url
-        let attr = ($(this).attr('data-attr'))?($(this).attr('data-attr')):(($(this).attr('name'))?($(this).attr('name')):''); //1. table's attr by data-attr, or 2. Field Name
-        let table = $(this).attr('data-table');
+
+        /*
+            *** Dynamic Settings:
+                1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
+            *** Default Settings:
+         */
+        let urlD = "<?php echo base_url('admission/is_existence')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+        let attrD = "";
+        let tableD = "";
+        //End Default Settings
+
+        let dataUrl = $(this).attr('data-url');
+        //data-url or Manually set url
+        let url = dataUrl?dataUrl:urlD;
+        //data-attr or 2. Manually set table's attribute name
+        let dataAttr = $(this).attr('data-attr');
+        let attr = dataAttr?dataAttr:attrD;
+        let dataTableName = $(this).attr('data-table');
+        //data-table or 2. Manually set table name
+        let table = dataTableName?dataTableName:tableD;
 
         $.ajax({
             type: "POST",
