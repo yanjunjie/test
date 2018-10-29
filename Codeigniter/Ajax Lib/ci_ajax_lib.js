@@ -10,27 +10,28 @@ let refreshArea = ''; //i.e, 'cia_refresh_area'
 
 //Validate any Field has duplicate value
 $(document).on('keyup change', ".cia_attr_exists", function () {
+    /*
+        ### Server side duplicate checking is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            * 1. data-table (table name), 2. data-attr (table's attr name), 3. data-action
+            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-action="<---?php echo base_url('admission/cia_attr_exists')?>">
+            * Add a class called 'cia_submit_btn' to submit button
+        *** Default Settings:
+     */
+    let tableD = "";
+    let attrD = "";
+    let actionD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    //End Default Settings
+
     let id = $(this).val();
     let cia_settings = $(this).siblings('.cia_settings');
     let label =$(this).closest('.form-group').find('label').text();
     label =label.replace("*", "");
 
-    /*
-        ### Server side duplicate checking is made by Bablu Ahmed
-        ### For debugging, check erro message in browser console
-        *** Dynamic Settings:
-            * 1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
-            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-url="<---?php echo base_url('admission/cia_attr_exists')?>">
-        *** Default Settings:
-     */
-    let tableD = "";
-    let attrD = "";
-    let urlD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
-    //End Default Settings
-
-    let dataUrl = cia_settings.attr('data-url');
+    let dataAction = cia_settings.attr('data-action');
     //data-url or Manually set url
-    let url = dataUrl?dataUrl:urlD;
+    let url = dataAction?dataAction:actionD;
     //data-attr or 2. Manually set table's attribute name
     let dataAttr = cia_settings.attr('data-attr');
     let attr = dataAttr?dataAttr:attrD;
@@ -45,11 +46,11 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
         console.log('Please create an span tag after input element');
     }
 
-    let submitBtn = $(this).closest('form').find('.submitBtn');
-    let submitBtnExists = $(this).closest('form').find('.submitBtn').length;
+    let submitBtn = $(this).closest('form').find('.cia_submit_btn');
+    let submitBtnExists = $(this).closest('form').find('.cia_submit_btn').length;
     if(!submitBtnExists)
     {
-        console.log('Please add a class to the submit button named "submitBtn"');
+        console.log('Please add a class to the submit button named "cia_submit_btn"');
     }
 
     $.ajax({
@@ -67,6 +68,7 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
             {
                 $(spanElement).html('');
                 $(submitBtn).removeAttr('disabled','disabled');
+                $(submitBtn).on('click');
             }
         }
     });
@@ -81,10 +83,20 @@ $(document).on("click", ".cia_insert", function (e) {
     //Form
     let thisForm = thisBtn.closest("form");
     /*
-        Settings:
-        1. Action, 2. Form Data, 3. Refresh Area (After Inserting, Updating, and Deleting Data, Refresh a part of the page)
-        For Example:
-        <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
+        ### Server side duplicate checking is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+        * 1. Action, 2. Form Data, 3. Refresh Area (After Inserting refresh a part of the page)
+        * Keep an hidden input field beside this for settings i.e, <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
+        * Add a class called 'cia_submit_btn' to submit button
+
+        ### Server side duplicate checking is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            * 1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
+            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-action="<---?php echo base_url('admission/cia_attr_exists')?>">
+            * Add a class called 'cia_submit_btn' to submit button
+        *** Default Settings:
      */
     let cia_settings = thisForm.find(".cia_settings");
     //Form Action
