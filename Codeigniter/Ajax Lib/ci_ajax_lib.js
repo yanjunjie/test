@@ -72,7 +72,7 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
     });
 });
 
-//Ajax Form Submission/Creation +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Ajax Form Submission/Insertion +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_insert", function (e) {
     e.preventDefault();
     e.stopPropagation();

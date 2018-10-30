@@ -1,0 +1,46 @@
+//V.01
+    $applicant_photo_path = '';
+    $applicant_sign_path = '';
+
+    //Start Profile
+    if(!empty($_FILES['photo']['name']))
+    {
+        $file_ext = pathinfo($_FILES['photo']['name'],PATHINFO_EXTENSION);
+
+        $config['upload_path'] = 'upload/applicant/photo/';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['file_name'] = 'photo_'.$ADM_ROLL_NO.'.'.$file_ext;
+
+        //initialize configuration
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('photo')){
+            $finfo = $this->upload->data(); //upload the file to the above mentioned path
+            $applicant_photo_path = $finfo['file_name'];
+        }
+    }
+    //End Profile
+
+    //Start Signature
+    if(!empty($_FILES['signature']['name']))
+    {
+        $file_ext2 = pathinfo($_FILES['signature']['name'],PATHINFO_EXTENSION);
+
+        $config2['upload_path'] = 'upload/applicant/signature/';
+        $config2['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config2['file_name'] = 'signature_'.$ADM_ROLL_NO.'.'.$file_ext2;
+
+        //initialize configuration
+        $this->upload->initialize($config2);
+
+        if($this->upload->do_upload('signature')){
+            $finfo2 = $this->upload->data(); //upload the file to the above mentioned path
+            $applicant_sign_path = $finfo2['file_name'];
+        }
+    }
+//End Signature
+
+//V.02
+
+
+
