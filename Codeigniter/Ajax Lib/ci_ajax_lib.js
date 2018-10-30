@@ -83,39 +83,36 @@ $(document).on("click", ".cia_insert", function (e) {
     //Form
     let thisForm = thisBtn.closest("form");
     /*
-        ### Server side duplicate checking is made by Bablu Ahmed
+        ### This Ajax Form Submission is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
         *** Dynamic Settings:
         * 1. Action, 2. Form Data, 3. Refresh Area (After Inserting refresh a part of the page)
         * Keep an hidden input field beside this for settings i.e, <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
         * Add a class called 'cia_submit_btn' to submit button
-
-        ### Server side duplicate checking is made by Bablu Ahmed
-        ### For debugging, check erro message in browser console
-        *** Dynamic Settings:
-            * 1. data-url, 2. data-attr (table's attr name), 3. data-table (table name)
-            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-action="<---?php echo base_url('admission/cia_attr_exists')?>">
-            * Add a class called 'cia_submit_btn' to submit button
         *** Default Settings:
      */
+
+    let actionD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    //End Default Settings
+
     let cia_settings = thisForm.find(".cia_settings");
     //Form Action
     let dataAction = cia_settings.attr("data-action");
     let formAction = thisForm.attr('action');
     //First check 'data action' otherwise check 'form action'
-    let action = dataAction?dataAction:(formAction?formAction:'');
-    if(!action)
+    //let action = dataAction?dataAction:(formAction?formAction:'');
+    //data-url or Manually set url
+    let url = dataAction?dataAction:(formAction?formAction:actionD);
+    if(!url)
     {
-        alert("Please set the data-action or form-action");
-        return false;
+        console.log("Please set the data-action or form-action or default action");
     }
 
     //Form Data
     let formData = new FormData(thisForm[0]);
     if(!formData)
     {
-        alert("No Form Data Found!");
-        return false;
+        console.log("No Form Data Found!");
     }
 
     //Refresh Area
@@ -123,13 +120,12 @@ $(document).on("click", ".cia_insert", function (e) {
     refreshArea = dataRefreshId?dataRefreshId:(refreshArea?refreshArea:'');
     if(!refreshArea)
     {
-        alert("Please set the data-refresh-id");
-        return false;
+        console.log("Please set the data-refresh-id");
     }
 
     $.ajax({
         type: "POST",
-        url: action,
+        url: url,
         data: formData,
         processData: false,
         contentType: false,
