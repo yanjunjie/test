@@ -1,0 +1,19 @@
+ public function assignmentsByLeftJoinAssID($as_id)
+    {
+        return $this->db->query("
+            select a.*, b.SUBMISSION_DT SUBMITTED_AT, b.ASSIGNMENT_FILE, c.COURSE_TITLE, d.DEPT_NAME, e.PROGRAM_NAME, f.BATCH_TITLE, g.DINYEAR, h.SESSION_NAME, i.NAME SECTION_NAME
+            from UMS_ASSIGNMENTS a  
+            left join UMS_STUDENT_ASSIGNMENT b on b.ASSIGNMENT_ID =a.ASSIGNMENT_ID 
+            left join ACA_COURSE c on c.COURSE_ID =a.COURSE_ID
+            left join INS_DEPT d on d.DEPT_ID =c.DEPT_ID 
+            left join INS_PROGRAM e on e.DEPT_ID =d.DEPT_ID 
+          
+            left join ACA_BATCH f on f.BATCH_ID =a.BATCH_ID 
+            
+            left join ADM_YSESSION g on g.YSESSION_ID =a.SESSION_ID
+            left join INS_SESSION h on h.SESSION_ID =g.SESSION_ID 
+            
+            left join ACA_SECTION i on i.SECTION_ID =a.SECTION_ID 
+            where a.ASSIGNMENT_ID = '$as_id' and a.ACTIVE_STATUS ='Y'
+        ")->result();
+    }

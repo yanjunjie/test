@@ -1,0 +1,66 @@
+<?php if ($previlages->UPDATE == 1) { ?>
+                            <a class="label label-default openModal" id="<?php echo $row->C_CAT_ID; ?>"
+                               title="Update Degree Information" data-action="Course/courseCatFormUpdate"
+                               data-type="edit"><i class="fa fa-pencil"></i></a>
+                        <?php
+                        }
+                        if ($previlages->DELETE == 1) {
+                            ?>
+                            <a class="label label-danger deleteItem" id="<?php echo $row->C_CAT_ID; ?>"
+                               title="Click For Delete" data-type="delete" data-field="C_CAT_ID"
+                               data-tbl="aca_course_category"><i class="fa fa-times"></i></a>
+                        <?php
+                        }
+
+                        if ($previlages->STATUS == 1) {
+                            ?>
+                            <a class="itemStatus" id="<?php echo $row->C_CAT_ID; ?>"
+                               data-status="<?php echo $row->ACTIVE_STATUS ?>" data-fieldId="C_CAT_ID"
+                               data-field="ACTIVE_STATUS" data-tbl="aca_course_category"
+                               data-su-url="Course/courseCategoryById">
+                                <?php echo ($row->ACTIVE_STATUS == 1) ? '<span class="label label-success" title="Click For Inactive">Inactive</span>' : '<span class="label label-danger" title="Click For Inactive">Active</span>' ?>
+                            </a>
+                        <?php
+                        }
+                        ?>
+
+
+
+//v.02
+//Button
+<a class="label label-default openModal" id="<?php echo $row->BR_ACCESSORY_ID; ?>"
+                               title="Update Accessory Information" data-action="setup/accessoryFormUpdate"
+                               data-type="edit"><i class="fa fa-pencil"></i></a>
+
+
+//Function
+function accessoryFormUpdate()
+    {
+        $data["ac_type"] = 2;
+        $id = $this->input->post('param'); // Accessory ID
+        $data['accessory'] = $this->utilities->findByAttribute('sc_accessories', array('BR_ACCESSORY_ID' => $id)); // select all data from degree where degree id
+        $this->load->view('admin/setup/accessories/add_accessory', $data);
+    }
+
+
+//View
+
+
+//======================================
+ <td class="text-center"><a class="btn btn-primary btn-xs teacher_details"
+                                               data-user-id="<?php echo $row->USER_ID ?>" type="button"
+                                               data-toggle="modal" data-target="#teacher_modal"><i
+                                class="fa fa-eye"></i></a></td>
+
+//=========================
+
+<div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-10">
+                        <span class="modal_msg pull-left"></span>
+                        <input type="submit" value="submit" class="btn btn-primary btn-sm">
+                        <input type="reset" value="Reset" class="btn btn-default btn-sm">
+                        <span class="loadingImg"></span>
+                    </div>
+                </div>
+
+

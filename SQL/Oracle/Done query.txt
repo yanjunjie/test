@@ -1,5 +1,6 @@
 Done query:
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
+/
 SELECT accr.*, acc.AC_NAME, insprogram.PROGRAM_NAME, ins_s.SESSION_NAME || '-' || ins_y.DINYEAR AS SESSION_NAME
 FROM fn_academic_charge_rate accr
 LEFT JOIN fn_achead acc ON accr.AC_NO = acc.AC_NO
@@ -126,8 +127,6 @@ from UM_LABRATORIES l
 left join UM_LAB_EXP_ASSIGN xa on xa.lab_id=l.lab_id
 where xa.EXP_ID = 1;
 /
-alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
-/
 INSERT INTO "UMS_LAB_SCHEDULE" (FACULTY_ID, SESSION_ID, DEGREE_ID, DEPT_ID, PROGRAM_ID, BATCH_ID, SECTION_ID, ROOM_NO, CLASS_START_TIME, CLASS_END_TIME, STUDENT_ID, SDL_DT, ACTIVE_STATUS) 
 VALUES (1, 1, 3, 2, 1, 8, 1, 102, '2018-10-01 04:08:00', '2018-10-01 04:08:00', 1, '2018-10-12 12:00:00', 'Y');
 /
@@ -198,7 +197,12 @@ left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
 left join SKILL_DEV_DIRECTORY g on g.SD_ID = f.SD_ID 
 WHERE a.STUDENT_ID ='342'
 grou
-
+/
+select a.*, b.SUBMISSION_DT SUBMITTED_AT, b.ASSIGNMENT_FILE 
+from UMS_ASSIGNMENTS a  
+left join UMS_STUDENT_ASSIGNMENT b on b.ASSIGNMENT_ID =a.ASSIGNMENT_ID 
+where b.SUBMISSION_DT > '2018-10-27' and a.ACTIVE_STATUS ='Y'
+/
 
 
 

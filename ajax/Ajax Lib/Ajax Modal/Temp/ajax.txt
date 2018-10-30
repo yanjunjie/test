@@ -1,0 +1,107 @@
+$(document).on('click', '.reload', function () {
+            $('.calendar').fullCalendar({
+                theme: false,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month'
+                },
+                defaultDate: Date.now(),
+                defaultView: 'month',
+                eventTextColor: '#000',
+                yearColumns: 4,
+                firstDay: 0,
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                droppable: true, // this allows things to be dropped onto the calendar
+
+                events: '<?php echo site_url('student/calendarEvents'); ?>',
+                eventClick: function (event) {
+                    $(".commonModal").modal();
+                    var action_uri = 'student/eventInfo';
+                    var param_value = event.id;
+                    var action_type = 'edit';
+                    var title = 'Class Schedule';
+
+                    $.ajax({
+                        type: "post",
+                        url: "<?php echo site_url(); ?>/" + action_uri,
+                        data: {param: param_value},
+                        beforeSend: function () {
+                            $(".commonModal .modal-title").html(title);
+                            $(".commonModal .modal-body").html("<img src='<?php echo base_url(); ?>assets/img/loader.gif' />");
+                        },
+                        success: function (data) {
+
+                            $(".commonModal .modal-body").html(data);
+                        }
+                    });
+
+                }
+            });
+        });
+
+
+//=====================
+$(document).on('click', '.fees_pays', function () {
+
+        $.ajax({
+            url: '<?php echo base_url(); ?>student/fee_report',
+            success: function (data) {
+                $('#f_p').html(data);
+            }
+        });
+    });
+    $(".openModal").on('click', function () {
+
+    });
+
+//=================================
+<script type="text/javascript">
+
+    $(".teacher_details").on("click", function () {
+        var teacher_id = $(this).attr('data-user-id');
+
+        $.ajax({
+            type: 'post',
+            url: '<?php echo base_url(); ?>teacher/teacherModal',
+            data: {teacher_id: teacher_id},
+            success: function (data) {
+                $("#teacher_modal .modal-body").html(data);
+            }
+        });
+    });
+</script>
+
+//=================================
+Controller:
+
+function teacherModal()
+        {
+            $teacher_id = $_POST['teacher_id'];
+            $data['teacher_id'] = $teacher_id;
+
+
+            $data['tcr_personal_info'] = $this->db->query("SELECT a.*,
+               b.LKP_NAME AS bg,
+               c.LKP_NAME AS rn,
+               d.nationality as nt,
+               e.LKP_NAME AS ms
+               FROM SA_USERS a
+               LEFT JOIN m00_lkpdata b ON a.BLOOD_GROUP = b.LKP_ID
+               LEFT JOIN m00_lkpdata c ON a.RELIGION = c.LKP_ID
+               LEFT JOIN country d ON a.NATIONALITY = d.id
+               LEFT JOIN m00_lkpdata e ON a.MARITAL_STATUS = e.LKP_ID
+               WHERE a.USER_ID =$teacher_id ")->row();
+            $data["teacher_email"] = $this->utilities->findAllByAttribute('teacher_staff_contractinfo', array("USER_ID" => $teacher_id, "CONTACT_TYPE" => 'E'));
+            $data["teacher_contact"] = $this->utilities->findAllByAttribute('teacher_staff_contractinfo', array("USER_ID" => $teacher_id, "CONTACT_TYPE" => 'M'));
+
+            echo $this->load->view('admin/faculty/teacher_details', $data, true);
+        }
+
+
+//===================================
+
+
+
+
