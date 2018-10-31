@@ -1,12 +1,40 @@
-/*
-*Prototypes
-*/
+//***Prototypes-------------------------------------------------------------------------------
+//Host Name
 let host = window.location.protocol + "//" + window.location.host + "/"; //http://localhost/
-//Config your project's base_url
-let baseUrl = host+""; //i.e, host+'test_crud/'
+/*
+* Project's Base Url
+    i.e, host+'test_crud/'
+*/
+let baseUrl = host+"";
 //After the Insert, Update, Delete and Read operation refresh a certain area of the page
 let refreshArea = '';
+//After the Insert, Update, Delete and Read operation refresh the whole page
 let windowReload = '';
+
+/*
+* ***Classes:
+* cia_insert
+* cia_update
+* cia_delete
+* cia_read
+* cia_attr_exists
+* cia_submit_btn
+*/
+
+/*
+* ***IDs:
+* cia_refresh_area
+*/
+
+/*
+* ***Data Attributes:
+* data-table
+* data-attr
+* data-action
+* data-refresh-id
+* data-window-reload
+*/
+
 //-------------------------------------------------------------------------------------------
 
 //Validate any Field has duplicate value
@@ -15,48 +43,67 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
         ### Server side duplicate checking is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
         *** Dynamic Settings:
-            * 1. data-table (table name), 2. data-attr (table's attr name), 3. data-action
-            * Keep an hidden input field beside this for settings i.e, <input class="cia_settings" type="hidden" data-table="NM_APPLICATION" data-attr="REGISTRATION_NUMBER" data-action="<---?php echo base_url('admission/cia_attr_exists')?>">
-            * Add a class called 'cia_submit_btn' to submit button
+            1. i) data-table (table name), ii) data-attr (table's attr name), iii) data-action
+                i.e,
+                <input type="text"
+                data-table="NM_APPLICATION"
+                data-attr="REGISTRATION_NUMBER"
+                data-action="<?php echo base_url('admission')?>"/>
+
+            2. Add a class 'cia_submit_btn' to submit button
+            3. Add a span element with red text color after input element
         *** Default Settings:
      */
     let tableD = "";
     let attrD = "";
-    let actionD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    let actionD = "";  //baseUrl+"ci_ajax_lib/is_existence"
     //End Default Settings
 
-    let id = $(this).val();
-    let cia_settings = $(this).siblings('.cia_settings');
-    let label =$(this).closest('.form-group').find('label').text();
-    label =label.replace("*", "");
 
-    let dataAction = cia_settings.attr('data-action');
-    //data-url or Manually set url
-    let url = dataAction?dataAction:actionD;
-    //data-attr or 2. Manually set table's attribute name
-    let dataAttr = cia_settings.attr('data-attr');
-    let attr = dataAttr?dataAttr:attrD;
-    let dataTableName = cia_settings.attr('data-table');
-    //data-table or 2. Manually set table name
+    //Input Value
+    let id = $(this).val();
+    //let cia_settings = $(this).siblings('.cia_settings');
+
+    //Label Text
+    let label =$(this).closest('.form-group').find('label').text();
+    label =label.replace(/[:*]/g,"");
+
+    //Table Name
+    let dataTableName = $(this).attr('data-table');
+    //data-table or Default table
     let table = dataTableName?dataTableName:tableD;
 
+    //Table's Attribute
+    let dataAttr = $(this).attr('data-attr');
+    //data-attr or default attribute
+    let attr = dataAttr?dataAttr:attrD;
+
+    //Action
+    let dataAction = $(this).attr('data-action');
+    //data-action or default action
+    let url = dataAction?dataAction:actionD;
+
+    //Span Element Select
     let spanElement = $(this).nextAll('span');
+    //Span Element Exists or Not
     let spanExists = $(this).nextAll('span').length;
     if(!spanExists)
     {
         console.log('Please create an span tag after input element');
     }
 
+    //Submit Button
     let submitBtn = $(this).closest('form').find('.cia_submit_btn');
+    //Submit Button Exists or Not
     let submitBtnExists = $(this).closest('form').find('.cia_submit_btn').length;
     if(!submitBtnExists)
     {
-        console.log('Please add a class to the submit button named "cia_submit_btn"');
+        console.log('Please add a class "cia_submit_btn" to the submit button');
     }
 
     $.ajax({
         type: "POST",
-        url: url, //check_existence
+        url: url,
         data: {table:table, attr:attr, id:id },
         success: function (data) {
             if($.trim(data)=='yes')
@@ -164,7 +211,7 @@ $(document).on("click", ".cia_insert", function (e) {
 
 //Ajax Delete by ID ++++++++++++++++++++++++++++++++++++++++++++++++++++
     window.onload = function() {
-        $(document).on('click','.cia_delete_by_id',function(e){
+        $(document).on('click','.cia_delete',function(e){
             e.preventDefault();
             e.stopPropagation();
             let thisBtn = $(this);
