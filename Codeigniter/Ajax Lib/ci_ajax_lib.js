@@ -4,8 +4,9 @@
 let host = window.location.protocol + "//" + window.location.host + "/"; //http://localhost/
 //Config your project's base_url
 let baseUrl = host+""; //i.e, host+'test_crud/'
-let refreshArea = ''; //i.e, 'cia_refresh_area'
-//cia is Codeigniter Ajax and it is a prefix
+//After the Insert, Update, Delete and Read operation refresh a certain area of the page
+let refreshArea = '';
+let windowReload = '';
 //-------------------------------------------------------------------------------------------
 
 //Validate any Field has duplicate value
@@ -78,34 +79,39 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
 $(document).on("click", ".cia_insert", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    //Submit Button
-    let thisBtn = $(this);
-    //Form
-    let thisForm = thisBtn.closest("form");
+
     /*
         ### This Ajax Form Submission is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
         *** Dynamic Settings:
-        * 1. Action, 2. Form Data, 3. Refresh Area (After Inserting refresh a part of the page)
-        * Keep an hidden input field beside this for settings i.e, <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
-        * Add a class called 'cia_submit_btn' to submit button
+            1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
+                i.e,
+                <button type="submit" class="btn btn-primary btn-sm cia_insert"
+                    data-action="<?php echo base_url('student/assignments')?>"
+                    data-refresh-id="cia_refresh_area"
+                    data-window-reload="1">
+                    Submit
+                </button>
+            2. Add a class called 'cia_submit_btn' to submit button
+            3. Remove 'action' attribute from form
         *** Default Settings:
      */
-
-    let actionD = "<?php echo base_url('admission/cia_attr_existsasdf')?>";  //baseUrl+"ci_ajax_lib/is_existence"
+    let actionD = "";  //baseUrl+"ci_ajax_lib/is_existence"
     //End Default Settings
 
-    let cia_settings = thisForm.find(".cia_settings");
+    //Submit Button
+    let thisBtn = $(this);
+    //Form
+    let thisForm = thisBtn.closest("form");
     //Form Action
-    let dataAction = cia_settings.attr("data-action");
-    let formAction = thisForm.attr('action');
-    //First check 'data action' otherwise check 'form action'
-    //let action = dataAction?dataAction:(formAction?formAction:'');
-    //data-url or Manually set url
-    let url = dataAction?dataAction:(formAction?formAction:actionD);
+    let dataAction = thisBtn.attr("data-action");
+    //let formAction = thisForm.attr('action');
+
+    //First check 'data-action' otherwise check default action 'actionD'
+    let url = dataAction?dataAction:(actionD?actionD:'');
     if(!url)
     {
-        console.log("Please set the data-action or form-action or default action");
+        console.log("Please set the data-action or default action");
     }
 
     //Form Data
@@ -116,11 +122,17 @@ $(document).on("click", ".cia_insert", function (e) {
     }
 
     //Refresh Area
-    let dataRefreshId= cia_settings.attr("data-refresh-id");
-    refreshArea = dataRefreshId?dataRefreshId:(refreshArea?refreshArea:'');
+    refreshArea = thisBtn.attr("data-refresh-id");  //i.e, cia_refresh_area
     if(!refreshArea)
     {
         console.log("Please set the data-refresh-id");
+    }
+
+    //Window Reload
+    refreshArea = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
+    if(refreshArea)
+    {
+        console.log("Window will be reloaded");
     }
 
     $.ajax({
@@ -133,7 +145,10 @@ $(document).on("click", ".cia_insert", function (e) {
             if($.trim(data)=='yes')
             {
                 alert('Success! Data inserted successfully');
-                $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                if(!windowReload)
+                    $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                else
+                    location.reload();
             }
             else if($.trim(data)=='no')
             {
