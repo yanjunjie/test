@@ -40,7 +40,41 @@
     }
 //End Signature
 
-//V.02
+//V.02, update
 
+//Start file Update
+    $ASSIGNMENT_FILE_PATH = '';
+    if(!empty($_FILES['ASSIGNMENT_FILE']['name']))
+    {
+        $file_ext = pathinfo($_FILES['ASSIGNMENT_FILE']['name'],PATHINFO_EXTENSION);
+        $upload_path = 'upload/assignments/';
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'doc|docx|pdf';
+        $config['file_name'] = $student_id.'-'.date('Y-m-d-H-i-s').'.'.$file_ext;
+
+        //initialize configuration
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('ASSIGNMENT_FILE')){
+            $finfo = $this->upload->data(); //upload the file to the above mentioned path
+            $ASSIGNMENT_FILE_PATH = $finfo['file_name'];
+        }
+    }
+    
+    $assi_data['ASSIGNMENT_FILE'] = $ASSIGNMENT_FILE_PATH;
+    
+    if(!empty($ASSIGNMENT_FILE_PATH))
+    {
+        $result1 = $this->utilities->FindById('UMS_STUDENT_ASSIGNMENT','ASSIGNMENT_ID', $ASSIGNMENT_ID);
+        
+        if(file_exists($upload_path.$result1->ASSIGNMENT_FILE))
+        {
+            unlink($upload_path.$result1->ASSIGNMENT_FILE);
+        }
+    }
+//End file update
+
+
+//
 
 
