@@ -13,7 +13,13 @@
         Password: <input type="text" name="password">
         <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
         <input type="submit">
-        <a href="#" class="" ></a>
+        <a href="#" class="" data-action="" data-refresh-id="cia_refresh_area"></a>
+        <input type="submit" class="btn btn-primary btn-sm cia_insert" value="Submit">
+        <button type="submit" class="btn btn-primary btn-sm cia_insert"
+                data-action="<?php echo base_url('student/assignments')?>"
+                data-refresh-id="cia_refresh_area">
+            Submit
+        </button>
     </form>
 </body>
 </html>
