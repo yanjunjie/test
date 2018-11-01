@@ -1,0 +1,128 @@
+$.validator.setDefaults({ ignore: ":hidden:not(select)" }); //for all select
+
+    //Ajax Form Submission/Insertion
+    $(document).on("click", ".cia_insert", function (e) {
+        /*
+            ### This Ajax Form Submission is made by Bablu Ahmed
+            ### For debugging, check erro message in browser console
+            *** Dynamic Settings:
+                1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
+                    i.e,
+                    <button type="submit" class="btn btn-primary btn-sm cia_insert"
+                        data-action="<--?php echo base_url('student/assignments')?>"
+                    data-refresh-id="cia_refresh_area"
+                    data-window-reload="1">
+                    Submit
+                </button>
+            2. Add a class called 'cia_submit_btn' to submit button
+            3. Remove 'action' attribute from form
+        *** Default Settings:
+    */
+
+        let actionD = "";  //baseUrl+"ci_ajax_lib/is_existence"
+        //End Default Settings
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        //Submit Button
+        let thisBtn = $(this);
+        //Form
+        let thisForm = thisBtn.closest("form");
+
+        //Jquery Frm Validation
+        jquery_frm_validation(thisForm);
+
+        //Form Action
+        let dataAction = thisBtn.attr("data-action");
+        //let formAction = thisForm.attr('action');
+
+        //First check 'data-action' otherwise check default action 'actionD'
+        let url = dataAction?dataAction:(actionD?actionD:'');
+        if(!url)
+        {
+            console.log("Please set the data-action or default action");
+        }
+
+        //Form Data
+        let formData = new FormData(thisForm[0]);
+        if(!formData)
+        {
+            console.log("No Form Data Found!");
+        }
+
+        //Refresh Area
+        refreshArea = thisBtn.attr("data-refresh-id");  //i.e, cia_refresh_area
+        if(!refreshArea)
+        {
+            console.log("Please set the data-refresh-id");
+        }
+
+        //Window Reload
+        //Window Reload
+        windowReload = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
+        if(windowReload)
+        {
+            console.log("Window will be reloaded");
+        }
+
+        if(thisForm.valid())
+        {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success:function(data){
+                    if($.trim(data)=='yes')
+                    {
+                        alert('Success! Data inserted successfully');
+                        if(!windowReload)
+                            $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                        else
+                            location.reload();
+                    }
+                    else if($.trim(data)=='no')
+                    {
+                        alert('Error! Data not inserted successfully')
+                    }
+                    else
+                    {
+                        alert('Error! Required fields are not fill-up');
+                    }
+                }
+            });
+        }
+
+    });
+
+
+   //Jquery Validation
+    function jquery_frm_validation(thisForm) {
+        thisForm.validate({
+            rules: {
+                CM_TITLE: {required: true},
+                DEPT_ID: {required: true},
+                YSESSION_ID: {required: true},
+                PROGRAM_ID: {required: true},
+                BATCH_ID: {required: true},
+                SECTION_ID: {required: true},
+                COURSE_ID: {required: true},
+                LKP_ID: {required: true},
+                ATTACHMENT: {
+                    required: true,
+                    extension: "doc|docx|jpg|jpeg|pdf"
+                }
+            },
+            messages: {
+                ATTACHMENT: {
+                    required: "Attachment required",
+                    extension: "Please upload valid file formats"
+                },
+                LKP_ID:"Category required"
+            }
+        });
+    }
+
+

@@ -1,0 +1,111 @@
+//***Instructions
+//***
+Select2 or Chosen not work by default hence add this line before validate()	
+$.validator.setDefaults({ ignore: ":hidden:not(select)" }); //for all select
+OR
+$.validator.setDefaults({ ignore: ":hidden:not(.chosen-select)" }); //for all select having class .chosen-select
+
+//***
+For working with file upload, We have to add extra plugin like this
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+//v.01
+$("#applicant_address_form").validate({
+        rules: {
+
+            DIVISION_ID: {required: true}
+        },
+        messages: {
+
+            DIVISION_ID: "Division required"
+
+
+        }
+    });
+
+//v.02
+$("#contact-form").validate({ 
+    onfocusout: function(e) {  // this option is not needed
+        this.element(e);       // this is the default behavior
+    },
+    rules:{
+        resume:{
+            required:true,
+            extension: "docx|rtf|doc|pdf"
+        }
+    },
+    messages: {  // <-- you must declare messages inside of "messages" option
+        resume:{
+            required:"input type is required",                  
+            extension:"select valid input file format"
+        }
+    }
+});
+
+//v.03
+HTML:
+<form id="myform" action="#">
+    <input type="file" name="resume" />
+    <br/>
+    <input type="submit" value="Submit" />
+</form>
+
+Validation Setting:
+$(document).ready(function () {
+    
+    $('#myform').validate({
+        rules: {
+            resume: {
+                required: true,
+                extension: "docx|rtf|doc|pdf"
+            }
+        },
+        messages: {
+            resume: {
+                required: "Please upload resume",
+                extension: "Please upload valid file formats"
+            }
+        }
+    });
+    
+});
+
+
+//V.04
+
+HTML:
+<form id="my-form">
+    <input type="file" required="" name="fileupload1" id="fileupload1" />
+    <input type="file" required="" name="fileupload2" id="fileupload2" />
+    <input type="file" required="" name="fileupload3" id="fileupload3" />
+    <input type="file" required="" name="fileupload999" id="fileupload999" />
+    <input type="submit" value="save" />
+</form>
+
+Validation Setting:
+jQuery(function ($) {
+    $('#my-form').validate({
+        rules: {},
+        messages: {},
+        submitHandler: function () {
+            return false
+        }
+    });
+    $('input[name^="fileupload"]').rules('add', {
+        required: true,
+        accept: "image/jpeg, image/pjpeg"
+    })
+});
+
+N.B: To use the "accept" method you'll need to include the jQuery Validate additional methods file
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+//
+
+
+
+
+
+
+

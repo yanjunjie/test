@@ -1,5 +1,5 @@
 <?php
-class Ci_ajax_lib{
+class Cia_lib{
 
 //Existence checking, exists or not a value in a table
     public function cia_attr_exists()
@@ -196,32 +196,37 @@ class Ci_ajax_lib{
 
 
 		/*
-			$this->db->trans_begin();
-            $assi_data['SUBMISSION_DT'] = date("Y-m-d", strtotime(str_replace('/', '-', $this->input->post('SUBMISSION_DT'))));
-            $assi_data['SESSION_ID'] = $this->input->post('YSESSION_ID');
+			$assi_data['SESSION_ID'] = $this->input->post('YSESSION_ID');
+            $assi_data['CATEGORY'] = $this->input->post('LKP_ID');
             $assi_data['CRE_BY'] = $this->user['EMP_ID'];
             $assi_data['CRE_DT'] = date("Y-m-d G:i:s");
 
             unset($_POST['YSESSION_ID']);
+            unset($_POST['LKP_ID']);
+
+            //Start file upload
+            $MATERIAL_FILE_PATH = '';
+            if(!empty($_FILES['ATTACHMENT']['name']))
+            {
+                $file_ext = pathinfo($_FILES['ATTACHMENT']['name'],PATHINFO_EXTENSION);
+                $config['upload_path'] = 'upload/assignments/materials/';
+                $config['allowed_types'] = 'jpg|jpeg|doc|docx|pdf';
+                $config['file_name'] = date('Y-m-d-H-i-s').'.'.$file_ext;
+
+                //initialize configuration
+                $this->upload->initialize($config);
+
+                if($this->upload->do_upload('ATTACHMENT')){
+                    $finfo = $this->upload->data(); //upload the file to the above mentioned path
+                    $MATERIAL_FILE_PATH = $finfo['file_name'];
+                }
+            }
+            //End file upload
+
+            $assi_data['ATTACHMENT']=$MATERIAL_FILE_PATH;
             $assi_data = array_merge($_POST, $assi_data);
 
-            $this->utilities->insert('UMS_ASSIGNMENTS', $assi_data);
-
-
-            if ($this->db->trans_status() === FALSE)
-            {
-                $this->db->trans_rollback();
-                    //$this->session->set_flashdata('Error', 'Error! Data not inserted successfully.');
-                    echo 'no';
-            }
-            else
-            {
-                $this->db->trans_commit();
-                //$this->session->set_flashdata('Success', 'Success! Data inserted successfully.');
-                echo 'yes';
-            }
-            exit();
-            //redirect('lab_schedule/generate_schedule');
+            $this->utilities->insertData($assi_data,'UMS_COURSE_MATERIALS');
 		*/
 
 

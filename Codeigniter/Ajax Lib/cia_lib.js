@@ -165,6 +165,7 @@ $(document).on("click", ".cia_insert", function (e) {
     */
 
     let actionD = "";  //baseUrl+"ci_ajax_lib/is_existence"
+    let windowReloadD = ""; 
     //End Default Settings
 
     e.preventDefault();
@@ -200,8 +201,8 @@ $(document).on("click", ".cia_insert", function (e) {
     }
 
     //Window Reload
-    refreshArea = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
-    if(refreshArea)
+    windowReload = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
+    if(windowReload)
     {
         console.log("Window will be reloaded");
     }
@@ -243,7 +244,7 @@ $(document).on("click", ".cia_insert", function (e) {
                     1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
                         i.e,
                         <button type="submit" class="btn btn-primary btn-sm cia_insert"
-                            data-action="<?php echo base_url('student/assignments')?>"
+                            data-action="<--?php echo base_url('student/assignments')?>"
                             data-refresh-id="cia_refresh_area"
                             data-window-reload="1">
                             Submit
@@ -282,7 +283,7 @@ $(document).on("click", ".cia_insert", function (e) {
                 console.log("Please set 'cia_refresh_area' id nearest of the form");
             }
             refreshArea = refreshArea.attr('id');
-            
+
 
             if (confirm('Are you sure to delete?')) {
                 $.ajax({
