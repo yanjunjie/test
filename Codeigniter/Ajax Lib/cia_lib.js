@@ -1,15 +1,38 @@
-//***Prototypes-------------------------------------------------------------------------------
-//Host Name
-let host = window.location.protocol + "//" + window.location.host + "/"; //http://localhost/
+//------------------------------------------Prototypes-------------------------------------
+
 /*
-* Project's Base Url
-    i.e, host+'test_crud/'
+* ***Host Name:
+    For Example: //http://localhost/
+*/
+let host = window.location.protocol + "//" + window.location.host + "/"; 
+
+/*
+* ***Setting Base Url:
+    For Example: host+'test_crud/'
 */
 let baseUrl = host+"";
+
 //After the Insert, Update, Delete and Read operation refresh a certain area of the page
 let refreshArea = '';
 //After the Insert, Update, Delete and Read operation refresh the whole page
 let windowReload = '';
+
+/*
+* ***Data Attributes:
+*/
+let dataTable='';
+let dataAttr='';
+let dataId='';
+let dataAction='';
+
+/*
+* ***Ajax Params:
+*/
+let table = "";
+let attr = "";
+let id = "";
+let url = '';
+let formData = {};
 
 /*
 * ***Classes:
@@ -35,7 +58,7 @@ let windowReload = '';
 * data-window-reload
 */
 
-//-------------------------------------------------------------------------------------------
+//------------------------------------/Prototypes----------------------------------------
 
 //Validate any Field has duplicate value
 $(document).on('keyup change', ".cia_attr_exists", function () {
@@ -124,9 +147,6 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
 
 //Ajax Form Submission/Insertion +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_insert", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
     /*
         ### This Ajax Form Submission is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
@@ -142,9 +162,13 @@ $(document).on("click", ".cia_insert", function (e) {
             2. Add a class called 'cia_submit_btn' to submit button
             3. Remove 'action' attribute from form
         *** Default Settings:
-     */
+    */
+
     let actionD = "";  //baseUrl+"ci_ajax_lib/is_existence"
     //End Default Settings
+
+    e.preventDefault();
+    e.stopPropagation();
 
     //Submit Button
     let thisBtn = $(this);
@@ -212,16 +236,53 @@ $(document).on("click", ".cia_insert", function (e) {
 //Ajax Delete by ID ++++++++++++++++++++++++++++++++++++++++++++++++++++
     window.onload = function() {
         $(document).on('click','.cia_delete',function(e){
+            /*
+                ### Ajax deletion is made by Bablu Ahmed
+                ### For debugging, check erro message in browser console
+                *** Dynamic Settings:
+                    1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
+                        i.e,
+                        <button type="submit" class="btn btn-primary btn-sm cia_insert"
+                            data-action="<?php echo base_url('student/assignments')?>"
+                            data-refresh-id="cia_refresh_area"
+                            data-window-reload="1">
+                            Submit
+                        </button>
+                    2. Add a class called 'cia_submit_btn' to submit button
+                    3. Remove 'action' attribute from form
+                *** Default Settings:
+            */
+            let tableD = '';
+            let attrD = '';
+            let IdD = '';
+            let actionD = '';  //baseUrl+"ci_ajax_lib/is_existence"
+            //End Default Settings
+
             e.preventDefault();
             e.stopPropagation();
             let thisBtn = $(this);
-            //Add the following data attributes
-            let id = $(this).attr('data-id');
-            let url = ($(this).attr('data-url'))?($(this).attr('data-url')):(baseUrl+"ci_ajax_lib/cia_delete_by_id"); //1. data-url, or 2. custom url
-            let attr = ($(this).attr('data-attr'))?($(this).attr('data-attr')):(($(this).attr('name'))?($(this).attr('name')):''); //1. table's attr by data-attr, or 2. Field Name
-            let table = $(this).attr('data-table');
+
+            //Data attributes:
+            let dataTable = $(this).attr('data-table');
+            let dataAttr = $(this).attr('data-attr');
+            let dataId = $(this).attr('data-id');
+            let dataAction = $(this).attr('data-action');
+
+            
+            //Ajax Params:
+            let table = dataTable?dataTable:tableD;
+            let attr = dataAttr?dataAttr:attrD;
+            let id = dataId?dataId:IdD;
+            let url = dataAction?dataAction:actionD;
+
             //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-            refreshArea = refreshArea?refreshArea:thisBtn.parent().closest("#cia_refresh_area").attr('id'); //1. Set refresh area id, or 2. Use closest id
+            let refreshArea = thisBtn.parent().closest("#cia_refresh_area"); //.
+            if(!refreshArea.length)
+            {
+                console.log("Please set 'cia_refresh_area' id nearest of the form");
+            }
+            refreshArea = refreshArea.attr('id');
+            
 
             if (confirm('Are you sure to delete?')) {
                 $.ajax({
