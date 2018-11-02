@@ -13,11 +13,22 @@ app.get('/hi/:id', function(req, res){
 	res.end(req.params.id);
 });
 
+//Login
+app.get('/login', function(req, res){
+	res.sendFile('login.html',{root: path.join(__dirname, './allPages')});
+});
+
+//Processing post data
+app.post('/login_check', function(req, res){
+	var username = req.body.username;
+	var password = req.body.password;
+	res.send(username);
+});
 
 //Next Test
 var requestTime = function (req, res, next) {
-  req.requestTime = Date.now()
-  next()
+  req.requestTime = Date.now();
+  next();
 }
 
 //Make the middleware useable for all routing 
