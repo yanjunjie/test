@@ -243,11 +243,14 @@ $(document).on("click", ".cia_insert", function (e) {
                 *** Dynamic Settings:
                     1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
                         i.e,
-                        <button type="submit" class="btn btn-primary btn-sm cia_insert"
-                            data-action="<--?php echo base_url('student/assignments')?>"
-                            data-refresh-id="cia_refresh_area"
-                            data-window-reload="1">
-                            Submit
+                        <button type="submit" class="btn btn-danger btn-xs cia_delete"
+                                data-id="<?php echo $row->CM_ID; ?>"
+                                data-table="UMS_COURSE_MATERIALS"
+                                data-attr="CM_ID"
+                                data-action="<?php echo base_url('assignment/ajax_delete')?>"
+                                data-refresh-id="cia_refresh_area"
+                                data-window-reload="">
+                            Delete
                         </button>
                     2. Add a class called 'cia_submit_btn' to submit button
                     3. Remove 'action' attribute from form
@@ -263,10 +266,10 @@ $(document).on("click", ".cia_insert", function (e) {
             e.stopPropagation();
             let thisBtn = $(this);
 
-            //Data attributes:
+            //Data attributes:            
+            let dataId = $(this).attr('data-id');
             let dataTable = $(this).attr('data-table');
             let dataAttr = $(this).attr('data-attr');
-            let dataId = $(this).attr('data-id');
             let dataAction = $(this).attr('data-action');
 
             
@@ -277,7 +280,7 @@ $(document).on("click", ".cia_insert", function (e) {
             let url = dataAction?dataAction:actionD;
 
             //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-            let refreshArea = thisBtn.parent().closest("#cia_refresh_area"); //.
+            let refreshArea = thisBtn.closest('body').find('#cia_refresh_area');
             if(!refreshArea.length)
             {
                 console.log("Please set 'cia_refresh_area' id nearest of the form");

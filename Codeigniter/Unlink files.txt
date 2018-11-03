@@ -1,11 +1,32 @@
-//Unlink Previous photo
-    if(!empty($applicant_photo_path))
+//V.01, For Delete
+
+//Path find for delete
+$result1 = $this->utilities->findByAttribute($table, array($attr=>$id));
+
+//Record delete
+$res = $this->db->delete($table,array($attr=>$id));
+
+//After record delete then unlink
+if($res)
+{
+    if(!empty($result1->ATTACHMENT))
     {
-        $applicnt_personal_info['APPLICANT_PHOTO_PATH'] = $applicant_photo_path;
+        unlink('upload/assignments/materials/'.$result1->ATTACHMENT);
+    }
 
-        $result1 = $this->utilities->FindById('NM_APPLICATION','REGISTRATION_NUMBER', $this->input->post('REGISTRATION_SL'));
+}
 
-        if(!empty($result1[0]->APPLICANT_PHOTO_PATH)){
-            unlink('upload/applicant/photo/'.$result1[0]->APPLICANT_PHOTO_PATH);
+//V.02, For update
+
+if(!empty($ASSIGNMENT_FILE_PATH))
+    {
+        $result1 = $this->utilities->findByAttribute('UMS_STUDENT_ASSIGNMENT', array('ASSIGNMENT_ID'=>$ASSIGNMENT_ID ,'stud_id'=>$student_id ));
+        
+        if(file_exists($upload_path.$result1->ASSIGNMENT_FILE))
+        {
+            unlink($upload_path.$result1->ASSIGNMENT_FILE);
         }
     }
+
+
+//v.03

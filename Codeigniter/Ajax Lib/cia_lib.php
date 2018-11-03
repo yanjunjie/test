@@ -21,7 +21,7 @@ class Cia_lib{
 
 
 //Ajax Delete by ID
-    public function cia_delete_by_id()
+    public function cia_delete()
     {
         $table=$this->input->post('table');
         $attr=$this->input->post('attr');
