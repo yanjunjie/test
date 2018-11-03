@@ -13,7 +13,7 @@ let host = window.location.protocol + "//" + window.location.host + "/";
 let baseUrl = host+"";
 
 //After the Insert, Update, Delete and Read operation refresh a certain area of the page
-let refreshArea = '';
+let reloadArea = '';
 //After the Insert, Update, Delete and Read operation refresh the whole page
 let windowReload = '';
 
@@ -24,6 +24,8 @@ let dataTable='';
 let dataAttr='';
 let dataId='';
 let dataAction='';
+let dataReload='';
+let dataRedirect='';
 
 /*
 * ***Ajax Params:
@@ -32,6 +34,8 @@ let table = "";
 let attr = "";
 let id = "";
 let url = '';
+let windowReload = '';
+let windowRedirect = '';
 let formData = {};
 
 /*
@@ -46,7 +50,7 @@ let formData = {};
 
 /*
 * ***IDs:
-* cia_refresh_area
+* cia_reload_area
 */
 
 /*
@@ -54,8 +58,9 @@ let formData = {};
 * data-table
 * data-attr
 * data-action
-* data-refresh-id
-* data-window-reload
+* data-reload-id
+* data-reload
+* data-redirect
 */
 
 //------------------------------------/Prototypes----------------------------------------
@@ -155,8 +160,8 @@ $(document).on("click", ".cia_insert", function (e) {
                 i.e,
                 <button type="submit" class="btn btn-primary btn-sm cia_insert"
                     data-action="<--?php echo base_url('student/assignments')?>"
-                    data-refresh-id="cia_refresh_area"
-                    data-window-reload="1">
+                    data-reload-id="cia_reload_area"
+                    data-reload="1">
                     Submit
                 </button>
             2. Add a class called 'cia_insert' to submit button
@@ -194,22 +199,22 @@ $(document).on("click", ".cia_insert", function (e) {
     }
 
     //Refresh Area
-    refreshArea = thisBtn.attr("data-refresh-id");  //i.e, cia_refresh_area
-    if(!refreshArea)
+    reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
+    if(!reloadArea)
     {
-        console.log("Please set the 'data-refresh-id'");
+        console.log("Please set the 'data-reload-id'");
     }
 
     //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-    let refreshAreaExists = $('#cia_refresh_area').length;
-    if(!refreshAreaExists)
+    let reloadAreaExists = $('#cia_reload_area').length;
+    if(!reloadAreaExists)
     {
-        console.log("Please set 'cia_refresh_area' id on the Data View Area");
+        console.log("Please set 'cia_reload_area' id on the Data View Area");
     }
 
 
     //Window Reload
-    windowReload = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
+    windowReload = thisBtn.attr("data-reload"); //Boolean Value, i.e, 0 or 1
     if(windowReload)
     {
         console.log("Window will be reloaded");
@@ -226,7 +231,7 @@ $(document).on("click", ".cia_insert", function (e) {
             {
                 alert('Success! Record inserted successfully');
                 if(!windowReload)
-                    $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                    $("#"+reloadArea).load(location.href + " #"+reloadArea);
                 else
                     location.reload();
             }
@@ -256,8 +261,8 @@ $(document).on("click", ".cia_insert", function (e) {
                                 data-table="UMS_COURSE_MATERIALS"
                                 data-attr="CM_ID"
                                 data-action="<--?php echo base_url('assignment/ajax_delete')?>"
-                                data-refresh-id="cia_refresh_area"
-                                data-window-reload="">
+                                data-reload-id="cia_reload_area"
+                                data-reload="">
                             Delete
                         </button>
                     2. Remove 'action' attribute from form
@@ -294,17 +299,17 @@ $(document).on("click", ".cia_insert", function (e) {
             }
 
             //Refresh Area
-            refreshArea = thisBtn.attr("data-refresh-id");  //i.e, cia_refresh_area
-            if(!refreshArea)
+            reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
+            if(!reloadArea)
             {
-                console.log("Please set the 'data-refresh-id'");
+                console.log("Please set the 'data-reload-id'");
             }
 
             //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-            let refreshAreaExists = $('#cia_refresh_area').length;
-            if(!refreshAreaExists)
+            let reloadAreaExists = $('#cia_reload_area').length;
+            if(!reloadAreaExists)
             {
-                console.log("Please set 'cia_refresh_area' id on the Data View Area");
+                console.log("Please set 'cia_reload_area' id on the Data View Area");
             }
 
 
@@ -316,7 +321,7 @@ $(document).on("click", ".cia_insert", function (e) {
                     success:function(data){
                         if ($.trim(data)=='yes') {
                             alert("Deleted successfully");
-                            $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                            $("#"+reloadArea).load(location.href + " #"+reloadArea);
                         }
                     },
                     error:function(){
@@ -341,8 +346,9 @@ $(document).on("click", ".cia_insert", function (e) {
                     <button type="submit" class="btn btn-primary btn-sm cia_update"
                         data-id="<--?php echo base_url('student/')?>"
                         data-action="<--?php echo base_url('student/')?>"
-                    data-refresh-id="cia_refresh_area"
-                    data-window-reload="1">
+                        data-reload-id="cia_reload_area"
+                        data-reload=""
+                        data-redirect="">
                     Update
                 </button>
             2. Add a class called 'cia_update' to Update button
@@ -354,83 +360,73 @@ $(document).on("click", ".cia_insert", function (e) {
         let attrD = "";
         let actionD = "";
         let windowReloadD = "";
-        let redirectD = "";
+        let windowRedirectD = "";
         //End Default Settings
 
         e.preventDefault();
         e.stopPropagation();
 
         //Data attributes:
-
         let dataId = $(this).attr('data-id');
         let dataTable = $(this).attr('data-table');
         let dataAttr = $(this).attr('data-attr');
         let dataAction = $(this).attr('data-action');
-        let dataWindowReload = $(this).attr('data-window-reload');
+        let dataReload = $(this).attr('data-reload');
         let dataRedirect = $(this).attr('data-redirect');
-
-
+        let reloadArea = thisBtn.attr("data-reload-id");
+        
         //Ajax Params:
-        let id = dataId?dataId:IdD;
-        let table = dataTable?dataTable:tableD;
-        let attr = dataAttr?dataAttr:attrD;
-        let url = dataAction?dataAction:actionD;
-
+        let id = dataId?dataId:(IdD?IdD:'');
+        let table = dataTable?dataTable:(tableD?tableD:'');
+        let attr = dataAttr?dataAttr:(attrD?attrD:'');
+        let url = dataAction?dataAction:(actionD?actionD:'');
+        let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+        let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+        
         //Submit Button
         let thisBtn = $(this);
         //Form
         let thisForm = thisBtn.closest("form");
-
-        //First check 'data-id' otherwise check default id 'IdD'
-        id = dataId?dataId:(IdD?IdD:'');
-        if(!id)
-        {
-            console.log("Please set the data-id or default id");
-        }
-
-        //First check 'data-action' otherwise check default action 'actionD'
-        url = dataAction?dataAction:(actionD?actionD:'');
-        if(!url)
-        {
-            console.log("Please set the data-action or default action");
-        }
-
         //Form Data
         let formData = new FormData(thisForm[0]);
         if(!formData)
         {
             console.log("No Form Data Found!");
         }
-
-        //Refresh Area
-        refreshArea = thisBtn.attr("data-refresh-id");  //i.e, cia_refresh_area
-        if(!refreshArea)
+        //Update by ID
+        if(!id)
         {
-            console.log("Please set the 'data-refresh-id'");
+            console.log("Please set the data-id or default id");
+        }
+        //Action
+        if(!url)
+        {
+            console.log("Please set the data-action or default action");
         }
 
-        //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-        let refreshAreaExists = $('#cia_refresh_area').length;
-        if(!refreshAreaExists)
-        {
-            console.log("Please set 'cia_refresh_area' id on the Data View Area");
-        }
-
-        //Window Reload
-        windowReload = thisBtn.attr("data-window-reload"); //Boolean Value, i.e, 0 or 1
-        if(windowReload)
-        {
-            console.log("Window will be reloaded");
-        }
+        //Find out the cia_reload_area id exists or not
+        let reloadAreaExists = $('#cia_reload_area').length;
 
         //Redirect path
-        dataRedirect = thisBtn.attr("data-redirect");
-        if(dataRedirect)
+        if(windowRedirect)
         {
             console.log("Window will be redirected");
         }
+        //Window Reload
+        else if(windowReload)
+        {
+            console.log("Window will be reloaded");
+        }
+        //Reload an Area of the page
+        else if(reloadAreaExists)
+        {
+            console.log("The Data View Area have been reloaded");
+        }
+        //At least set a reload area
+        else
+            console.log("Please set 'cia_reload_area' id on the Data View Area");
 
-        //Add data id to FormData API
+        //Add data-id to the FormData API
         formData.append('id',id)
 
         $.ajax({
@@ -443,12 +439,12 @@ $(document).on("click", ".cia_insert", function (e) {
                 if($.trim(data)=='yes')
                 {
                     alert('Success! Record inserted successfully');
-                    if(dataRedirect)
-                        location.reload ="<?php echo base_url()?>"+dataRedirect;
-                    else if(windowReload)
+                    if(windowRedirect)
+                        window.location =windowRedirect; //Redirect path
+                    else if(windowReload) //1 or 0
                         location.reload();
                     else
-                        $("#"+refreshArea).load(location.href + " #"+refreshArea);
+                        $("#"+reloadArea).load(location.href + " #"+reloadArea);
                 }
                 else if($.trim(data)=='no')
                 {
