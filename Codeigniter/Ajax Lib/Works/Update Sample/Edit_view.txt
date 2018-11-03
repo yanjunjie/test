@@ -1,0 +1,218 @@
+<style type="text/css">
+    hr{
+        margin-bottom:0px !important ;
+        margin-top:11px !important;
+    }
+    .form-control, .chosen-container, .control-label{
+        margin-bottom: 11px;
+    }
+    .red{
+        color: red;
+    }
+</style>
+
+<form enctype="multipart/form-data" method="post">
+    <div class="ibox-content">
+        <div class="div-background">
+            <div class="row1a">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Material Title: <span class="red">*</span></label>
+                        <div class="col-md-7">
+                            <input value="<?php echo $course_materials_edit_details->CM_TITLE;?>" required="required" name="CM_TITLE" id="CM_TITLE" type="text" placeholder="Material Title" class="form-control">
+                            <span class="red"><?php echo form_error('CM_TITLE'); ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Material Description:</label>
+                            <div class="col-md-7">
+                                <input value="<?php echo $course_materials_edit_details->CM_DESC;?>" name="CM_DESC" id="CM_DESC" type="text" placeholder="Material Description" class="form-control">
+                                <span class="red"><?php echo form_error('CM_DESC'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row1">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Department:<span class="red">*</span></label>
+                        <div class="col-md-5">
+                            <span id="DEPT_ID_DEPEN">
+                                 <select name="DEPT_ID" id="DEPT_ID" data-placeholder="Choose Department" class="chosen-select form-control" tabindex="4">
+                                    <option value="" selected disabled>-Select-</option>
+                                     <?php foreach($INS_DEPT as $ky=>$row2)
+                                     {
+                                         echo '<option ' . (($row2->DEPT_ID == $course_materials_edit_details->DEPT_ID) ? "selected" : "") . ' value="' . $row2->DEPT_ID . '">' . $row2->DEPT_NAME . '</option>';
+                                     }
+                                     ?>
+                                </select>
+                            </span>
+                            <span class="red"><?php echo form_error('DEPT_ID'); ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Session: <span class="red">*</span></label>
+                        <div class="col-md-5">
+                            <select name="YSESSION_ID" id="YSESSION_ID" data-placeholder="Choose Session" class="chosen-select form-control" tabindex="4">
+                                <option value="" selected disabled>-Select-</option>
+                                <?php foreach($ADM_YSESSION as $ky=>$row2)
+                                {
+                                    echo '<option ' . (($row2->YSESSION_ID == $course_materials_edit_details->SESSION_ID) ? "selected" : "") . ' value="' . $row2->YSESSION_ID . '">' . $row2->SESSION_NAME." - ".$row2->DINYEAR . '</option>';
+                                } ?>
+                            </select>
+                            <span class="red"><?php echo form_error('YSESSION_ID'); ?></span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="row2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Program: <span class="red">*</span></label>
+
+                        <div class="col-md-5">
+                            <span id="PROGRAM_ID_DEPEN">
+                                <select name="PROGRAM_ID" id="PROGRAM_ID" data-placeholder="Choose Program" class="chosen-select form-control" tabindex="4">
+                                    <option value="" selected disabled>-Select-</option>
+                                    <?php foreach($INS_PROGRAM as $ky=>$row2)
+                                    {
+                                        echo '<option ' . (($row2->PROGRAM_ID == $course_materials_edit_details->PROGRAM_ID) ? "selected" : "") . ' value="' . $row2->PROGRAM_ID . '">' . $row2->PROGRAM_NAME. '</option>';
+                                    } ?>
+                                </select>
+                            </span>
+                            <span class="red"><?php echo form_error('PROGRAM_ID'); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Batch: <span class="red">*</span></label>
+
+                        <div class="col-md-5">
+                            <span id="BATCH_ID_DEPEN">
+                                <select name="BATCH_ID" id="BATCH_ID" data-placeholder="Choose Batch" class="chosen-select form-control" tabindex="4">
+                                    <option value="" selected disabled>-Select-</option>
+                                    <?php foreach($ACA_BATCH as $ky=>$row2)
+                                    {
+                                        echo '<option ' . (($row2->BATCH_ID == $course_materials_edit_details->BATCH_ID) ? "selected" : "") . ' value="' . $row2->BATCH_ID . '">' . $row2->BATCH_TITLE. '</option>';
+                                    } ?>
+                                </select>
+                            </span>
+                            <span class="red"><?php echo form_error('BATCH_ID'); ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Section:<span class="red">*</span></label>
+                        <div class="col-md-5">
+                            <select name="SECTION_ID" id="SECTION_ID" data-placeholder="Choose Section" class="chosen-select form-control" tabindex="4">
+                                <option value="" selected disabled>-Select-</option>
+                                <?php foreach($ACA_SECTION as $ky=>$row2)
+                                {
+                                    echo '<option ' . (($row2->SECTION_ID == $course_materials_edit_details->SECTION_ID) ? "selected" : "") . ' value="' . $row2->SECTION_ID . '">' . $row2->NAME. '</option>';
+                                } ?>
+                            </select>
+                            <span class="red"><?php echo form_error('SECTION_ID'); ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-5 control-label">Course ID: <span class="red">*</span></label>
+                        <div class="col-md-5">
+                            <select required="required" name="COURSE_ID" id="COURSE_ID" data-placeholder="Choose Course" class="chosen-select form-control" tabindex="4">
+                                <option value="" selected disabled>-Select-</option>
+                                <?php foreach($ACA_COURSE as $ky=>$row2)
+                                {
+                                    echo '<option ' . (($row2->COURSE_ID == $course_materials_edit_details->COURSE_ID) ? "selected" : "") . ' value="' . $row2->COURSE_ID . '">' . $row2->COURSE_TITLE. '</option>';
+                                } ?>
+                            </select>
+                            <span class="red"><?php echo form_error('COURSE_ID'); ?></span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row5" style="margin-top: 11px;">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Category: <span class="red">*</span></label>
+                    <div class="col-md-5">
+                        <select name="LKP_ID" id="LKP_ID" data-placeholder="Choose Category" class="chosen-select form-control" tabindex="4">
+                            <option value="" selected disabled>-Select-</option>
+                            <?php foreach($M00_LKPDATA as $ky=>$row2)
+                            {
+                                echo '<option ' . (($row2->LKP_ID == $course_materials_edit_details->CATEGORY) ? "selected" : "") . ' value="' . $row2->LKP_ID . '">' . $row2->LKP_NAME. '</option>';
+                            } ?>
+                        </select>
+                        <span class="red"><?php echo form_error('LKP_ID'); ?></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Attachment: <span class="red">*</span></label>
+                    <div class="col-md-5">
+                        <input name="ATTACHMENT" id="ATTACHMENT" type="file" class="form-control">
+                        <span class="red"><?php echo form_error('ATTACHMENT'); ?></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <!--<div class="row5" style="margin-top: 11px;">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>
+                            <input name="ACTIVE_STATUS" type="checkbox"  value="Y" checked="checked"> Active?
+                        </label>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="row6">
+                <div class="col-md-12">
+                    <hr>
+                    <div class="form-group" style="padding-top: 5px;">
+                        <span class="modal_msg pull-left"></span>
+                        <button type="submit" class="btn btn-primary btn-sm cia_update"
+                                data-id="<?php echo $CM_ID;?>"
+                                data-action="<?php echo base_url('assignment/course_materials_edit')?>"
+                                data-refresh-id="cia_refresh_area"
+                                data-window-reload=""
+                                data-window-redirect="assignment/course_materials">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</form>
+
+<div class="clearfix"></div>
+
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
+<script>
+    $(function () {
+        $('.date_picker').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        $('.time_picker').datetimepicker({
+            format: 'LT'
+            //format: 'HH:mm:ss'
+        });
+
+    });
+
+
+</script>
