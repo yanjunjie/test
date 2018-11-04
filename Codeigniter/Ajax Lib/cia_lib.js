@@ -344,13 +344,13 @@ $(document).on("click", ".cia_insert", function (e) {
                 1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set '1' or 'true' the #ii will not work)
                     i.e,
                     <button type="submit" class="btn btn-primary btn-sm cia_update"
-                        data-id="<--?php echo base_url('student/')?>"
-                        data-action="<--?php echo base_url('student/')?>"
-                        data-reload-id="cia_reload_area"
-                        data-reload=""
-                        data-redirect="">
-                    Update
-                </button>
+                            data-id="<?php echo $CM_ID;?>"
+                            data-action="<?php echo base_url('assignment/course_materials_edit')?>"
+                            data-reload-id="cia_refresh_area"
+                            data-reload=""
+                            data-redirect="<?php echo base_url('assignment/course_materials')?>">
+                        Update
+                    </button>
             2. Add a class called 'cia_update' to Update button
             3. Remove 'action' attribute from form
         *** Default Settings:
@@ -373,7 +373,7 @@ $(document).on("click", ".cia_insert", function (e) {
         let dataAction = $(this).attr('data-action');
         let dataReload = $(this).attr('data-reload');
         let dataRedirect = $(this).attr('data-redirect');
-        let reloadArea = thisBtn.attr("data-reload-id");
+        let reloadArea = $(this).attr("data-reload-id");
         
         //Ajax Params:
         let id = dataId?dataId:(IdD?IdD:'');
@@ -420,7 +420,7 @@ $(document).on("click", ".cia_insert", function (e) {
         //Reload an Area of the page
         else if(reloadAreaExists)
         {
-            console.log("The Data View Area have been reloaded");
+            console.log("The Data View Area has been reloaded");
         }
         //At least set a reload area
         else
@@ -438,7 +438,7 @@ $(document).on("click", ".cia_insert", function (e) {
             success:function(data){
                 if($.trim(data)=='yes')
                 {
-                    alert('Success! Record inserted successfully');
+                    alert('Success! Record updated successfully');
                     if(windowRedirect)
                         window.location =windowRedirect; //Redirect path
                     else if(windowReload) //1 or 0
@@ -448,7 +448,7 @@ $(document).on("click", ".cia_insert", function (e) {
                 }
                 else if($.trim(data)=='no')
                 {
-                    alert('Error! Record not inserted successfully')
+                    alert('Error! Record not updated successfully')
                 }
                 else
                 {
