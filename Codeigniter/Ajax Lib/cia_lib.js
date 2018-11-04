@@ -547,28 +547,94 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     });
 });
 
-//Ajax Find View by ID //One to Many relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $(document).on("change", "#FACULTY_ID", function () {
-        let FACULTY_ID = $(this).val();
-        $.ajax({
 
-            type: "POST",
-            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_id",
-            data:  {table:'INS_PROGRAM',attr:'FACULTY_ID', attr_val:FACULTY_ID, url_data:'', view:'admin/lab_schedule/program_dependency'},
-            success:function(data){
-                if(data != "no"){
-                    $('#PROGRAM_ID_DEPEN').html(data);
-                }
-                else
-                {
-                    console.log('No data found');
-                }
+/*
+* Dependency Start ---------------------------------------------------------------------------
+*/
+
+//Ajax Find View by ID //One to Many Relationship
+$(document).on("change", ".cia_dependency_one_to_many", function () {
+
+/*
+    ### This Ajax Dependency is made by Bablu Ahmed
+    ### For debugging, check erro message in browser console
+    *** Dynamic Settings:
+        1. i.e,
+            <select class="cia_dependency_one_to_many"
+                 data-table="INS_PROGRAM"
+                 data-attr="DEPT_ID"
+                 data-action="<--?php echo base_url('assignment/cia_dependency_by_id')?>"
+                 data-view="admin/assignment/program_dependency"
+                 data-reload-id="PROGRAM_ID" >
+        2. Add a class called 'cia_dependency_one_to_many' to the Select element
+
+    *** Default Settings:
+*/
+
+    let IdD = '';
+    let tableD = "";
+    let attrD = "";
+    let actionD = "";
+    let windowReloadD = "";
+    let windowRedirectD = "";
+    let titleD = "";
+    let headerBgD = "";
+    let viewD = "";
+    //End Default Settings
+
+    //Attributes:
+    let thisId = $(this).val();
+    let dataId = $(this).attr('data-id');
+    let dataTable = $(this).attr('data-table');
+    let dataAttr = $(this).attr('data-attr');
+    let dataAction = $(this).attr('data-action');
+    let dataReload = $(this).attr('data-reload');
+    let dataRedirect = $(this).attr('data-redirect');
+    let reloadArea = $(this).attr("data-reload-id");
+    let dataTitle = $(this).attr("data-title");
+    let dataHeaderBg = $(this).attr("data-header-bg");
+    let dataView = $(this).attr("data-view");
+
+    //Ajax Params:
+    let id = thisId?thisId:(IdD?IdD:'');
+    let table = dataTable?dataTable:(tableD?tableD:'');
+    let attr = dataAttr?dataAttr:(attrD?attrD:'');
+    let url = dataAction?dataAction:(actionD?actionD:'');
+    let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+    let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+    let title = dataTitle?dataTitle:(titleD?titleD:'');
+    let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
+    let view = dataView?dataView:(viewD?viewD:'');
+
+    //Form Data
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('table', table);
+    formData.append('attr', attr);
+    formData.append('view', view);
+
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            if($.trim(data) != "no"){
+                $("#"+reloadArea).html(data);
+                $("#"+reloadArea).trigger("chosen:updated");
             }
-        });
+            else
+            {
+                console.log('Error! Please check form data');
+            }
+        }
     });
+});
 
 
-//Ajax Find View by Detail Table ID //Many to One relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Ajax Find Dependency by Detail ID //Many to One relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++
    
     $(document).on("change", "#PROGRAM_ID", function () {
         let PROGRAM_ID = $(this).val();
@@ -594,7 +660,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     });
 
 
-//Ajax Find View by Master Table ID  //One to Many and Many to One +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Ajax Find Dependency by Master Table ID  //One to Many and Many to One +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     $(document).on("change", "#PROGRAM_ID", function () {
         let PROGRAM_ID = $(this).val();

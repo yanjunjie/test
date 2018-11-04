@@ -38,34 +38,32 @@ class Cia_lib{
     }
 
 
-//Ajax Find View by ID (One to Many relationship)
-    public function ajax_find_view_by_id()
+//Ajax Find Dependency by Master ID (One to Many relationship)
+public function cia_dependency_by_id()
+{
+    $attr_val=$this->input->post('id');
+    $table=$this->input->post('table');
+    $attr=$this->input->post('attr');
+    $view = $this->input->post('view');
+
+    if($view and $attr_val and $table)
     {
-        $table=$this->input->post('table');
-        $attr=$this->input->post('attr');
-        $attr_val=$this->input->post('attr_val');
-        $url_data=$this->input->post('url_data');
-        $view = $this->input->post('view');
+        $data = array(
+            'result'=>$this->utilities->findAllByAttribute($table, array($attr=>$attr_val))
+        );
 
-
-        if($view and ($attr_val or $url_data ) and $table)
-        {
-            $data = array(
-                'result'=>$url_data?$this->utilities->findByAndWhere($table, $url_data):$this->utilities->findAllById($table, $attr, $attr_val)
-            );
-
-            $dependency = $this->load->view($view,$data,true);
-            echo $dependency;
-        }
-        else
-        {
-            echo "no";
-        }
-        exit();
+        $dependency = $this->load->view($view,$data,true);
+        echo $dependency;
     }
+    else
+    {
+        echo "no";
+    }
+    exit();
+}
+    
 
-
-//Ajax Find View by Detail Table ID (Many to One relationship)
+//Ajax Find Dependencies by Detail ID (Many to One relationship)
 
  public function ajax_find_view_by_detail_id()
     {
@@ -113,7 +111,7 @@ class Cia_lib{
     }
 
 
-//Ajax Find View by Master Table ID (One to Many and Many to One)
+//Ajax Find Dependency by Master Table ID (One to Many and Many to One)
 
     public function ajax_find_view_by_map()
     {
