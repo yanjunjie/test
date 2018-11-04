@@ -259,6 +259,15 @@ class Cia_lib{
 
 	}
 
+    //Sample Modal For a View Load
+    public function sample_modal_for_view_load()
+    {
+        $id = $_POST['id'];
+        $data['CM_ID']=$id?$id:'';
+        $data['CourseMaterialDetailsById'] = $this->student_model->CourseMaterialDetailsById($id);
+        echo $this->load->view('admin/assignment/courseMaterialDetailsById', $data, true);
+    }
+
 	//Remove array element(s) if exists
 	function array_keys_exists_remove($array,$keys)
 	{

@@ -152,6 +152,9 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
 
 //Ajax Form Submission/Insertion +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_insert", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     /*
         ### This Ajax Form Submission is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
@@ -168,13 +171,9 @@ $(document).on("click", ".cia_insert", function (e) {
             3. Remove 'action' attribute from form
         *** Default Settings:
     */
-
     let actionD = ""; 
     let windowReloadD = ""; 
     //End Default Settings
-
-    e.preventDefault();
-    e.stopPropagation();
 
     //Submit Button
     let thisBtn = $(this);
@@ -250,6 +249,9 @@ $(document).on("click", ".cia_insert", function (e) {
 //Ajax Delete by ID ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     window.onload = function() {
         $(document).on('click','.cia_delete',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+
             /*
                 ### Ajax deletion is made by Bablu Ahmed
                 ### For debugging, check erro message in browser console
@@ -274,8 +276,6 @@ $(document).on("click", ".cia_insert", function (e) {
             let actionD = '';  
             //End Default Settings
 
-            e.preventDefault();
-            e.stopPropagation();
             let thisBtn = $(this);
 
             //Data attributes:            
@@ -337,6 +337,9 @@ $(document).on("click", ".cia_insert", function (e) {
 
 //Ajax Form Submission/Update by ID +++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $(document).on("click", ".cia_update", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         /*
             ### This Ajax Form Submission is made by Bablu Ahmed
             ### For debugging, check erro message in browser console
@@ -344,17 +347,17 @@ $(document).on("click", ".cia_insert", function (e) {
                 1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set '1' or 'true' the #ii will not work)
                     i.e,
                     <button type="submit" class="btn btn-primary btn-sm cia_update"
-                            data-id="<?php echo $CM_ID;?>"
-                            data-action="<?php echo base_url('assignment/course_materials_edit')?>"
+                            data-id="<--?php echo $CM_ID;?>"
+                            data-action="<--?php echo base_url('assignment/course_materials_edit')?>"
                             data-reload-id="cia_refresh_area"
                             data-reload=""
-                            data-redirect="<?php echo base_url('assignment/course_materials')?>">
+                            data-redirect="<--?php echo base_url('assignment/course_materials')?>">
                         Update
                     </button>
-            2. Add a class called 'cia_update' to Update button
-            3. Remove 'action' attribute from form
-        *** Default Settings:
-    */
+                2. Add a class called 'cia_update' to Update button
+                3. Remove 'action' attribute from form
+            *** Default Settings:
+        */
         let IdD = '';
         let tableD = "";
         let attrD = "";
@@ -362,9 +365,6 @@ $(document).on("click", ".cia_insert", function (e) {
         let windowReloadD = "";
         let windowRedirectD = "";
         //End Default Settings
-
-        e.preventDefault();
-        e.stopPropagation();
 
         //Data attributes:
         let dataId = $(this).attr('data-id');
@@ -457,6 +457,95 @@ $(document).on("click", ".cia_insert", function (e) {
             }
         });
     });
+
+
+//View Load By Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$(document).on("click", ".cia_modal_btn", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    /*
+        ### This Ajax Modal View is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            1. i.e,
+                <button type="button" class="btn btn-info btn-xs cia_modal_btn" title="Click For Details" style="margin: 0; font-size: 11px; padding: 1px 3px; color: #fff; font-weight: 600; line-height: 1.3;"
+                        data-id="<--?php echo $row->CM_ID; ?>"
+                        data-table="UMS_COURSE_MATERIALS"
+                        data-attr="CM_ID"
+                        data-action="<--?php echo base_url('assignment/material_details')?>"
+                        data-refresh-id="cia_refresh_area"
+                        data-window-reload="">
+                    Details
+                </button>
+            2. Add a class called 'cia_modal_btn' to the modal button
+            3. Add a class called 'cia_modal' to the modal
+
+        *** Default Settings:
+    */
+    let IdD = '';
+    let tableD = "";
+    let attrD = "";
+    let actionD = "";
+    let windowReloadD = "";
+    let windowRedirectD = "";
+    let titleD = "";
+    let headerBgD = "";
+    //End Default Settings
+
+    //Data attributes:
+    let dataId = $(this).attr('data-id');
+    let dataTable = $(this).attr('data-table');
+    let dataAttr = $(this).attr('data-attr');
+    let dataAction = $(this).attr('data-action');
+    let dataReload = $(this).attr('data-reload');
+    let dataRedirect = $(this).attr('data-redirect');
+    let reloadArea = $(this).attr("data-reload-id");
+    let dataTitle = $(this).attr("data-title");
+    let dataHeaderBg = $(this).attr("data-header-bg");
+
+    //Ajax Params:
+    let id = dataId?dataId:(IdD?IdD:'');
+    let table = dataTable?dataTable:(tableD?tableD:'');
+    let attr = dataAttr?dataAttr:(attrD?attrD:'');
+    let url = dataAction?dataAction:(actionD?actionD:'');
+    let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+    let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+    let title = dataTitle?dataTitle:(titleD?titleD:'');
+    let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
+
+    //Modal elements
+    let cia_modal = $('.cia_modal');
+    let modal_dialog = cia_modal.find('.modal-dialog');
+    let modal_header = cia_modal.find('.modal-header');
+    let modal_title = cia_modal.find('.modal-title');
+    let modal_body = cia_modal.find('.modal-body');
+    let modal_footer = cia_modal.find('.modal-footer');
+
+    //Set modal show/hide
+    cia_modal.modal('toggle');
+
+    //Set Modal Title
+    //modal_title.html(title);
+
+    //Set Modal Header Background
+    //modal_header.removeClass('bg-primary bg-success bg-info bg-warning bg-danger');
+    //modal_header.addClass(headerBg);
+
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {id:id, table:table, attr:attr},
+        beforeSend: function () {
+            modal_body.html(""); /*<img src='<--?php echo base_url(); ?>assets/img/loader.gif' />*/
+        },
+        success: function (data) {
+            modal_body.html(data);
+        },
+        error: function(){
+            alert('Error! No view found');
+        }
+    });
+});
 
 //Ajax Find View by ID //One to Many relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++
     $(document).on("change", "#FACULTY_ID", function () {
