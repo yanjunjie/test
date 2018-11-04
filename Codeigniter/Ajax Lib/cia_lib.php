@@ -185,11 +185,20 @@ public function cia_dependency_by_many_to_one_many()
 
     $table1=$this->input->post('table');
     $table2=$this->input->post('table2');
+    $table3=$this->input->post('table2');
 
     $attr1=$this->input->post('attr');
     $attr2=$this->input->post('attr2');
 
     $view = $this->input->post('view');
+
+    $this->db->query("
+        SELECT c.*,
+        FROM $table1 a
+        LEFT JOIN $table2 b ON b.$attr2 = a.$attr2
+        LEFT JOIN $table3 c ON c.$attr2 = b.$attr2
+        WHERE a.$attr1='$id'
+    ");
 
     //Many to One
     $result_single= $this->utilities->findByAttribute($table1, array($attr1=>$id)); //Search Itself
