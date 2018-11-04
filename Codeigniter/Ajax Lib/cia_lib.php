@@ -61,7 +61,7 @@ public function cia_dependency_by_id()
     }
     exit();
 }
-    
+
 
 //Ajax Find Dependencies by Detail ID (Many to One relationship)
 
@@ -174,6 +174,75 @@ public function cia_dependency_by_id()
 
        exit();
     }
+
+
+//Ajax Find Dependency by Detail ID (Many to One and One to Many)
+public function cia_dependency_by_many_to_one_many()
+{
+    $data = array();
+
+    $id=$this->input->post('id');
+
+    $table1=$this->input->post('table');
+    $table2=$this->input->post('table2');
+
+    $attr1=$this->input->post('attr');
+    $attr2=$this->input->post('attr2');
+
+    $view = $this->input->post('view');
+
+    //Many to One
+    $result_single= $this->utilities->findByAttribute($table1, array($attr1=>$id)); //Search Itself
+
+    //One to many
+    $result_multiple = $this->utilities->findAllByAttribute($table2, array($attr2=>$result_single->$attr2));
+
+    //Many to One
+    if($result_multiple)
+    {
+        $arr_duplicate_values =array();
+        foreach ($result_multiple as $key=>$obj)
+        {
+            foreach ($obj as $key2=>$value)
+            {
+                if($key2 ==$attr2)
+                {
+                    $arr_duplicate_values[] = $value;
+
+                }
+            }
+
+        }
+
+        //Query for M to O
+        $arr_unique_values = array_unique($arr_duplicate_values);
+
+        foreach ($arr_unique_values as $value)
+        {
+            $result[] = $this->utilities->findAllByAttribute($table2, array($attr2=>$value));
+        }
+
+        if ($result)
+        {
+            $data = array(
+                'result'=> reset($result)
+            );
+
+            $dependency = $this->load->view($view,$data,true);
+            echo $dependency;
+        }
+        else
+        {
+            echo 'not_found' ;
+        }
+    }
+    else
+    {
+        echo "err";
+    }
+
+    exit();
+}
 
 
 //Insertion Test
