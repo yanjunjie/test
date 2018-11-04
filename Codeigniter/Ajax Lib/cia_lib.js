@@ -490,9 +490,10 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let windowRedirectD = "";
     let titleD = "";
     let headerBgD = "";
+    let modalTypeD = "";
     //End Default Settings
 
-    //Data attributes:
+    //Attributes:
     let dataId = $(this).attr('data-id');
     let dataTable = $(this).attr('data-table');
     let dataAttr = $(this).attr('data-attr');
@@ -502,6 +503,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let reloadArea = $(this).attr("data-reload-id");
     let dataTitle = $(this).attr("data-title");
     let dataHeaderBg = $(this).attr("data-header-bg");
+    let dataModalType = $(this).attr("data-modal-type");
 
     //Ajax Params:
     let id = dataId?dataId:(IdD?IdD:'');
@@ -512,6 +514,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
     let title = dataTitle?dataTitle:(titleD?titleD:'');
     let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
+    let modalType = dataModalType?dataModalType:(modalTypeD?modalTypeD:'');
 
     //Modal elements
     let cia_modal = $('.cia_modal');
@@ -525,16 +528,34 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     cia_modal.modal('toggle');
 
     //Set Modal Title
-    //modal_title.html(title);
-
+    (title)
+    {
+        modal_title.html(title);
+    }
     //Set Modal Header Background
-    //modal_header.removeClass('bg-primary bg-success bg-info bg-warning bg-danger');
-    //modal_header.addClass(headerBg);
+    if(headerBg)
+    {
+        modal_header.attr('class', 'modal-header');
+        modal_header.addClass(headerBg);
+    }
+    //Set Modal Size
+    if(modalType)
+    {
+        modal_dialog.attr('class', 'modal-dialog');
+        modal_dialog.addClass(modalType);
+    }
+    //Set Form Data
+    let formData = new FormData();
+    formData.append('id',id);
+    formData.append('table',table);
+    formData.append('attr',attr);
 
     $.ajax({
         type: 'post',
         url: url,
-        data: {id:id, table:table, attr:attr},
+        data: formData,
+        contentType: false,
+        processData: false,
         beforeSend: function () {
             modal_body.html(""); /*<img src='<--?php echo base_url(); ?>assets/img/loader.gif' />*/
         },
@@ -542,7 +563,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
             modal_body.html(data);
         },
         error: function(){
-            alert('Error! No view found');
+            alert('Error! Please check form data');
         }
     });
 });
