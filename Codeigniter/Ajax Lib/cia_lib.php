@@ -19,7 +19,6 @@ class Cia_lib{
         exit();
     }
 
-
 //Ajax Delete by ID
     public function cia_delete()
     {
@@ -63,7 +62,6 @@ public function cia_dependency_by_id()
     }
     exit();
 }
-
 
 //Ajax Find Dependency by Join Two Table (One to Many Relationship by Foreign ID)
 public function cia_dependency_by_join_two_tbl()
@@ -135,8 +133,6 @@ public function cia_dependency_by_one_to_many_to_one()
         echo "no";
     exit();
 }
-
-    
 
 
 //Insertion Test
