@@ -595,7 +595,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
 * Dependency Start ---------------------------------------------------------------------------
 */
 
-//Ajax Find View by Own ID //One to Many Relationship
+//Ajax Find Dependency by Own ID //One to Many Relationship
 $(document).on("change", ".cia_dependency_one_to_many", function () {
 
 /*
@@ -675,6 +675,7 @@ $(document).on("change", ".cia_dependency_one_to_many", function () {
         }
     });
 });
+
 
 //Ajax Find Dependency by Join Two Table //One to Many Relationship (Foreign ID)
 $(document).on("change", ".cia_dependency_by_join_two_tbl", function () {
@@ -771,77 +772,24 @@ $(document).on("change", ".cia_dependency_by_join_two_tbl", function () {
 });
 
 
-
-
-//Ajax Find Dependency by Detail ID //Many to One relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   
-    $(document).on("change", "#PROGRAM_ID", function () {
-        let PROGRAM_ID = $(this).val();
-        $.ajax({
-            type: "POST",
-            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_detail_id",
-            data:  {master_table:'INS_DEGREE', detail_table:'INS_PROGRAM', attr_master:'DEGREE_ID',  attr_detail:'DEGREE_ID', attr_detail_val:PROGRAM_ID, view:'admin/lab_schedule/degree_dependency'},
-            success:function(data){
-                if(data != "no" && data != "err")
-                {
-                    $('#DEGREE_ID_DEPEN').html(data);
-                }
-                else if(data == "err")
-                {
-                    $('#DEGREE_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
-                }
-                else
-                {
-                    console.log('No data found');
-                }
-            }
-        });
-    });
-
-
-//Ajax Find Dependency by Master Table ID  //One to Many and Many to One +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    $(document).on("change", "#PROGRAM_ID", function () {
-        let PROGRAM_ID = $(this).val();
-        $.ajax({
-            type: "POST",
-            url: "<?=base_url();?>lab_schedule/ajax_find_view_by_map",
-            data:  {master_table1:'INS_PROGRAM', attr_master1_val:PROGRAM_ID, master_table2:'ACA_BATCH', attr_master2:'BATCH_ID', detail_table:'ACA_BATCH_PROG', attr_detail:'PROGRAM_ID', view:'admin/lab_schedule/batch_dependency'},
-            success:function(data){
-                if(data != "no" && data != "err")
-                {
-                    $('#BATCH_ID_DEPEN').html(data);
-                }
-                else if(data == "err")
-                {
-                    $('#BATCH_ID_DEPEN').html('<b class="text-danger text-center ">No data found!</b>');
-                }
-                else
-                {
-                    console.log('No data found');
-                }
-            }
-        });
-    });
-
-
-//Ajax Find Dependency by Detail ID (Many to One and One to Many)
-$(document).on("change", ".cia_dependency_many_to_one_many", function () {
-
+//Ajax Find Dependency by Joining Three Tables //One to Many and Many to One Relationship
+$(document).on("change", ".cia_dependency_by_one_to_many_to_one", function () {
     /*
         ### This Ajax Dependency is made by Bablu Ahmed
         ### For debugging, check erro message in browser console
         *** Dynamic Settings:
             1. i.e,
-                <select class="cia_dependency_many_to_one_many"
+                <select class="
+                    cia_dependency_by_one_to_many_to_one"
                     data-table="INS_PROGRAM"
                     data-table2="ACA_COURSE"
+                    data-table3="ACA_COURSE"
                     data-attr="PROGRAM_ID"
                     data-attr2="DEPT_ID"
-                    data-action="<?php echo base_url('assignment/cia_dependency_by_many_to_one_many')?>"
+                    data-action="<--?php echo base_url('assignment/cia_dependency_by_join_two_tbl')?>"
                     data-view="admin/assignment/course_dependency"
                     data-reload-id="COURSE_ID" >
-            2. Add a class called 'cia_dependency_many_to_one_many' to the Select element
+            2. Add a class called 'cia_dependency_by_one_to_many_to_one' to the Select element
 
         *** Default Settings:
     */
@@ -849,6 +797,7 @@ $(document).on("change", ".cia_dependency_many_to_one_many", function () {
     let IdD = '';
     let tableD = "";
     let tableD2 = "";
+    let tableD3 = "";
     let attrD = "";
     let attrD2 = "";
     let actionD = "";
@@ -864,6 +813,7 @@ $(document).on("change", ".cia_dependency_many_to_one_many", function () {
     let dataId = $(this).attr('data-id');
     let dataTable = $(this).attr('data-table');
     let dataTable2 = $(this).attr('data-table2');
+    let dataTable3 = $(this).attr('data-table3');
     let dataAttr = $(this).attr('data-attr');
     let dataAttr2 = $(this).attr('data-attr2');
     let dataAction = $(this).attr('data-action');
@@ -878,6 +828,7 @@ $(document).on("change", ".cia_dependency_many_to_one_many", function () {
     let id = thisId?thisId:(IdD?IdD:'');
     let table = dataTable?dataTable:(tableD?tableD:'');
     let table2 = dataTable2?dataTable2:(tableD2?tableD2:'');
+    let table3 = dataTable3?dataTable3:(tableD3?tableD3:'');
     let attr = dataAttr?dataAttr:(attrD?attrD:'');
     let attr2 = dataAttr2?dataAttr2:(attrD2?attrD2:'');
     let url = dataAction?dataAction:(actionD?actionD:'');
@@ -892,6 +843,7 @@ $(document).on("change", ".cia_dependency_many_to_one_many", function () {
     formData.append('id', id);
     formData.append('table', table);
     formData.append('table2', table2);
+    formData.append('table3', table3);
     formData.append('attr', attr);
     formData.append('attr2', attr2);
     formData.append('view', view);
@@ -910,11 +862,15 @@ $(document).on("change", ".cia_dependency_many_to_one_many", function () {
             }
             else
             {
-                console.log('Error! Please check form data');
+                console.log('Queried but no result found');
             }
+        },
+        error: function (jqXHR, exception) {
+            getJqXhrError(jqXHR, exception);
         }
     });
 });
+
 
 
 
