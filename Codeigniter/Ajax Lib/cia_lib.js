@@ -65,6 +65,28 @@ let formData = {};
 
 //------------------------------------/Prototypes----------------------------------------
 
+// This function is used to get error message for all ajax calls
+function getJqXhrError(jqXHR, exception) {
+    var msg = '';
+    if (jqXHR.status === 0) {
+        msg = 'Not connect.\n Verify Network.';
+    } else if (jqXHR.status == 404) {
+        msg = 'Requested page not found. [404]';
+    } else if (jqXHR.status == 500) {
+        msg = 'Internal Server Error [500].';
+    } else if (exception === 'parsererror') {
+        msg = 'Requested JSON parse failed.';
+    } else if (exception === 'timeout') {
+        msg = 'Time out error.';
+    } else if (exception === 'abort') {
+        msg = 'Ajax request aborted.';
+    } else {
+        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+    }
+    //$('#post').html(msg);
+    alert(msg);
+}
+
 //Validate any Field has duplicate value +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on('keyup change', ".cia_attr_exists", function () {
     /*
@@ -573,7 +595,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
 * Dependency Start ---------------------------------------------------------------------------
 */
 
-//Ajax Find View by ID //One to Many Relationship
+//Ajax Find View by Own ID //One to Many Relationship
 $(document).on("change", ".cia_dependency_one_to_many", function () {
 
 /*
@@ -653,6 +675,102 @@ $(document).on("change", ".cia_dependency_one_to_many", function () {
         }
     });
 });
+
+//Ajax Find Dependency by Join Two Table //One to Many Relationship (Foreign ID)
+$(document).on("change", ".cia_dependency_by_join_two_tbl", function () {
+
+    /*
+        ### This Ajax Dependency is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            1. i.e,
+                <select class="cia_dependency_by_join_two_tbl"
+                    data-table="INS_PROGRAM"
+                    data-table2="ACA_COURSE"
+                    data-attr="PROGRAM_ID"
+                    data-attr2="DEPT_ID"
+                    data-action="<--?php echo base_url('assignment/cia_dependency_by_join_two_tbl')?>"
+                    data-view="admin/assignment/course_dependency"
+                    data-reload-id="COURSE_ID" >
+            2. Add a class called 'cia_dependency_by_join_two_tbl' to the Select element
+
+        *** Default Settings:
+    */
+
+    let IdD = '';
+    let tableD = "";
+    let tableD2 = "";
+    let attrD = "";
+    let attrD2 = "";
+    let actionD = "";
+    let windowReloadD = "";
+    let windowRedirectD = "";
+    let titleD = "";
+    let headerBgD = "";
+    let viewD = "";
+    //End Default Settings
+
+    //Attributes:
+    let thisId = $(this).val();
+    let dataId = $(this).attr('data-id');
+    let dataTable = $(this).attr('data-table');
+    let dataTable2 = $(this).attr('data-table2');
+    let dataAttr = $(this).attr('data-attr');
+    let dataAttr2 = $(this).attr('data-attr2');
+    let dataAction = $(this).attr('data-action');
+    let dataReload = $(this).attr('data-reload');
+    let dataRedirect = $(this).attr('data-redirect');
+    let reloadArea = $(this).attr("data-reload-id");
+    let dataTitle = $(this).attr("data-title");
+    let dataHeaderBg = $(this).attr("data-header-bg");
+    let dataView = $(this).attr("data-view");
+
+    //Ajax Params:
+    let id = thisId?thisId:(IdD?IdD:'');
+    let table = dataTable?dataTable:(tableD?tableD:'');
+    let table2 = dataTable2?dataTable2:(tableD2?tableD2:'');
+    let attr = dataAttr?dataAttr:(attrD?attrD:'');
+    let attr2 = dataAttr2?dataAttr2:(attrD2?attrD2:'');
+    let url = dataAction?dataAction:(actionD?actionD:'');
+    let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+    let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+    let title = dataTitle?dataTitle:(titleD?titleD:'');
+    let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
+    let view = dataView?dataView:(viewD?viewD:'');
+
+    //Form Data
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('table', table);
+    formData.append('table2', table2);
+    formData.append('attr', attr);
+    formData.append('attr2', attr2);
+    formData.append('view', view);
+
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            if($.trim(data) != "no"){
+                $("#"+reloadArea).html(data);
+                $("#"+reloadArea).trigger("chosen:updated");
+            }
+            else
+            {
+                console.log('Queried but no result found');
+            }
+        },
+        error: function (jqXHR, exception) {
+            getJqXhrError(jqXHR, exception);
+        }
+    });
+});
+
+
 
 
 //Ajax Find Dependency by Detail ID //Many to One relationship +++++++++++++++++++++++++++++++++++++++++++++++++++++++

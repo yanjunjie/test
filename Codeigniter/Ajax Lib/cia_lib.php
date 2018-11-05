@@ -38,7 +38,7 @@ class Cia_lib{
     }
 
 
-//Ajax Find Dependency by Master ID (One to Many relationship)
+//Ajax Find Dependency by Primary ID (One to Many relationship)
 public function cia_dependency_by_id()
 {
     $attr_val=$this->input->post('id');
@@ -61,6 +61,38 @@ public function cia_dependency_by_id()
     }
     exit();
 }
+
+
+//Ajax Find Dependency by Join Two Table //One to Many Relationship
+public function cia_dependency_by_join_two_tbl()
+{
+    $data = array();
+
+    $id=$this->input->post('id');
+    $table1=$this->input->post('table');
+    $table2=$this->input->post('table2');
+    $attr1=$this->input->post('attr');
+    $attr2=$this->input->post('attr2');
+    $view = $this->input->post('view');
+
+    $result = $this->db->query("
+        select b.*
+        from $table1 a
+        left join $table2 b on b.$attr2 = a.$attr2
+        where a.$attr1 = '$id'
+    ")->result();
+
+    if($result)
+    {
+        $data['result']= $result;
+        $dependency = $this->load->view($view,$data,true);
+        echo $dependency;
+    }
+    else
+        echo "no";
+    exit();
+}
+
 
 
 //Ajax Find Dependencies by Detail ID (Many to One relationship)
