@@ -37,9 +37,8 @@ class Cia_lib{
 	exit();
     }
 
-
- /*
-    * Dependency Start ---------------------------------------------------------------------------
+/*
+* Dependency Start ---------------------------------------------------------------------------
 */
 
 //Ajax Find Dependency by Primary ID (One to Many relationship)
@@ -55,7 +54,6 @@ public function cia_dependency_by_id()
         $data = array(
             'result'=>$this->utilities->findAllByAttribute($table, array($attr=>$attr_val))
         );
-
         $dependency = $this->load->view($view,$data,true);
         echo $dependency;
     }
@@ -67,7 +65,7 @@ public function cia_dependency_by_id()
 }
 
 
-//Ajax Find Dependency by Join Two Table //One to Many Relationship
+//Ajax Find Dependency by Join Two Table (One to Many Relationship by Foreign ID)
 public function cia_dependency_by_join_two_tbl()
 {
     /*
@@ -101,7 +99,7 @@ public function cia_dependency_by_join_two_tbl()
     exit();
 }
 
-//Ajax Find Dependency by Joining Three Tables //One to Many and Many to One Relationship
+//Ajax Find Dependency by Joining Three Tables (One to Many and Many to One Relationship)
 public function cia_dependency_by_one_to_many_to_one()
 {
     /*

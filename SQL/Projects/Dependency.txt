@@ -1,0 +1,25 @@
+//One to Many By ID
+findAllByAttribute($table, array($attr=>$attr_val))
+
+//One to Many by Foreign ID
+select b.*
+from INS_PROGRAM a
+left join aca_course b on b.DEPT_ID = a.DEPT_ID
+where a.PROGRAM_ID = '61'
+
+/
+select b.*
+from $table a
+left join $table2 b on b.$attr2 = a.$attr2
+where a.$attr1 = '$id'
+/
+
+//One to Many to One
+select c.*
+from INS_YSESSION a
+left join ACA_BATCH_PROG b on b.YSESSION_ID = a.YSESSION_ID
+left join ACA_BATCH c on c.BATCH_ID = b.BATCH_ID
+where a.YSESSION_ID = '61'
+/
+
+

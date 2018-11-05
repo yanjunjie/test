@@ -221,7 +221,28 @@ from UMS_ASSIGNMENTS a left join UMS_STUDENT_ASSIGNMENT b on b.ASSIGNMENT_ID =a.
 left join ACA_COURSE c on c.COURSE_ID =a.COURSE_ID 
 where a.SUBMISSION_DT >= '2018-10-31' and a.ACTIVE_STATUS ='Y' 
 group by a.ASSIGNMENT_TITLE,a.DESCRIPTION,a.SUBMISSION_DT,b.SUBMISSION_DT, b.ASSIGNMENT_FILE,b.STUDENT_ID, c.COURSE_TITLE;
+<<<<<<< HEAD
+/
+select b.*
+from INS_PROGRAM a
+left join aca_course b on b.DEPT_ID = a.DEPT_ID
+where a.PROGRAM_ID = '61'
+/
+select b.*
+from $table a
+left join $table2 b on b.$attr2 = a.$attr2
+where a.$attr1 = '$id'
+/
+select c.*
+from INS_YSESSION a
+left join ACA_BATCH_PROG b on b.YSESSION_ID = a.YSESSION_ID
+left join ACA_BATCH c on c.BATCH_ID = b.BATCH_ID
+where a.YSESSION_ID = '61'
+/
+alter table UMS_LAB_SCHEDULE modify (ACTIVE_STATUS null);
+=======
 
+>>>>>>> c94a85aab3d46c50c422e5cd128bae09d830de1d
 /
 
 

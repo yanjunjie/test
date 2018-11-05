@@ -9,9 +9,16 @@ $res = $this->db->delete($table,array($attr=>$id));
 //After record delete then unlink
 if($res)
 {
+<<<<<<< HEAD
+    $file_path = 'upload/assignments/materials/'.$result1->ATTACHMENT;
+    if(file_exists($file_path))
+    {
+        unlink($file_path);
+=======
     if(!empty($result1->ATTACHMENT))
     {
         unlink('upload/assignments/materials/'.$result1->ATTACHMENT);
+>>>>>>> c94a85aab3d46c50c422e5cd128bae09d830de1d
     }
 
 }
