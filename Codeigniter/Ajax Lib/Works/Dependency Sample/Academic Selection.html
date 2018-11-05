@@ -1,0 +1,117 @@
+<!--Start Academic Selection-->
+<div class="row1">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Department:<span class="red">*</span></label>
+            <div class="col-md-5">
+                <select name="DEPT_ID" id="DEPT_ID" data-placeholder="Choose Department" tabindex="4" class="chosen-select form-control
+                        cia_dependency_one_to_many"
+                        data-table="INS_PROGRAM"
+                        data-attr="DEPT_ID"
+                        data-action="<?php echo base_url('assignment/cia_dependency_by_id')?>"
+                        data-view="admin/assignment/program_dependency"
+                        data-reload-id="PROGRAM_ID" >
+                    <option value="" selected disabled>-Select-</option>
+                    <?php foreach($INS_DEPT as $ky=>$row2) {?>
+                        <option value="<?php echo $row2->DEPT_ID; ?>" <?php echo  set_select("DEPT_ID", "$row2->DEPT_ID"); ?> ><?php echo $row2->DEPT_NAME; ?></option>
+                    <?php } ?>
+                </select>
+                <span class="red"><?php echo form_error('DEPT_ID'); ?></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Session: <span class="red">*</span></label>
+            <div class="col-md-5">
+                <select name="YSESSION_ID" id="YSESSION_ID" data-placeholder="Choose Session" tabindex="4" class="chosen-select form-control
+                        cia_dependency_by_one_to_many_to_one"
+                        data-table="INS_YSESSION"
+                        data-table2="ACA_BATCH_PROG"
+                        data-table3="ACA_BATCH"
+                        data-attr="YSESSION_ID"
+                        data-attr2="BATCH_ID"
+                        data-action="<?php echo base_url('assignment/cia_dependency_by_one_to_many_to_one')?>"
+                        data-view="admin/assignment/batch_dependency"
+                        data-reload-id="BATCH_ID">
+                    <option value="" selected disabled>-Select-</option>
+                    <?php foreach($INS_YSESSION as $ky=>$row2) {?>
+                        <option value="<?php echo $row2->YSESSION_ID; ?>" <?php echo  set_select("YSESSION_ID", "$row2->YSESSION_ID"); ?> ><?php echo $row2->SESSION_NAME." - ".$row2->DINYEAR; ?></option>
+                    <?php } ?>
+                </select>
+                <span class="red"><?php echo form_error('YSESSION_ID'); ?></span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="row2">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Program: <span class="red">*</span></label>
+            <div class="col-md-5">
+                <select name="PROGRAM_ID" id="PROGRAM_ID" data-placeholder="Choose Program" tabindex="4" class="chosen-select form-control 
+                        cia_dependency_by_join_two_tbl"
+                        data-table="INS_PROGRAM"
+                        data-table2="ACA_COURSE"
+                        data-attr="PROGRAM_ID"
+                        data-attr2="DEPT_ID"
+                        data-action="<?php echo base_url('assignment/cia_dependency_by_join_two_tbl')?>"
+                        data-view="admin/assignment/course_dependency"
+                        data-reload-id="COURSE_ID">
+                    <option value="" selected disabled>-Select-</option>
+                    <?php /*foreach($INS_PROGRAM as $ky=>$row2) {*/?><!--
+                <option value="<?php /*echo $row2->PROGRAM_ID; */?>" <?php /*echo  set_select("PROGRAM_ID", "$row2->PROGRAM_ID"); */?> ><?php /*echo $row2->PROGRAM_NAME; */?></option>
+            --><?php /*} */?>
+                </select>
+                <span class="red"><?php echo form_error('PROGRAM_ID'); ?></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Batch: <span class="red">*</span></label>
+            <div class="col-md-5">
+                <select name="BATCH_ID" id="BATCH_ID" data-placeholder="Choose Batch" class="chosen-select form-control" tabindex="4">
+                    <option value="" selected disabled>-Select-</option>
+                    <?php /*foreach($ACA_BATCH as $ky=>$row2) {*/?><!--
+                <option value="<?php /*echo $row2->BATCH_ID; */?>" <?php /*echo  set_select("BATCH_ID", "$row2->BATCH_ID"); */?> ><?php /*echo $row2->BATCH_TITLE; */?></option>
+            --><?php /*} */?>
+                </select>
+                <span class="red"><?php echo form_error('BATCH_ID'); ?></span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="row3">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Course: <span class="red">*</span></label>
+            <div class="col-md-5">
+                <select required="required" name="COURSE_ID" id="COURSE_ID" data-placeholder="Choose Course" class="chosen-select form-control" tabindex="4">
+                    <option value="" selected disabled>-Select-</option>
+                    <?php /*foreach($ACA_COURSE as $ky=>$row2) {*/?><!--
+            <option value="<?php /*echo $row2->COURSE_ID; */?>" <?php /*echo  set_select("COURSE_ID", "$row2->COURSE_ID"); */?> ><?php /*echo $row2->COURSE_TITLE */?></option>
+        --><?php /*} */?>
+                </select>
+                <span class="red"><?php echo form_error('COURSE_ID'); ?></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-5 control-label">Section:<span class="red">*</span></label>
+            <div class="col-md-5">
+                <select name="SECTION_ID" id="SECTION_ID" data-placeholder="Choose Section" class="chosen-select form-control" tabindex="4">
+                    <option value="" selected disabled>-Select-</option>
+                    <?php foreach($ACA_SECTION as $ky=>$row) {?>
+                        <option value="<?php echo $row->SECTION_ID; ?>" <?php echo  set_select("SECTION_ID", "$row->SECTION_ID"); ?> ><?php echo $row->NAME; ?></option>
+                    <?php } ?>
+                </select>
+                <span class="red"><?php echo form_error('SECTION_ID'); ?></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Academic Selection-->
