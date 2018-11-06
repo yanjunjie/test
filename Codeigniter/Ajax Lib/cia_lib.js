@@ -1,13 +1,13 @@
 //------------------------------------------Prototypes-------------------------------------
 
 /*
-* Host Name:
+* ***Host Name:
     For Example: //http://localhost/
 */
 let host = window.location.protocol + "//" + window.location.host + "/"; 
 
 /*
-* Setting Base Url:
+* ***Setting Base Url:
     For Example: host+'test_crud/'
 */
 let baseUrl = host+"";
@@ -28,7 +28,7 @@ let dataReload='';
 let dataRedirect='';
 
 /*
-* Ajax Params:
+* ***Ajax Params:
 */
 let table = "";
 let attr = "";
@@ -38,29 +38,40 @@ let windowReload = '';
 let windowRedirect = '';
 let formData = {};
 
-/*
-* ***Classes:
+
+/* 
+*-------------Classes-------------
+***CRUD:
 * cia_insert
 * cia_update
 * cia_delete
 * cia_read
 * cia_attr_exists
 * cia_submit_btn
+
+***Form Validation:
+* cia_required
+* cia_required_file
+* cia_required_number
+* cia_required_min
+*-------------/Classes-------------
 */
 
 /*
-* ***IDs:
+*-------------IDs-------------
 * cia_reload_area
+*-------------/IDs-------------
 */
 
 /*
-* ***Data Attributes:
+* --------Data Attributes---------
 * data-table
 * data-attr
 * data-action
 * data-reload-id
 * data-reload
 * data-redirect
+* --------/Data Attributes---------
 */
 
 //------------------------------------/Prototypes----------------------------------------
@@ -109,24 +120,30 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
     let actionD = "";
     //End Default Settings
 
+
     //Input Value
     let id = $(this).val();
     //let cia_settings = $(this).siblings('.cia_settings');
+
     //Label Text
     let label =$(this).closest('.form-group').find('label').text();
     label =label.replace(/[:*]/g,"");
+
     //Table Name
     let dataTableName = $(this).attr('data-table');
     //data-table or Default table
     let table = dataTableName?dataTableName:tableD;
+
     //Table's Attribute
     let dataAttr = $(this).attr('data-attr');
     //data-attr or default attribute
     let attr = dataAttr?dataAttr:attrD;
+
     //Action
     let dataAction = $(this).attr('data-action');
     //data-action or default action
     let url = dataAction?dataAction:actionD;
+
     //Span Element Select
     let spanElement = $(this).nextAll('span');
     //Span Element Exists or Not
@@ -135,6 +152,7 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
     {
         console.log('Please create an span tag after input element');
     }
+
     //Submit Button
     let submitBtn = $(this).closest('form').find('.cia_submit_btn');
     //Submit Button Exists or Not
@@ -161,9 +179,6 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
                 $(submitBtn).removeAttr('disabled','disabled');
                 $(submitBtn).on('click');
             }
-        },
-        error: function (jqXHR, exception) {
-            getJqXhrError(jqXHR, exception);
         }
     });
 });
@@ -200,30 +215,36 @@ $(document).on("click", ".cia_insert", function (e) {
     //Form Action
     let dataAction = thisBtn.attr("data-action");
     //let formAction = thisForm.attr('action');
+
     //First check 'data-action' otherwise check default action 'actionD'
     let url = dataAction?dataAction:(actionD?actionD:'');
     if(!url)
     {
         console.log("Please set the data-action or default action");
     }
+
     //Form Data
     let formData = new FormData(thisForm[0]);
     if(!formData)
     {
         console.log("No Form Data Found!");
     }
+
     //Refresh Area
     reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
     if(!reloadArea)
     {
         console.log("Please set the 'data-reload-id'");
     }
+
     //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
     let reloadAreaExists = $('#cia_reload_area').length;
     if(!reloadAreaExists)
     {
         console.log("Please set 'cia_reload_area' id on the Data View Area");
     }
+
+
     //Window Reload
     windowReload = thisBtn.attr("data-reload"); //Boolean Value, i.e, 0 or 1
     if(windowReload)
@@ -254,9 +275,6 @@ $(document).on("click", ".cia_insert", function (e) {
             {
                 alert('Error! Required field is missing. Please try again');
             }
-        },
-        error: function (jqXHR, exception) {
-            getJqXhrError(jqXHR, exception);
         }
     });
 });
@@ -305,24 +323,28 @@ $(document).on("click", ".cia_insert", function (e) {
             let attr = dataAttr?dataAttr:attrD;
             let url = dataAction?dataAction:actionD;
 
+
             //First check 'data-id' otherwise check default id 'IdD'
             id = dataId?dataId:(IdD?IdD:'');
             if(!id)
             {
                 console.log("Please set the data-id or default id");
             }
+
             //Refresh Area
             reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
             if(!reloadArea)
             {
                 console.log("Please set the 'data-reload-id'");
             }
+
             //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
             let reloadAreaExists = $('#cia_reload_area').length;
             if(!reloadAreaExists)
             {
                 console.log("Please set 'cia_reload_area' id on the Data View Area");
             }
+
 
             if (confirm('Are you sure to delete?')) {
                 $.ajax({
@@ -335,8 +357,8 @@ $(document).on("click", ".cia_insert", function (e) {
                             $("#"+reloadArea).load(location.href + " #"+reloadArea);
                         }
                     },
-                    error: function (jqXHR, exception) {
-                        getJqXhrError(jqXHR, exception);
+                    error:function(){
+                        alert('Error deleting');
                     }
                 });
             }
@@ -465,9 +487,6 @@ $(document).on("click", ".cia_insert", function (e) {
                 {
                     alert('Error! Required field is missing. Please try again');
                 }
-            },
-            error: function (jqXHR, exception) {
-                getJqXhrError(jqXHR, exception);
             }
         });
     });
@@ -576,8 +595,8 @@ $(document).on("click", ".cia_modal_btn", function (e) {
         success: function (data) {
             modal_body.html(data);
         },
-        error: function (jqXHR, exception) {
-            getJqXhrError(jqXHR, exception);
+        error: function(){
+            alert('Error! Please check form data');
         }
     });
 });
@@ -587,7 +606,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
 * Dependency Start ---------------------------------------------------------------------------
 */
 
-//Ajax Find Dependency by Own ID (One to Many Relationship)
+//Ajax Find Dependency by Own ID //One to Many Relationship
 $(document).on("change", ".cia_dependency_one_to_many", function () {
 
 /*
@@ -664,15 +683,12 @@ $(document).on("change", ".cia_dependency_one_to_many", function () {
             {
                 console.log('Error! Please check form data');
             }
-        },
-        error: function (jqXHR, exception) {
-            getJqXhrError(jqXHR, exception);
         }
     });
 });
 
 
-//Ajax Find Dependency by Join Two Table (One to Many Relationship by Foreign ID)
+//Ajax Find Dependency by Join Two Table (One to Many Relationship By Foreign ID)
 $(document).on("change", ".cia_dependency_by_join_two_tbl", function () {
 
     /*
@@ -742,6 +758,7 @@ $(document).on("change", ".cia_dependency_by_join_two_tbl", function () {
     formData.append('attr', attr);
     formData.append('attr2', attr2);
     formData.append('view', view);
+
 
     $.ajax({
         type: "POST",
