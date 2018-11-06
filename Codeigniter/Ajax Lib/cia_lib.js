@@ -1,5 +1,4 @@
 //------------------------------------------Prototypes-------------------------------------
-
 /*
 * ***Host Name:
     For Example: //http://localhost/
@@ -12,33 +11,6 @@ let host = window.location.protocol + "//" + window.location.host + "/";
 */
 let baseUrl = host+"";
 
-//After the Insert, Update, Delete and Read operation refresh a certain area of the page
-let reloadArea = '';
-//After the Insert, Update, Delete and Read operation refresh the whole page
-let windowReload = '';
-
-/*
-* ***Data Attributes:
-*/
-let dataTable='';
-let dataAttr='';
-let dataId='';
-let dataAction='';
-let dataReload='';
-let dataRedirect='';
-
-/*
-* ***Ajax Params:
-*/
-let table = "";
-let attr = "";
-let id = "";
-let url = '';
-let windowReload = '';
-let windowRedirect = '';
-let formData = {};
-
-
 /* 
 *-------------Classes-------------
 ***CRUD:
@@ -48,7 +20,6 @@ let formData = {};
 * cia_read
 * cia_attr_exists
 * cia_submit_btn
-
 ***Form Validation:
 * cia_required
 * cia_required_file
@@ -74,7 +45,6 @@ let formData = {};
 * data-reload-id
 * data-reload
 * data-redirect
-
 ***Form Validation:
 * data-file-type i.e, jpg,jpeg,doc,docx,pdf etc.
 * --------/Data Attributes---------

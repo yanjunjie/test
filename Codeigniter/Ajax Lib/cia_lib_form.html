@@ -5,21 +5,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>CIA Lib Test</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="cia_jq_validation.js"></script>
 </head>
 <body>
-    <form action="">
-        Username: <input type="text" name="username">
-        Password: <input type="text" name="password">
-        <input type="hidden" class="cia_settings" data-action="" data-refresh-id="cia_refresh_area">
-        <input type="submit">
-        <a href="#" class="" data-action="" data-refresh-id="cia_refresh_area"></a>
-        <input type="submit" class="btn btn-primary btn-sm cia_insert" value="Submit">
-        <button type="submit" class="btn btn-primary btn-sm cia_insert"
-                data-action="<?php echo base_url('student/assignments')?>"
-                data-refresh-id="cia_refresh_area">
-            Submit
-        </button>
+    <form action="#" method="post" enctype="multipart/form-data">
+        Username: <input type="text" name="username" class="cia_required">
+        Password: <input type="text" name="password" class="cia_required">
+        <button type="submit" class="btn btn-primary btn-sm cia_insert">Submit</button>
+    </form>
+
+    <form class="form-horizontal delValidate" action="#" method="post">
+        <input type="hidden" name="formIdentifier" value="addDel" />
+        <div class="form-group">
+            <div class="col-sm-3">
+                <input type="text" name="delivery_Method" class="form-control" placeholder="Enter new method" />
+            </div>
+            <div class="col-sm-2 col-sm-offset-2">
+                <button type="submit" class="btn btn-default btn-block">Add</button>
+            </div>
+        </div>
     </form>
 
     <!--Modal-->
@@ -42,6 +49,50 @@
         </div>
     </div>
     <!--End Modal-->
-    
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $('.cia_insert').on('click',function (e) {
+                //e.preventDefault();
+               //e.stopPropagation();
+                let thisForm = $(this).closest('form');
+                cia_jq_validation(thisForm);
+
+                /*thisForm.validate({
+                    rules: {
+                        username: {required: true},
+                        password: {required: true}
+                    }
+                });*/
+            });
+
+            $('.delValidate').each(function () {
+                $(this).validate({
+                    rules: {
+                        delivery_Method: {
+                            required: true
+                        }
+                    },
+                    message: {
+                        delivery_Method: {
+                            required: true
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+
 </body>
 </html>
