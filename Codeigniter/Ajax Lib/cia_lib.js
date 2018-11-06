@@ -11,6 +11,11 @@ let host = window.location.protocol + "//" + window.location.host + "/";
 */
 let baseUrl = host+"";
 
+//After the Insert, Update, Delete and Read operation refresh a certain area of the page
+let reloadArea = '';
+//After the Insert, Update, Delete and Read operation refresh the whole page
+let windowReload = '';
+
 /* 
 *-------------Classes-------------
 ***CRUD:
