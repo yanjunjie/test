@@ -1,4 +1,6 @@
-<?php if(!empty($result)): ?>
+    
+<form action="" method="post" enctype="multipart/form-data">
+    <?php if(!empty($result)): ?>
     <table class="table table-striped table-bordered table-hover gridTable" style="width: auto;">
         <thead>
         <tr>
@@ -51,3 +53,5 @@
     <h3 class="text-danger text-center ">No data found !!</h3>
 <?php endif; ?>
 
+<button type="submit">Submit</button>
+</form>

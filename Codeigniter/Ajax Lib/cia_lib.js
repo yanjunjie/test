@@ -54,6 +54,8 @@ let formData = {};
 * cia_required_file
 * cia_required_number
 * cia_required_min
+* cia_required_max
+* cia_required_email
 *-------------/Classes-------------
 */
 
@@ -65,12 +67,16 @@ let formData = {};
 
 /*
 * --------Data Attributes---------
+***CRUD Related:
 * data-table
 * data-attr
 * data-action
 * data-reload-id
 * data-reload
 * data-redirect
+
+***Form Validation:
+* data-file-type i.e, jpg,jpeg,doc,docx,pdf etc.
 * --------/Data Attributes---------
 */
 

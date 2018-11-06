@@ -26,10 +26,8 @@ function cia_jq_validation(thisForm) {
     let actionD = '';  
     //End Default Settings
 
-    let thisBtn = $(this);
-
     //Data attributes:            
-    let dataId = $(this).attr('data-id');
+    let dataId = $(this).attr('data-cia-');
     let dataTable = $(this).attr('data-table');
     let dataAttr = $(this).attr('data-attr');
     let dataAction = $(this).attr('data-action');
@@ -61,6 +59,24 @@ function cia_jq_validation(thisForm) {
     {
     console.log("Please set 'cia_reload_area' id on the Data View Area");
     }
+
+
+    let cia_validation_rules = {};
+    let cia_validation_msgs = {};
+
+    //Validate only for Required Fields
+    let cia_required_elements = thisForm.find('.cia_required');
+    cia_required_elements.each(function(index, element) {
+        let nameAttr = $(this).attr('name');
+        cia_validation_rules.nameAttr={required: true};
+    });
+
+
+    //Call Validate Function to execute rules
+    thisForm.validate({
+        rules: cia_validation_rules
+    });
+
 
 
     thisForm.validate({
