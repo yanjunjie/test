@@ -238,6 +238,13 @@ $(document).on("click", ".cia_insert", function (e) {
         url: url,
         data: formData,
         processData: false,
+        beforeSend: function(){
+                /*cia_jq_validation(thisForm);
+                if(!thisForm.valid())
+                {
+                    return false;
+                }*/
+            },
         contentType: false,
         success:function(data){
             if($.trim(data)=='yes')
