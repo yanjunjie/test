@@ -268,8 +268,18 @@ public function cia_dependency_by_one_to_many_to_one()
         return array_merge($array,$keys);
     }
 
-
-
+    private function yearInfo()
+    {
+      $currentYear=date("Y");
+      $startYear=$currentYear-5;
+      $endyear=$currentYear+5;
+      $yearInfo=array();
+      for($i=$startYear;$i<=$endyear;$i++)
+      {
+        $yearInfo[]=$i;
+      }
+      return $yearInfo;
+    }
 
 
 
