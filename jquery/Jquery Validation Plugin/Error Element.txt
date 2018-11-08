@@ -91,6 +91,54 @@ errorPlacement: function (error, element) {
 }
 
 
-//V.07
+//V.07, jQuery Validate - Two separate validations, one form
+$(document).ready(function () {
+
+    $('#myform').validate({  // initialize the plugin on your form
+        // options, rules and/or callbacks
+    });
+
+    //  IMPORTANT:  buttons are NOT type="submit"
+
+    $('#button1').on('click', function(){  // capture the click           
+        $('#myfield').rules('add', {  // dynamically declare the rules
+            required: true,
+            email: true
+        });
+        $('#myOtherField').rules('remove'); // remove the other rules.
+        // another '.rules()' call, etc.
+        $('#myform').valid();  // trigger the validation & do NOT submit        
+    }); 
+
+    $('#button2').on('click', function(){  // capture the click
+        $('#myOtherField').rules('add', {  // dynamically declare the rules
+            required: true,
+            digits: true
+        });
+        $('#myfield').rules('remove'); // remove the other rules.
+        // another '.rules()' call, etc.
+        $('#myform').submit();  // trigger the validation & submit     
+    });
+
+});
+
+//OR
+$('element').rules('remove', 'required');
+ $('element').removeAttr('required');
+//OR
+$('input, select, textarea').each(function() {
+    $(this).rules('remove', 'required');
+});
+//OR
+
+
+
+Link: http://jsfiddle.net/Kt93M/
+
+//V.08, If you want to call validate again with new settings on different button call
+$('#formid').removeData('validator');
+
+
+
 
 

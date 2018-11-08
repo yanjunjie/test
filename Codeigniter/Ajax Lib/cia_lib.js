@@ -36,12 +36,6 @@ let windowReload = '';
 */
 
 /*
-*-------------IDs-------------
-* cia_reload_area
-*-------------/IDs-------------
-*/
-
-/*
 * --------Data Attributes---------
 ***CRUD Related:
 * data-table
@@ -268,115 +262,30 @@ $(document).on("click", ".cia_insert", function (e) {
 });
 
 //Ajax Delete by ID ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    window.onload = function() {
-        $(document).on('click','.cia_delete',function(e){
-            e.preventDefault();
-            e.stopPropagation();
-
-            /*
-                ### Ajax deletion is made by Bablu Ahmed
-                ### For debugging, check erro message in browser console
-                *** Dynamic Settings:
-                    1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
-                        i.e,
-                        <button type="submit" class="btn btn-danger btn-xs cia_delete" title="Click For Delete" style="margin: 0; font-size: 11px; padding: 1px 3px; color: #fff; font-weight: 600; line-height: 1.3;"
-                                data-id="<?php echo $row->CM_ID; ?>"
-                                data-table="UMS_COURSE_MATERIALS"
-                                data-attr="CM_ID"
-                                data-action="<--?php echo base_url('assignment/ajax_delete')?>"
-                                data-reload-id="cia_reload_area"
-                                data-reload="">
-                            Delete
-                        </button>
-                    2. Remove 'action' attribute from form
-                *** Default Settings:
-            */
-            let IdD = '';
-            let tableD = '';
-            let attrD = '';
-            let actionD = '';  
-            //End Default Settings
-
-            let thisBtn = $(this);
-
-            //Data attributes:            
-            let dataId = $(this).attr('data-id');
-            let dataTable = $(this).attr('data-table');
-            let dataAttr = $(this).attr('data-attr');
-            let dataAction = $(this).attr('data-action');
-
-            //Ajax Params:
-            let id = dataId?dataId:IdD;
-            let table = dataTable?dataTable:tableD;
-            let attr = dataAttr?dataAttr:attrD;
-            let url = dataAction?dataAction:actionD;
-
-
-            //First check 'data-id' otherwise check default id 'IdD'
-            id = dataId?dataId:(IdD?IdD:'');
-            if(!id)
-            {
-                console.log("Please set the data-id or default id");
-            }
-
-            //Refresh Area
-            reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
-            if(!reloadArea)
-            {
-                console.log("Please set the 'data-reload-id'");
-            }
-
-            //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
-            let reloadAreaExists = $('#cia_reload_area').length;
-            if(!reloadAreaExists)
-            {
-                console.log("Please set 'cia_reload_area' id on the Data View Area");
-            }
-
-
-            if (confirm('Are you sure to delete?')) {
-                $.ajax({
-                    type:'post',
-                    url:url,
-                    data:{table:table,attr:attr,id:id},
-                    success:function(data){
-                        if ($.trim(data)=='yes') {
-                            alert("Deleted successfully");
-                            $("#"+reloadArea).load(location.href + " #"+reloadArea);
-                        }
-                    },
-                    error:function(){
-                        alert('Error deleting');
-                    }
-                });
-            }
-        });
-	//End Delete
-    }
-    //End Window Load
-
-
-//Ajax Form Submission/Update by ID +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    $(document).on("click", ".cia_update", function (e) {
+window.onload = function() {
+    $(document).on('click','.cia_delete',function(e){
         e.preventDefault();
         e.stopPropagation();
 
         /*
-            ### This Ajax Form Submission is made by Bablu Ahmed
+            ### Ajax deletion is made by Bablu Ahmed
             ### For debugging, check erro message in browser console
             *** Dynamic Settings:
-                1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set '1' or 'true' the #ii will not work)
+                1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set #ii will not work)
                     i.e,
-                    <button type="submit" class="btn btn-primary btn-sm cia_update"
-                            data-id="<--?php echo $CM_ID;?>"
-                            data-action="<--?php echo base_url('assignment/course_materials_edit')?>"
-                            data-reload-id="cia_refresh_area"
+                    <button type="button" title="Click For Delete" style="margin: 0; font-size: 11px; padding: 1px 3px; color: #fff; font-weight: 600; line-height: 1.3;"
+                            class="btn btn-danger btn-xs cia_delete"
+                            data-id="<--?php echo $row->CM_ID; ?>"
+                            data-table="--UMS_COURSE_MATERIALS"
+                            data-attr="--CM_ID"
+                            data-action="<--?php echo base_url('assignment/ajax_delete')?>"
+                            data-redirect-=""
                             data-reload=""
-                            data-redirect="<--?php echo base_url('assignment/course_materials')?>">
-                        Update
+                            data-reload-id="--cia_reload_area"
+                            data-trigger-click="">
+                        Delete
                     </button>
-                2. Add a class called 'cia_update' to Update button
-                3. Remove 'action' attribute from form
+                2. Remove 'action' attribute from form
             *** Default Settings:
         */
         let IdD = '';
@@ -385,6 +294,7 @@ $(document).on("click", ".cia_insert", function (e) {
         let actionD = "";
         let windowReloadD = "";
         let windowRedirectD = "";
+        let triggerClickD = "";
         //End Default Settings
 
         //Data attributes:
@@ -395,7 +305,8 @@ $(document).on("click", ".cia_insert", function (e) {
         let dataReload = $(this).attr('data-reload');
         let dataRedirect = $(this).attr('data-redirect');
         let reloadArea = $(this).attr("data-reload-id");
-        
+        let dataTriggerClick = $(this).attr("data-trigger-click");
+
         //Ajax Params:
         let id = dataId?dataId:(IdD?IdD:'');
         let table = dataTable?dataTable:(tableD?tableD:'');
@@ -403,81 +314,336 @@ $(document).on("click", ".cia_insert", function (e) {
         let url = dataAction?dataAction:(actionD?actionD:'');
         let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
         let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
-        
-        //Submit Button
+        let triggerClick = dataTriggerClick?dataTriggerClick:(triggerClickD?triggerClickD:'');
+
         let thisBtn = $(this);
-        //Form
-        let thisForm = thisBtn.closest("form");
-        //Form Data
-        let formData = new FormData(thisForm[0]);
-        if(!formData)
-        {
-            console.log("No Form Data Found!");
-        }
-        //Update by ID
+
+        //First check 'data-id' otherwise check default id 'IdD'
+        id = dataId?dataId:(IdD?IdD:'');
         if(!id)
         {
             console.log("Please set the data-id or default id");
         }
-        //Action
-        if(!url)
+
+        //Refresh Area
+        reloadArea = thisBtn.attr("data-reload-id");  //i.e, cia_reload_area
+        if(!reloadArea)
         {
-            console.log("Please set the data-action or default action");
+            console.log("Please set the 'data-reload-id'");
         }
 
-        //Find out the cia_reload_area id exists or not
+        //After Inserting, Updating, and Deleting Data, Refresh the Data View Area
         let reloadAreaExists = $('#cia_reload_area').length;
-
-        //Redirect path
-        if(windowRedirect)
+        if(!reloadAreaExists)
         {
-            console.log("Window will be redirected");
-        }
-        //Window Reload
-        else if(windowReload)
-        {
-            console.log("Window will be reloaded");
-        }
-        //Reload an Area of the page
-        else if(reloadAreaExists)
-        {
-            console.log("The Data View Area has been reloaded");
-        }
-        //At least set a reload area
-        else
             console.log("Please set 'cia_reload_area' id on the Data View Area");
+        }
 
-        //Add data-id to the FormData API
-        formData.append('id',id)
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success:function(data){
-                if($.trim(data)=='yes')
-                {
-                    alert('Success! Record updated successfully');
-                    if(windowRedirect)
-                        window.location =windowRedirect; //Redirect path
-                    else if(windowReload) //1 or 0
-                        location.reload();
+        if (confirm('Are you sure to delete?')) {
+            $.ajax({
+                type:'post',
+                url:url,
+                data:{table:table,attr:attr,id:id},
+                success:function(data){
+                    if($.trim(data)=='yes')
+                    {
+                        alert('Success! Record deleted successfully');
+                        if(windowRedirect)
+                            window.location =windowRedirect; //Redirect path
+                        else if(windowReload) //1 or 0
+                            location.reload();
+                        else if(triggerClick)
+                            $("#"+triggerClick).trigger("click");
+                        else
+                            $("#"+reloadArea).load(location.href + " #"+reloadArea);
+                    }
+                    else if($.trim(data)=='no')
+                    {
+                        alert('Error! Record not deleted successfully')
+                    }
                     else
-                        $("#"+reloadArea).load(location.href + " #"+reloadArea);
+                    {
+                        alert('Error! Required id to be deleted is missing. Please try again');
+                    }
+                },
+                error:function(){
+                    alert('Error deleting');
                 }
-                else if($.trim(data)=='no')
-                {
-                    alert('Error! Record not updated successfully')
-                }
-                else
-                {
-                    alert('Error! Required field is missing. Please try again');
-                }
-            }
-        });
+            });
+        }
     });
+    //End Delete
+}
+//End Window Load
+
+//Ajax Form Submission/Update by ID
+$(document).on("click", ".cia_update", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    /*
+        ### This Ajax Form Submission is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set '1' or 'true' the #ii will not work)
+                i.e,
+                <button type="submit" class="btn btn-primary btn-sm cia_update"
+                    data-id="<--?php echo base_url('student/')?>"
+                    data-action="<--?php echo base_url('student/')?>"
+                    data-redirect=""
+                    data-reload=""
+                    data-trigger-click="find_courses_btn"
+                    data-reload-id="cia_reload_area">
+                    Update
+                </button>
+            2. Add a class called 'cia_update' to Update button
+            3. Remove 'action' attribute from form
+        *** Default Settings:
+    */
+    let IdD = '';
+    let tableD = "";
+    let attrD = "";
+    let actionD = "";
+    let windowReloadD = "";
+    let windowRedirectD = "";
+    let triggerClickD = "";
+    //End Default Settings
+
+    //Data attributes:
+    let dataId = $(this).attr('data-id');
+    let dataTable = $(this).attr('data-table');
+    let dataAttr = $(this).attr('data-attr');
+    let dataAction = $(this).attr('data-action');
+    let dataReload = $(this).attr('data-reload');
+    let dataRedirect = $(this).attr('data-redirect');
+    let reloadArea = $(this).attr("data-reload-id");
+    let dataTriggerClick = $(this).attr("data-trigger-click");
+
+    //Ajax Params:
+    let id = dataId?dataId:(IdD?IdD:'');
+    let table = dataTable?dataTable:(tableD?tableD:'');
+    let attr = dataAttr?dataAttr:(attrD?attrD:'');
+    let url = dataAction?dataAction:(actionD?actionD:'');
+    let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+    let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+    let triggerClick = dataTriggerClick?dataTriggerClick:(triggerClickD?triggerClickD:'');
+
+    //Submit Button
+    let thisBtn = $(this);
+    //Form
+    let thisForm = thisBtn.closest("form");
+    //Form Data
+    let formData = new FormData(thisForm[0]);
+    if(!formData)
+    {
+        console.log("No Form Data Found!");
+    }
+    //Update by ID
+    if(!id)
+    {
+        console.log("Please set the data-id or default id");
+    }
+    //Action
+    if(!url)
+    {
+        console.log("Please set the data-action or default action");
+    }
+
+    //Find out the cia_reload_area id exists or not
+    let reloadAreaExists = $('#cia_reload_area').length;
+
+    //Redirect path
+    if(windowRedirect)
+    {
+        console.log("Window will be redirected");
+    }
+    //Window Reload
+    else if(windowReload)
+    {
+        console.log("Window will be reloaded");
+    }
+    //Reload an Area of the page
+    else if(reloadAreaExists)
+    {
+        console.log("The Data View Area has been reloaded");
+    }
+    //At least set a reload area
+    else
+        console.log("Please set 'cia_reload_area' id on the Data View Area");
+
+    //Add data-id to the FormData API
+    formData.append('id',id)
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            if($.trim(data)=='yes')
+            {
+                alert('Success! Record updated successfully');
+                if(windowRedirect)
+                    window.location =windowRedirect; //Redirect path
+                else if(windowReload) //1 or 0
+                    location.reload();
+                else if(triggerClick)
+                    $("#"+triggerClick).trigger("click");
+                else
+                    $("#"+reloadArea).load(location.href + " #"+reloadArea);
+            }
+            else if($.trim(data)=='no')
+            {
+                alert('Error! Record not updated successfully')
+            }
+            else
+            {
+                alert('Error! Required field is missing. Please try again');
+            }
+        }
+    });
+});
+
+
+//Ajax input's row update by id +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$(document).on("click", ".cia_update_row", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    /*
+        ### This Ajax Form Submission is made by Bablu Ahmed
+        ### For debugging, check erro message in browser console
+        *** Dynamic Settings:
+            1. i.Form Action, ii. Refresh Area OR iii. Window Reload (If set '1' or 'true' the #ii will not work)
+                i.e,
+                <button type="submit" class="btn btn-primary btn-sm cia_update_row"
+                        data-id="<--?php echo $CM_ID;?>"
+                        data-action="<--?php echo base_url('assignment/course_materials_edit')?>"
+                        data-redirect="<--?php echo base_url('assignment/course_materials')?>"
+                        data-reload=""
+                        data-trigger-click="find_courses_btn"
+                        data-reload-id="cia_reload_area">
+                    Update
+                </button>
+            2. Add a class called 'cia_update_row' to Update button
+            3. Remove 'action' attribute from form
+        *** Default Settings:
+    */
+    let IdD = '';
+    let tableD = "";
+    let attrD = "";
+    let actionD = "";
+    let windowReloadD = "";
+    let windowRedirectD = "";
+    let triggerClickD = "";
+    //End Default Settings
+
+    //Data attributes:
+    let dataId = $(this).attr('data-id');
+    let dataTable = $(this).attr('data-table');
+    let dataAttr = $(this).attr('data-attr');
+    let dataAction = $(this).attr('data-action');
+    let dataReload = $(this).attr('data-reload');
+    let dataRedirect = $(this).attr('data-redirect');
+    let reloadArea = $(this).attr("data-reload-id");
+    let dataTriggerClick = $(this).attr("data-trigger-click");
+
+    //Ajax Params:
+    let id = dataId?dataId:(IdD?IdD:'');
+    let table = dataTable?dataTable:(tableD?tableD:'');
+    let attr = dataAttr?dataAttr:(attrD?attrD:'');
+    let url = dataAction?dataAction:(actionD?actionD:'');
+    let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
+    let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
+    let triggerClick = dataTriggerClick?dataTriggerClick:(triggerClickD?triggerClickD:'');
+
+    //Button
+    let thisBtn = $(this);
+
+    //Form Data
+    let formData = new FormData();
+    let thisRow = thisBtn.closest("tr");
+    thisRow.find("input").each(function() {
+        //alert(this.value)
+        formData.append($(this).attr('name'), $(this).val());
+    });
+
+    //Custom Form Data
+    /*$('.find_course_area :input').each(function() {
+        formData.append($(this).attr('name'), $(this).val());
+    });*/
+
+    //Check Form Data
+    if(!formData)
+    {
+        console.log("No Form Data Found!");
+    }
+    //Update by ID
+    if(!id)
+    {
+        console.log("Please set the data-id or default id");
+    }
+    //Action
+    if(!url)
+    {
+        console.log("Please set the data-action or default action");
+    }
+
+    //Find out the cia_reload_area id exists or not
+    let reloadAreaExists = $('#cia_reload_area').length;
+
+    //Redirect path
+    if(windowRedirect)
+    {
+        console.log("Window will be redirected");
+    }
+    //Window Reload
+    else if(windowReload)
+    {
+        console.log("Window will be reloaded");
+    }
+    //Reload an Area of the page
+    else if(reloadAreaExists)
+    {
+        console.log("The Data View Area has been reloaded");
+    }
+    //At least set a reload area
+    else
+        console.log("Please set 'cia_reload_area' id on the Data View Area");
+
+    //Add data-id to the FormData API
+    formData.append('id',id)
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            if($.trim(data)=='yes')
+            {
+                alert('Success! Record updated successfully');
+                if(windowRedirect)
+                    window.location =windowRedirect; //Redirect path
+                else if(windowReload) //1 or 0
+                    location.reload();
+                else if(triggerClick)
+                    $("#"+triggerClick).trigger("click");
+                else
+                    $("#"+reloadArea).load(location.href + " #"+reloadArea);
+            }
+            else if($.trim(data)=='no')
+            {
+                alert('Error! Record not updated successfully')
+            }
+            else
+            {
+                alert('Error! Required field is missing. Please try again');
+            }
+        }
+    });
+});
 
 
 //View Load By Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
