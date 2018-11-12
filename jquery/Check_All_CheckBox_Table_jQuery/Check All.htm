@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        body
+        {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+        table
+        {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+        table th
+        {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+        table th, table td
+        {
+            padding: 5px;
+            border-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //Build an array containing Customer records.
+            var customers = new Array();
+            customers.push([1, "John Hammond", "United States"]);
+            customers.push([2, "Mudassar Khan", "India"]);
+            customers.push([3, "Suzanne Mathews", "France"]);
+            customers.push([4, "Robert Schidner", "Russia"]);
+
+            //Add the data rows.
+            $(customers).each(function () {
+                //Get the reference of the HTML Table.
+                var table = $("#tblCustomers")[0];
+
+                //Add Row.
+                row = table.insertRow(-1);
+
+                //Add CheckBox cell.
+                var cell = $(row.insertCell(-1));
+                var chk = $("<input />");
+                chk.attr("type", "checkbox").attr("class", "chkRow");
+                cell.append(chk);
+                cell[0].innerHTML += this[0];
+
+                //Add Name cell.
+                cell = $(row.insertCell(-1));
+                cell.html(this[1]);
+
+                //Add Country cell.
+                cell = $(row.insertCell(-1));
+                cell.html(this[2]);
+            });
+
+            $("#chkAll").click(function () {
+                //Determine the reference CheckBox in Header row.
+                var chkAll = this;
+
+                //Fetch all row CheckBoxes in the Table.
+                var chkRows = $("#tblCustomers").find(".chkRow");
+
+                //Execute loop over the CheckBoxes and check and uncheck based on
+                //checked status of Header row CheckBox.
+                chkRows.each(function () {
+                    $(this)[0].checked = chkAll.checked;
+                });
+            });
+
+            $(".chkRow").click(function () {
+                //Determine the reference CheckBox in Header row.
+                var chkAll = $("#chkAll");
+
+                //By default set to Checked.
+                chkAll.attr("checked", "checked");
+
+                //Fetch all row CheckBoxes in the Table.
+                var chkRows = $("#tblCustomers").find(".chkRow");
+
+                //Execute loop over the CheckBoxes and if even one CheckBox 
+                //is unchecked then Uncheck the Header CheckBox.
+                chkRows.each(function () {
+                    if (!$(this).is(":checked")) {
+                        chkAll.removeAttr("checked", "checked");
+                        return;
+                    }
+                });
+            });
+        });
+    </script>
+    <table id="tblCustomers" cellpadding="0" cellspacing="0" border="1">
+        <tr>
+            <th>
+                <input type="checkbox" id="chkAll" />
+                CustomerId
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Country
+            </th>
+        </tr>
+    </table>
+</body>
+</html>
