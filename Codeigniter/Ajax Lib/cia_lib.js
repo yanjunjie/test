@@ -569,9 +569,15 @@ $(document).on("click", ".cia_update_row", function (e) {
     });
 
     //Custom Form Data
-    /*$('.find_course_area :input').each(function() {
+    /*
+    $('.find_course_area :input').each(function() {
         formData.append($(this).attr('name'), $(this).val());
-    });*/
+    });
+    //Works except undefined
+    $('.find_course_area').find('select[name],input[name]').each(function() {
+        formData.append($(this).attr('name'), $(this).val());
+    });
+    */
 
     //Check Form Data
     if(!formData)
@@ -612,7 +618,7 @@ $(document).on("click", ".cia_update_row", function (e) {
         console.log("Please set 'cia_reload_area' id on the Data View Area");
 
     //Add data-id to the FormData API
-    formData.append('id',id)
+    formData.append('id',id);
 
     $.ajax({
         type: "POST",

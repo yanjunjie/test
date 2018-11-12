@@ -1,0 +1,10 @@
+//Button
+let thisBtn = $(this);
+
+//Form Data
+let formData = new FormData();
+let thisRow = thisBtn.closest("tr");
+thisRow.find(":input").each(function() {
+    //alert(this.value)
+    formData.append($(this).attr('name'), $(this).val());
+});
