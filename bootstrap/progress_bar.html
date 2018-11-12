@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style>
+      /* Using Jquery UI */
+      .progress1,.progress2,.progress3 {
+          position:relative;
+          width:250px;
+          height:20px;
+          border:1px solid red;
+      }
+
+      .progress1 .progress-bar,.progress2 .progress-bar,.progress3 .progress-bar {
+          background:blue;
+          height:20px;
+          width:0%;
+          display:inline-block;
+      }
+
+      .progress1 .progress-text,.progress2 .progress-text,.progress3 .progress-text {
+          position:absolute;
+          z-index:2;
+          right:0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    
+    <!-- 
+    Using Bootstrap UI
+    <div class="progress progress-striped active">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div> -->
+
+    <!-- Using Jquery UI -->
+    <div class="progress1">
+        <span class="progress-text"></span>
+        <div class="progress-bar"></div>
+    </div>
+    <br>
+    <div class="progress2">
+        <span class="progress-text"></span>
+        <div class="progress-bar"></div>
+    </div>
+    <br>
+    <div class="progress3">
+        <span class="progress-text"></span>
+        <div class="progress-bar"></div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+    $(function(){
+
+        /*Using Jquery UI*/
+        $(document).ready(function() {
+            var progression1 = 0;
+            progress1 = setInterval(function()
+            {
+                $('.progress1 .progress-text').text(progression1 + '%');
+                $('.progress1 .progress-bar').css({'width':progression1+'%'});
+                if(progression1 == 100) {
+                    clearInterval(progress1);
+                    alert('done');
+                    funcProgress2();
+                } else
+                    progression1 += 10;
+
+            }, 1000);
+
+            function funcProgress2()
+            {
+                var progression2 = 0;
+                progress2 = setInterval(function()
+                {
+                    $('.progress2 .progress-text').text(progression2 + '%');
+                    $('.progress2 .progress-bar').css({'width':progression2+'%'});
+                    if(progression2 == 100) {
+                        clearInterval(progress2);
+                        alert('done');
+                        funcProgress3();
+                    } else
+                        progression2 += 10;
+
+                }, 1000);
+            }
+
+            function funcProgress3(){
+                var progression3 = 0;
+                progress3 = setInterval(function()
+                {
+                    $('.progress3 .progress-text').text(progression3 + '%');
+                    $('.progress3 .progress-bar').css({'width':progression3+'%'});
+                    if(progression3 == 100) {
+                        clearInterval(progress3);
+                        alert('done');
+                    } else
+                        progression3 += 10;
+
+                }, 1000);
+
+            }
+
+
+        });
+
+
+        /*Using Bootstrap UI*/
+        /*$('input').on('click', function(){
+          var valeur = 0;
+          $('input:checked').each(function(){
+               if ( $(this).attr('value') > valeur )
+               {
+                   valeur =  $(this).attr('value');
+               }
+          });
+          $('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);    
+        });*/
+
+        //$("#container").progressbar({ value: value });
+
+    });
+  </script>
+  </body>
+</html>
