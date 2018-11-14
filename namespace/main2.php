@@ -1,7 +1,14 @@
 <?php
-	namespace main_page;
+	namespace main2;
 
 	function motherboard(){
-		echo "This is motherboard2";
+		echo "Motherboard brand name is Gigabyte";
+	}
+
+	class manin2{
+		public function keyboard_type($brand)
+		{
+			return $brand;
+		}
 	}
 ?>

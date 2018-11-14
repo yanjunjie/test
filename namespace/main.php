@@ -1,8 +1,15 @@
 <?php 
-	namespace main_page;
+	namespace main1;
 
 	function motherboard(){
-		echo "This is motherboard1";
+		echo "Motherboard brand name is Intel";
+	}
+
+	class manin2{
+		public function monitor_type($brand)
+		{
+			return $brand;
+		}
 	}
 
 ?>
