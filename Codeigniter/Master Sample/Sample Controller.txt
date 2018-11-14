@@ -1,0 +1,42 @@
+public function downloadAdmitCard()
+    {
+      if($_POST)
+      {
+        $data=array();
+
+        $examMstId=$this->input->post('examMstId');
+        $admitCardId=$this->input->post('admitCardid');
+        //$data['orgInfo']=
+      $data['orgInfo']=$this->utilities->findByAttribute('sa_organizations', array('STATUS' => 1));
+      $k=$data['examInfo']=$this->db->query("SELECT A.EXAM_YEAR,b.PROGRAM_NAME,a.SEMESTER_NO,c.SESSION_NAME,A.EXM_SDL_MST_ID FROM UMS_EXAM_SCHEDULE_MST a
+                        LEFT JOIN INS_PROGRAM b on a.PROGRAM_ID=b.PROGRAM_ID
+                        LEFT JOIN INS_YEAR_SESSION c ON a.SESSION_ID=c.SESSION_ID
+                        WHERE EXM_SDL_MST_ID=$examMstId")->row();
+    $data['semester']=$this->semesterInfo(8)[$k->SEMESTER_NO];
+    $data['studentInfo']=$this->db->query("SELECT b.FULL_NAME_EN,b.REGISTRATION_NO,c.SESSION_NAME,a.IS_REGULAR,b.PHOTO,b.SIGNATURE_PHOTO,
+      d.PROGRAM_NAME,B.DATH_OF_BIRTH FROM UMS_ADMIT_CARD_MST a
+                                          LEFT JOIN  STUDENT_PERSONAL_INFO b ON A.STUDENT_ID=b.STUDENT_ID
+                                          LEFT JOIN INS_YEAR_SESSION c ON b.SESSION_ID=c.SESSION_ID
+                                          LEFT JOIN INS_PROGRAM d ON B.PROGRAM_ID=d.PROGRAM_ID
+                                          WHERE a.ADMT_CRD_ID=$admitCardId")->row();
+    $data['examCourse']=$this->db->query("SELECT c.*,d.COURSE_ID,d.COURSE_TITLE,d.COURSE_CODE FROM UMS_ADMIT_CARD_MST a
+                                          LEFT JOIN  UMS_ADMIT_CARD_CHD b ON A.ADMT_CRD_ID=B.ADMT_CRD_ID
+                                          LEFT JOIN UMS_EXAM_SCHEDULE_CHD c ON (B.COURSE_ID=C.COURSE_ID AND a.EXM_SDL_MST_ID=c.EXM_SDL_MST_ID)
+                                          LEFT JOIN ACA_COURSE d ON c.COURSE_ID=d.COURSE_ID
+                                          WHERE a.ADMT_CRD_ID=$admitCardId ORDER BY c.EXAM_DT ASC")->result();
+      echo $this->load->view('admin/setup/exam/admit/downloadAdmitCardPost',$data,true);
+    //  $data['content_view_page'] = 'admin/setup/exam/admit/downloadAdmitCard';
+        exit;
+      }
+      $data['contentTitle'] = 'Generate Admit Card';
+      $data['breadcrumbs'] = array(
+          'Download' => '#',
+          'Admit card' => '#',
+          );
+          $data['examInfo']=$this->db->query("SELECT A.EXAM_YEAR,b.PROGRAM_NAME,a.SEMESTER_NO,c.SESSION_NAME,A.EXM_SDL_MST_ID FROM UMS_EXAM_SCHEDULE_MST a
+                            LEFT JOIN INS_PROGRAM b on a.PROGRAM_ID=b.PROGRAM_ID
+                            LEFT JOIN INS_YEAR_SESSION c ON a.SESSION_ID=c.SESSION_ID
+                            ORDER BY EXM_SDL_MST_ID DESC")->result();
+      $data['content_view_page'] = 'admin/setup/exam/admit/downloadAdmitCard';
+      $this->admin_template->display($data);
+    }
