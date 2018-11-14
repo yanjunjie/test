@@ -5,6 +5,7 @@
 	use function main1\motherboard;
 	use main1\manin2;
 	use main2\manin2 as main_two;
+	use const main1\mouse;;
 
 	class manin{
 		public function monitor_type($brand)
@@ -34,6 +35,10 @@
 	$obj_main3 = new \manin; //Global/Root Namespace ('\' is called root)
 	echo $obj_main3->monitor_type('Acer');
 
+    echo "<br>";
+
+    echo mouse; //Unqualified Namespace
+    echo main1\mouse; //Qualified Namespace
 
 
 ?>
