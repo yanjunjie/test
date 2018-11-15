@@ -37,7 +37,7 @@ class main2{
 	//namespace main;
 
 namespace main;
-use function main1\motherboard as myMotherboard;
+//use function main1\motherboard as myMotherboard;
 use const main1\mouse as myMouse;
 use main1\manin2 as myMain1;
 //use main2\main2 as myMain2;
@@ -63,14 +63,14 @@ use main1\manin2 as myMain1;
     echo $obj3->monitor_type('haadsf');
 
 
-
+echo \main1\motherboard();
 
 
 
 
 
 /*
-	//main1\motherboard(); //Qualified Namespace
+	//\main1\motherboard(); //Qualified Namespace
 	motherboard(); //Unqualified Namespace
 
 	echo "<br>";
