@@ -1,0 +1,46 @@
+SELECT a.*,f.*, b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br FROM student_acadimicinfo a
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID
+left join m00_lkpdata d on a.BOARD = d.LKP_ID
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+WHERE a.STUDENT_ID ='341' order by STU_AI_ID asc
+/
+select a.*
+from SKILL_DEV_ELEMENT a
+where a.APPLICANT_ID='125'
+/
+select a.STUDENT_ID,a.FULL_NAME_EN
+from STUDENT_PERSONAL_INFO a
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = a.APPLICANT_ID
+where a.APPLICANT_ID='125'
+group by a.STUDENT_ID,a.FULL_NAME_EN
+
+/
+SELECT a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br,f.ELEMENT_URL 
+FROM student_acadimicinfo a
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID
+left join m00_lkpdata d on a.BOARD = d.LKP_ID
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+where a.STUDENT_ID ='341'
+group by a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME,f.ELEMENT_URL
+/
+
+SELECT a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br,f.ELEMENT_URL
+FROM student_acadimicinfo a
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID
+left join m00_lkpdata d on a.BOARD = d.LKP_ID
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+WHERE a.STUDENT_ID ='341'
+group by a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME,f.ELEMENT_URL
+
+--order by a.STU_AI_ID asc
+/
+
+
+
+
