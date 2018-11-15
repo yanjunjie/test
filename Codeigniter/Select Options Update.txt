@@ -4,17 +4,17 @@
     <option value="" selected disabled>-Select-</option>
      
      //Create
-     <?php foreach ($INS_DEPT as $row2)
+     <?php foreach ($INS_DEPT as $row)
 	{
-	    echo '<option value="'.$row2->DEPT_ID.'">'.$row2->DEPT_NAME.'</option>';
+	    echo '<option value="'.$row->DEPT_ID.'">'.$row->DEPT_NAME.'</option>';
 	}
      ?>
 
      //Update
-     <?php foreach ($INS_DEPT as $row2)
+     <?php foreach ($INS_DEPT as $row)
      {
         //$row[$i] == Saved value
-         echo '<option '.(($row2->DEPT_ID == $UMS_ASSIGNMENTS_BY_ID->DEPT_ID) ? "selected":"").' value="'.$row2->DEPT_ID.'">'.$row2->DEPT_NAME.'</option>';
+         echo '<option '.(($row->DEPT_ID == $UMS_ASSIGNMENTS_BY_ID->DEPT_ID) ? "selected":"").' value="'.$row->DEPT_ID.'">'.$row->DEPT_NAME.'</option>';
      }
      ?>
 
