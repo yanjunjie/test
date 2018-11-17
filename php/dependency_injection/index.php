@@ -1,42 +1,56 @@
 <?php
 //dependency class
-class Logger 
+class Logger
 {
-	public function log($message)
-	{
-		echo $message;
-	}
+    public function log($message)
+    {
+        echo $message;
+    }
 }
+
+class Logger2
+{
+    public function log($message)
+    {
+        echo $message;
+    }
+}
+
 
 //This class is dependent on Logger class (dependent class)
 //Dependency Injection is also called DRY(Don't Repeat Yourself)
 class UserProfile
 {
-	private $logger;
-	public function __construct(Logger $logger)
-	{
-		$this->logger = $logger;
-	}
+    protected $logger;
 
-	public function createUser()
-	{
-		$this->logger->log("User Created");
-	}
-	
-	public function updateUser()
-	{
-		$this->logger->log("User Updated");
-	}
+    public function __construct(Logger $logger)
+    {
+        $this->logger=$logger;
+    }
 
-	public function deleteUser()
-	{
-		$this->logger->log("User Deleted");
-	}
-	
+    function createUser()
+    {
+        $this->logger->log("User Created");
+    }
+
+    public function updateUser()
+    {
+        $this->logger->log("User Updated");
+    }
+
+    public function deleteUser()
+    {
+        $this->logger->log("User Deleted");
+    }
 }
 
-$userProfile = new UserProfile(new Logger);
-$userProfile->createUser();
+$obj = new UserProfile(new Logger);
+
+$obj->updateUser();
+
+
+
+
 
 
 
@@ -67,3 +81,4 @@ class UserProfile
 $userProfile = new UserProfile();
 $userProfile->createUser();
 */
+
