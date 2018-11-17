@@ -280,6 +280,27 @@ public function cia_dependency_by_one_to_many_to_one()
       }
       return $yearInfo;
     }
+    
+    
+    function updateDataBablu($tableName, $data, $condition)
+    {
+        //Data
+        $arr_data = array_map(function($k, $v){
+            return "$k='$v'";
+        }, array_keys($data), array_values($data));
+        $data_str = implode(", ",$arr_data);
+
+        //Condition
+        $arr_con = array_map(function($k, $v){
+            return "$k='$v'";
+        }, array_keys($condition), array_values($condition));
+        $con_str = implode(" AND ",$arr_con);
+
+        //Query
+        $sql = "UPDATE $tableName SET $data_str WHERE $con_str";
+
+        return $this->db->query($sql);
+    }
 
 
 
