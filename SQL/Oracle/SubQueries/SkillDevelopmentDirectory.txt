@@ -1,0 +1,82 @@
+//v.01
+select x.STUDENT_ID, x.STU_AI_ID, x.EXAM_DEGREE_ID, x.MAJOR_GROUP_ID, x.INSTITUTION, x.BOARD, RESULT_GRADE, x.RESULT_GRADE_WA,
+x.PASSING_YEAR, x.applicant_id, x.ed, x.mg, x.br, y.ELEMENT_URL
+from
+(SELECT a.STUDENT_ID, a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,
+e.applicant_id, b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br, 
+case 
+when a.EXAM_DEGREE_ID in (27, 181) then 81
+when a.EXAM_DEGREE_ID in (28, 182) then 82
+when a.EXAM_DEGREE_ID = 249 then 83
+when a.EXAM_DEGREE_ID = 381 then 84
+end exam_id
+FROM student_acadimicinfo a 
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID 
+left join m00_lkpdata d on a.BOARD = d.LKP_ID 
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+group by a.STUDENT_ID, a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,
+a.PASSING_YEAR,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME, e.applicant_id) x, SKILL_DEV_ELEMENT y
+where x.applicant_id = y.APPLICANT_ID
+and x.exam_id = y.SD_ID
+and STUDENT_ID ='342'
+order by x.STU_AI_ID asc 
+/
+
+//v.02
+select x.STUDENT_ID, x.STU_AI_ID, x.EXAM_DEGREE_ID, x.MAJOR_GROUP_ID, x.INSTITUTION, x.BOARD, RESULT_GRADE, x.RESULT_GRADE_WA,
+x.PASSING_YEAR, x.applicant_id, x.ed, x.mg, x.br, z.DIRECTORY_PATH, y.ELEMENT_URL
+from
+  (SELECT a.STUDENT_ID, a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,
+  e.applicant_id, b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br, 
+  case 
+        when a.EXAM_DEGREE_ID in (27, 181) then 81
+        when a.EXAM_DEGREE_ID in (28, 182) then 82
+        when a.EXAM_DEGREE_ID = 249 then 83
+        when a.EXAM_DEGREE_ID = 381 then 84
+   end exam_id
+    FROM student_acadimicinfo a 
+    left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+    left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID 
+    left join m00_lkpdata d on a.BOARD = d.LKP_ID 
+    left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+    group by a.STUDENT_ID, a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,
+    a.PASSING_YEAR,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME, e.applicant_id)  x, SKILL_DEV_ELEMENT y, SKILL_DEV_DIRECTORY z
+where  x.applicant_id = y.APPLICANT_ID
+and x.exam_id = y.SD_ID
+and z.SD_ID = y.SD_ID
+and STUDENT_ID ='342'     
+/
+
+27 or 181 => 81
+28 or 182 => 82
+249 => 83
+381 => 84
+/
+
+SELECT a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br
+            FROM student_acadimicinfo a
+            left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+            left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID
+            left join m00_lkpdata d on a.BOARD = d.LKP_ID
+            left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+            --left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+            WHERE a.STUDENT_ID ='$student_id'
+            group by a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME
+            order by a.STU_AI_ID asc
+/
+
+SELECT a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME as ed,c.LKP_NAME as mg,d.LKP_NAME as br
+FROM student_acadimicinfo a 
+left join m00_lkpdata b on a.EXAM_DEGREE_ID=b.LKP_ID
+left join m00_lkpdata c on a.MAJOR_GROUP_ID=c.LKP_ID 
+left join m00_lkpdata d on a.BOARD = d.LKP_ID 
+left join STUDENT_PERSONAL_INFO e on e.STUDENT_ID = a.STUDENT_ID
+--left join SKILL_DEV_ELEMENT f on f.APPLICANT_ID = e.APPLICANT_ID
+WHERE a.STUDENT_ID ='341' 
+group by a.STU_AI_ID,a.EXAM_DEGREE_ID,a.MAJOR_GROUP_ID,a.INSTITUTION,a.BOARD,a.RESULT_GRADE,a.RESULT_GRADE_WA,a.PASSING_YEAR,b.LKP_NAME,c.LKP_NAME,d.LKP_NAME 
+order by a.STU_AI_ID asc;
+/
+
+
+
