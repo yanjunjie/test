@@ -1,7 +1,7 @@
 //V.01, For Delete
 
 //Path save for unlink before delete
-$result1 = $this->utilities->findByAttribute($table, array($attr=>$id));
+$temp = $this->utilities->findByAttribute($table, array($attr=>$id));
 
 //Now delete record
 $res = $this->db->delete($table,array($attr=>$id));
@@ -9,18 +9,14 @@ $res = $this->db->delete($table,array($attr=>$id));
 //After record delete then unlink
 if($res)
 {
-<<<<<<< HEAD
-    $file_path = 'upload/assignments/materials/'.$result1->ATTACHMENT;
+    $file_path = 'upload/assignments/materials/'.$temp->ATTACHMENT;
     if(file_exists($file_path))
     {
         unlink($file_path);
-=======
-    if(!empty($result1->ATTACHMENT))
+    if(!empty($temp->ATTACHMENT))
     {
-        unlink('upload/assignments/materials/'.$result1->ATTACHMENT);
->>>>>>> c94a85aab3d46c50c422e5cd128bae09d830de1d
+        unlink('upload/assignments/materials/'.$temp->ATTACHMENT);
     }
-
 }
 
 //V.02, For update
@@ -31,7 +27,7 @@ if($res)
     $assi_data = array_merge($_POST, $assi_data);
 
    //Path save for unlink before update
-    $result1 = $this->utilities->findByAttribute('UMS_COURSE_MATERIALS', array('CM_ID'=>$CM_ID));
+    $temp = $this->utilities->findByAttribute('UMS_COURSE_MATERIALS', array('CM_ID'=>$CM_ID));
 
    //Now update record
     $res = $this->utilities->updateData('UMS_COURSE_MATERIALS',$assi_data, array('CM_ID'=>$CM_ID));
@@ -39,10 +35,97 @@ if($res)
    //After record update then unlink
     if($res and $MATERIAL_FILE_PATH)
     {
-        if(file_exists($upload_path.$result1->ATTACHMENT))
+        if(file_exists($upload_path.'/'.$temp->ATTACHMENT))
         {
-            unlink($upload_path.$result1->ATTACHMENT);
+            unlink($upload_path.'/'.$temp->ATTACHMENT);
         }
     }
 
-//v.03
+Example 01:
+
+ //Start Certificate upload
+                $SBLN_ROLL_NO = $STUDENT_PERSONAL_INFO->ADM_ROLL_NO;
+                $student_certificate_path = '';
+                $upload_path = '';
+                $file_name = '';
+                $SD_ID='';
+                $ELEMENT_EXT='';
+                if(!empty($_FILES['CERTIFICATE']['name'][$key]))
+                {
+                    $_FILES['file_cer']['name']     = $_FILES['CERTIFICATE']['name'][$key];
+                    $_FILES['file_cer']['type']     = $_FILES['CERTIFICATE']['type'][$key];
+                    $_FILES['file_cer']['tmp_name'] = $_FILES['CERTIFICATE']['tmp_name'][$key];
+                    $_FILES['file_cer']['error']     = $_FILES['CERTIFICATE']['error'][$key];
+                    $_FILES['file_cer']['size']     = $_FILES['CERTIFICATE']['size'][$key];
+
+                    $file_ext = pathinfo($_FILES['file_cer']['name'],PATHINFO_EXTENSION);
+
+                    // File upload configuration
+                    $config['upload_path'] = $upload_path; //upload/applicant/docs/
+                    is_file($config['upload_path'])?chmod($config['upload_path'], 0755):''; //Upload permission
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+                    $config['file_name'] = $file_name.'.'.$file_ext;
+
+                    // Load and initialize upload library
+                    $this->upload->initialize($config);
+
+                    // Upload file to server
+                    if($this->upload->do_upload('file_cer'))
+                    {
+                        // Uploaded file data
+                        $fileData2 = $this->upload->data();
+                        //$student_certificate_path = $fileData2['file_name'];
+                        $student_certificate_path = $file_name;
+                        $ELEMENT_EXT = $file_ext;
+                    }
+                }
+
+                $cer_info['ELEMENT_TITLE']=$student_certificate_path;
+                $cer_info['ELEMENT_URL']=$student_certificate_path;
+                $cer_info['ELEMENT_EXT']= $ELEMENT_EXT;
+                //$cer_info['SD_ID']=$SD_ID;
+                $cer_info['UPD_BY'] = $student_id;
+                $cer_info['UPD_DT'] = date("Y-m-d G:i:s");
+                //$cer_info['APPLICANT_ID']=$applicant_id;
+
+
+                //Path save for unlink before update
+                $temp = $this->utilities->findByAttribute('SKILL_DEV_ELEMENT', array('APPLICANT_ID'=>$STUDENT_PERSONAL_INFO->APPLICANT_ID, 'SD_ID'=>$SD_ID));
+
+                //Now update record
+                $res = $this->student_model->updateDataBablu('SKILL_DEV_ELEMENT', $cer_info, array('APPLICANT_ID'=>$STUDENT_PERSONAL_INFO->APPLICANT_ID, 'SD_ID'=>$SD_ID));
+
+                //After record update then unlink
+                if($res and $student_certificate_path)
+                {
+                    if(file_exists($upload_path.'/'.$temp->ATTACHMENT))
+                    {
+                        unlink($upload_path.'/'.$temp->ATTACHMENT);
+                    }
+                }
+                //End Certificate upload
+
+
+//v.03, Overwrite file with same name in the update
+
+//Path save for unlink before update
+    $temp = $this->utilities->findByAttribute('SKILL_DEV_ELEMENT', array('APPLICANT_ID'=>$STUDENT_PERSONAL_INFO->APPLICANT_ID, 'SD_ID'=>$SD_ID));
+    //After record update then unlink
+    if(file_exists($upload_path.'/'.$temp->ELEMENT_URL.'.'.$temp->ELEMENT_EXT))
+    {
+        unlink($upload_path.'/'.$temp->ELEMENT_URL.'.'.$temp->ELEMENT_EXT);
+    }
+
+    // Upload file to server
+    if($this->upload->do_upload('file_cer'))
+    {
+        // Uploaded file data
+        $fileData2 = $this->upload->data();
+        //$student_certificate_path = $fileData2['file_name'];
+        $student_certificate_path = $file_name;
+        $ELEMENT_EXT = $file_ext;
+    }
+
+
+
+
