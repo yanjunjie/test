@@ -302,6 +302,25 @@ public function cia_dependency_by_one_to_many_to_one()
         return $this->db->query($sql);
     }
 
+    public function cia_modal()
+    {
+        if(!empty($_POST['modalContent']))
+        {
+            $data=array();
+            $id = $this->input->post('id');
+            $table = $this->input->post('table');
+            $attr = $this->input->post('attr');
+            if($id and $table and $attr)
+            {
+                $data["result"] = $this->utilities->findAllByAttribute($table, array($attr=>$id));
+            }
+            $modalContent = $this->input->post('modalContent');
+            echo $this->load->view($modalContent, $data, true);
+        }
+        else
+            echo "<h3 class='text-danger text-center'>No content found!</h3>";
+        exit();
+    }
 
 
 
