@@ -29,27 +29,6 @@
         </div>
     </form>
 
-    <!--Modal-->
-    <div class="modal fade cia_modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">Material Details</h4>
-                </div>
-                <div class="modal-body"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--End Modal-->
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
@@ -57,8 +36,6 @@
 
 
     <script>
-
-
 
         $(document).ready(function () {
 
@@ -94,9 +71,51 @@
         });
 
 
+        $(document).on('click','.modal_btn',function(){
+            let cia_modal = $('.cia_modal');
+            //Set modal show/hide
+            cia_modal.modal('toggle');
+        });
 
         
     </script>
+
+    <script src="ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.ck_editor').each(function(){
+                CKEDITOR.replace( $(this).attr('id') );
+            });
+        });
+    </script>
+
+
+    <!--Modal-->
+    <div class="modal fade cia_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Material Details</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea class="ck_editor" name="test_name" id="test" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Modal-->
+
+    <button type="button" class="btn btn-default modal_btn">Open Modal</button>
+
+    <textarea class="ck_editor" name="test_name" id="test2" cols="30" rows="10"></textarea>
 
 </body>
 </html>
