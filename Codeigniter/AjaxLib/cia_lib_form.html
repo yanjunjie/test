@@ -84,9 +84,17 @@
     <script type="text/javascript">
         $(function() {
             $('.ck_editor').each(function(){
-                CKEDITOR.replace( $(this).attr('id') );
+                CKEDITOR.replace( $(this).attr('id'),
+                {
+                    toolbar : 'Basic',
+                    skin :'office2013',//kama,office2013,moonocolor,moono-lisa (default)
+                    toolbarCanCollapse : true,
+                    height : 200,
+                    //uiColor :'#F7F7F7'
+                });
             });
         });
+
     </script>
 
 

@@ -744,18 +744,18 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     cia_modal.modal('toggle');
     
     //Set Modal Title
-    (title)
+    if(title && (title!=null))
     {
         modal_title.html(title);
     }
     //Set Modal Header Background
-    if(headerBg)
+    if(headerBg && (headerBg!=null))
     {
         modal_header.attr('class', 'modal-header');
         modal_header.addClass(headerBg);
     }
     //Set Modal Size
-    if(modalType)
+    if(modalType && (modalType!=null))
     {
         modal_dialog.attr('class', 'modal-dialog');
         modal_dialog.addClass(modalType);
@@ -777,6 +777,16 @@ $(document).on("click", ".cia_modal_btn", function (e) {
             modal_body.html(""); /*<img src='<--?php echo base_url(); ?>assets/img/loader.gif' />*/
         },
         success: function (data) {
+            //Ck Editor
+            if(typeof CKEDITOR != "undefined") //exists or not
+            {
+                //Destroy old instances
+                for(name in CKEDITOR.instances)
+                {
+                    CKEDITOR.instances[name].destroy(true);
+                }
+            }
+
             modal_body.html(data);
         },
         error: function(){
@@ -815,18 +825,18 @@ $(document).on('click','.modal_btn', function () {
     cia_modal.modal('toggle');
 
     //Set Modal Title
-    (title)
+    if(title && (title!=null))
     {
         modal_title.html(title);
     }
     //Set Modal Header Background
-    if(headerBg)
+    if(headerBg && (headerBg!=null))
     {
         modal_header.attr('class', 'modal-header');
         modal_header.addClass(headerBg);
     }
     //Set Modal Size
-    if(modalType)
+    if(modalType && (modalType!=null))
     {
         modal_dialog.attr('class', 'modal-dialog');
         modal_dialog.addClass(modalType);
