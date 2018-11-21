@@ -216,6 +216,46 @@ public function cia_dependency_by_one_to_many_to_one()
 
 	}
 
+    public function cia_insert()
+    {
+        $data['contentTitle'] = 'My Post';
+        $data["breadcrumbs"] = array(
+            "My Post" => '#'
+        );
+        $data['pageTitle'] = 'University student portal';
+        $data['content_view_page'] = 'student/forum/my_post';
+
+        $this->form_validation->set_rules('FORUM_TITLE', 'Forum title', 'required');
+        if ($this->form_validation->run() == FALSE)
+        {
+            $this->student_portal->display($data);
+        }
+        else
+        {
+            ini_set('max_execution_time', 0);
+            ini_set("memory_limit", -1);
+            $this->db->trans_begin();
+
+           $data = $_POST;
+           $data['CRE_BY'] = $this->STUDENT_ID;
+           $data['CRE_DT'] = date("Y-m-d G:i:s");
+           $data['IS_STUDENT'] = 'Y';
+           $this->utilities->insertData($data, 'UMS_FORUM_MST');
+
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                echo 'err';
+            }
+            else
+            {
+                $this->db->trans_commit();
+                echo 'yes';
+            }
+            exit();
+        }
+    }
+
     //Sample Modal For a View Load
     public function sample_modal_for_view_load()
     {

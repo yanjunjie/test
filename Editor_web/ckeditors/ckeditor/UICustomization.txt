@@ -1,0 +1,101 @@
+There are several approaches to CKEditor toolbar configuration to choose from:
+
+Using the toolbar configurator — the most recommended and easy to use solution.
+Toolbar groups configuration — requires manual toolbar configuration (for advanced users only)
+“Item by item” configuration — requires manual toolbar configuration (for advanced users only)
+
+1. Toolbar groups configuration:
+For Example:
+config.toolbarGroups = [
+    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+    { name: 'links' },
+    { name: 'insert' },
+    { name: 'forms' },
+    { name: 'tools' },
+    { name: 'document',       groups: [ 'mode', 'document', 'doctools' ] },
+    { name: 'others' },
+    '/',
+    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+    { name: 'styles' },
+    { name: 'colors' },
+    { name: 'about' }
+];
+
+2. “Item by item” configuration:
+For Example:
+config.toolbar = [
+    { name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
+    { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+    '/',
+    { name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
+];
+
+//OR, The above can also be achieved with a simpler syntax:
+
+config.toolbar = [
+    [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ],
+    [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+    '/',
+    [ 'Bold', 'Italic' ]
+];
+
+N.B: If a new plugin gets into your editor, you will have to manually change your configuration to include the plugin buttons
+
+
+/*
+* Basic Package
+*/
+//...................
+
+toolbar :[
+    ['ajaxsave'],
+    ['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+    ['Cut','Copy','Paste','PasteText'],
+    ['Undo','Redo','-','RemoveFormat'],
+    ['TextColor','BGColor'],
+    ['Maximize', 'Image']
+],
+
+
+/*
+* standard Package
+*/
+
+//v.01 Default setting.
+config.toolbarGroups = [
+    { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
+    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+    { name: 'forms' },
+    '/',
+    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+    { name: 'links' },
+    { name: 'insert' },
+    '/',
+    { name: 'styles' },
+    { name: 'colors' },
+    { name: 'tools' },
+    { name: 'others' },
+    { name: 'about' }
+];
+
+//v.02 Define the toolbar groups as it is a more accessible solution.
+toolbarGroups: [
+	{"name":"basicstyles","groups":["basicstyles"]},
+	{"name":"links","groups":["links"]},
+	{"name":"paragraph","groups":["list","blocks"]},
+	{"name":"document","groups":["mode"]},
+	{"name":"insert","groups":["insert"]},
+	{"name":"styles","groups":["styles"]},
+	{"name":"about","groups":["about"]}
+],
+// Remove the redundant buttons from toolbar groups defined above.
+removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
+
+
+
+
+
