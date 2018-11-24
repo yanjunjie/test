@@ -224,6 +224,16 @@ $(document).on("click", ".cia_insert", function (e) {
         console.log("Please set the data-action or default action");
     }
 
+    //Ck Editor
+    if(typeof CKEDITOR != "undefined")
+    {
+        //Update CkEdotor's Value
+        for (instance in CKEDITOR.instances) 
+        {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+
     //Set Form Data
     let formData = new FormData(thisForm[0]);
     if(!formData)
@@ -246,6 +256,8 @@ $(document).on("click", ".cia_insert", function (e) {
         url: url,
         data: formData,
         processData: false,
+        contentType: false,
+        async: false,
         beforeSend: function(){
             /*cia_jq_validation(thisForm);
             if(!thisForm.valid())
@@ -253,7 +265,6 @@ $(document).on("click", ".cia_insert", function (e) {
                 return false;
             }*/
         },
-        contentType: false,
         success:function(data){
             if($.trim(data)=='yes')
             {
@@ -449,6 +460,15 @@ $(document).on("click", ".cia_update", function (e) {
     let thisBtn = $(this);
     //Form
     let thisForm = thisBtn.closest("form");
+    //Ck Editor
+    if(typeof CKEDITOR != "undefined")
+    {
+        //Update CkEdotor's Value
+        for (instance in CKEDITOR.instances)
+        {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
     //Form Data
     let formData = new FormData(thisForm[0]);
     if(!formData)
