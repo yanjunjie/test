@@ -1146,8 +1146,70 @@ $(document).on("change", ".cia_dependency_by_one_to_many_to_one", function () {
 //-----------------------/End Dependency--------------------------------
 
 
+//Ajax DataTable ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+window.onload = function() {
 
+    //$arr = json_decode($_POST['arr']);
+    //Settings
+    let table = [];
+    let searchable_cols = [];
+    let presentable_cols = [];
+    let unorderable_cols = [];
+    //End Settings
 
+    let formData = new FormData();
+    formData.append('searchable_cols', JSON.stringify(searchable_cols));
+
+    // destroy if have old datatable
+    $('.cia_datatable').dataTable().fnDestroy();
+
+    // new datatable
+    $('.cia_datatable').DataTable({
+        //Options
+        //"processing": true,  // Show processing
+        "serverSide": true,  // Server side processing
+        "pageLength": 5,    // 5 rows per page
+        "bDestroy": true,   //For reinitialize
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
+
+        //Load data for the table's content
+        ajax:{
+            url :  '<?= site_url("student/cia_datatable"); ?>',
+            type : "POST",
+            data: formData,
+            dataType: "json",
+        },
+
+        //Style
+        aoColumnDefs: [
+            { "sWidth": "20%", "aTargets": 0 }, //<- start from zero
+            { "sWidth": "10%", "aTargets": 1 },
+            { "sWidth": "10%", "aTargets": 2 },
+            { "sWidth": "10%", "aTargets": 3 },
+            { "sWidth": "10%", "aTargets": 4 }
+        ],
+
+        order: [[ 2, "desc" ]],
+
+        //Set column definition initialisation properties.
+        "columns": [
+            for (presentable_col in presentable_cols)
+            {
+                for(unorderable_col in unorderable_cols)
+                {
+                    if(unorderable_col==presentable_col)
+                    {
+                        {"data": presentable_col, "searchable": false, "orderable": false},
+                        return;
+                    }
+                    {"data": presentable_col},
+                }
+            }
+        ],
+
+    });
+};
+//End datatable
 
 
 

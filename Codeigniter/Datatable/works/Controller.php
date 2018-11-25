@@ -3,7 +3,7 @@
 //V.01
 
     //Datatables
-    private function _get_datatables_query($table)
+    function _get_datatables_query($table)
     {
 
         $DEGREE_ID = $this->input->post('DEGREE_ID');
@@ -66,7 +66,7 @@
         return $query->num_rows();
     }
 
-    public function count_all($table)
+    function count_all($table)
     {
         $this->db->from($table);
         return $this->db->count_all_results();
@@ -78,7 +78,7 @@
 //V.02
 
     //Datatable
-    public function dataTables()
+    function dataTables()
     {
 
         $user_data = $this->session->userdata("logged_in");
@@ -161,62 +161,68 @@
         $this->admin_template->display($data);
     }
 
-    function ajaxDatatable()
+    function ajaxDataTableDemo()
     {
+        // table
+        $table = $this->input->post('table');
 
-            // storing  request (ie, get/post) global array to a variable
+        // storing  request (ie, get/post) global array to a variable
         $requestData = $_REQUEST;
 
-        $columns = array(
+        // sortable columns
+        $sortable_cols = json_decode($_POST['searchable_cols']);
 
-                // datatable column index  => database column name
-            0 => 'ROLL_NO', 1 => 'FULL_NAME_EN', 2 => 'DEPARTMENT');
+        /*$sortable_cols = array(
+            'ROLL_NO','FULL_NAME_EN','DEPARTMENT'
+        );*/
 
-            // getting total number records without any search
+        // presentable columns
+        $presentable_cols = json_decode($_POST['presentable_cols']);
 
+        // getting total number records without any search
         $query = $this->db->query("SELECT ROLL_NO, FULL_NAME_EN, DEPARTMENT FROM students_info")->num_rows();
 
+        // total number of records
         $totalData = $query;
-
+        // default total number of filtered records
         $totalFiltered = $totalData;
-            // when there is no search parameter then total number rows = total number filtered rows.
 
-        if (!empty($requestData['search']['value'])) {
-
-                // if there is a search parameter
-
-            $query = $this->db->query("SELECT ROLL_NO, FULL_NAME_EN, DEPARTMENT FROM students_info WHERE ROLL_NO LIKE '" . $requestData['search']['value'] . "%' OR FULL_NAME_EN LIKE '" . $requestData['search']['value'] . "%' OR DEPARTMENT LIKE '" . $requestData['search']['value'] . "%' ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "   LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
-
+        if (!empty($requestData['search']['value']))
+        {
+            // if there is a search parameter
+            $query = $this->db->query("SELECT ROLL_NO, FULL_NAME_EN, DEPARTMENT FROM students_info WHERE ROLL_NO LIKE '" . $requestData['search']['value'] . "%' OR FULL_NAME_EN LIKE '" . $requestData['search']['value'] . "%' OR DEPARTMENT LIKE '" . $requestData['search']['value'] . "%' ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "  LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
             $totalFiltered = $query;
-                // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
-
-        } else {
-
-            $query = $this->db->query("SELECT ROLL_NO, FULL_NAME_EN, DEPARTMENT FROM students_info  ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "   LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
+        }
+        else
+        {
+            $query = $this->db->query("SELECT ROLL_NO, FULL_NAME_EN, DEPARTMENT FROM students_info  ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "   LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
         }
 
+        // loop for presentable columns records
         $data = array();
-        foreach ($query as $row) {
-                // preparing an array
+        foreach ($query as $row)
+        {
+            // preparing a record
             $nestedData = array();
 
-            $nestedData[] = $row->ROLL_NO;
-            $nestedData[] = $row->FULL_NAME_EN;
-            $nestedData[] = $row->DEPARTMENT;
+            foreach ($presentable_cols as $presentable_col)
+            {
+                $nestedData[] = $row->$presentable_col;
+            }
 
+            // all records
             $data[] = $nestedData;
         }
 
         $json_data = array("draw" => intval($requestData['draw']),
-                // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            // for every request/draw by clientside
             "recordsTotal" => intval($totalData),
-                // total number of records
+            // total number of records
             "recordsFiltered" => intval($totalFiltered),
-                // total number of records after searching, if there is no searching then totalFiltered = totalData
+            // total number of records after searching, if there is no searching then totalFiltered = totalData
             "data" => $data
 
-                // total data array
-            );
+        );
 
         echo json_encode($json_data);
     }
@@ -224,6 +230,83 @@
 
 
 //V04
+function ajaxDataTable()
+{
+    // storing  request (ie, get/post) global array to a variable
+    $requestData = $_REQUEST;
 
+    // table
+    $table = $this->input->post('table');
+
+    // sortable columns
+    $sortable_cols = json_decode($_POST['searchable_cols']);
+    /*$sortable_cols = array('ROLL_NO','FULL_NAME_EN','DEPARTMENT');*/
+
+    // presentable columns
+    $presentable_cols = json_decode($_POST['presentable_cols']);
+    $presentable_cols_str = implode(',', $presentable_cols);
+
+    // search data from table
+    function search_data($value,$key,$presentable_cols)
+    {
+        echo "$key LIKE '" . $_REQUEST['search']['value'] . "%'";
+    }
+
+    // getting total number records without any search
+    $query = $this->db->query("SELECT $presentable_cols_str FROM $table")->num_rows();
+
+    // total number of records
+    $totalData = $query;
+    // default total number of filtered records
+    $totalFiltered = $totalData;
+
+    if (!empty($requestData['search']['value']))
+    {
+        // if there is a search parameter
+        $query = $this->db->query("
+                SELECT $presentable_cols_str
+                FROM $table 
+                WHERE ".array_walk($presentable_cols,"search_data")."
+                ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
+        )->result();
+        $totalFiltered = $query;
+    }
+    else
+    {
+        $query = $this->db->query("
+                SELECT $presentable_cols_str
+                FROM $table
+                ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
+        )->result();
+    }
+
+    // loop for presentable columns records
+    $data = array();
+    foreach ($query as $row)
+    {
+        // preparing a record
+        $nestedData = array();
+
+        foreach ($presentable_cols as $presentable_col)
+        {
+            $nestedData[] = $row->$presentable_col;
+        }
+
+        // all records
+        $data[] = $nestedData;
+    }
+
+    $json_data = array("draw" => intval($requestData['draw']),
+        // for every request/draw by clientside
+        "recordsTotal" => intval($totalData),
+        // total number of records
+        "recordsFiltered" => intval($totalFiltered),
+        // total number of records after searching, if there is no searching then totalFiltered = totalData
+        "data" => $data
+
+    );
+
+    echo json_encode($json_data);
+}
 
 
