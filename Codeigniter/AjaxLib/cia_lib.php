@@ -362,11 +362,13 @@ public function cia_dependency_by_one_to_many_to_one()
         exit();
     }
 
-    //DataTable
+    //DataTable +++++++++++++++++++++++++
     function cia_datatable()
     {
         // storing  request (ie, get/post) global array to a variable
         $requestData = $_REQUEST;
+
+        //die(var_dump($requestData));
 
         // table
         $table = $this->input->post('table');
@@ -387,7 +389,7 @@ public function cia_dependency_by_one_to_many_to_one()
 
         // getting total number records without any search
         $query = $this->db->query("SELECT $presentable_cols_str FROM $table")->num_rows();
-        
+
         // total number of records
         $totalData = $query;
         // default total number of filtered records
@@ -399,17 +401,19 @@ public function cia_dependency_by_one_to_many_to_one()
             $query = $this->db->query("
                 SELECT $presentable_cols_str
                 FROM $table 
-                WHERE ".array_walk($presentable_cols,"search_data")."
-                ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
+                WHERE " . array_walk($presentable_cols,"search_data") . " and rownum <= " . $requestData['length'] .
+                "ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir']
             )->result();
             $totalFiltered = $query;
         }
         else
         {
+            //ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
             $query = $this->db->query("
                 SELECT $presentable_cols_str
                 FROM $table
-                ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
+                WHERE rownum <= " . $requestData['length'] .
+                " ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir']
             )->result();
         }
 
@@ -440,7 +444,9 @@ public function cia_dependency_by_one_to_many_to_one()
         );
 
         echo json_encode($json_data);
+        exit;
     }
+    //End Datatable
 
 
 

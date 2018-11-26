@@ -1,5 +1,7 @@
 <?php
 
+//v.01
+
  //Datatables
     private function _get_datatables_query($table)
     {
@@ -61,4 +63,67 @@
         return $this->db->count_all_results();
     }
     //End Datatables
+
+
+    //v.02
+
+     ############## DATA TABLR ################
+      function allposts_count()
+    {
+        $query = $this
+                ->db
+                ->get('aca_course');
+
+        return $query->num_rows();
+
+    }
+
+    function allCourse($limit,$start,$col,$dir)
+    {
+       /*$query = $this
+                ->db
+                ->limit($limit,$start)
+                ->order_by($col,$dir)
+                ->get('aca_course');*/
+                /*
+        $query=$this->db->query("SELECT a.*,b.DEPT_NAME FROM aca_course a
+                                    left join ins_dept b on a.DEPT_ID=b.DEPT_ID ORDER BY a.$col $dir LIMIT $start,$limit")->result();
+                                    */
+        $query=$this->db->query("SELECT * FROM (SELECT ROWNUM  RN ,a.*,b.DEPT_NAME FROM aca_course a left join ins_dept b on a.DEPT_ID=b.DEPT_ID ORDER BY a.COURSE_ID) k WHERE RN BETWEEN $start and $limit")->result();
+
+
+        if(!empty($query))
+        {
+            return $query;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    function posts_search($limit,$start,$search,$col,$dir)
+    {
+    //  echo $col;
+        $query=$this->db->query("SELECT * FROM (SELECT ROWNUM RN,a.*,b.DEPT_NAME FROM aca_course a
+                                    left join ins_dept b on a.DEPT_ID=b.DEPT_ID
+                                    where
+                                        a.COURSE_TITLE like '%$search%' or
+                                         b.DEPT_NAME like '%$search%'
+                                    ORDER BY a.$col $dir) k WHERE RN BETWEEN $start and $limit");
+
+
+        if(!empty($query))
+        {
+            return [$query->result(),$query->num_rows()];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    ################# END DATA TABLE #########################
+
+    
 

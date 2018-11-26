@@ -1149,18 +1149,38 @@ $(document).on("change", ".cia_dependency_by_one_to_many_to_one", function () {
 //Ajax DataTable ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 window.onload = function() {
 
-    //$arr = json_decode($_POST['arr']);
-    //Settings
-    let table = [];
-    let searchable_cols = [];
-    let presentable_cols = [];
-    let unorderable_cols = [];
-    //End Settings
+    //-------Start Settings------
+    let table = 'UMS_FORUM_MST';
+    // presentable all columns
+    let presentable_cols = ['FORUM_TITLE','CRE_DT'];
+    // sortable/searchable columns
+    let searchable_cols = ['FORUM_TITLE','CRE_DT'];
+    // unsortable/searchable columns
+    let unorderable_cols = ['FORUM_TITLE'];
+    //------End Settings-------
 
-    let formData = new FormData();
-    formData.append('searchable_cols', JSON.stringify(searchable_cols));
+    let allColumns = [];
+    for (let presentable_col of presentable_cols)
+    {
+        if(unorderable_cols.length > 0)
+        {
+            let found = unorderable_cols.indexOf(presentable_col);
+            if(found != -1)
+            {
+                allColumns.push({"bSortable": false,"searchable": false, "orderable": false});
+            }
+            else
+            {
+                allColumns.push(null);
+            }
+        }
+        else
+        {
+            allColumns.push(null);
+        }
+    }
 
-    // destroy if have old datatable
+    // destroy if have initialized an old datatable
     $('.cia_datatable').dataTable().fnDestroy();
 
     // new datatable
@@ -1171,42 +1191,21 @@ window.onload = function() {
         "pageLength": 5,    // 5 rows per page
         "bDestroy": true,   //For reinitialize
         "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
-
         //Load data for the table's content
         ajax:{
-            url :  '<?= site_url("student/cia_datatable"); ?>',
+            url :  '<?php echo site_url("student/cia_datatable"); ?>',
             type : "POST",
-            data: formData,
-            dataType: "json",
+            dataType:'json',
+            data: function( d ) {
+                d.searchable_cols = JSON.stringify(searchable_cols);
+                d.presentable_cols = JSON.stringify(presentable_cols);
+                d.table = table;
+            }
         },
 
-        //Style
-        aoColumnDefs: [
-            { "sWidth": "20%", "aTargets": 0 }, //<- start from zero
-            { "sWidth": "10%", "aTargets": 1 },
-            { "sWidth": "10%", "aTargets": 2 },
-            { "sWidth": "10%", "aTargets": 3 },
-            { "sWidth": "10%", "aTargets": 4 }
-        ],
-
-        order: [[ 2, "desc" ]],
-
-        //Set column definition initialisation properties.
-        "columns": [
-            for (presentable_col in presentable_cols)
-            {
-                for(unorderable_col in unorderable_cols)
-                {
-                    if(unorderable_col==presentable_col)
-                    {
-                        {"data": presentable_col, "searchable": false, "orderable": false},
-                        return;
-                    }
-                    {"data": presentable_col},
-                }
-            }
-        ],
-
+        //order: [[ 1, "desc" ]],
+        // set column definition for initialized properties
+        "columns": allColumns,
     });
 };
 //End datatable

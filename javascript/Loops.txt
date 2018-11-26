@@ -1,0 +1,20 @@
+//forEach Only for Array
+let mytest = ['id', 'bablu'];
+mytest.forEach(function(element, key) {
+  console.log(element); //id, bablu
+});
+
+//for..of is only for Array
+let mytest = [10, 'bablu'];
+for (myvar of mytest)
+console.log(myvar); //10, bablu
+
+
+//for..in is enumerable over objects it aslo works on array
+let mytest = {'id':10, 'name':'bablu'}
+for (myvar in mytest)
+console.log(myvar); //id, name
+
+
+
+

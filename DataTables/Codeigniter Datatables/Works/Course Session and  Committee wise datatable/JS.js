@@ -72,7 +72,7 @@ $(document).on("click", "#commSessCourseSubmit", function(event){
             null,
             null,
             null,
-            { "searchable": false, "orderable": false },
+            { "searchable": false, "orderable": false  },
             { "searchable": false, "orderable": false }
         ]
 
@@ -132,5 +132,43 @@ $(document).on("click", "#commSessCourseSubmit", function(event){
                 return false;
             }
         });
-    }); 
+    });
+
+
+//v.03
+var example_table = $('#example_table').DataTable({
+  'ajax': {
+    "type"   : "POST",
+    "url"    : '/path/to/your/URL',
+    "data"   : function( d ) {
+      d.example_key1= $('#example_input1').val();
+      d.example_key2= $('#example_input2').val();
+      d.example_key3= $('#example_input3').val();
+    },
+    "dataSrc": ""
+  },
+  'columns': [
+    {"data" : "metric_name"},
+    {"data" : "metric_type"},
+    {"data" : "metric_timestamp"},
+    {"data" : "metric_duration"}
+  ]
+});
+//To Reload The Ajax
+//See DataTables.net for more information about the reload method
+example_table.ajax.reload();
+
+//or
+data: function (d) {
+    d.product = $('input[name=product]').val();
+    d.fromDate = $('input[name=fromDate]').val();
+    d.toDate = $('input[name=toDate]').val();
+    d.asortment = $('input[name=asortment]').val();
+},
+
+
+//v.04
+
+
+
 
