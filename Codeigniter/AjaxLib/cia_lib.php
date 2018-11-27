@@ -342,6 +342,7 @@ public function cia_dependency_by_one_to_many_to_one()
         return $this->db->query($sql);
     }
 
+    //Content shown on Modal ++++++++++++++++++++++
     public function cia_modal()
     {
         if(!empty($_POST['modalContent']))
@@ -354,6 +355,7 @@ public function cia_dependency_by_one_to_many_to_one()
             {
                 $data["result"] = $this->utilities->findAllByAttribute($table, array($attr=>$id));
             }
+            $data['id'] = $id;
             $modalContent = $this->input->post('modalContent');
             echo $this->load->view($modalContent, $data, true);
         }

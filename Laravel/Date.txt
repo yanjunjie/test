@@ -1,0 +1,21 @@
+//v.01
+
+$datetime1 = new DateTime('2 Jan 2008');
+$datetime2 = new DateTime('5 July 2012');
+$interval = $datetime1->diff($datetime2);
+echo $interval->format('%y years %m months and %d days');
+
+//v.02
+
+<li>Posted {{ $recentArticle->created_at->diffForHumans() }}</li>
+
+//v.03, timestamp to carbon
+<span>Posted <?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($row->CRE_DT))->diffForHumans() ?></span>
+
+//or
+
+Carbon::parse($p->created_at)->diffForHumans();
+
+
+
+

@@ -689,7 +689,7 @@ $(document).on("click", ".cia_update_row", function (e) {
 });
 
 
-//View Load By Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Content show on Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_modal_btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -700,14 +700,13 @@ $(document).on("click", ".cia_modal_btn", function (e) {
             1. i.e,
                 <button type="button" class="btn btn-info btn-xs cia_modal_btn" title="Click For Details" style="margin: 0; font-size: 11px; padding: 1px 3px; color: #fff; font-weight: 600; line-height: 1.3;"
                         data-id="<--?php echo $row->CM_ID; ?>"
-                        data-table=""
-                        data-attr=""
-                        data-action=""
-                        data-modal-content=""
+                        data-table="UMS_COURSE_MATERIALS"
+                        data-attr="CM_ID"
+                        data-action="<--?php echo base_url('assignment/material_details')?>"
                         data-redirect=""
                         data-reload=""
-                        data-trigger-click=""
-                        data-reload-id="">
+                        data-trigger-click="find_courses_btn"
+                        data-reload-id="cia_reload_area">
                     Details
                 </button>
             2. Add a class called 'cia_modal_btn' to the modal button
@@ -722,6 +721,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let windowReloadD = "";
     let windowRedirectD = "";
     let titleD = "";
+    let modalTitleD = "";
     let headerBgD = "";
     let modalTypeD = "";
     let modalContentD = "";
@@ -736,6 +736,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let dataRedirect = $(this).attr('data-redirect');
     let reloadArea = $(this).attr("data-reload-id");
     let dataTitle = $(this).attr("data-title");
+    let dataModalTitle = $(this).attr("data-modal-title");
     let dataHeaderBg = $(this).attr("data-header-bg");
     let dataModalType = $(this).attr("data-modal-type");
     let dataModalContent = $(this).attr("data-modal-content");
@@ -748,6 +749,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
     let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
     let title = dataTitle?dataTitle:(titleD?titleD:'');
+    let modalTitle = dataModalTitle?dataModalTitle:(modalTitleD?modalTitleD:'');
     let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
     let modalType = dataModalType?dataModalType:(modalTypeD?modalTypeD:'');
     let modalContent = dataModalContent?dataModalContent:(modalContentD?modalContentD:'');
@@ -762,11 +764,11 @@ $(document).on("click", ".cia_modal_btn", function (e) {
 
     //Set modal show/hide
     cia_modal.modal('toggle');
-    
+
     //Set Modal Title
-    if(title && (title!=null))
+    if(modalTitle && (modalTitle!=null))
     {
-        modal_title.html(title);
+        modal_title.html(modalTitle);
     }
     //Set Modal Header Background
     if(headerBg && (headerBg!=null))
@@ -793,12 +795,13 @@ $(document).on("click", ".cia_modal_btn", function (e) {
         data: formData,
         contentType: false,
         processData: false,
+        async: false,
         beforeSend: function () {
-            modal_body.html(""); /*<img src='<--?php echo base_url(); ?>assets/img/loader.gif' />*/
+            //modal_body.html(""); /*<img src='<--?php echo base_url(); ?>assets/img/loader.gif' />*/
         },
         success: function (data) {
             //Ck Editor
-            if(typeof CKEDITOR != "undefined") //exists or not
+            if(typeof CKEDITOR != "undefined")
             {
                 //Destroy old instances
                 for(name in CKEDITOR.instances)
