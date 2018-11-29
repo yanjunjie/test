@@ -689,7 +689,7 @@ $(document).on("click", ".cia_update_row", function (e) {
 });
 
 
-//Content show on Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Content shown on Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $(document).on("click", ".cia_modal_btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -1188,13 +1188,11 @@ window.onload = function() {
 
     // new datatable
     $('.cia_datatable').DataTable({
-        //Options
-        //"processing": true,  // Show processing
-        "serverSide": true,  // Server side processing
-        "pageLength": 5,    // 5 rows per page
-        "bDestroy": true,   //For reinitialize
-        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]], //Select Box
-        //Load data for the table's content
+        //"processing": true,  // show loader
+        "serverSide": true,  // enable ajax
+        "pageLength": 10,    // 10 records shown
+        "bDestroy": true,   // reinitialize datatable
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]], // select box
         ajax:{
             url :  '<?php echo site_url("student/cia_datatable"); ?>',
             type : "POST",
@@ -1207,7 +1205,6 @@ window.onload = function() {
         },
 
         //order: [[ 1, "desc" ]],
-        // set column definition for initialized properties
         "columns": allColumns,
     });
 };
