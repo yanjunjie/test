@@ -40,8 +40,8 @@ $('.ck_editor').each(function(){
             {
                 skin :'office2013',
                 toolbarCanCollapse : true,
-                height : 160,
-                autoGrow_minHeight : 200,
+		height : 160,
+                autoGrow_minHeight : 160,
                 autoGrow_bottomSpace : 50,
                 startupFocus : 'start',
                 extraPlugins : 'uploadimage,uploadwidget,clipboard,dialog,notification,toolbar,widget,filetools,notificationaggregator,lineutils,widgetselection,autogrow',
