@@ -256,6 +256,107 @@ WHERE STUDENT_ID=a.STUDENT_ID ) IS_EXIST FROM STUDENT_PERSONAL_INFO a;
 
 /
 select DBMS_LOB.substr(FORUM_DESC, 4000) FORUM_DESC, FORUM_ID, FORUM_TITLE, IS_STUDENT, CRE_BY, CRE_DT from UMS_FORUM_MST order by FORUM_ID desc
+/
+select DBMS_LOB.substr(REPLY_DESC, 4000) REPLY_DESC, FORUM_ID, REPLY_ID, IS_STUDENT, CRE_BY, CRE_DT,
+    case when r.IS_STUDENT = 'Y' then
+            select  distinct FULL_NAME_EN
+            from STUDENT_PERSONAL_INFO
+            where STUDENT_ID = r.CRE_BY
+       /* when IS_STUDENT = 'N' then
+            select FULL_NAME
+            from SA_USERS
+            where USER_ID =  r.CRE_BY*/
+    end avatar_name
+
+from UMS_FORUM_REPLY r
+where FORUM_ID = '41' 
+order by CRE_DT asc
+/
+select DBMS_LOB.substr(REPLY_DESC, 4000) REPLY_DESC, FORUM_ID, REPLY_ID, IS_STUDENT, CRE_BY, CRE_DT,
+fnc_avatar_name(CRE_BY, IS_STUDENT) avatar_name
+from UMS_FORUM_REPLY
+where FORUM_ID = '41' 
+order by CRE_DT asc
+/
+
+select d.REPLY_ID
+from UMS_FORUM_MST m, UMS_FORUM_REPLY d
+where m.FORUM_ID = d.FORUM_ID
+and d.CRE_DT = (select max(CRE_DT) from UMS_FORUM_REPLY where FORUM_ID = m.FORUM_ID and CRE_BY = d.CRE_BY)
+and m.FORUM_ID = '41' 
+group by d.REPLY_ID, d.CRE_BY
+/
+create or replace function fnc_avatar_name (p_id number, p_flg varchar2)
+return varchar2 is 
+v_avatar_name varchar2(200);
+begin
+if p_flg = 'Y' then
+select FULL_NAME_EN
+into v_avatar_name
+from STUDENT_PERSONAL_INFO
+where STUDENT_ID = p_id;
+elsif p_flg = 'N' then
+select FULL_NAME
+into v_avatar_name
+from SA_USERS
+where USER_ID = p_id;
+else
+null;
+end if; 
+return v_avatar_name;
+exception
+when others then 
+return null; 
+end;
+
+/
+
+create or replace function fnc_avatar_name (p_id number, p_stdflf varchar2, p_flg varchar2)
+return varchar2 is 
+    v_avatar_name varchar2(200);
+begin
+    if p_flg = 'S' then
+        if p_stdflf = 'Y' then
+            select  FULL_NAME_EN
+            into v_avatar_name
+            from STUDENT_PERSONAL_INFO
+            where STUDENT_ID = p_id;
+        elsif p_stdflf = 'N' then
+            select FULL_NAME
+            into v_avatar_name
+            from SA_USERS
+            where USER_ID = p_id;
+        else
+            null;
+        end if;    
+    elsif p_flg = 'G' then
+         if p_stdflf = 'Y' then
+            select  GENDER
+            into v_avatar_name
+            from STUDENT_PERSONAL_INFO
+            where STUDENT_ID = p_id;
+        elsif p_stdflf = 'N' then
+            select GENDER
+            into v_avatar_name
+            from SA_USERS
+            where USER_ID = p_id;
+        else
+            null;
+        end if;    
+    
+    else
+        null;    
+    end if;    
+   
+    return v_avatar_name;
+        
+exception
+    when others then 
+    return null;        
+end;
+
+/
+
 
 
 

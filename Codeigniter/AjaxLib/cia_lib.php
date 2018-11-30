@@ -369,19 +369,23 @@ public function cia_dependency_by_one_to_many_to_one()
     {
         // storing  request (ie, get/post) global array to a variable
         $requestData = $_REQUEST;
-
-        //die(var_dump($requestData));
-
         // table
         $table = $this->input->post('table');
-
         // sortable columns
+
         $sortable_cols = json_decode($_POST['searchable_cols']);
-        /*$sortable_cols = array('ROLL_NO','FULL_NAME_EN','DEPARTMENT');*/
+        // $sortable_cols = array('ROLL_NO','FULL_NAME_EN','DEPARTMENT');
 
         // presentable columns
         $presentable_cols = json_decode($_POST['presentable_cols']);
         $presentable_cols_str = implode(',', $presentable_cols);
+
+        // sortable and searchable request data
+        $limit = $requestData['length']; // limit
+        $start = $requestData['start']; // offset
+        $sortable_col = $sortable_cols[$requestData['order'][0]['column']]; //column
+        $dir = $requestData['order'][0]['dir']; // 'asc' or 'desc'
+        $search = $requestData['search']['value']; // a search string
 
         // search data from table
         function search_data($value,$key,$presentable_cols)
@@ -394,28 +398,27 @@ public function cia_dependency_by_one_to_many_to_one()
 
         // total number of records
         $totalData = $query;
+
         // default total number of filtered records
         $totalFiltered = $totalData;
 
-        $limit = $requestData['length']; // limit
-        $start = $requestData['start']; // offset
-        $orderable_col = $sortable_cols[$requestData['order'][0]['column']]; //column
-        $dir = $requestData['order'][0]['dir']; // asc/desc
-        $search = requestData['search']['value']; // a search string
 
         if (!empty($requestData['search']['value']))
         {
             // if there is a search parameter
-            $query=$this->db->query("SELECT * FROM (SELECT $presentable_cols_str, ROWNUM RN 
-                                                    FROM $table
-                                                    WHERE a.COURSE_TITLE like '%$search%' 
-                                                    OR b.DEPT_NAME like '%$search%'
-                                                    ORDER BY a.$col $dir) k 
-                                    WHERE RN BETWEEN $start and $limit");
             $query = $this->db->query("
-                SELECT $presentable_cols_str, ROWNUM RN
+                SELECT * FROM (SELECT $presentable_cols_str, ROWNUM RN 
+                            FROM $table
+                            WHERE a.COURSE_TITLE like '%$search%' 
+                            OR b.DEPT_NAME like '%$search%'
+                            ORDER BY $sortable_col $dir) k 
+                WHERE RN BETWEEN $start and $limit
+            ")->result();
+
+            $query = $this->db->query("
+                SELECT $presentable_cols_str
                 FROM $table 
-                WHERE " . array_walk($presentable_cols,"search_data") .
+                WHERE " . array_walk($presentable_cols,"search_data") . " and rownum <= " . $requestData['length'] .
                 "ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir']
             )->result();
             $totalFiltered = $query;

@@ -1,0 +1,45 @@
+//For comments 
+create or replace function fnc_avatar_name (p_id number, p_stdflf varchar2, p_flg varchar2)
+return varchar2 is 
+    v_avatar_name varchar2(200);
+begin
+    if p_flg = 'S' then
+        if p_stdflf = 'Y' then
+            select  FULL_NAME_EN
+            into v_avatar_name
+            from STUDENT_PERSONAL_INFO
+            where STUDENT_ID = p_id;
+        elsif p_stdflf = 'N' then
+            select FULL_NAME
+            into v_avatar_name
+            from SA_USERS
+            where USER_ID = p_id;
+        else
+            null;
+        end if;    
+    elsif p_flg = 'G' then
+         if p_stdflf = 'Y' then
+            select  GENDER
+            into v_avatar_name
+            from STUDENT_PERSONAL_INFO
+            where STUDENT_ID = p_id;
+        elsif p_stdflf = 'N' then
+            select GENDER
+            into v_avatar_name
+            from SA_USERS
+            where USER_ID = p_id;
+        else
+            null;
+        end if;    
+    
+    else
+        null;    
+    end if;    
+   
+    return v_avatar_name;
+        
+exception
+    when others then 
+    return null;        
+end;
+

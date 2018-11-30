@@ -1,0 +1,69 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+.avater{
+        padding-left: 10px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .avater img{
+        display: inline-block;
+        max-width: 100%;
+        border-radius: 50%;
+        height: auto;
+        padding: 1px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+    .avater_details{
+        font-family: 'Roboto', sans-serif;
+    }
+    .avater_details strong{
+        color: #d88000;
+    }
+    .avater_details span{
+        font-size: 11px;
+        color: #b0b6d0;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .desc{
+        line-height: 1.6;
+        text-align: justify;
+        font-size: 12px;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    /*Thumb Post*/
+    .forum_thumb,input[src]{
+        margin: 5px;
+        float: left;
+        display: inline-block;
+        width: 66px !important;
+        height: auto !important;
+        padding: 1px;
+        border-radius: 1px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+
+    /*Details Post*/
+    .forum_thumb,input[src]{
+        margin: 5px 10px 10px;
+        display: inline-block;
+        max-width: 100%;
+        height: auto !important;
+        padding: 1px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }

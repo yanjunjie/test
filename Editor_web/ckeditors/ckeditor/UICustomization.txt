@@ -45,10 +45,42 @@ N.B: If a new plugin gets into your editor, you will have to manually change you
 
 
 /*
-* Basic Package
+* Full Package
 */
 //...................
+config.toolbar = 'Full';
 
+config.toolbar_Full =
+[
+	{ name: 'document', items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
+	{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+	{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+	{ name: 'forms', items : [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 
+        'HiddenField' ] },
+	'/',
+	{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+	{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+	'-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+	{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+	{ name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+	'/',
+	{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+	{ name: 'colors', items : [ 'TextColor','BGColor' ] },
+	{ name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','About' ] }
+];
+
+/*
+* Basic Package
+*/
+
+v.01
+
+config.toolbar_Basic =
+[
+	['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
+];
+
+V.02
 toolbar :[
     ['ajaxsave'],
     ['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
@@ -92,6 +124,28 @@ toolbarGroups: [
 	{"name":"styles","groups":["styles"]},
 	{"name":"about","groups":["about"]}
 ],
+
+v.03
+CKEDITOR.editorConfig = function( config )
+{
+	config.toolbar = 'MyToolbar';
+
+	config.toolbar_MyToolbar =
+	[
+		{ name: 'document', items : [ 'NewPage','Preview' ] },
+		{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+		{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+		{ name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'
+                 ,'Iframe' ] },
+                '/',
+		{ name: 'styles', items : [ 'Styles','Format' ] },
+		{ name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },
+		{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+		{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+		{ name: 'tools', items : [ 'Maximize','-','About' ] }
+	];
+};
+
 // Remove the redundant buttons from toolbar groups defined above.
 removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
 

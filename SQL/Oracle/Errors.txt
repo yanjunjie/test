@@ -141,6 +141,7 @@ Action: Delete the foreign key or add a matching primary key.
 36.ORA-02296: cannot enable 
 37. ORA-01758: table must be empty to add mandatory (NOT NULL) column
 38. ORA-00960: ambiguous column naming in select list
+39. ORA-06553: PLS-306: wrong number or types of arguments in call to 'FNC_AVATAR_NAME'
 
 
 

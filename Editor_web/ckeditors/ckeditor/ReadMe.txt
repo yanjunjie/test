@@ -38,9 +38,37 @@ $('.ck_editor').each(function(){
         $('.ck_editor').each(function(){
             CKEDITOR.replace( $(this).attr('id'),
             {
-                skin :'office2013',//kama,office2013,moonocolor,moono-lisa (default)
+                skin :'office2013',
                 toolbarCanCollapse : true,
-                height : 180
+		height : 160,
+                autoGrow_minHeight : 160,
+                autoGrow_bottomSpace : 50,
+                startupFocus : 'start',
+                extraPlugins : 'uploadimage,uploadwidget,clipboard,dialog,notification,toolbar,widget,filetools,notificationaggregator,lineutils,widgetselection,autogrow',
+                //
+                filebrowserBrowseUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/ckfinder.html?type=Images',
+                filebrowserFlashBrowseUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/ckfinder.html?type=Flash',
+                filebrowserUploadUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                filebrowserFlashUploadUrl: '<?php echo base_url()?>assets/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
+                //
+                on: {
+                    instanceReady: function() {
+                        this.dataProcessor.htmlFilter.addRules( {
+                            elements: {
+                                img: function( el ) {
+                                    // Add an attribute.
+                                    if ( !el.attributes.alt )
+                                        el.attributes.alt = 'forum image';
+
+                                    // Add some class.
+                                    el.addClass( 'forum_thumb' );
+                                }
+                            }
+                        } );
+                    }
+                }
             });
         });
     });
@@ -85,7 +113,12 @@ toolbar : 'Basic',
 
 skin :'office2013',//kama,office2013,moonocolor,moono-lisa (default)
 toolbarCanCollapse : true,
-height : 180,
+height : 160,
+//resize_minHeight : 160,
+autoGrow_minHeight : 200,
+//autoGrow_maxHeight : 600,
+autoGrow_bottomSpace : 50,
+removeButtons: 'ImageButton',
 removeButtons : 'Underline,JustifyCenter',
 removePlugins : 'elementspath,save,font',
 uiColor :'#F7F7F7'
@@ -106,7 +139,13 @@ customConfig: '/myconfig.js',
 startupFocus : 'start',
 removeDialogTabs:'image:advance; link:advance',
 format_tags: 'p;h1;h2;h3;pre',
-extraPlugins : 'uploadimage,uploadwidget,clipboard,dialog,notification,toolbar,widget,filetools,notificationaggregator,lineutils,widgetselection',
+extraPlugins : 'uploadimage,uploadwidget,clipboard,dialog,notification,toolbar,widget,filetools,notificationaggregator,lineutils,widgetselection,autogrow',
+
+//Copy And Paste Restriction 
+config.forcePasteAsPlainText = true;
+If you want to restrict only certain tags exactly like you said, 
+I found the setting bellow:
+config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd';
 
 //ckfinder integration
 filebrowserBrowseUrl: '<?php echo base_url(); ?>assets/ckeditor/ckfinder/ckfinder.html',
@@ -123,6 +162,25 @@ filebrowserFlashBrowseUrl : '<?php echo base_url(); ?>assets/ckeditor/kcfinder/b
 filebrowserUploadUrl : '<?php echo base_url(); ?>assets/ckeditor/kcfinder/upload.php?opener=ckeditor&type=files',
 filebrowserImageUploadUrl : '<?php echo base_url(); ?>assets/ckeditor/kcfinder/upload.php?opener=ckeditor&type=images',
 filebrowserFlashUploadUrl : '<?php echo base_url(); ?>assets/ckeditor/kcfinder/upload.php?opener=ckeditor&type=flash',
+/
+on: {
+    instanceReady: function() {
+        this.dataProcessor.htmlFilter.addRules( {
+            elements: {
+                img: function( el ) {
+                    // Add an attribute.
+                    if ( !el.attributes.alt )
+                        el.attributes.alt = 'forum image';
+
+                    // Add some class.
+                    el.addClass( 'forum_thumb' );
+                }
+            }
+        } );
+    }
+},
+
+removeDialogTabs : 'image:info;image:Link;image:advanced',
 
 
 
