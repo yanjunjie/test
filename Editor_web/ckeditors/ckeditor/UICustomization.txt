@@ -91,6 +91,29 @@ toolbar :[
 ],
 
 
+Basic Example:
+
+$(function() {
+        $('.editor').each(function(){
+            CKEDITOR.replace( $(this).attr('id'),
+            {
+		extraPlugins : 'autogrow',
+                toolbar_Basic : [
+                    [ 'Source', '-', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList' ]
+                ],
+                toolbar : 'Basic',
+                skin: 'kama',
+                toolbarCanCollapse : true,
+                height : 50,
+                autoGrow_minHeight : 50,
+                autoGrow_bottomSpace : 3,
+                startupFocus : 'start',
+            });
+            CKEDITOR.addCss('.cke_editable p { margin: 0 !important; }');
+        });
+    });
+
+
 /*
 * standard Package
 */

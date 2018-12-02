@@ -70,6 +70,7 @@ $('.ck_editor').each(function(){
                     }
                 }
             });
+	   CKEDITOR.addCss('.cke_editable p { margin: 0 !important; }');
         });
     });
 </script>
@@ -107,7 +108,7 @@ $.ajax({
 */
 
 toolbar_Basic : [
-    [ 'Source', '-', 'Bold', 'Italic' ]
+    [ 'Source', '-', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList' ]
 ],
 toolbar : 'Basic',
 
