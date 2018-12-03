@@ -1,0 +1,29 @@
+//  Start Image Preview Script
+    $(".uploadImage").on("change", function(){
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+        if (/^image/.test( files[0].type)){ // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function(){ // set image data as background of div
+                $('.selectorClass').removeClass('hidden');
+                $(".imagePreview").css({"background-image":"url("+this.result+")", 'height':'100px','background-repeat': 'no-repeat','border':'1px solid #E3E8E7', 'background-size': '100% 100%'});
+                $('.remove_button').removeClass('hidden');
+                $('.imageHeight').css({ 'height' : '100px' });
+                $('.imageBottomMargin').css({ 'margin-top' : '20px' })
+            }
+        }
+    });
+
+    $(".remove_button").on("click", function(){
+        $('.imagePreview').addClass('hidden');
+        $(".uploadImage").val("");
+        $('.imageHeight').css({ 'height' : '' });
+        $('.imageBottomMargin').css({ 'margin-top' : '' })
+    });
+    //  End Image Preview Script
+
+
+//v.02

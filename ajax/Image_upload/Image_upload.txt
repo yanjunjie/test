@@ -1,0 +1,32 @@
+//Start Image Upload Script With Ajax
+    $(document).ready(function(e){
+        $("#ajaxFormSubmit").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo site_url('SpecialTransection/sailorPreview/save'); ?>/",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function(){
+                },
+                success: function(msg){
+                    $('.alertMsg').html(msg);
+                }
+            });
+        });
+
+        //file type validation
+        $("#file").change(function() {
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match= ["image/jpeg","image/png","image/jpg"];
+            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+                alert('Please select a valid image file (JPEG/JPG/PNG).');
+                $("#file").val('');
+                return false;
+            }
+        });
+    });
+    //End Image Upload Script With Ajax
