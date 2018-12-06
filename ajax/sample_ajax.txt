@@ -1,0 +1,65 @@
+// submit form for update
+    $("#ajaxFormSubmit").on('submit', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var thisForm = $(this);
+
+        // prevent submitting the form on enter
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo site_url('SpecialTransection/sailorPreview/update_sailor_info'); ?>",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+                if(data != undefined && $.trim(data) == 'yes')
+                {
+                    thisForm[0].reset();
+                    $('#profile_img_area').html('');
+
+                    $('.alertMsg').html('' +
+                        '<div class="alert alert-success alert-dismissible fade in">\n' +
+                            '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n' +
+                            '<p><strong>Success!</strong> Record updated successfully.</p>\n' +
+                        '</div>'
+                    );
+                }
+                else
+                {
+                    $('.alertMsg').html('' +
+                        '<div class="alert alert-danger alert-dismissible fade in">\n' +
+                            '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n' +
+                            '<p><strong>Error!</strong> Record not updated successfully.</p>\n' +
+                        '</div>'
+                    );
+                }
+            },
+            error: function (err) {
+                ('.alertMsg').html('Error: ' + err);
+            }
+        });
+    });
+
+//PHP
+
+$this->db->trans_begin();
+if ($this->db->trans_status() === FALSE)
+{
+    $this->db->trans_rollback();
+    echo 'no';
+}
+else
+{
+    $this->db->trans_commit();
+    echo 'yes';
+}
+exit();
+

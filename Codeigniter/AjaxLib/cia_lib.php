@@ -245,7 +245,7 @@ public function cia_dependency_by_one_to_many_to_one()
             if ($this->db->trans_status() === FALSE)
             {
                 $this->db->trans_rollback();
-                echo 'err';
+                echo 'no';
             }
             else
             {

@@ -1,0 +1,36 @@
+//V.01
+
+if(data.academic != '' && data.academic != undefined)
+{
+    var academic = data.academic;
+    $.each(academic, function (obj, value) {
+        var examSys = value['Exam_System'];
+        examSystem = "<input type='text' name='examSystem[]' readonly class='form-control'  value='" + examSys + "' >";
+        var examNam = value['Exam_Name'];
+        examName = "<input type='text' name='examName[]' readonly class='form-control'  value='" + examNam + "' >";
+        var sub = value['Subject'];
+        subject = "<input type='text' name='subject[]' readonly class='form-control'  value='" + sub + "' >";
+        var passYear = value['PassingYear'];
+        passingYear = "<input type='text' name='passingYear[]' readonly class='form-control'  value='" + passYear + "' >";
+        var boardNam = value['Board_Name'];
+        boardName = "<input type='text' name='boardName[]' readonly class='form-control'  value='" + boardNam + "' >";
+        var exGred = value['Exam_Gred'];
+        examGred = "<input type='text' name='examGred[]' readonly class='form-control'  value='" + exGred + "' >";
+        var toMarks = value['TotalMarks'];
+        totalMarks = "<input type='text' name='totalMarks[]' readonly class='form-control'  value='" + toMarks + "' >";
+        var percent = value['Percentage'];
+        percentage = "<input type='text' name='percentage[]' readonly class='form-control'  value='" + percent + "' >";
+        var resultDes = value['ResultDescription'];
+        resultDescription = "<input type='text' name='resultDescription[]' readonly class='form-control'  value='" + resultDes + "' >";
+        var eduStatus = value['EducationStatus'];
+        educationalStatus = "<input type='text' name='educationalStatus[]' readonly class='form-control'  value='" + eduStatus + "' >";
+
+        $("#acdemicTable tbody").append("<tr><td>" + examSystem +"<input type='hidden' name='academicId[]' class='form-control' value="+value['AcademicID']+">"+"</td><td>" + examName + "</td><td>" + subject + "</td><td>" + passingYear + "</td><td>" + boardName + "</td><td>" + examGred + "</td><td>" + totalMarks + "</td><td>" + percentage + "</td><td>" + resultDescription + "</td><td>" + educationalStatus + "</td></tr>");
+
+        $(".invalid_off_no_msg").html('');
+    });
+}
+
+
+//V.02
+
