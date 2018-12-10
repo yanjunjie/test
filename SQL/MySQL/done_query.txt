@@ -1,0 +1,78 @@
+SELECT s.SAILORID, TRIM(leading 0 FROM s.OFFICIALNUMBER )OFFICIALNUMBER,
+s.FULLNAME, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME,'(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME,
+ow.WEIGHT 
+FROM sailor s
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+LEFT JOIN overweight ow ON ow.SAILOR_ID = s.SAILORID
+WHERE s.SAILORID = 18464
+
+/
+SELECT * FROM overweight;
+/
+SELECT * FROM sailor;
+/
+SELECT * FROM `overweight` WHERE `SAILOR_ID` = '18464' AND `DATE_OF_RETURN` = '2018-12-06'
+/
+SELECT ow.OVER_WEIGHT_ID,ow.DATE_OF_RETURN,ow.WEIGHT,ow.SHIP_ID,ow.AUTHORITY_NUMBER,ow.AUTHORITY_DATE,s.SAILORID, TRIM(leading 0 FROM s.OFFICIALNUMBER )OFFICIALNUMBER,
+s.FULLNAME, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME,'(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME,
+date_format(ow.AUTHORITY_DATE,'%d-%m-%Y')AUTHORITY_DATE, sh.SHORT_NAME
+FROM sailor s
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+LEFT JOIN overweight ow ON ow.SAILOR_ID = s.SAILORID
+LEFT JOIN bn_ship_establishment sh ON ow.SHIP_ID = sh.SHIP_ESTABLISHMENTID
+WHERE s.SAILORID = '18330' ORDER BY ow.OVER_WEIGHT_ID DESC limit 1
+/
+SELECT ov.OVER_WEIGHT_ID, ov.SAILOR_ID, TRIM(leading 0 FROM s.OFFICIALNUMBER )OFFICIALNUMBER, s.FULLNAME,
+(CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME,'(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME,
+ov.WEIGHT, ov.SHIP_ID, date_format(ov.AUTHORITY_DATE,'%d-%m-%Y')AUTHORITY_DATE, ov.AUTHORITY_NUMBER,
+date_format(ov.DATE_OF_RETURN, '%d-%m-%Y')DATE_OF_RETURN
+FROM overweight ov
+LEFT JOIN sailor s ON ov.SAILOR_ID = s.SAILORID
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON s.FIRSTPARTID = p.PartIIID
+where ov.OVER_WEIGHT_ID = 18353;
+/
+SELECT ov.WEIGHT, DATE_FORMAT(ov.DATE_OF_RETURN,'%d-%m-%Y')DATE_OF_RETURN, sh.SHORT_NAME SHIPNAME
+FROM overweight ov
+LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = ov.SHIP_ID
+WHERE ov.SAILOR_ID = 18464
+AND ov.OVER_WEIGHT_ID < 18353
+ORDER BY OVER_WEIGHT_ID DESC LIMIT 1
+/
+SELECT TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME, r.RANK_NAME, a.CharacterType, a.EfficiencyType, bs.NAME AssessmentShip, a.CharacterType lastyearCha, a.EfficiencyType lastyearEffi,
+bs.NAME lastyership, a.AssessID, cu.FULL_NAME CRE_BY, DATE_FORMAT(a.CRE_DT, '%d-%m-%Y')CRE_DT, 
+uu.FULL_NAME UPD_BY, DATE_FORMAT(a.UPD_DT, '%d-%m-%Y')UPD_DT, a.AssessYear
+from assessment a
+left join sailor s on s.SAILORID = a.SailorID
+left join bn_rank r on r.RANK_ID = s.RANKID
+left join bn_ship_establishment bs on bs.SHIP_ESTABLISHMENTID = a.ShipEstablishmentID
+left join sa_users cu oN cu.User_ID = a.CRE_BY
+left join sa_users uu oN uu.User_ID = a.UPD_BY
+WHERE a.SailorID = 23123;
+/
+SELECT s.SAILORID,s.FULLNAME, TRIM(leading 0 FROM s.OFFICIALNUMBER )OFFICIALNUMBER, 
+(CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME,'(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME,
+sh.SHIP_ESTABLISHMENTID, sh.SHORT_NAME as SHIPNAME
+FROM sailor s
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+LEFT JOIN assessment a ON a.SailorID = s.SAILORID
+LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = a.ShipEstablishmentID
+WHERE s.SAILORID = '18464' ORDER BY s.SAILORID DESC limit 1
+/
+SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
+FROM assessment a 
+LEFT JOIN sailor s ON s.SAILORID = a.SailorID
+WHERE a.AssessYear = '2017' AND a.SailorID IN ($sailors)
+/
+
+
+
+
+
+
+
+
+
