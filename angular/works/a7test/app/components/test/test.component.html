@@ -1,0 +1,22 @@
+<h2>Personal Information</h2>
+<p><strong>Name:</strong> {{name}}</p>
+<p><strong>Mobile:</strong> {{mobile}}</p>
+<p><strong>Email:</strong> {{email}}</p>
+<p><strong>Age:</strong> {{age}}</p>
+<p><strong>Gender:</strong> {{gender}}</p>
+<p><strong>Present Address:</strong> {{presentAddress.street}},{{presentAddress.city}},{{presentAddress.state}}.</p>
+<p><strong>Permanent Address:</strong> {{permanentAddress.vill}},{{permanentAddress.thana}},{{permanentAddress.district}},{{permanentAddress.division}}.</p>
+<p><strong>Hobbies:</strong></p>
+<ul>
+  <li *ngFor="let hobby of hobbies; let i = index;">{{hobby}}, {{i+1}} <button (click)="deleteHobby(hobby,i)">X</button></li>
+</ul>
+
+<button (click)="addNewHobby()">Add New Hobby</button>
+<br><br>
+<form (submit)="addNewHobbyByForm(hobby.value)">
+  <div>
+    <label for="hobby">Add New Hobby:</label><br>
+    <input type="text" #hobby id="hobby">
+  </div>
+</form>
+
