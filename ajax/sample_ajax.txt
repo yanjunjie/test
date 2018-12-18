@@ -64,3 +64,36 @@ else
 }
 exit();
 
+
+//Delete -------------------------------------
+
+$(document).on("click", ".branchDeleteButton", function() {
+        if (confirm("Are You Sure?")) {
+            var sn = $(this).attr("sn");
+            var branchChangeID = $(this).attr("branchChangeID");
+            var sailorID = $(this).attr("sailorID");
+            $.ajax({
+                type: "post",
+                url: "<?php echo site_url('sailorsInfo/branchChange/delete'); ?>/",
+                data: {branchChangeID: branchChangeID, sailorID: sailorID},
+                beforeSend: function() {
+                    $("#loader_" + sn).html("<img src='<?php echo base_url(); ?>dist/img/loader-small.gif' />");
+                },
+                success: function(data) {
+                    if (data == "Y") {
+                        $("#row_" + sn).hide();
+                        //$(".frmMsg").val("<div class='alert alert-success'><b>Success ! </b>Medical Category Info Delete Successfully</div>");
+                    } else {
+                        alert("Delete Field");
+                        //$(".frmMsg").text("<div class='alert alert-danger'><b>Alert ! </b>Medical Category Info Delete Failed</div>");
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    });
+
+
+
+

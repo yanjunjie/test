@@ -67,6 +67,98 @@ FROM assessment a
 LEFT JOIN sailor s ON s.SAILORID = a.SailorID
 WHERE a.AssessYear = '2017' AND a.SailorID IN ($sailors)
 /
+//=>11.12.18
+SELECT a.AssessID, a.CharacterType LAST_YR_CHAR, a.EfficiencyType LAST_YR_EFFICIENCY, sh.SHORT_NAME SHIPNAME
+FROM assessment a
+LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = a.ShipEstablishmentID
+WHERE a.SailorID = '18464'
+AND a.AssessID < '269408'
+ORDER BY a.AssessID DESC LIMIT 1
+
+SELECT a.AssessID, a.AssessYear, a.SailorID, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME,
+(CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME,'(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, a.CharacterType, 
+a.EfficiencyType, a.EfficiencyPoint, a.ShipEstablishmentID
+FROM assessment a
+INNER JOIN sailor s on s.SAILORID = a.SailorID
+INNER JOIN bn_rank r on s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+WHERE a.AssessID = '245478';
+/
+SELECT a.AssessID, a.CharacterType LAST_YR_CHAR, a.EfficiencyType LAST_YR_EFFICIENCY, sh.SHORT_NAME SHIPNAME
+FROM assessment a
+LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = a.ShipEstablishmentID
+WHERE a.SailorID = '18464'
+ORDER BY a.AssessID DESC LIMIT 1
+
+//12.12.18, Sailor changed details by Official Number (with join query instead of subquery)
+
+SELECT s.SAILORID, s.FULLNAME, lr.RANK_NAME LastRank, cr.RANK_ID, 
+DATE_FORMAT(b.CHANGE_DATE, '%d-%m-%Y')CHANGE_DATE, (CASE WHEN (p.Name != '') THEN concat(cr.RANK_NAME, '(', p.Name, ')') ELSE cr.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, sh.NAME AuthorityShip, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, 
+mc.MedicalCategoryName, b.BRANCH_CHANGE_ID, b.AUTHORITY_NO, DATE_FORMAT(b.AUTHORITY_DATE, '%d-%m-%Y')AUTHORITY_DATE, u.FULL_NAME CRE_BY, DATE_FORMAT(b.CRE_DT, '%d-%m-%Y')CRE_DT, b.UPD_BY, DATE_FORMAT(b.UPD_DT, '%d-%m-%Y')UPD_DT,
+d.DAO_NO
+FROM sailor as s 
+LEFT JOIN bn_posting_unit as pu ON pu.POSTING_UNITID = s.POSTINGUNITID 
+LEFT JOIN partii as p ON s.FIRSTPARTID = p.PartIIID 
+LEFT JOIN bn_ship_establishment as sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID 
+LEFT JOIN branchchange b ON b.SAILOR_ID = s.SAILORID
+left join bn_rank cr  on cr.RANK_ID = b.CURRENT_RANK_ID
+left join bn_rank lr on lr.RANK_ID = b.LAST_RANK_ID
+LEFT JOIN medicalcategory as mc ON mc.MedicalCategoryID = s.MEDICALCATEGORY
+LEFT JOIN bn_dao d ON d.DAO_ID = b.DAO_ID
+LEFT JOIN sa_users u ON u.USER_ID = b.CRE_BY
+WHERE s.SAILORSTATUS = 1 AND s.OFFICIALNUMBER = '00960348';
+/
+
+//Sailor Basic Changed Info by Official Number
+SELECT s.SAILORID, s.FULLNAME, cr.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(cr.RANK_NAME, '(', p.Name, ')') ELSE cr.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, mc.MedicalCategoryName 
+FROM sailor as s 
+LEFT JOIN bn_posting_unit as pu ON pu.POSTING_UNITID = s.POSTINGUNITID 
+LEFT JOIN partii as p ON s.FIRSTPARTID = p.PartIIID 
+LEFT JOIN bn_ship_establishment as sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID 
+LEFT JOIN branchchange b ON b.SAILOR_ID = s.SAILORID
+LEFT JOIN bn_rank cr  ON cr.RANK_ID = b.CURRENT_RANK_ID
+LEFT JOIN bn_rank lr ON lr.RANK_ID = b.LAST_RANK_ID
+LEFT JOIN medicalcategory as mc ON mc.MedicalCategoryID = s.MEDICALCATEGORY 
+WHERE s.SAILORSTATUS = 1 AND s.OFFICIALNUMBER = '00960348'
+/
+
+//Date: 18.12.18
+
+SELECT s.SAILORID, s.FULLNAME, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER,
+c.DetailID, c.SailorID, c.LanguageID, c.CanRead, c.ReadEfficiency, c.CanWrite, c.WriteEfficiency, c.CanSpeak, c.SpeakEfficiency, c.CanLeassening, c.LeasseningEfficiency,  l.NAME LANGUAGE_NAME
+FROM languagetran c
+LEFT JOIN sailor s on s.SAILORID = c.SailorID
+LEFT JOIN bn_posting_unit as pu ON pu.POSTING_UNITID = s.POSTINGUNITID
+LEFT JOIN partii as p ON s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_ship_establishment as sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID
+LEFT JOIN bn_rank as r ON r.RANK_ID = s.RANKID
+LEFT JOIN bn_language l on l.LANGUAGE_ID = c.LanguageID
+WHERE c.DetailID = '14'
+/
+
+INSERT INTO LANGUAGETRAN (SailorID, LanguageID, CanRead, ReadEfficiency, CanWrite, WriteEfficiency, CanSpeak, SpeakEfficiency, CanLeassening, LeasseningEfficiency, CRE_BY) VALUES ('5557', '1', '1', '1', '0', '0', '0', '0', '0', '0', '1');
+
+SELECT s.SAILORID, s.FULLNAME, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER,
+c.DetailID, c.SailorID, c.LanguageID, c.CanRead, c.ReadEfficiency, c.CanWrite, c.WriteEfficiency, c.CanSpeak, c.SpeakEfficiency, c.CanLeassening, c.LeasseningEfficiency, l.NAME LANGUAGE_NAME
+FROM languagetran c
+LEFT JOIN sailor s on s.SAILORID = c.SailorID
+LEFT JOIN bn_posting_unit as pu ON pu.POSTING_UNITID = s.POSTINGUNITID
+LEFT JOIN partii as p ON s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_ship_establishment as sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID
+LEFT JOIN bn_rank as r ON r.RANK_ID = s.RANKID
+LEFT JOIN bn_language l on l.LANGUAGE_ID = c.LanguageID
+WHERE c.DetailID = '5';
+
+INSERT INTO LANGUAGETRAN (SailorID, LanguageID, CanRead, ReadEfficiency, CanWrite, WriteEfficiency, CanSpeak, SpeakEfficiency, CanLeassening, LeasseningEfficiency, CRE_BY) VALUES ('14035', '1', '1', '1', '0', '0', '0', '0', '0', '0', '1');
+
+//Date: 19.12.18
+
+
+
+
+
+
+
 
 
 
