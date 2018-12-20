@@ -1,0 +1,24 @@
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#employee-grid').DataTable({
+            "responsive": true, // enable responsive
+            "processing": true,
+            "serverSide": true,
+            "rowId": 'staffId',
+            "ajax": {
+                url: "<?php echo base_url() ?>sailorsInfo/nomineeInfo/ajaxNomieeList", // json datasource
+                type: "post", // method  , by default get
+                error: function() {  // error handling
+                    $(".employee-grid-error").html("");
+                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr id="row_"><th colspan="3">No data found in the server</th></tr></tbody>');
+                    $("#employee-grid_processing").css("display", "none");
+                }
+            },
+            /*id attribute add into dataTable*/
+            createdRow: function(row, data, dataIndex) {
+                var a = $(row).find('td:eq(0)').html();
+                $(row).attr("id", 'row_' + a);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,18 @@
+$('.required').each(function () {
+            $(this).keyup(function () {
+                $(this).css("border", "1px solid #ccc");
+            });
+            $(this).change(function () {
+                $(this).next('span').css("border", "1px solid #ccc");
+            });
+            if ($(this).val() == "") {
+                var label = $(this).parent().siblings("label").text();
+                $(this).siblings(".validation").html(label + " is required");
+                $(this).css("border", "1px solid red");
+                $(this).next('span').css("border", "1px solid red");
+            } else {
+                $(this).siblings(".validation").html("");
+                $(this).css("border", "1px solid #ccc");
+                $(this).next('span').css("border", "1px solid #ccc");
+            }
+        });

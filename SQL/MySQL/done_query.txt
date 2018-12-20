@@ -153,10 +153,32 @@ INSERT INTO LANGUAGETRAN (SailorID, LanguageID, CanRead, ReadEfficiency, CanWrit
 
 //Date: 19.12.18
 
+SELECT s.SAILORID, s.FULLNAME, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, a.DetailID, a.SailorID, a.CategoryID, a.TranStatus, DATE_FORMAT(a.TranDate, '%d-%m-%Y') TranDate, a.ShipID, a.AuthorityNumber, DATE_FORMAT(a.AuthorityDate, '%d-%m-%Y') AuthorityDate, a.Remarks, a.AuthorityName, s.FULLNAME, f.NAME CATEGORY, se.SHORT_NAME SHIP_ESTABLISHMENT
+FROM fraudulentinfo a 
+LEFT JOIN sailor s on s.SAILORID = a.SailorID
+LEFT JOIN bn_posting_unit pu ON pu.POSTING_UNITID = s.POSTINGUNITID
+LEFT JOIN partii p ON s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_rank r ON r.RANK_ID = s.RANKID
+LEFT JOIN bn_fraudulentcategory f on f.CATEGORY_ID = a.CategoryID
+LEFT JOIN bn_ship_establishment se on se.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID
+WHERE a.DetailID = '1'
 
 
-
-
+//Date: 20.12.18 (Sub Query with left jon)
+SELECT abc.SAILORID, abc.Name, abc.Relation, abc.RELATIONID, n.Percentage
+FROM 
+(select SAILORID, FATHERNAME Name, 'Father' Relation, 4 RelationID from sailor where SAILORID = 5811
+union all
+select SAILORID, MOTHERNAME Name, 'Mother' Relation, 1 RelationID from sailor where SAILORID = 5811
+union all
+select SailorID SAILORID, SpouseName Name, 'Wife'Relation, 5 RelationID FROM marriage where SailorID = 5811 and MaritalStatus = 1
+union all
+select SailorID SAILORID, Name, (case when (Gender = 1) THEN 'Son' ELSE 'Daughter' END)Relation, 
+(case when (Gender = 1) THEN 7 ELSE 6 END)RelationID
+from children where SailorID = 5811
+order by RelationID)abc 
+left JOIN nominee n ON abc.SAILORID = n.SailorID AND n.RelationID = abc.RELATIONID
+WHERE abc.SAILORID = 5811 ORDER BY n.Percentage, abc.RELATIONID
 
 
 

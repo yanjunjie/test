@@ -1,0 +1,69 @@
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr class="info">
+                            <td colspan="3"><b>Present Address</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>District </b></td>
+                            <td><b>:</b></td>
+                            <td><span id="Pr_DISTRICT_ID">Kurigram</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Upazila/Thana </b></td>
+                            <td><b>:</b></td>
+                            <td><span id="Pr_THANA_ID">Kurigram</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Post Office </b></td>
+                            <td><b>:</b></td>
+                            <td><span id="Pr_POST_OFFICE_ID">Kurigram</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Vill/House no/Road no </b></td>
+                            <td><b>:</b></td>
+                            <td><span id="Pr_VILLAGE_WARD">Vocational Moar</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td>
+
+                <div id="SAME_AS_PRESENT">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr class="info">
+                                <td colspan="3"><b>Permanent Address</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>District </b></td>
+                                <td><b>:</b></td>
+                                <td><span id="Pr_P_DISTRICT_ID">Kurigram</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Upazila/Thana  </b></td>
+                                <td><b>:</b></td>
+                                <td><span id="Pr_P_THANA_ID">Kurigram</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Post Office </b></td>
+                                <td><b>:</b></td>
+                                <td><span id="Pr_P_POST_OFFICE_ID">Kurigram</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>Vill/House no/Road no </b></td>
+                                <td><b>:</b></td>
+                                <td><span id="Pr_P_VILLAGE_WARD">Vocational Moar</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
