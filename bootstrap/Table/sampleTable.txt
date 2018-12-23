@@ -1,0 +1,43 @@
+<style>
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .modal-dialog {
+        width: 80%;
+        height: 80%;
+    }
+    .modal-content {
+        height: auto;
+        min-height: 80%;
+        border-radius: 0;
+    }
+
+</style>
+<table id="sailorTable" class="table table-bordered " style="width: 97%; border: 0;">
+        <thead style="border-top: 1px solid #ddd;">
+		<tr>
+		    <th>Official Number</th>
+		    <th>Full Name</th>
+		    <th>Rank</th>
+		    <th>Posting Unit</th>
+		    <th>Action</th>
+		</tr>
+        </thead>
+        <tbody id="showPickSailor">
+        <tr id="tr_1">
+            <td>
+                <input style="width: 130px;" type="text" data-value="1" class="form-control OFFICIAL_NO inputs" maxlength="8" placeholder="Official Number"/>
+                <input type="hidden" name="SAILORID[]">
+            </td>
+            <td>
+                <input style="width: 215px;" type="text" class="form-control inputs" placeholder="Full Name" />
+            </td>
+            <td>
+                <input style="width: 100px;" type="text" class="form-control inputs" placeholder="Rank" />
+            </td>
+	</tr>
+     </tbody>
+</table>
+

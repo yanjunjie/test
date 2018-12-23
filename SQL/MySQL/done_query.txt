@@ -180,6 +180,22 @@ order by RelationID)abc
 left JOIN nominee n ON abc.SAILORID = n.SailorID AND n.RelationID = abc.RELATIONID
 WHERE abc.SAILORID = 5811 ORDER BY n.Percentage, abc.RELATIONID
 
+// Date:23.12.18 order by 2
+select OFFICIALNUMBER, count(m.SailorID) 
+from medaltran m
+LEFT JOIN sailor s on s.SAILORID = m.SailorID
+where s.SAILORSTATUS = 1
+group by m.SailorID
+order by 2 desc;
+
+//Group Concat
+SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
+FROM overweight ov LEFT JOIN sailor s ON ov.SAILOR_ID = s.SAILORID
+WHERE ov.DATE_OF_RETURN = '$dateOfReturn' AND ov.SAILOR_ID IN ($sailors)
+
+
+
+
 
 
 

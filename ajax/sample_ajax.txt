@@ -1,4 +1,4 @@
-// submit form for update
+// submit form for update -------------------------------------
     $("#ajaxFormSubmit").on('submit', function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -67,15 +67,15 @@ exit();
 
 //Delete -------------------------------------
 
-$(document).on("click", ".branchDeleteButton", function() {
+    $(document).on("click", ".specialInfoDeleteButton", function() {
         if (confirm("Are You Sure?")) {
             var sn = $(this).attr("sn");
-            var branchChangeID = $(this).attr("branchChangeID");
+            var specializationinfoid = $(this).attr("specializationinfoid");
             var sailorID = $(this).attr("sailorID");
             $.ajax({
                 type: "post",
-                url: "<?php echo site_url('sailorsInfo/branchChange/delete'); ?>/",
-                data: {branchChangeID: branchChangeID, sailorID: sailorID},
+                url: "<?php echo site_url('sailorsInfo/specializationInfo/delete'); ?>/",
+                data: {specializationinfoid: specializationinfoid, sailorID: sailorID},
                 beforeSend: function() {
                     $("#loader_" + sn).html("<img src='<?php echo base_url(); ?>dist/img/loader-small.gif' />");
                 },
@@ -93,6 +93,9 @@ $(document).on("click", ".branchDeleteButton", function() {
             return false;
         }
     });
+
+<button class="btn btn-danger btn-xs specialInfoDeleteButton" sn="<?php echo $key ?>" specializationInfoID="<?php echo $value->SpecTranID ?>" sailorID="<?php echo $value->SailorID ?>" title="Delete Specializaton Informaion"><span class="glyphicon glyphicon-trash"></span></button>
+
 
 
 

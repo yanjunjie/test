@@ -1,0 +1,109 @@
+<script>
+    // focus on next row's below field
+    $(document).on('keydown', 'table input', function(e) {
+        if (e.keyCode == 13) {
+            var $this = $(this), index = $this.closest('td').index();
+            $this.closest('tr').next().find('td').eq(index).find('input').focus();
+            e.preventDefault();
+        }
+    });
+
+    // add new row after pressing enter key
+    $(document).on('keydown', '.OFFICIAL_NO', function(event) {
+        var trNo = $('#showMedalInfo tr').length;
+        var oNumber = $(this).val();
+        var dateOfReturnID = $("#dateOfReturnID").val();
+        var retAuth = $("#SHIP_ID").val();
+	
+	// check medal name select or not
+        if (!MEDAL_ID) {
+            alert('Please Select a Medal Name');
+            return false;
+        }
+
+        if ((event.keyCode == 13 || event.keyCode == 9) && oNumber != "") {
+            var officialNoId = $(this).attr('id');
+            var len = officialNoId.length;
+            var lastD = officialNoId.charAt(len - 1); /*find id attribute last string*/
+            var dataList = $(".OFFICIAL_NO").map(function() {
+                return parseInt($(this).attr("data-value"));
+            }).get();
+            var maxID = Math.max.apply(null, dataList);
+
+            // after checking duplicates submit the form
+            if (officialNumberHaveDuplicateValues() != false) {
+                $("#OFFICIAL_NO_" + lastD).val('');
+                $("#FULLNAME_" + lastD).val('');
+                $("#RANK_" + lastD).val('');
+                alert("This official number is already added");
+            } else {
+                $.ajax({
+                    url: '<?php echo base_url("sailorsInfo/OverweightInfo/infoByOfficialNumber") ?>',
+                    type: 'post',
+                    dataType: 'html',
+                    async: false,
+                    data: {oNumber: oNumber, dateOfReturnID: dateOfReturnID, maxID: maxID, trNo: trNo, retAuth: retAuth},
+                    beforeSend: function() {
+                        $(".totalRecords").html("<img src='<?php echo base_url(); ?>dist/img/loader-small.gif' />");
+                    },
+                    success: function(data) {
+                        if (data == 'N') {
+                            $("#OFFICIAL_NO_" + lastD).val('');
+                            $("#FULLNAME_" + lastD).val('');
+                            $("#RANK_" + lastD).val('');
+                            alert('Please Enter Valid Official Number!');
+                        } else if (data == 'Y') {
+                            $("#OFFICIAL_NO_" + lastD).val('');
+                            $("#FULLNAME_" + lastD).val('');
+                            $("#RANK_" + lastD).val('');
+                            alert('This Sailor Already Added In This Date!');
+                        } else {
+                            if (lastD == 1) {
+                                $("tr:last", $("#sailorTable tbody").parents('table')).before(data);
+                                $("#OFFICIAL_NO_" + lastD).val('');
+                                $(".OFFICIAL_NO").focus();
+                            } else {
+                                $("#tr_" + lastD).replaceWith(data)
+                                $(".OFFICIAL_NO").focus();
+                            }
+                        }
+                        var rowCount = $('#sailorTable >tbody >tr').length;
+                        $(".totalRecords").html("Total Records :: " + (rowCount - 1));
+			//reinitialize select2 plugin
+                        $('.select2').select2();
+                    }
+                })
+            }
+        }
+    });
+
+    // check dublicate selection value
+    function officialNumberHaveDuplicateValues() {
+        var hasDuplicates = false;
+        $('.OFFICIAL_NO').each(function() {
+            var inputsWithSameValue = $(this).val();
+            hasDuplicates = $('.OFFICIAL_NO').not(this).filter(function() {
+                return $(this).val() === inputsWithSameValue;
+            }).length > 0;
+            if (hasDuplicates) {
+                return false;
+            }
+        });
+        return hasDuplicates;
+    }
+
+    // after remove a tr count total rows
+    $(document).on('click', '.remove_tr', function() {
+        $(this).closest('tr').remove();
+        var rowCount = $('#sailorTable >tbody >tr').length;
+        $(".totalRecords").html("Total Records :: " + rowCount);
+        return false;
+    });
+
+    // trigger for selected an option
+    $(document).on('change', '#SHIP_ID', function() {
+        $('.SHIP_ID').val($(this).val()).change();
+    });
+</script>
+
+

@@ -1,0 +1,38 @@
+<form class="form-horizontal frmContent" id="MainForm" method="post">
+    <span class="frmMsg"></span>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="padding-left: 0px">Medal Name<span class="text-danger">*</span></label>
+                <div class="col-sm-6">
+                    <select class="select2 form-control required" name="MEDAL_NAME" id="MEDAL_NAME" data-placeholder="Select Medal Name" aria-hidden="true" data-allow-clear="true">
+                        <option value="">Select Medal Name</option>
+                        <?php
+                        foreach ($medalName as $row):
+                            ?>
+                            <option value="<?php echo $row->MEDAL_ID ?>"><?php echo $row->NAME ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="padding-left: 0px">Award Date<span class="text-danger">*</span></label>
+                <div class="col-sm-6">
+                    <?php echo form_input(array('name' => 'awardDate', "id"=>"awardDate", "class" => "datePicker form-control", "value" => date("d-m-Y"))); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <br>
+    <div class="col-sm-offset-5 col-sm-2 text-center">
+        <input type="button" class="btn btn-primary btn-sm formSubmitWithRedirect" data-action="<?php echo 'sailorsInfo/SecurityClearanceInfo/save' ?>" data-redirect-action="<?php echo 'sailorsInfo/SecurityClearanceInfo/index' ?>" value="submit">
+        <span class="loadingImg"></span>
+    </div>
+</form>
+
