@@ -49,13 +49,9 @@
                     success: function(data) {
                         if (data == 'N') {
                             $("#OFFICIAL_NO_" + lastD).val('');
-                            $("#FULLNAME_" + lastD).val('');
-                            $("#RANK_" + lastD).val('');
                             alert('Please Enter Valid Official Number!');
                         } else if (data == 'Y') {
                             $("#OFFICIAL_NO_" + lastD).val('');
-                            $("#FULLNAME_" + lastD).val('');
-                            $("#RANK_" + lastD).val('');
                             alert('This Sailor Already Added In This Date!');
                         } else {
                             if (lastD == 1) {

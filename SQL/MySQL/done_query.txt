@@ -193,6 +193,14 @@ SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
 FROM overweight ov LEFT JOIN sailor s ON ov.SAILOR_ID = s.SAILORID
 WHERE ov.DATE_OF_RETURN = '$dateOfReturn' AND ov.SAILOR_ID IN ($sailors)
 
+// check exist or not before update
+select * from medaltran where SailorID = 22984 and MedalID = 6 and MedalTranID != 3075;
+
+// check exist or not before insert
+SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
+FROM medaltran m LEFT JOIN sailor s ON m.SailorID = s.SAILORID
+WHERE m.MedalID = '2' AND m.SailorID IN ('12,13,14')
+
 
 
 
