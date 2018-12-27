@@ -22,3 +22,201 @@
         });
     });
 </script>
+
+
+//v.01....................................................
+function searchRoster() {
+       $previlages = $this->checkPrevilege(); /*call checkPrevilege method*/
+        // storing  request (ie, get/post) global array to a variable
+        $request = json_decode($_REQUEST['search']);
+        
+        $selectCriteria = $request->selectCriteria;
+
+        if($selectCriteria == 'sailor'){
+            $SAILOR_ID = $request->SAILOR_ID;
+
+            $conditon = "r.SailorID = $SAILOR_ID";
+
+        }else if($selectCriteria == 'branch'){
+            $branch = $request->branch;
+
+            $conditon = "s.BranchID = $branch";
+        }else if($selectCriteria == 'rank'){
+            $branchRank = $request->branchRank;
+            $rankBranch = $request->rankBranch;
+
+            $conditon = "rk.RANK_ID = $rankBranch";
+
+        }else if($selectCriteria == 'dateRange'){
+            $fromDate   = date('d-m-Y',strtotime($request->fromDate));
+            $toDate     = date('d-m-Y',strtotime($request->toDate));
+
+            $conditon = "r.ApplyDate between '$fromDate' AND '$toDate'";
+        }
+        $requestData = $_REQUEST;
+        $query = $this->db->query("SELECT r.*, DATE_FORMAT(r.MarriageDate, '%d-%m-%Y') MarriageDate, DATE_FORMAT(r.ApplyDate, '%d-%m-%Y') ApplyDate, 
+            TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME, rk.RANK_NAME, s.NOOFCHILDREN, se.NAME SHIP_EST, DATE_FORMAT(s.PROMOTIONDATE, '%d-%m-%Y')PROMOTIONDATE,
+            DATE_FORMAT(s.ENTRYDATE, '%d-%m-%Y')ENTRYDATE, DATE_FORMAT(s.BIRTHDATE, '%d-%m-%Y')BIRTHDATE 
+                                    FROM bn_roster r
+                                    INNER JOIN sailor s on s.SAILORID = r.SailorID
+                                    INNER JOIN bn_rank rk on rk.RANK_ID = s.RANKID
+                                    LEFT JOIN bn_ship_establishment se on r.AppliedShipID = se.SHIP_ESTABLISHMENTID
+                                WHERE $conditon
+                                ORDER BY r.ApplyDate DESC;")->num_rows();
+
+        $columns = array(
+                // datatable column index  => database column name
+                0 => 'r.BNRosterID',
+                1 => 's.OFFICIALNUMBER',
+                2 => 's.FULLNAME',
+                3 => 'rk.RANK_NAME',
+                4 => 'r.MarriageDate',
+                5 => 'r.ApplyDate',
+                6 => 'se.NAME',
+                7 => 's.NOOFCHILDREN',
+                8 => 'r.CRE_DT',
+            );
+
+        // getting total number records without any search
+
+
+        $totalData = $query;
+
+        $totalFiltered = $totalData;
+        // when there is no search parameter then total number rows = total number filtered rows.
+
+        if (!empty($requestData['search']['value'])) {
+
+            // if there is a search parameter
+
+            $query = $this->db->query("SELECT r.*, DATE_FORMAT(r.MarriageDate, '%d-%m-%Y') MarriageDate, DATE_FORMAT(r.ApplyDate, '%Y-%m-%d') ApplyDate, 
+                TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME, rk.RANK_NAME, s.NOOFCHILDREN, se.NAME SHIP_EST, DATE_FORMAT(s.PROMOTIONDATE, '%d-%m-%Y')PROMOTIONDATE,
+                DATE_FORMAT(s.ENTRYDATE, '%d-%m-%Y')ENTRYDATE, DATE_FORMAT(s.BIRTHDATE, '%d-%m-%Y')BIRTHDATE 
+                                    FROM bn_roster r
+                                    INNER JOIN sailor s on s.SAILORID = r.SailorID
+                                    INNER JOIN bn_rank rk on rk.RANK_ID = s.RANKID
+                                    LEFT JOIN bn_ship_establishment se on r.AppliedShipID = se.SHIP_ESTABLISHMENTID
+                                    WHERE $conditon OR s.OFFICIALNUMBER LIKE '" . $requestData['search']['value'] . "%' OR s.FULLNAME LIKE '" . $requestData['search']['value'] . "%' OR rk.RANK_NAME LIKE '" . $requestData['search']['value'] . "%' OR s.NOOFCHILDREN LIKE '" . $requestData['search']['value'] . "%' OR se.NAME LIKE '" . $requestData['search']['value'] ."%' OR r.MarriageDate LIKE '" . $requestData['search']['value'] ."%' OR r.ApplyDate LIKE '" . $requestData['search']['value'] .
+                                    "%' ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "   LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
+            /* $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc , $requestData['start'] contains start row number ,$requestData['length'] contains limit length. */
+
+            $totalFiltered = $query;
+            // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
+        } else {
+
+            $query = $this->db->query("SELECT r.*, DATE_FORMAT(r.MarriageDate, '%d-%m-%Y') MarriageDate, DATE_FORMAT(r.ApplyDate, '%Y-%m-%d') ApplyDate, 
+                TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME, rk.RANK_NAME, s.NOOFCHILDREN, se.NAME SHIP_EST, DATE_FORMAT(s.PROMOTIONDATE, '%d-%m-%Y')PROMOTIONDATE,
+                DATE_FORMAT(s.ENTRYDATE, '%d-%m-%Y')ENTRYDATE, DATE_FORMAT(s.BIRTHDATE, '%d-%m-%Y')BIRTHDATE 
+                                    FROM bn_roster r
+                                    INNER JOIN sailor s on s.SAILORID = r.SailorID
+                                    INNER JOIN bn_rank rk on rk.RANK_ID = s.RANKID
+                                    LEFT JOIN bn_ship_establishment se on r.AppliedShipID = se.SHIP_ESTABLISHMENTID
+                                    WHERE $conditon
+                                    ORDER BY " . $columns[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . "   LIMIT " . $requestData['start'] . " ," . $requestData['length'] . " ")->result();
+        }
+        $sn = 1;
+        $data = array();
+        foreach ($query as $row) {
+            // preparing an array
+            $con_update = ($previlages->UPDATE == 1) ? '<a class="btn btn-warning btn-xs modalLink" href="'.site_url('sailorsInfo/BnRosterInfo/edit/' . $row->BNRosterID) .'" title="Edit Bn Roster" type="button"><span class="glyphicon glyphicon-edit"></span></a> ': '' ;
+            $con_delete = ($previlages->DELETE == 1) ? '<a class="btn btn-danger btn-xs deleteItemAjaxDataTable" id="'.$row->BNRosterID.'" sn="'.$sn.'" title="Click For Delete" data-type="delete" data-field="BNRosterID" data-tbl="bn_roster"><span class="glyphicon glyphicon-trash"></span></a>': '' ;
+           
+            $nestedData = array();
+            $nestedData[] = $sn;
+            $nestedData[] = $row->OFFICIALNUMBER;
+            $nestedData[] = $row->FULLNAME;
+            $nestedData[] = $row->RANK_NAME;
+            $nestedData[] = $row->MarriageDate;
+            $nestedData[] = date("d-m-Y", strtotime($row->ApplyDate));
+            $nestedData[] = $row->SHIP_EST;
+            $nestedData[] = $row->NOOFCHILDREN;
+            $nestedData[] = date("d-m-Y", strtotime($row->ENTRYDATE));
+            $nestedData[] = date("d-m-Y", strtotime($row->PROMOTIONDATE));
+            $nestedData[] = $row->CRE_BY;
+            $nestedData[] = date("d-m-Y", strtotime($row->CRE_DT));
+            $nestedData[] = $row->UPD_BY;
+            $nestedData[] = date("d-m-Y", strtotime($row->UPD_DT));
+            //$nestedData[] = $con_status.$con_update.$con_delete;
+
+            if ($previlages->UPDATE == 1 || $previlages->DELETE == 1) :
+                $nestedData[] = $con_update. $con_delete;
+            endif;
+
+            $data[] = $nestedData;
+            $sn++;
+        }
+        $json_data = array("draw" => intval($requestData['draw']),
+            // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal" => intval($totalData),
+            // total number of records
+            "recordsFiltered" => intval($totalFiltered),
+            // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data
+
+                // total data array
+            );
+
+        echo json_encode($json_data);     
+        
+    }
+
+
+// JS.....................................
+var table = $('#sailorTable').DataTable();
+            table.destroy();
+
+            var frmContent = $("#MainForm").serialize();
+            var search_field1 = $("input[name='selectCriteria']:checked");
+            var search_field2 = $('.form_search');
+
+            var term1 = {};
+            var term2 = {};
+            var term = {};
+
+            search_field1.each(function(index, element){
+
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                term1[name] = value;
+            });
+            search_field2.each(function(index, element){
+
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                term2[name] = value;
+            });
+            var search_field = Object.assign(term1, term2);
+
+            /*$.each(search_field, function(index, element){
+
+                term[index] = element;
+            });*/
+            $.each( search_field, function( key, value ) {
+                term[key] = value;
+            });
+            
+           $('#sailorTable').DataTable({
+                "responsive": true, // enable responsive
+                "processing": true,
+                "serverSide": true,
+                "rowId": 'staffId',
+                "bFilter": false, 
+                "ajax": {
+                    type: "post",
+                    url: "<?php echo site_url('sailorsInfo/BnRosterInfo/searchRoster'); ?>/",
+                    data: function(d){
+                            d.search = JSON.stringify(term);
+                        },
+                   
+                }
+                
+            });
+
+
+
+///.................................
+
+
+
+
+
