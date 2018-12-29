@@ -10,15 +10,17 @@ resolve();
 /*
 * Service Container:
  *
- * Class registration/Dependency injection with Service Container
+ * Class registration/Dependency injection with Service Container like this
  *
- For Example:
 1.
+App::bind('App\Billing\Stripe');
+
+2.
 App::bind('Stripe', function(){
     return new \App\Billing\Stripe(config('services.stripe.secret'));
 });
 
-2.
+3.
 App::singleton('Stripe', function(){
     return new \App\Billing\Stripe(config('services.stripe.secret'));
 });
@@ -27,13 +29,17 @@ $stripe = resolve('Stripe');
 $stripe2 = resolve('Stripe');
 $stripe3 = resolve('Stripe');
 
-3.
+4.
 App:instance('Stripe', $stripe);
 */
 
 /*
-* This is happening in the routes/web.php file
+* The following examples are happening in the routes/web.php file
 */
+//Example 01:
+App::bind('App\Billing\Stripe');
+
+//Example 02:
 App::bind('Stripe', function(){
     return new \App\Billing\Stripe(config('services.stripe.secret'));
 });
@@ -52,10 +58,15 @@ $stripe = app('Stripe');
 */
 
 /*
- * This is happening in TestController
+ * This is happening in the Controllers/TestController.php
  */
 public function index()
 {
+    // example 01
+    $stripe = resolve('App\Billing\Stripe');
+    dd($stripe->get_result(12,12,'sum'));
+
+    // example 02
     $stripe = resolve('Stripe');
     dd($stripe);
 }
@@ -66,9 +77,31 @@ public function index()
 namespace App\Billing;
 class Stripe
 {
-    protected $key;
+    public $key;
     public function __construct($key) {
         $this->key = $key;
+    }
+
+    public function get_result($a,$b,$type)
+    {
+        if($type=='sum')
+        {
+            return $a+$b;
+        }
+        else if($type=='sub')
+        {
+            return $a-$b;
+        }
+        else if($type=='mul')
+        {
+            return $a*$b;
+        }
+        else if($type=='div')
+        {
+            return $a/$b;
+        }
+        else
+            return 'Please Enter Valid Number';
     }
 }
 */
