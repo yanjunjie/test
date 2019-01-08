@@ -201,6 +201,30 @@ SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
 FROM medaltran m LEFT JOIN sailor s ON m.SailorID = s.SAILORID
 WHERE m.MedalID = '2' AND m.SailorID IN ('12,13,14')
 
+//06.01.19
+select * from jesthatapadaktran where SailorID = 7877 ORDER BY JesthataPadakTranID DESC LIMIT 1;
+
+SELECT DATEDIFF(curdate(),jt.AwardDate) totalLastAwardDayes
+FROM sailor s
+LEFT JOIN jesthatapadaktran jt on jt.SailorID = s.SAILORID
+WHERE jt.SailorID = '7877'
+ORDER BY JesthataPadakTranID DESC LIMIT 1;
+
+SELECT DATEDIFF('2003-01-06',jt.AwardDate) totalLastAwardDayes, jt.AwardDate
+FROM sailor s
+LEFT JOIN jesthatapadaktran jt on jt.SailorID = s.SAILORID
+WHERE jt.SailorID = '4042' and jt.JesthataPadakID = 1;
+
+// 08.01.19
+
+select x.OFFICIALNUMBER, x.BIRTHDATE, x.MARITALSTATUS
+from (select OFFICIALNUMBER,TIMESTAMPDIFF(year,BIRTHDATE,current_timestamp()) BIRTHDATE, MARITALSTATUS from sailor where SAILORID = '18808' and SAILORSTATUS = 1) x
+where x.BIRTHDATE >= 26 and x.MARITALSTATUS = 1;
+
+
+
+
+
 
 
 
