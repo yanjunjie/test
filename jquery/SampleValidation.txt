@@ -1,26 +1,31 @@
+   // validation
+    $(document).on('click',"#submitAjaxForm",function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-var isValid=1;
-$('.required').each(function () {
-    $(this).keyup(function () {
-        $(this).css("border", "1px solid #ccc");
-    });
-    $(this).change(function () {
-        $(this).next('span').css("border", "1px solid #ccc");
-    });
-    if ($(this).val() == "") {
-        var label = $(this).parent().siblings("label").text();
-        $(this).siblings(".validation").html(label + " is required");
-        $(this).css("border", "1px solid red");
-        $(this).next('span').css("border", "1px solid red");
-	isValid=0;
-    } else {
-        $(this).siblings(".validation").html("");
-        $(this).css("border", "1px solid #ccc");
-        $(this).next('span').css("border", "1px solid #ccc");
-    }
-});
+        var isValid=1;
+        $('.required').each(function () {
+            $(this).keyup(function () {
+                $(this).css("border", "1px solid #ddd");
+            });
+            $(this).change(function () {
+                $(this).next('span').css("border", "1px solid #ddd");
+            });
+            if ($(this).val() == "") {
+                var label = $(this).parent().siblings("label").text();
+                $(this).siblings(".validation").html(label + " is required");
+                $(this).css("border", "1px solid red");
+                $(this).next('span').css("border", "1px solid red");
+                isValid=0;
+            } else {
+                $(this).siblings(".validation").html("");
+                $(this).css("border", "1px solid #ddd");
+                $(this).next('span').css("border", "1px solid #ddd");
+            }
+        });
 
-if(isValid)
-{
-    thisBtn.siblings('.formSubmitWithRedirect').trigger('click');
-}
+        if(isValid)
+        {
+            thisBtn.siblings('#partiiSubmit').trigger('click');
+        }
+    });

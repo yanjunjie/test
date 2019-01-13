@@ -199,7 +199,7 @@ select * from medaltran where SailorID = 22984 and MedalID = 6 and MedalTranID !
 // check exist or not before insert
 SELECT GROUP_CONCAT(TRIM(leading 0 FROM s.OFFICIALNUMBER))OFFICIALNUMBER
 FROM medaltran m LEFT JOIN sailor s ON m.SailorID = s.SAILORID
-WHERE m.MedalID = '2' AND m.SailorID IN ('12,13,14')
+WHERE m.MedalID = '2' AND m.SailorID IN (12,13,14)
 
 //06.01.19
 select * from jesthatapadaktran where SailorID = 7877 ORDER BY JesthataPadakTranID DESC LIMIT 1;

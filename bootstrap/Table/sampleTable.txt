@@ -14,6 +14,16 @@
         border-radius: 0;
     }
 
+    /*Horizontal and vertical scroll*/
+    #sailorTableArea{
+        max-height: 300px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    #sailorTable{
+        white-space: nowrap;
+    }
+
 </style>
 <table id="sailorTable" class="table table-bordered " style="width: 97%; border: 0;">
         <thead style="border-top: 1px solid #ddd;">
