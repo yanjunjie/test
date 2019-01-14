@@ -3,7 +3,7 @@
         e.preventDefault();
         e.stopPropagation();
 
-        var isValid=1;
+        var isValid=0;
         $('.required').each(function () {
             $(this).keyup(function () {
                 $(this).css("border", "1px solid #ddd");
@@ -21,6 +21,7 @@
                 $(this).siblings(".validation").html("");
                 $(this).css("border", "1px solid #ddd");
                 $(this).next('span').css("border", "1px solid #ddd");
+		isValid=1;
             }
         });
 
