@@ -1,0 +1,9 @@
+Route::post('api/save-caller-information', 'API\UserController@saveCallerInformation'); 
+Route::get('daily-work-report-form/{employee_id}', 'API\UserController@dailyWorkReportForm'); 
+Route::post('api/save-daily-work-report-form', 'API\UserController@saveDailyWorkReport');
+Route::post('api/leave-information', 'API\UserController@leaveInformation'); 
+Route::post('api/save-leave-application', 'API\UserController@saveLeaveApplication');
+Route::post('api/emp-wise-task-list', 'API\UserController@empWiseTaskList'); 
+Route::post('api/update-daily-work-report', 'API\UserController@updateDailyWorkReport');
+Route::post('api/emp-work-report-send-email', 'API\UserController@empWorkReportSendEmail');
+Route::post('api/emp-wise-daily-work-send-list', 'API\UserController@dailyWorkReportSendList');
