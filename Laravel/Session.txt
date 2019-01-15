@@ -18,16 +18,57 @@ return redirect()->route('home')
   @endforeach
 </div>
 
-//v.02
 
-@foreach (['danger', 'warning', 'success', 'info'] as $msg)
-    @if(Session::has($msg))
-    <div class="alert alert-{{ $msg }} alert-dismissible">
-    	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    	<p><strong>Success!</strong> {{ Session::get($msg) }}</p>
-  	</div>
+//v.02 (Stable)
+
+return back()->with('success','<strong>Success!</strong> Record inserted successfully');
+
+<!--flash messages-->
+@foreach (['success', 'danger', 'warning', 'info'] as $key => $msg)
+    @if(session($msg))
+        <div class="flash-messages">
+            <div class="alert alert-{{ $msg }} alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{!! session($msg) !!}</p>
+            </div>
+        </div>
     @endif
 @endforeach
+<!--/flash messages-->
+
+<!--validation error messages-->
+@if(count($errors) > 0)
+    @foreach($errors->all() as $error)
+        <div class="error-messages">
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{$error}}</p>
+            </div>
+        </div>
+    @endforeach
+@endif
+<!--/validation error messages-->
+
+
+
+//v.03 (simple works)
+
+@if(count($errors) > 0)
+    @foreach($errors->all() as $error)
+        <div class="alert alert-danger alert-dismissible" style="position: fixed; z-index: 9999999; top: 1%; left: 35%;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{$error}}
+        </div>
+    @endforeach
+@endif
+
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible" style="position: fixed; z-index: 9999999; top: 1%; left: 35%;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{session('success')}}
+    </div>
+@endif
+
 
 // Related----------------------------------------------
 
