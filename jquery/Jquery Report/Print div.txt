@@ -74,20 +74,44 @@ function printElem(divId) {
         mywindow.document.write('</body></html>');
 
         mywindow.document.close();
-        mywindow.focus()
+        mywindow.focus();
         mywindow.print();
         mywindow.close();
         return true;
     }
 
-// Call
+// Call to print using param of html id attribute as string
 printElem('printarea');
 
 
-//v.04
+//v.04 (stable)
 
+$(document).on("click", ".printButton", function () {
+  Popup($("#printablediv").html());
+});
+function Popup(data)
+{
+  var currentdate = new Date();
+  var datetime = "File: " + currentdate.getDate() + ""
+                + (currentdate.getMonth()+1)  + ""
+                + currentdate.getFullYear() + ""
+                + currentdate.getHours() + ""
+                + currentdate.getMinutes() + ""
+                + currentdate.getSeconds();
 
+  var mywindow = window.open('',datetime, 'height=800,width=1024');
+  mywindow.document.write('<html><head><title>'+datetime+'</title>');
+  /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+  mywindow.document.write('</head><body >');
+  mywindow.document.write(data);
+  mywindow.document.write('</body></html>');
+  mywindow.print();
+  mywindow.close();
 
+  return true;
+}
+
+//v.05
 
 
 
