@@ -1,4 +1,11 @@
-// -----------------------------------Flash-----------------------------------------------
+// -----------------------------------Flash Data-----------------------------------------------
+
+Sometimes you may wish to store items in the session only for the next request. You may do so using the Session::flash method:
+
+Session::flash('key', 'value');
+Or 
+$request->session()->flash('status', 'Task was successful!');
+
 
 //Return back:
 
@@ -20,8 +27,6 @@ return redirect()->route('home')
 
 
 //v.02 (Stable)
-
-return back()->with('success','<strong>Success!</strong> Record inserted successfully');
 
 <!--flash messages-->
 @foreach (['success', 'danger', 'warning', 'info'] as $key => $msg)
