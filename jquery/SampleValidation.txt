@@ -3,6 +3,7 @@
         e.preventDefault();
         e.stopPropagation();
 
+	// required fields
         var isValid=0;
         $('.required').each(function () {
             $(this).keyup(function () {
@@ -25,8 +26,15 @@
             }
         });
 
-        if(isValid)
+	// required fields check
+        if(!isValid)
         {
-            thisBtn.siblings('#partiiSubmit').trigger('click');
+            return false;
         }
+
+	// trigger the hidden submit button
+        if(isValid)
+	    thisBtn.siblings('#partiiSubmit').trigger('click');
+	else
+	    return false;
     });

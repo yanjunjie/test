@@ -51,8 +51,8 @@
         let count = $('#committee_tbl_bdy tr').length;
         console.log(count);
         count++;
-
         var html_code = "<tr id='row"+count+"'>";
+
         html_code +="<td>"+ count +"</td>";
         html_code +="<td>" +
             "<select name='DEPT_NO[row"+count+"]' id='DEPT_NO_row"+count+"' onchange='DEPT_NO("+count+")' data-placeholder='Choose One...' class='chosen-select form-control' tabindex='2'>"+
