@@ -221,6 +221,25 @@ select x.OFFICIALNUMBER, x.BIRTHDATE, x.MARITALSTATUS
 from (select OFFICIALNUMBER,TIMESTAMPDIFF(year,BIRTHDATE,current_timestamp()) BIRTHDATE, MARITALSTATUS from sailor where SAILORID = '18808' and SAILORSTATUS = 1) x
 where x.BIRTHDATE >= 26 and x.MARITALSTATUS = 1;
 
+// 17.01.19
+
+select column_name, table_name from information_schema.columns where table_schema='bnsis_08112018' and column_name='SAILORID'
+
+select * from information_schema.columns where table_schema='bnsis_08112018' and column_name='SAILORID'
+
+// 19.01.19 (Union)
+select SAILORID, FATHERNAME Name, 'Father' Relation, 4 RelationID from sailor where SAILORID = '5449'
+union all
+select SAILORID, MOTHERNAME Name, 'Mother' Relation, 1 RelationID from sailor where SAILORID = '5449'
+union all
+select SailorID SAILORID, SpouseName Name, 'Wife' Relation, 5 RelationID FROM marriage where SailorID = '5449' and MaritalStatus = 1
+union all
+select SailorID SAILORID, Name, (case when (Gender = 1) THEN 'Son' ELSE 'Daughter' END)Relation,
+(case when (Gender = 1) THEN 7 ELSE 6 END)RelationID
+from children where SailorID = '5449'
+ORDER BY RELATIONID;
+
+
 
 
 
