@@ -1,8 +1,11 @@
-   // validation
+
+
+//--------------------------Required Validation-------------------------
     $(document).on('click',"#submitAjaxForm",function (e) {
         e.preventDefault();
         e.stopPropagation();
 
+	// required fields
         var isValid=0;
         $('.required').each(function () {
             $(this).keyup(function () {
@@ -25,8 +28,83 @@
             }
         });
 
-        if(isValid)
+	// required fields check
+        if(!isValid)
         {
-            thisBtn.siblings('#partiiSubmit').trigger('click');
+            return false;
+        }
+
+	// trigger the hidden submit button
+        if(isValid)
+	    thisBtn.siblings('#partiiSubmit').trigger('click');
+	else
+	    return false;
+    });
+
+
+
+//--------------------------Image Validation-------------------------
+
+
+//v.01
+$("#user_profile_pic").change(function() {
+
+    var val = $(this).val();
+
+    switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+        case 'gif': case 'jpg': case 'png':
+            alert("an image");
+            break;
+        default:
+            $(this).val('');
+            // error message here
+            alert("not an image");
+            break;
+    }
+});
+
+
+//v.02
+(function($) {
+    $.fn.checkFileType = function(options) {
+        var defaults = {
+            allowedExtensions: [],
+            success: function() {},
+            error: function() {}
+        };
+        options = $.extend(defaults, options);
+
+        return this.each(function() {
+
+            $(this).on('change', function() {
+                var value = $(this).val(),
+                    file = value.toLowerCase(),
+                    extension = file.substring(file.lastIndexOf('.') + 1);
+
+                if ($.inArray(extension, options.allowedExtensions) == -1) {
+                    options.error();
+                    $(this).focus();
+                } else {
+                    options.success();
+
+                }
+
+            });
+
+        });
+    };
+
+})(jQuery);
+
+$(function() {
+    $('#image').checkFileType({
+        allowedExtensions: ['jpg', 'jpeg'],
+        success: function() {
+            alert('Success');
+        },
+        error: function() {
+            alert('Error');
         }
     });
+
+});

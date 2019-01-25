@@ -1,0 +1,18 @@
+//v.01
+
+// add more
+$(document).on("click",".add-more",function(e){
+    let container = $('#nomineeInfo tbody');
+    let count = container.find('tr').length;
+    let record = "";
+
+    record += '<tr id="row_'+ count++ +'">';
+    record += '<td><input type="text" name="nomineeName[]" class="form-control required"></td>';
+    record += '<td><input type="text" name="RELATION_ID[]" class="form-control required"></td>';
+    record += '<td><input type="text" name="percentage[]" maxlength="3" pattern="^[0-9]" class="form-control percentage required integerNumbersOnly" required="required" placeholder="%"></td>';
+    record += '<td><button class="btn btn-danger btn-xs remove_tr" data-nomineeid="58241asdf">Remove</button></td>';
+    record += '</tr>';
+
+    container.append(record);
+});
+// end add more

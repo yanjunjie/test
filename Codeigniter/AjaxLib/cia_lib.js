@@ -257,6 +257,7 @@ $(document).on("click", ".cia_insert", function (e) {
         data: formData,
         processData: false,
         contentType: false,
+        cache: false,
         async: false,
         beforeSend: function(){
             /*cia_jq_validation(thisForm);
