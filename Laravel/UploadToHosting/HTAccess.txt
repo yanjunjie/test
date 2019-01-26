@@ -1,0 +1,6 @@
+Create a .htaccess, add the following lines and put the file in your root folder. I see that you've got it working but you're not supposed to have the */public at the end.
+
+<IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteRule ^(.*)$ public/$1 [L]
+</ifModule>
