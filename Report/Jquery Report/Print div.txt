@@ -34,7 +34,9 @@ function printData()
     });*/
 
 
-//v.02
+//v.02 (stable for ajax)
+
+<div id="printablediv"></div>
 
 $(document).on('click', '.download_adm_card', function (e) {
         e.preventDefault();
@@ -52,11 +54,11 @@ $(document).on('click', '.download_adm_card', function (e) {
             processData:false,
             contentType:false,
             success: function (data) {
-                $(".printarea").show();
-                $(".printarea").html(data);
+                $("#printablediv").show();
+                $("#printablediv").html(data);
                 //Popup(data);
 		Popup($("#printablediv").html());
-                $(".printarea").hide();
+                $("#printablediv").hide();
             }
         });
     });

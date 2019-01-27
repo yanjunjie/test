@@ -1,11 +1,32 @@
  <style>
-.dataTables_filter {
-display: none;
-}
- @media print {
+
+@media print {
     @page {
         size: letter landscape;
-        margin:4.5cm 0 0;
-    }
+	    margin-top: 2cm;
+	    margin-bottom: 2cm; /*cm, in or px*/
+	    margin-left: 2cm;
+	    margin-right: 2cm;
+	}
+
+	@page :first {}
+
+	@page :left {}
+
+	@page: right {}
+
+	h1,h2,h3,h4,h5,h6 {
+	    page-break-after: avoid;
+	    page-break-before: always;
+	}
+	
+	p {page-break-inside: avoid;}
+
+	.book-date { page-break-after: always;}
+
+	.post-content {page-break-before: always;}
+
+	.noprint { display:none; }
+
 } 
 </style> 
