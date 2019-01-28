@@ -62,32 +62,28 @@ function PrintDiv(data) {
 HTML:
 <div id="printablediv"></div>
 
-Ajax:
-$(document).on('click', '.download_adm_card', function (e) {
+Ajax:-------------------------------------------------
+    $(document).on('click', '.print', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var examMstId = $(this).attr('data-examMstId');
-        var admitCardid = $(this).attr('data-admitCardid');
-        var formData = new FormData();
-        formData.append('examMstId',examMstId);
-        formData.append('admitCardid',admitCardid);
+
+        let dataAction = $(this).attr('data-action');
+        let dataId = $(this).attr('data-id');
+        let formData = new FormData();
+        formData.append('id',dataId);
+
         $.ajax({
             type:'post',
-            url: '<?php echo base_url(); ?>student/downloadAdmitCard',
+            url: dataAction,
             data:formData,
-            async:false,
             processData:false,
             contentType:false,
+            async: false,
             success: function (data) {
-                $("#printablediv").show();
-                $("#printablediv").html(data);
-                //Popup(data);
-		        PrintDiv($("#printablediv").html());
-                $("#printablediv").hide();
+                PrintDiv(data);
             }
         });
     });
-
 
 //.v03
 
