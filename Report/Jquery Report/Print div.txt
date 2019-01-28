@@ -134,7 +134,18 @@ function Popup(data)
   return true;
 }
 
-//v.05
+//v.05 (stable)
 
+function printDivSecond() 
+{
+  var divToPrint=document.getElementById('printallsection');
+  var newWin=window.open('','Print-Window');
+  newWin.document.open();
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+  newWin.document.close();
 
+  setTimeout(function(){newWin.close();},10);
+}
+
+//
 
