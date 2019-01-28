@@ -36,8 +36,33 @@ function printData()
 
 //v.02 (stable for ajax)
 
+function PrintDiv(data) {
+    var mywindow = window.open();
+    var is_chrome = Boolean(mywindow.chrome);
+    mywindow.document.write(data);
+
+    if (is_chrome) {
+        setTimeout(function() { // wait until all resources loaded
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10
+            mywindow.print(); // change window to winPrint
+            mywindow.close(); // change window to winPrint
+        }, 250);
+    } else {
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+    }
+
+    return true;
+}
+
+HTML:
 <div id="printablediv"></div>
 
+Ajax:
 $(document).on('click', '.download_adm_card', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -57,7 +82,7 @@ $(document).on('click', '.download_adm_card', function (e) {
                 $("#printablediv").show();
                 $("#printablediv").html(data);
                 //Popup(data);
-		Popup($("#printablediv").html());
+		        PrintDiv($("#printablediv").html());
                 $("#printablediv").hide();
             }
         });
