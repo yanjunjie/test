@@ -134,7 +134,7 @@ function Popup(data)
   return true;
 }
 
-//v.05 (stable)
+//v.05
 
 function printDivSecond() 
 {
@@ -147,5 +147,12 @@ function printDivSecond()
   setTimeout(function(){newWin.close();},10);
 }
 
-//
+//v.06
+function myFunction(divName) {// For Print Generate
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+}
 

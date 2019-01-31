@@ -1,0 +1,130 @@
+<style>
+
+    /* Media Screen and Print*/
+   @media print,screen {
+       body {
+           background: rgb(204,204,204);
+       }
+       h1,h2,h3,h4,h5,h6 {
+           page-break-after: avoid;
+           page-break-before: always;
+       }
+       p {page-break-inside: avoid;}
+
+       /*Table style*/
+       table {
+           font-family: Arial, sans-serif;
+           font-size: 13px;
+           border-collapse: collapse;
+           width: 100%;
+           border-spacing: 0;
+       }
+       .table td, table th {
+           border: 1px solid black;
+       }
+
+
+       /* page style*/
+       @page {
+           size: A4 portrait; /*Value: cm, in (8.5in 11in) or px | auto | A4 portrait | A4 landscape*/
+           margin: .5in 16mm 16mm 16mm;
+           padding: initial;
+           @bottom-right {
+               content: counter(page) " of " counter(pages);
+           }
+       }
+       .page {
+           background: white;
+           display: block;
+           margin: 0 auto;
+           margin-bottom: 0.5cm;
+           box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+       }
+       .page[size="A4"] {
+           width: 8.5in;
+           /*height: 11in;*/
+           padding: .5in 16mm 16mm 16mm;
+       }
+       .page[size="A4"][layout="landscape"] {
+           width: 11in;
+           /*height: 8.5in;*/
+           padding: .5in 16mm 16mm 16mm;
+       }
+       .page-br-after { page-break-after: always;}
+       .page-br-before {page-break-before: always;}
+       /* end page style*/
+
+       /* clear style*/
+       .float-l {
+           float: left;
+       }
+       .float-r {
+           float: right;
+       }
+       .clearfix::after {
+           content: "";
+           clear: both;
+           display: table;
+       }
+
+       /* header style*/
+       .header-area{
+           display: block;
+           width: 100%;
+           margin-bottom: 25px;
+       }
+       .header-left {
+           text-align: left;
+       }
+       .header-right {
+           text-align: right;
+       }
+       .header-middle {
+           text-align: center;
+       }
+       .title-group {
+           line-height: 1.2;
+           text-align: center;
+           text-transform: uppercase;
+       }
+       .main-title {
+           font-size: 17px;
+           font-weight: bold;
+           margin: 0;
+       }
+       .sub-title {
+           font-size: 15px;
+           font-weight: normal;
+           margin: 0;
+       }
+       /* end header style*/
+
+       /* content style*/
+       .paragraph-group{
+           font-size: 13px;
+           line-height: 1.5;
+           font-family: "Times New Roman", Times, serif;
+       }
+   }
+   /* End Media Screen and Print*/
+
+   /* Media Print*/
+    @media print {
+        body, .page {
+            margin: 0;
+            box-shadow: none;
+        }
+        .noprint { display:none; }
+
+        @page :first {}
+        @page :left {}
+        @page :right {}
+
+        /* bootstrap style*/
+        p{
+            margin: 0 0 5px;
+        }
+        /* end bootstrap style*/
+    }
+    /* End Media Print*/
+</style>
