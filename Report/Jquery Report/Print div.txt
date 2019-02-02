@@ -34,33 +34,56 @@ function printData()
     });*/
 
 
-//v.02
+//v.02 (stable for ajax)
 
-$(document).on('click', '.download_adm_card', function (e) {
+function PrintDiv(data) {
+    var mywindow = window.open();
+    var is_chrome = Boolean(mywindow.chrome);
+    mywindow.document.write(data);
+
+    if (is_chrome) {
+        setTimeout(function() { // wait until all resources loaded
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10
+            mywindow.print(); // change window to winPrint
+            mywindow.close(); // change window to winPrint
+        }, 250);
+    } else {
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+    }
+
+    return true;
+}
+
+HTML:
+<div id="printablediv"></div>
+
+Ajax:-------------------------------------------------
+    $(document).on('click', '.print', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var examMstId = $(this).attr('data-examMstId');
-        var admitCardid = $(this).attr('data-admitCardid');
-        var formData = new FormData();
-        formData.append('examMstId',examMstId);
-        formData.append('admitCardid',admitCardid);
+
+        let dataAction = $(this).attr('data-action');
+        let dataId = $(this).attr('data-id');
+        let formData = new FormData();
+        formData.append('id',dataId);
+
         $.ajax({
             type:'post',
-            url: '<?php echo base_url(); ?>student/downloadAdmitCard',
+            url: dataAction,
             data:formData,
-            async:false,
             processData:false,
             contentType:false,
+            async: false,
             success: function (data) {
-                $(".printarea").show();
-                $(".printarea").html(data);
-                //Popup(data);
-		Popup($("#printablediv").html());
-                $(".printarea").hide();
+                PrintDiv(data);
             }
         });
     });
-
 
 //.v03
 
@@ -113,5 +136,23 @@ function Popup(data)
 
 //v.05
 
+function printDivSecond() 
+{
+  var divToPrint=document.getElementById('printallsection');
+  var newWin=window.open('','Print-Window');
+  newWin.document.open();
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+  newWin.document.close();
 
+  setTimeout(function(){newWin.close();},10);
+}
+
+//v.06
+function myFunction(divName) {// For Print Generate
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+}
 

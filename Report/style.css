@@ -1,0 +1,80 @@
+    <style media="screen,print">
+        .customTdWidth {
+            width: 35% !important;
+            font-weight: bold;
+        }
+
+        .tdValue {
+            width: 65%;
+            border-bottom: 1px dotted black !important;
+        }
+
+    </style>
+
+    <style type="text/css" media="print">
+        div.page {
+            page-break-after: always !important;
+            page-break-inside: avoid !important;
+        }
+
+        /*Table style*/
+        .ptable, .ptable th, .ptable td{
+            border: 1px solid #000 !important;
+            border-collapse: collapse;
+        }
+
+        .float-l {
+            float: left !important;
+        }
+
+        .float-r {
+            float: right !important;
+        }
+
+        /*Margin and padding 0px*/
+        .mt-0 {
+            margin-top: 0px !important;
+        }
+
+        .mb-0 {
+            margin-bottom: 0px !important;
+        }
+
+        .pt-0 {
+            padding-top: 0px !important;
+        }
+
+        .pb-0 {
+            padding-bottom: 0px !important;
+        }
+
+        /*Margin and padding 20px*/
+        .mt-20 {
+            margin-top: 20px !important;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px !important;
+        }
+
+        .pt-20 {
+            padding-top: 20px !important;
+        }
+
+        .pb-20 {
+            padding-bottom: 20px !important;
+        }
+
+        /*Alignment*/
+        .align-left {
+            text-align: left;
+        }
+        .align-right {
+            text-align: right;
+        }
+        .align-center {
+            text-align: center;
+        }
+
+    </style>
+   
