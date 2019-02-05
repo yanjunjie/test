@@ -1,0 +1,15 @@
+$branch_id = $this->input->post("branch_id", true);
+        $branch_id = implode(',',$branch_id);
+
+        $data['branch'] = $this->db->query("SELECT count(r.BRANCH_ID)TOTAL_RANK,b.BRANCH_NAME,r.BRANCH_ID
+                                            FROM bn_rank r
+                                            LEFT JOIN bn_branch b on b.BRANCH_ID = r.BRANCH_ID
+                                            WHERE b.BRANCH_ID IN ($branch_id) group by r.BRANCH_ID order by r.BRANCH_ID asc")->result();
+
+        $data['branchRank'] = $this->db->query("select BRANCH_ID, RANK_NAME, sa.sanction, b.borne
+                                                from bn_rank r
+                                                left join (select us.RankID, count(us.RankID)sanction from unitwisesanction us group by us.RankID) sa on r.RANK_ID = sa.RankID
+                                                left join (select s.RANKID, count(s.RANKID)borne from sailor s group by s.RANKID) b on r.RANK_ID = b.RANKID
+                                                where r.BRANCH_ID in($branch_id)
+                                                order by r.BRANCH_ID, r.POSITION")->result();
+

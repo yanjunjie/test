@@ -109,9 +109,11 @@ printElem('printarea');
 
 //v.04 (stable)
 
-$(document).on("click", ".printButton", function () {
+$(document).on("click", ".print", function (e) {
+  e.preventDefault();
   Popup($("#printablediv").html());
 });
+
 function Popup(data)
 {
   var currentdate = new Date();

@@ -1,80 +1,137 @@
-    <style media="screen,print">
-        .customTdWidth {
-            width: 35% !important;
-            font-weight: bold;
+<style media="screen,print">
+    .customTdWidth {
+        width: 35% !important;
+        font-weight: bold;
+    }
+
+    .tdValue {
+        width: 65%;
+        border-bottom: 1px dotted black !important;
+    }
+
+</style>
+
+<style type="text/css" media="print">
+    div.page {
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+    }
+
+    /*Table style*/
+    .ptable, .ptable th, .ptable td{
+        border: 1px solid #000 !important;
+        border-collapse: collapse;
+    }
+
+    .float-l {
+        float: left !important;
+    }
+
+    .float-r {
+        float: right !important;
+    }
+
+    /*Margin and padding 0px*/
+    .mt-0 {
+        margin-top: 0px !important;
+    }
+
+    .mb-0 {
+        margin-bottom: 0px !important;
+    }
+
+    .pt-0 {
+        padding-top: 0px !important;
+    }
+
+    .pb-0 {
+        padding-bottom: 0px !important;
+    }
+
+    /*Margin and padding 20px*/
+    .mt-20 {
+        margin-top: 20px !important;
+    }
+
+    .mb-20 {
+        margin-bottom: 20px !important;
+    }
+
+    .pt-20 {
+        padding-top: 20px !important;
+    }
+
+    .pb-20 {
+        padding-bottom: 20px !important;
+    }
+
+    /*Alignment*/
+    .align-l {
+        text-align: left;
+    }
+    .align-r {
+        text-align: right;
+    }
+    .align-c {
+        text-align: center;
+    }
+
+</style>
+
+<style type="text/css">
+   /* @import url("<?php echo base_url('dist/styles/main.css')?>") print;*/
+    @media print,screen {
+        body {
+            font-size: 12pt;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        .tdValue {
-            width: 65%;
-            border-bottom: 1px dotted black !important;
+        h1,h2,h3,h4,h5,h6 {
+            page-break-after: avoid;
+            page-break-before: always;
         }
 
-    </style>
+        p {page-break-inside: avoid;}
 
-    <style type="text/css" media="print">
-        div.page {
-            page-break-after: always !important;
-            page-break-inside: avoid !important;
-        }
-
-        /*Table style*/
-        .ptable, .ptable th, .ptable td{
-            border: 1px solid #000 !important;
+        table {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
             border-collapse: collapse;
+            width: 100%;
+            border-spacing: 0;
         }
 
-        .float-l {
-            float: left !important;
+        .table td, table th {
+            border: 1px solid black;
+        }
+    }
+
+    @media print {
+        html, body {
+            box-shadow: none;
+            width: 210mm;
+            height: 297mm;
         }
 
-        .float-r {
-            float: right !important;
+        .page[size="A4"][layout="portrait"] {
+            width: 8.5in;
+            height: 11in;
+            padding: .5in 16mm 16mm 16mm;
+            @page {
+                size: A4;
+                margin: 0;
+            };
         }
+        
+        .page[size="A4"][layout="landscape"] {
+            width: 11in;
+            height: 8.5in;
+            padding: .5in 16mm 16mm 16mm;
+            @page {
+                size: A4;
+                margin: 0;
+            };
+        }
+    }
 
-        /*Margin and padding 0px*/
-        .mt-0 {
-            margin-top: 0px !important;
-        }
-
-        .mb-0 {
-            margin-bottom: 0px !important;
-        }
-
-        .pt-0 {
-            padding-top: 0px !important;
-        }
-
-        .pb-0 {
-            padding-bottom: 0px !important;
-        }
-
-        /*Margin and padding 20px*/
-        .mt-20 {
-            margin-top: 20px !important;
-        }
-
-        .mb-20 {
-            margin-bottom: 20px !important;
-        }
-
-        .pt-20 {
-            padding-top: 20px !important;
-        }
-
-        .pb-20 {
-            padding-bottom: 20px !important;
-        }
-
-        /*Alignment*/
-        .align-left {
-            text-align: left;
-        }
-        .align-right {
-            text-align: right;
-        }
-        .align-center {
-            text-align: center;
-        }
-
-    </style>
-   
+</style>
