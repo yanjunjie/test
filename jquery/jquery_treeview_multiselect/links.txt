@@ -1,0 +1,10 @@
+#01
+https://josephskh.github.io/repos/dropdowntree/
+https://stackoverflow.com/questions/48296543/jquery-multi-select-check-boxed-tree-view-within-a-dropdown-dropdown-tree
+https://www.jqueryscript.net/form/Multi-Select-Dropdown-Tree-Plugin-Bootstrap-jQuery.html
+
+#02
+https://github.com/bablukpik/tree-multiselect.js
+https://patosai.com/projects/tree-multiselect
+
+
