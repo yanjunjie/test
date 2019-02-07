@@ -1,0 +1,40 @@
+var counter = 1;
+        $(document).on('click', '#add_record', function () {
+            counter++;
+            $("#sailorTable tbody").append(' <tr>' +
+                '<td>' +
+                '<select class="select2 form-control required" id="RankId' + counter + '" name="RankName[]">' +
+                <?php foreach ($rankData as $row) { ?>
+                '<option value="<?php echo $row->RANK_ID ?>"><?php echo "[" . $row->RANK_CODE . "]" . "-" . $row->RANK_NAME ?></option>' +
+                <?php } ?>
+                '</select> ' +
+                '</td>' +
+                '<td>' +
+                '<select class="select2 form-control required" id="PartIIID' + counter + '" name="PartName[]">' +
+                <?php foreach ($partiiData as $row) { ?>
+                '<option value="<?php echo $row->PartIIID ?>"><?php echo "[" . $row->Code . "]" . $row->Name ?></option>' +
+                <?php } ?>
+                '</select> ' +
+                '</td>' +
+                '<td>' +
+                ' <input type="text" name="SanctionNo[]" id="SanctionId' + counter + '"  class="form-control numbersOnly" placeholder="Sanction Number" >' +
+                '</td>' + '<td>' +
+                ' <input type="text" name="Remarks[]" id="Remarks' + counter + '"  class="form-control " placeholder="Remarks" >' +
+                '</td>' +
+                '<td class="text-center">' +
+                '<span class="btn btn-xs btn-danger" id="remove_tr"><i style="cursor:pointer" class="fa fa-times" > Remove</i></span>' +
+                '</td>' +
+                '</tr>'
+            );
+            $('.select2').select2();
+            $('#saveDel').show();
+            $('#hasData').hide();
+        });
+
+        $(document).on('click', '#remove_tr', function () {
+            if (counter > 1) {
+                $(this).closest('tr').remove();
+                counter--;
+            }
+            return false;
+        });
