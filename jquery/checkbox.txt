@@ -1,0 +1,26 @@
+//By each()
+var testval = [];
+ $('.hobbies_class:checked').each(function() {
+   testval.push($(this).val());
+ });
+
+
+//by map()
+var testval = $('input:checkbox:checked.hobbies_class').map(function(){
+return this.value; }).get().join(",");
+
+ //HTML Code
+
+ <input type="checkbox" value="cricket" name="hobbies[]"  class="hobbies_class">Cricket 
+  <input type="checkbox" value="hockey" name="hobbies[]" class="hobbies_class">Hockey
+
+//v.02
+let values = (function() {
+                let a = [];
+                $(".checkboxes:checked").each(function() {
+                    a.push(this.value);
+		   // a.push($(this).val());
+                });
+                return a;
+            })();
+
