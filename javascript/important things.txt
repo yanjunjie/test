@@ -1,0 +1,4 @@
+Object.setPropertyOf(Animal, cat)
+animal.isPropertyOf(obj)
+Object.create(obj1) like new in OOP
+Object.assign(obj1)
