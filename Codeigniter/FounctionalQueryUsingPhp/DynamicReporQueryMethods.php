@@ -121,6 +121,79 @@ function bdAdminget()
 
     return $sql;
 }
+function DAOGroup(){
+    $grp ="";
+    /*DAO GROUP Section*/
+    if (!empty($_GET['daoGroup'])) {
+
+        $daoGroup = $this->input->get('daoGroup');
+        $daoInNotIn = $this->input->get('daoInNotIn');
+
+        $result = $this->arrayToValue($daoGroup);
+
+        if($daoInNotIn == 1){
+            $grp .= " AND dao.GROUP_ID IN ($result)";
+        }else{
+            $grp .= " AND dao.GROUP_ID NOT IN ($result)";
+        }
+    }
+    return $grp;
+}
+function tradeContinuousVg(){
+    $trade ="";
+    /*trade Section*/
+    if (!empty($_GET['trade'])) {
+
+        $tradeId = $this->input->get('trade');
+        $tradeInNotIn = $this->input->get('tradeInNotIn');
+
+        $result = $this->arrayToValue($tradeId);
+
+        if($tradeInNotIn == 1){
+
+            $trade .= " AND p.TradeID IN ($result)";
+        }else{
+            $trade .= " AND p.TradeID NOT IN ($result)";
+        }
+    }
+
+
+    /*equRank Section*/
+    if (!empty($_GET['equRank'])) {
+
+        $equRank = $this->input->get('equRank');
+        $equRankInNotIn = $this->input->get('equRankInNotIn');
+
+        $result = $this->arrayToValue($equRank);
+
+        if($equRankInNotIn == 1){
+
+            $trade .= " AND r.EQUIVALANT_RANKID IN ($result)";
+        }else{
+            $trade .= " AND r.EQUIVALANT_RANKID NOT IN ($result)";
+        }
+    }
+
+
+    return $trade;
+}
+function bdAdminDAOGroup(){
+    $grp ="";
+    /*DAO GROUP Section*/
+    if (!empty($_GET['daoGroup'])) {
+        $daoGroup = $this->input->get('daoGroup');
+        $daoInNotIn = $this->input->get('daoInNotIn');
+
+        $result = $this->arrayToValue($daoGroup);
+
+        if($daoInNotIn == 1){
+            $grp .= " AND a.GROUP_ID IN ($result)";
+        }else{
+            $grp .= " AND a.GROUP_ID NOT IN ($result)";
+        }
+    }
+    return $grp;
+}
 
 // Call method
 function sailorNominalRoll()
