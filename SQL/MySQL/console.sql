@@ -750,7 +750,7 @@ order by r.BRANCH_ID, r.POSITION;
 
 select * from sailor where OFFICIALNUMBER in (890134,20050484,20140159);
 
-
+# official no, rank, sailorid, ship_establishment
 SELECT s.ACTIVE_STATUS, s.SAILORID, s.FULLNAME,s.SENIORITYDATE, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER
 FROM sailor s
 LEFT JOIN bn_posting_unit pu ON pu.POSTING_UNITID = s.POSTINGUNITID
@@ -764,42 +764,66 @@ where SAILORID in (5557, 14035, 3316) and s.ACTIVE_STATUS = 1;
 
 select t.ORG_ID,t.EQUIVALANT_RANKID, er.RANK_NAME, sum(t.sanction) sanction, sum(t.borne) borne
 
-from(select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo)sanction,0 borne
-
-from unitwisesanction us
-
-left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
-
-left join bn_rank r on us.RankID = r.RANK_ID
-
--- where p.org_id is not null
-
-group by p.ORG_ID, r.EQUIVALANT_RANKID
-
-union
-
-Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID)borne
-
-from sailor s
-
-left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
-
-where s.SAILORSTATUS = 1
-
--- and p.org_id is not null
-
-group by p.ORG_ID, s.EQUIVALANTRANKID
-
-) t
+from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
+      from unitwisesanction us
+      left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
+      left join bn_rank r on us.RankID = r.RANK_ID
+      group by p.ORG_ID, r.EQUIVALANT_RANKID
+      union
+      Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
+      from sailor s
+      left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
+      where s.SAILORSTATUS = 1
+      group by p.ORG_ID, s.EQUIVALANTRANKID) t
 
 left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
-
-where t.ORG_ID in(63,64)
-
+where t.ORG_ID in (63, 64)
 group by t.ORG_ID,t.EQUIVALANT_RANKID
-
-order by t.ORG_ID, er.POSITION
-
+order by t.ORG_ID, er.POSITION;
 
 
+
+select count(t.ORG_ID) TOTAL_EQU_RANK, t.ORG_ID, bnh.ORG_NAME
+from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
+     from unitwisesanction us
+     left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
+     left join bn_rank r on us.RankID = r.RANK_ID
+     group by p.ORG_ID, r.EQUIVALANT_RANKID
+     union
+     Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
+     from sailor s
+     left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
+     where s.SAILORSTATUS = 1
+     group by p.ORG_ID, s.EQUIVALANTRANKID) t
+
+left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
+left join bn_organization_hierarchy bnh on bnh.ORG_ID = t.ORG_ID
+where t.ORG_ID in (63,64,65) and bnh.ORG_TYPE = 3 and bnh.ACTIVE_STATUS = 1
+group by t.ORG_ID
+order by t.ORG_ID;
+
+
+
+select a.ORG_ID, count(a.EQUIVALANT_RANKID)TotalRank, oh.ORG_NAME
+from
+       (select t.ORG_ID,t.EQUIVALANT_RANKID, er.RANK_NAME, sum(t.sanction) sanction, sum(t.borne) borne
+
+from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
+      from unitwisesanction us
+      left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
+      left join bn_rank r on us.RankID = r.RANK_ID
+      group by p.ORG_ID, r.EQUIVALANT_RANKID
+      union
+      Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
+      from sailor s
+      left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
+      where s.SAILORSTATUS = 1
+      group by p.ORG_ID, s.EQUIVALANTRANKID) t
+
+left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
+where t.ORG_ID in (63, 64)
+group by t.ORG_ID,t.EQUIVALANT_RANKID
+order by t.ORG_ID, er.POSITION)a
+left join bn_organization_hierarchy oh on a.ORG_ID = oh.ORG_ID
+group by a.ORG_ID;
 
