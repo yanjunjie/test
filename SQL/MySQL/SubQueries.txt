@@ -1,0 +1,94 @@
+// Total No of Distinct Records
+Select distinct m.O_No,m.NAME NAME,m.Rank,m.BRANCHID
+from ( SELECT s.OFFICIALNUMBER O_No, s.FULLNAME NAME, r.Name Rank, s.BRANCHID, s.RANKID, bpu.NAME present_unit,
+s.POSTINGDATE AS Date_Of_Posting,
+ (SELECT bpu.NAME FROM postingunit bpu WHERE  t.PostingUnitID = bpu.POSTINGUNITID) Under_Draft_unit, t.TODate AS Order_date
+FROM sailor s
+ LEFT JOIN rank r ON s.RANKID = r.RANKID
+ LEFT JOIN branch b ON s.BRANCHID = b.BRANCHID
+ LEFT JOIN daogroup dao ON b.DAOGROUPID = dao.DAOGroupID
+ LEFT JOIN PostingUnit bpu ON s.POSTINGUNITID = bpu.PostingUnitID
+ LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+ LEFT JOIN shipestablishment bse ON s.SHIPESTABLISHMENTID = bse.SHIPESTABLISHMENTID
+ LEFT JOIN trade td ON s.BRANCHID = td.BRANCHID
+ LEFT JOIN partii p ON td.TRADEID = p.TradeID
+WHERE s.SAILORSTATUS = 1  AND s.ZONEID IN (1)  
+AND dao.DAOGROUPID IN (1)
+-- ORDER BY r.POSITION
+) m
+
+
+// Total No of Rank
+select a.ORG_ID, count(a.EQUIVALANT_RANKID)TotalRank, oh.ORG_NAME
+from
+       (select t.ORG_ID,t.EQUIVALANT_RANKID, er.RANK_NAME, sum(t.sanction) sanction, sum(t.borne) borne
+
+from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
+      from unitwisesanction us
+      left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
+      left join bn_rank r on us.RankID = r.RANK_ID
+      group by p.ORG_ID, r.EQUIVALANT_RANKID
+      union
+      Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
+      from sailor s
+      left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
+      where s.SAILORSTATUS = 1
+      group by p.ORG_ID, s.EQUIVALANTRANKID) t
+
+left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
+where t.ORG_ID in ($UnitID)
+group by t.ORG_ID,t.EQUIVALANT_RANKID
+order by t.ORG_ID, er.POSITION)a
+left join bn_organization_hierarchy oh on a.ORG_ID = oh.ORG_ID
+group by a.ORG_ID
+
+
+//Organization Wise Section
+select t.ORG_ID,t.EQUIVALANT_RANKID, er.RANK_NAME, sum(t.sanction) sanction, sum(t.borne) borne
+from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
+  from unitwisesanction us
+  left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
+  left join bn_rank r on us.RankID = r.RANK_ID
+  group by p.ORG_ID, r.EQUIVALANT_RANKID
+  union
+  Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
+  from sailor s
+  left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
+  where s.SAILORSTATUS = 1
+  group by p.ORG_ID, s.EQUIVALANTRANKID) t
+
+left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
+where t.ORG_ID in ($UnitID)
+group by t.ORG_ID,t.EQUIVALANT_RANKID
+order by t.ORG_ID, er.POSITION
+
+
+//Branch And Rank Wise Section
+select BRANCH_ID, RANK_NAME, sa.sanction, b.borne
+from bn_rank r
+left join (select us.RankID, sum(us.SanctionNo)sanction from unitwisesanction us group by us.RankID) sa on r.RANK_ID = sa.RankID
+left join (select s.RANKID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID) b on r.RANK_ID = b.RANKID
+where r.BRANCH_ID in(1,2)
+order by r.BRANCH_ID, r.POSITION;
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
