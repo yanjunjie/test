@@ -1,4 +1,27 @@
-Object.setPropertyOf(Animal, cat)
+# 01. Object.setPropertyOf(Animal, cat)----------------------------------------------
 animal.isPropertyOf(obj)
-Object.create(obj1) like new in OOP
-Object.assign(obj1)
+
+Example 01:
+const Animal = {
+  speak() {
+    console.log(this.name + ' makes a noise.');
+  }
+};
+
+class Dog {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// If you do not do this you will get a TypeError when you invoke speak
+Object.setPrototypeOf(Dog.prototype, Animal);
+
+let d = new Dog('Mitzie');
+d.speak(); // Mitzie makes a noise.
+
+# 02. Object.create(obj1) like new keyword in OOP -----------------------------------------
+# 03. Object.assign() like interface in OOP ---------------------------------------
+
+
+
