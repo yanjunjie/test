@@ -473,17 +473,15 @@ WHERE abc.SAILORID = '5559' ORDER BY n.Percentage, abc.RELATIONID;
 
 
 select FATHERNAME Name, 'Father' Relation, 4 RelationID from sailor where SAILORID = '5557'
-union all
+       union all
 select MOTHERNAME Name, 'Mother' Relation, 1 RelationID from sailor where SAILORID = '5557'
-union all
+       union all
 select SpouseName Name, 'Wife' Relation, 5 RelationID FROM marriage where SailorID = '5557' and MaritalStatus = 1
-union all
+       union all
 select Name, (case when (Gender = 1) THEN 'Son' ELSE 'Daughter' END)Relation,
 (case when (Gender = 1) THEN 7 ELSE 6 END)RelationID
 from children where SailorID = '5557'
 ORDER BY RELATIONID;
-
-select RELATIONID from sailor;
 
 
 
@@ -720,10 +718,6 @@ FROM bn_rank r
 LEFT JOIN bn_branch b on b.BRANCH_ID = r.BRANCH_ID
 WHERE b.BRANCH_ID IN (1,2) group by r.BRANCH_ID order by r.BRANCH_ID asc;
 
-
-select * from bn_organization_hierarchy where ACTIVE_STATUS = 1 and ORG_TYPE = 3;
-
-
 select *
 from bn_roster
 where SailorID = '5557';
@@ -751,13 +745,13 @@ order by r.BRANCH_ID, r.POSITION;
 select * from sailor where OFFICIALNUMBER in (890134,20050484,20140159);
 
 # official no, rank, sailorid, ship_establishment
-SELECT s.ACTIVE_STATUS, s.SAILORID, s.FULLNAME,s.SENIORITYDATE, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER
+SELECT s.SAILORSTATUS, s.SAILORID, s.FULLNAME,s.SENIORITYDATE, r.RANK_ID, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, sh.SHORT_NAME SHIP_ESTABLISHMENT, pu.NAME POSTING_UNIT_NAME, DATE_FORMAT(s.POSTINGDATE, '%d-%m-%Y') POSTING_DATE, TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER
 FROM sailor s
 LEFT JOIN bn_posting_unit pu ON pu.POSTING_UNITID = s.POSTINGUNITID
 LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
 LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID
 LEFT JOIN bn_rank r ON r.RANK_ID = s.RANKID
-where SAILORID in (5557, 14035, 3316) and s.ACTIVE_STATUS = 1;
+where SAILORID in (5557, 14035, 3316) and s.SAILORSTATUS = 1;
 
 
 #Organization Wise sanction & borne Query
@@ -782,28 +776,6 @@ group by t.ORG_ID,t.EQUIVALANT_RANKID
 order by t.ORG_ID, er.POSITION;
 
 
-
-select count(t.ORG_ID) TOTAL_EQU_RANK, t.ORG_ID, bnh.ORG_NAME
-from (select p.ORG_ID,r.EQUIVALANT_RANKID, sum(us.SanctionNo) sanction,0 borne
-     from unitwisesanction us
-     left join bn_posting_unit p on p.POSTING_UNITID = us.PostingUnitID
-     left join bn_rank r on us.RankID = r.RANK_ID
-     group by p.ORG_ID, r.EQUIVALANT_RANKID
-     union
-     Select p.ORG_ID,s.EQUIVALANTRANKID,0 sanction, count(s.SAILORID) borne
-     from sailor s
-     left join bn_posting_unit p on s.POSTINGUNITID = p.POSTING_UNITID
-     where s.SAILORSTATUS = 1
-     group by p.ORG_ID, s.EQUIVALANTRANKID) t
-
-left join bn_equivalent_rank er on t.EQUIVALANT_RANKID = er.EQUIVALANT_RANKID
-left join bn_organization_hierarchy bnh on bnh.ORG_ID = t.ORG_ID
-where t.ORG_ID in (63,64,65) and bnh.ORG_TYPE = 3 and bnh.ACTIVE_STATUS = 1
-group by t.ORG_ID
-order by t.ORG_ID;
-
-
-
 select a.ORG_ID, count(a.EQUIVALANT_RANKID)TotalRank, oh.ORG_NAME
 from
        (select t.ORG_ID,t.EQUIVALANT_RANKID, er.RANK_NAME, sum(t.sanction) sanction, sum(t.borne) borne
@@ -826,4 +798,376 @@ group by t.ORG_ID,t.EQUIVALANT_RANKID
 order by t.ORG_ID, er.POSITION)a
 left join bn_organization_hierarchy oh on a.ORG_ID = oh.ORG_ID
 group by a.ORG_ID;
+
+
+
+SELECT DISTINCT s.OFFICIALNUMBER O_No, s.FULLNAME NAME, r.RANK_NAME Rank, s.BRANCHID, s.RANKID, bpu.NAME present_unit,
+ date_format(s.POSTINGDATE, '%d-%m-%Y') AS Date_Of_Posting,
+ (SELECT bpu.NAME FROM bn_posting_unit bpu WHERE  t.PostingUnitID = bpu.POSTING_UNITID) Under_Draft_unit, date_format(t.TODate, '%d-%m-%Y') AS Order_date
+FROM sailor s
+ LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+ LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+ LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+ LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+ LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+ LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+ LEFT JOIN bn_trade td ON s.BRANCHID = td.BRANCH_ID
+ LEFT JOIN partii p ON td.TRADE_ID = p.TradeID
+WHERE s.SAILORSTATUS = 1  AND s.ZONEID IN (1)   AND dao.GROUP_ID IN (1)
+ORDER BY r.POSITION;
+
+
+
+SELECT DISTINCT s.OFFICIALNUMBER O_No, s.FULLNAME NAME, r.RANK_NAME Rank, s.BRANCHID, s.RANKID, bpu.NAME present_unit,
+        date_format(s.POSTINGDATE, '%d-%m-%Y') AS Date_Of_Posting,
+        (SELECT bpu.NAME FROM bn_posting_unit bpu WHERE  t.PostingUnitID = bpu.POSTING_UNITID) Under_Draft_unit, date_format(t.TODate, '%d-%m-%Y') AS Order_date
+    FROM sailor s
+        LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+        LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+        LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+        LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+        LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+        LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+        LEFT JOIN bn_trade td ON s.BRANCHID = td.BRANCH_ID
+        LEFT JOIN partii p ON td.TRADE_ID = p.TradeID
+    WHERE s.SAILORSTATUS = 1  AND dao.GROUP_ID IN (1,2,3,4,5,7)
+    ORDER BY r.POSITION;
+
+
+
+SELECT DISTINCT s.OFFICIALNUMBER O_No, s.FULLNAME NAME,
+                (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) RankName,
+                s.BRANCHID, s.RANKID, bpu.NAME present_unit,
+        date_format(s.POSTINGDATE, '%d-%m-%Y') AS Date_Of_Posting,
+        (SELECT bpu.NAME FROM bn_posting_unit bpu WHERE  t.PostingUnitID = bpu.POSTING_UNITID) Under_Draft_unit, date_format(t.TODate, '%d-%m-%Y') AS Order_date
+    FROM sailor s
+        LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+        LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+        LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+        LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+        LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+        LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+        LEFT JOIN partii p ON s.FIRSTPARTID = p.PartIIID
+    WHERE s.SAILORSTATUS = 1  AND s.FIRSTPARTID IN (1)   AND dao.GROUP_ID IN (1,2,3,4,5,7)
+    ORDER BY s.OFFICIALNUMBER asc
+
+;
+
+#r.RANK_NAME Rank,
+SELECT  (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME
+FROM sailor s
+LEFT JOIN bn_posting_unit pu ON pu.POSTING_UNITID = s.POSTINGUNITID
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+LEFT JOIN bn_ship_establishment sh ON sh.SHIP_ESTABLISHMENTID = s.SHIPESTABLISHMENTID
+LEFT JOIN bn_rank r ON r.RANK_ID = s.RANKID
+where SAILORID in (5557, 14035, 3316) and s.ACTIVE_STATUS = 1;
+
+
+
+SELECT a.Division, a.totalDis, a.District, a.HLT, a.HSLT, a.MCPO, a.SCPO, a.CPO, a.PO, a.LDG, a.AB, a.OD, a.ODUT, a.DEUC, (a.HLT + a.HSLT + a.MCPO + a.SCPO + a.CPO + a.PO + a.LDG + a.AB + a.OD + a.ODUT + a.DEUC) Total
+from (select    (select bd.NAME from   bn_bdadminhierarchy bd where  bd.BD_ADMINID = s.DIVISIONID) as Division,
+        (select count(bd.BD_ADMINID) from   bn_bdadminhierarchy bd where  bd.PARENT_ID = s.DIVISIONID) as totalDis,
+        (select bd.NAME from   bn_bdadminhierarchy bd where  bd.BD_ADMINID = s.DISTRICTID) as District,
+        b.DAO_GROUPID as GROUP_ID,
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN 1 ELSE NULL END) AS 'HLT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN 1 ELSE NULL END) AS 'HSLT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN 1 ELSE NULL END) AS 'MCPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN 1 ELSE NULL END) AS 'SCPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN 1 ELSE NULL END) AS 'CPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN 1 ELSE NULL END) AS 'PO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN 1 ELSE NULL END) AS 'LDG',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN 1 ELSE NULL END) AS 'AB',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN 1 ELSE NULL END) AS 'OD',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN 1 ELSE NULL END) AS 'ODUT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN 1 ELSE NULL END) AS 'DEUC'
+FROM     sailor s, bn_rank r, bn_branch b
+WHERE    s.RANKID = r.RANK_ID AND  s.BRANCHID = b.BRANCH_ID AND s.SAILORSTATUS = 1  AND s.RANKID IN (1)
+GROUP by s.DIVISIONID, s.DISTRICTID) a
+WHERE  a.Division is not null  AND a.GROUP_ID IN (1,2,3,4,5,7);
+
+
+##########
+
+SELECT a.Division, a.totalDis, a.District, a.HLT, a.HSLT, a.MCPO, a.SCPO, a.CPO, a.PO, a.LDG, a.AB, a.OD, a.ODUT, a.DEUC, (a.HLT + a.HSLT + a.MCPO + a.SCPO + a.CPO + a.PO + a.LDG + a.AB + a.OD + a.ODUT + a.DEUC) Total
+  from (select    (select bd.NAME from   bn_bdadminhierarchy bd where  bd.BD_ADMINID = s.DIVISIONID) as Division,
+        (select count(bd.BD_ADMINID) from  bn_bdadminhierarchy bd where  bd.PARENT_ID = s.DIVISIONID) as totalDis,
+        (select bd.NAME from  bn_bdadminhierarchy bd where  bd.BD_ADMINID = s.DISTRICTID) as District,
+        b.DAO_GROUPID as GROUP_ID,
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN 1 ELSE NULL END) AS 'HLT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN 1 ELSE NULL END) AS 'HSLT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN 1 ELSE NULL END) AS 'MCPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN 1 ELSE NULL END) AS 'SCPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN 1 ELSE NULL END) AS 'CPO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN 1 ELSE NULL END) AS 'PO',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN 1 ELSE NULL END) AS 'LDG',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN 1 ELSE NULL END) AS 'AB',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN 1 ELSE NULL END) AS 'OD',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN 1 ELSE NULL END) AS 'ODUT',
+         COUNT(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN 1 ELSE NULL END) AS 'DEUC'
+FROM     sailor s, bn_rank r, bn_branch b
+WHERE    s.RANKID = r.RANK_ID AND  s.BRANCHID = b.BRANCH_ID AND s.SAILORSTATUS = 1  AND s.RANKID IN (1)
+GROUP by s.DIVISIONID, s.DISTRICTID) a
+WHERE  a.Division is not null  AND a.GROUP_ID IN (1,2,3,4,5,7)
+;
+
+
+############
+SELECT a.STUDENT_ID,a.FULL_NAME_EN,(SELECT COUNT(*)  FROM UMS_LAB_SCHEDULE WHERE STUDENT_ID=a.STUDENT_ID ) IS_EXIST FROM STUDENT_PERSONAL_INFO a;
+
+###
+
+SELECT  TRIM(leading 0 FROM s.OFFICIALNUMBER)OFFICIALNUMBER, s.FULLNAME, s.MAXGCB, s.SAILORID, s.ENTRYDATE, s.MOBILE, (CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) AS RANK_NAME, p.Name PARTII_NAME
+FROM sailor s
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+LEFT JOIN bn_rank r ON r.RANK_ID = s.RANKID
+where SAILORID in (5557, 14035, 3316) and s.SAILORSTATUS = 1;
+
+
+
+select *
+from partii;
+
+
+SELECT s.SAILORID, s.FULLNAME, p.Name
+FROM sailor s
+LEFT JOIN partii p ON p.PartIIID = s.FIRSTPARTID
+where SAILORID in (5557, 14035, 3316) and s.ACTIVE_STATUS = 1;
+
+
+select * from bn_organization_hierarchy where ACTIVE_STATUS = 1 and ORG_TYPE = 3;
+
+select *,ACTIVE_STATUS
+from bn_branch;
+
+SELECT   b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+  FROM  bn_branch b
+           LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+           LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+           LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+           -- LEFT JOIN bn_organization_hierarchy bno ON bno.ORG_ID = b.ORG_ID
+           LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+  GROUP BY b.BRANCH_ID, r.RANK_ID, p.PartIIID
+  ORDER BY b.BRANCH_ID, r.POSITION, p.PartIIID
+;
+
+
+SELECT a.Division, a.District, a.Branch, a.totalDiv, a.HLT, a.HSLT, a.MCPO, a.SCPO, a.CPO, a.PO, a.LDG, a.AB, a.OD, a.ODUT, a.DEUC, (a.HLT + a.HSLT + a.MCPO + a.SCPO + a.CPO + a.PO + a.LDG + a.AB + a.OD + a.ODUT + a.DEUC) Total
+FROM   (SELECT   (SELECT bd.NAME FROM   bn_bdadminhierarchy bd WHERE  bd.BD_ADMINID = s.DIVISIONID) AS Division,
+       (SELECT bd.NAME FROM   bn_bdadminhierarchy bd WHERE  bd.BD_ADMINID = s.DISTRICTID) AS District,
+       (select count(bd.BD_ADMINID) from   bn_bdadminhierarchy bd where  bd.PARENT_ID = s.DIVISIONID) as totalDiv,
+       b.BRANCH_NAME AS Branch,
+       s.DISTRICTID,
+       b.DAO_GROUPID AS GROUP_ID,
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN 1 ELSE NULL END) AS 'HLT',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN 1 ELSE NULL END) AS 'HSLT',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN 1 ELSE NULL END) AS 'MCPO',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN 1 ELSE NULL END) AS 'SCPO',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN 1 ELSE NULL END) AS 'CPO',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN 1 ELSE NULL END) AS 'PO',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN 1 ELSE NULL END) AS 'LDG',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN 1 ELSE NULL END) AS 'AB',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN 1 ELSE NULL END) AS 'OD',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN 1 ELSE NULL END) AS 'ODUT',
+       COUNT(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN 1 ELSE NULL END) AS 'DEUC'
+FROM     sailor s, bn_rank r, bn_branch b
+WHERE    s.RANKID = r.RANK_ID AND s.BRANCHID = b.BRANCH_ID AND s.SAILORSTATUS = 1  AND s.RANKID IN (1)
+GROUP BY s.DIVISIONID, s.DISTRICTID, s.BRANCHID) a
+WHERE  a.Division IS NOT NULL  AND a.GROUP_ID IN (1,2,3,4,5,7);
+
+
+
+
+select sum(X.sanc)
+from
+(SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+FROM  bn_branch b
+      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+      LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+WHERE b.ACTIVE_STATUS = 1   AND a.GROUP_ID IN (1,2,3,4,5,7)
+GROUP BY b.BRANCH_ID, r.RANK_ID, p.PartIIID, uws.SanctionNo
+ORDER BY b.BRANCH_ID, r.POSITION, p.PartIIID) X
+;
+
+
+SELECT SUM(M.SANC)
+FROM(SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+FROM  bn_branch b
+      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+      LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+WHERE b.ACTIVE_STATUS = 1
+      AND a.GROUP_ID IN (1,2,3,4,5,7)
+GROUP BY b.BRANCH_NAME,r.RANK_NAME, p.Name, pro.Borne, uws.Remarks
+) M;
+
+
+SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+FROM  bn_branch b
+      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+      LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+WHERE b.ACTIVE_STATUS = 1
+      AND a.GROUP_ID IN (1,2,3,4,5,7)
+GROUP BY b.BRANCH_NAME,r.RANK_NAME, p.Name, pro.Borne, uws.Remarks
+
+
+
+
+select b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+from bn_branch b,unitwisesanction uws,bn_rank r,partii p,promotionrosterdata pro,bn_daogroup a
+where b.BRANCH_ID=r.BRANCH_ID
+and b.BRANCH_ID=pro.BranchID
+and b.DAO_GROUPID=a.GROUP_ID
+and b.BRANCH_ID=r.BRANCH_ID
+and uws.RankID=r.RANK_ID
+and uws.PartIIID=p.PartIIID
+and uws.PostingUnitID=pro.PostingUnitID
+and a.GROUP_ID IN (1,2,3,4,5,7);
+
+
+select br.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, sa.sanction sanc, b.Borne, sa.Remarks
+from bn_rank r
+left join (select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa on r.RANK_ID = sa.RankID
+left join (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join partii p on p.PartIIID = b.FIRSTPARTID
+left join bn_daogroup a ON br.DAO_GROUPID = a.GROUP_ID
+where  r.ACTIVE_STATUS = 1 and r.BRANCH_ID in(1)
+order by r.BRANCH_ID, r.POSITION
+;
+
+
+select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID;
+
+
+SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+FROM  bn_branch b
+      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+      LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+WHERE b.ACTIVE_STATUS = 1
+      AND a.GROUP_ID IN (1,2,3,4,5,7)
+GROUP BY b.BRANCH_NAME,r.RANK_NAME, p.Name, pro.Borne, uws.Remarks
+
+
+
+SELECT a.Branch, a.BRANCH_ID, a.HLT, a.HSLT, a.MCPO, a.SCPO, a.CPO, a.PO, a.LDG, a.AB, a.OD,
+    a.ODUT, a.DEUC, (a.HLT + a.HSLT + a.MCPO + a.SCPO + a.CPO + a.PO + a.LDG + a.AB + a.OD + a.ODUT + a.DEUC) Total
+FROM (SELECT  b.BRANCH_NAME Branch, r.BRANCH_ID,
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN 1 ELSE NULL END) AS 'HLT',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN 1 ELSE NULL END) AS 'HSLT',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN 1 ELSE NULL END) AS 'MCPO',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN 1 ELSE NULL END) AS 'SCPO',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN 1 ELSE NULL END) AS 'CPO',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN 1 ELSE NULL END) AS 'PO',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN 1 ELSE NULL END) AS 'LDG',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN 1 ELSE NULL END) AS 'AB',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN 1 ELSE NULL END) AS 'OD',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN 1 ELSE NULL END) AS 'ODUT',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN 1 ELSE NULL END) AS 'DEUC'
+     FROM     sailor s
+             LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+             -- LEFT JOIN bn_trade td ON s.BRANCHID = td.BRANCH_ID
+             -- LEFT JOIN partii p ON td.TRADE_ID = p.TradeID
+             LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+             LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+             LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+             LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+     WHERE  s.SAILORSTATUS = 1   AND dao.GROUP_ID IN (1,2,3,4,5,7)
+     GROUP BY s.BRANCHID) a
+WHERE  a.Branch IS NOT NULL
+;
+
+
+
+SELECT a.Branch, a.BRANCH_ID, sum(a.HLT) hlt,
+       sum(a.HLT1) hlt1, sum(a.HSLT) hslt,
+       sum(a.HSLT1) hslt1, sum(a.MCPO) mcpo,
+       sum(a.MCPO1) mcpo1, sum(a.SCPO) scpo,
+       sum(a.SCPO1) scpo1, sum(a.CPO) cpo,
+       sum(a.CPO1) cpo1, sum(a.PO) po,
+       sum(a.PO1) po1, sum(a.LDG) ldg,
+       sum(a.LDG1) ldg1, sum(a.AB) ab,
+       sum(a.AB1) ab1, sum(a.OD) od,
+       sum(a.OD1) od1, sum(a.ODUT) odut,
+       sum(a.ODUT1) odut1, sum(a.DEUC) deuc,
+       sum(a.DEUC1) deuc1,
+       (sum(a.HLT1) + sum(a.HSLT1) + sum(a.MCPO1) + sum(a.SCPO1) + sum(a.CPO1) + sum(a.PO1) + sum(a.LDG1) + sum(a.AB1) + sum(a.OD1) + sum(a.ODUT1) + sum(a.DEUC1)) TotalNN,
+       (a.HLT + a.HSLT + a.MCPO + a.SCPO + a.CPO + a.PO + a.LDG + a.AB + a.OD + a.ODUT + a.DEUC) Total
+FROM (SELECT (SELECT b.BRANCH_NAME FROM  bn_branch b WHERE r.BRANCH_ID = b.BRANCH_ID) AS Branch,
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN 1 ELSE NULL END) AS 'HLT', 0 'HLT1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN 1 ELSE NULL END) AS 'HSLT', 0 'HSLT1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN 1 ELSE NULL END) AS 'MCPO', 0 'MCPO1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN 1 ELSE NULL END) AS 'SCPO', 0 'SCPO1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN 1 ELSE NULL END) AS 'CPO', 0 'CPO1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN 1 ELSE NULL END) AS 'PO', 0 'PO1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN 1 ELSE NULL END) AS 'LDG', 0 'LDG1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN 1 ELSE NULL END) AS 'AB', 0 'AB1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN 1 ELSE NULL END) AS 'OD', 0 'OD1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN 1 ELSE NULL END) AS 'ODUT', 0 'ODUT1',
+              COUNT(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN 1 ELSE NULL END) AS 'DEUC', 0 'DEUC1',
+              r.BRANCH_ID
+      FROM sailor s
+      LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+       -- LEFT JOIN bn_trade td ON s.BRANCHID = td.BRANCH_ID
+       -- LEFT JOIN partii p ON td.TRADE_ID = p.TradeID
+       LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+       LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+       LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+       LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+       WHERE s.SAILORSTATUS = 1  AND dao.GROUP_ID IN (1,2,3,4,5,7)
+       GROUP BY r.BRANCH_ID
+
+       UNION
+
+       SELECT (SELECT b.BRANCH_NAME FROM  bn_branch b WHERE  r.BRANCH_ID = b.BRANCH_ID) AS Branch,
+              0 'HLT',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 11 THEN SanctionNo ELSE 0 END) AS 'HLT1', 0 'HSLT',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 1 THEN SanctionNo ELSE 0 END) AS 'HSLT1', 0 'MCPO',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 2 THEN SanctionNo ELSE 0 END) AS 'MCPO1', 0 'SCPO',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 10 THEN SanctionNo ELSE 0 END) AS 'SCPO1', 0 'CPO',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 3 THEN SanctionNo ELSE 0 END) AS 'CPO1', 0 'PO',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 4 THEN SanctionNo ELSE 0 END) AS 'PO1', 0 'LDG',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 5 THEN SanctionNo ELSE 0 END) AS 'LDG1', 0 'AB',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 6 THEN SanctionNo ELSE 0 END) AS 'AB1', 0 'OD',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 7 THEN SanctionNo ELSE 0 END) AS 'OD1', 0 'ODUT',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 8 THEN SanctionNo ELSE 0 END) AS 'ODUT1', 0 'DEUC',
+             sum(CASE WHEN r.EQUIVALANT_RANKID = 9 THEN SanctionNo ELSE 0 END) AS 'DEUC1',
+             r.BRANCH_ID
+       FROM unitwisesanction s
+       LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+       LEFT JOIN bn_branch b ON r.BRANCH_ID = b.BRANCH_ID
+       LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+       LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+       LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+       WHERE UnitWiseSanctionID is not null
+       GROUP BY r.BRANCH_ID) a
+GROUP BY a.BRANCH_ID
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
