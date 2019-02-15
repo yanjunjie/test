@@ -1156,16 +1156,167 @@ GROUP BY a.BRANCH_ID
 
 
 
+select br.BRANCH_ID, br.BRANCH_NAME Branch, r.RANK_ID, r.RANK_NAME Rank, p.Name Part, sa.sanction sanc, b.Borne, sa.Remarks
+from bn_rank r
+left join (select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa on r.RANK_ID = sa.RankID
+left join (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join partii p on p.PartIIID = b.FIRSTPARTID
+left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+where -- r.ACTIVE_STATUS is not null
+      -- AND a.GROUP_ID IN (1,2,3,4,5,7)
+      -- and
+      br.branch_id = 14 -- and borne is not null
+group by b.rankid, sa.RankID, br.branch_id
+order by r.BRANCH_ID, r.POSITION
+;
+
+select *
+from unitwisesanction;
+
+
+select br.BRANCH_ID, br.BRANCH_NAME Branch, r.RANK_ID, r.RANK_NAME Rank -- , p.Name Part, sa.sanction sanc, b.Borne, sa.Remarks
+,(select sum(us.SanctionNo)sanction from unitwisesanction us where r.RANK_ID = us.RankID) sanc
+-- ,(select us.Remarks from unitwisesanction us where r.RANK_ID = us.RankID) Remarks
+,(select count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 and r.RANK_ID = s.RANKID) Borne
+-- ,(select p.Name from partii p where ) Part
+from bn_rank r
+-- ,(select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa
+-- (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b
+,bn_branch br
+-- , partii p
+, bn_daogroup a
+where r.branch_id=br.branch_id
+-- and r.RANK_ID = sa.RankID
+and br.branch_id = 1
+and br.DAO_GROUPID = a.GROUP_ID
+AND a.GROUP_ID IN (1,2,3,4,5,7)
+
+;
+/
+where r.RANK_ID = sa.RankID
+and r.RANK_ID = b.RANKID
+and r.BRANCH_ID = br.BRANCH_ID
+and p.PartIIID = b.FIRSTPARTID
+and br.DAO_GROUPID = a.GROUP_ID
+and br.branch_id = 14;
+
+desc bn_daogroup;
+
+select br.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, sum(sa.sanction) sanc, sum(b.Borne) bbb, sa.Remarks
+    from bn_rank r
+    left join (select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa on r.RANK_ID = sa.RankID
+    left join (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b on r.RANK_ID = b.RANKID
+    left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+    left join partii p on p.PartIIID = b.FIRSTPARTID
+    left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+    where  r.ACTIVE_STATUS = 1
+    AND a.GROUP_ID IN (1,2,3,4,5,7)
+    and
+    -- and r.branch_id=1
+group by br.BRANCH_NAME, r.RANK_NAME, p.Name, sa.Remarks
+order by r.BRANCH_ID, r.POSITION
+;
+
+
+#
+select br.BRANCH_NAME, r.RANK_ID, r.RANK_NAME, p.PartIIID, p.Name PartIIName, b.borne
+from bn_rank r
+left join (select RANKID, FIRSTPARTID, count(SAILORID)borne from sailor where SAILORSTATUS = 1 group by RANKID, FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join partii p on p.PartIIID = b.FIRSTPARTID
+order by r.BRANCH_ID, r.POSITION, p.PartIIID
+;
+
+
+select sum(us.SanctionNo)sanction
+from unitwisesanction us
+where us.RankID = 2 and us.PartIIID = 1
+group by us.RankID,us.PartIIID;
 
 
 
+## If one table is dependent on another table or like inner loop
+
+SELECT us.RankID,us.PartIIID, SUM(us.SanctionNo)sanction
+FROM unitwisesanction us
+WHERE (us.RankID, us.PartIIID) IN (SELECT r.RANK_ID, p.PartIIID
+                                   FROM bn_rank r
+                                   LEFT JOIN (SELECT RANKID, FIRSTPARTID, COUNT(SAILORID)borne FROM sailor WHERE SAILORSTATUS = 1 GROUP BY RANKID, FIRSTPARTID) b ON r.RANK_ID = b.RANKID
+                                   LEFT JOIN bn_branch br ON r.BRANCH_ID = br.BRANCH_ID
+                                   LEFT JOIN partii p ON p.PartIIID = b.FIRSTPARTID
+                                   ORDER BY r.BRANCH_ID, r.POSITION, p.PartIIID)
+                                   GROUP BY us.RankID,us.PartIIID;
+
+;
+
+
+SELECT a.RankID, a.PartIIID, a.sanction, b.borne
+FROM
+       (SELECT SUM(us.SanctionNo)sanction, us.RankID, us.PartIIID
+       FROM unitwisesanction us
+       GROUP BY us.RankID,us.PartIIID) a,
+
+       (SELECT r.RANK_ID, p.PartIIID, b.borne
+       FROM bn_rank r
+       LEFT JOIN (SELECT RANKID, FIRSTPARTID, COUNT(SAILORID)borne
+       FROM sailor WHERE SAILORSTATUS = 1 GROUP BY RANKID, FIRSTPARTID) b ON r.RANK_ID = b.RANKID
+       LEFT JOIN bn_branch br ON r.BRANCH_ID = br.BRANCH_ID
+       LEFT JOIN partii p ON p.PartIIID = b.FIRSTPARTID
+       ORDER BY r.BRANCH_ID, r.POSITION, p.PartIIID) b
+
+WHERE a.RankID = b.RANK_ID
+AND a.PartIIID = b.PartIIID
+
+## End If one table is dependent on another table or like inner loop
 
 
 
+select br.BRANCH_NAME, r.RANK_ID, r.RANK_NAME, p.PartIIID, p.Name PartIIName, b.borne
+from bn_rank r
+left join (select RANKID, FIRSTPARTID, count(SAILORID)borne from sailor where SAILORSTATUS = 1 group by RANKID, FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join partii p on p.PartIIID = b.FIRSTPARTID
+left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+where  r.ACTIVE_STATUS = 1   AND a.GROUP_ID IN (1,2,3,4,5,7) and br.branch_id=1
+order by r.BRANCH_ID, r.POSITION, p.PartIIID;
 
 
 
+select sum(us.SanctionNo)sanction
+from unitwisesanction us
+where us.RankID = 2 and us.PartIIID = 1
+group by us.RankID,us.PartIIID;
 
+
+select br.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, sa.sanction sanc, b.Borne, sa.Remarks
+    from bn_rank r
+    left join (select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa on r.RANK_ID = sa.RankID
+    left join (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b on r.RANK_ID = b.RANKID
+    left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+    left join partii p on p.PartIIID = b.FIRSTPARTID
+    left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+    where  r.ACTIVE_STATUS = 1   AND a.GROUP_ID IN (1,2,3,4,5,7) and br.branch_id=1
+    order by r.BRANCH_ID, r.POSITION;
+
+
+select sum(us.SanctionNo)sanction from unitwisesanction us where us.RankID = 7 and us.PartIIID = group by us.RankID,us.PartIIID
+
+
+
+SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
+FROM  bn_branch b
+      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
+      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
+      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
+      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
+GROUP BY b.BRANCH_ID, r.RANK_ID, p.PartIIID
+ORDER BY b.BRANCH_ID, r.POSITION, p.PartIIID;
+
+select *,med.MedicalCategoryName from pfttran pft left join sailor sai on sai.SAILORID = pft.SailorID left join medicalcategory med on med.MedicalCategoryID = sai.MEDICALCATEGORY left join bn_rank bnr on bnr.RANK_ID= sai.RANKID where pft.SailorID= 6816 order by pft.PftID desc
+
+
+select * from sailor where SAILORID = 6816;
 
 
 
