@@ -4,6 +4,19 @@ mytest.forEach(function(element, key) {
   console.log(element); //id, bablu
 });
 
+Example 01:
+var a = {
+  "ip": "10.0.0.161",
+  "port": 21,
+  "banner": "",
+  "status": "closed (timeout)"
+};
+
+var ele = document.getElementById("pingStatus");
+Object.values(a).forEach(e => ele.textContent += e + "    ")
+<p id="pingStatus" type="text"></p>
+
+
 //for..of is only for Array
 let mytest = [10, 'bablu'];
 for (myvar of mytest)
