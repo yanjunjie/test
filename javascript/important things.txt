@@ -22,6 +22,10 @@ d.speak(); // Mitzie makes a noise.
 
 # 02. Object.create(obj1) like new keyword in OOP -----------------------------------------
 # 03. Object.assign() like interface in OOP ---------------------------------------
+# 04. prototypeObj.isPrototypeOf(object)
+
+
+
 
 
 
