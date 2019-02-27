@@ -1,4 +1,4 @@
-Done query:
+//Done query:
 alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 /
 SELECT accr.*, acc.AC_NAME, insprogram.PROGRAM_NAME, ins_s.SESSION_NAME || '-' || ins_y.DINYEAR AS SESSION_NAME
