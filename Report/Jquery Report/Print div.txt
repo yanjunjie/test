@@ -158,3 +158,28 @@ function myFunction(divName) {// For Print Generate
     document.body.innerHTML = originalContents;
 }
 
+//v.07 
+
+    function printDivSecond() {
+        var divToPrint = document.getElementById('printallsection');
+        var mywindow = window.open('', 'Print-Window');
+        var is_chrome = Boolean(mywindow.chrome);
+        mywindow.document.write(divToPrint.innerHTML);
+        if (is_chrome) {
+            setTimeout(function() {
+                mywindow.document.close();
+                mywindow.focus();
+                mywindow.print();
+                mywindow.close();
+            }, 250);
+        } else {
+            mywindow.document.close();
+            mywindow.focus();
+            mywindow.print();
+            mywindow.close();
+        }
+        return true;
+    }
+
+
+

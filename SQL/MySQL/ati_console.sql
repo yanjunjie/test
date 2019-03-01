@@ -1219,6 +1219,7 @@ order by r.BRANCH_ID, r.POSITION
 ;
 
 
+
 #
 select br.BRANCH_NAME, r.RANK_ID, r.RANK_NAME, p.PartIIID, p.Name PartIIName, b.borne
 from bn_rank r
@@ -1268,6 +1269,38 @@ FROM
 WHERE a.RankID = b.RANK_ID
 AND a.PartIIID = b.PartIIID
 
+
+####################################
+SELECT r.RANK_ID, p.PartIIID, b.borne,
+(SELECT SUM(us.SanctionNo)sanction
+FROM unitwisesanction us
+WHERE us.RankID = r.RANK_ID
+AND us.PartIIID = p.PartIIID
+GROUP BY us.RankID,us.PartIIID) sanction,
+
+(SELECT us.RankID
+FROM unitwisesanction us
+WHERE us.RankID = r.RANK_ID
+AND us.PartIIID = p.PartIIID
+GROUP BY us.RankID,us.PartIIID) RankID,
+
+(SELECT us.PartIIID
+FROM unitwisesanction us
+WHERE us.RankID = r.RANK_ID
+AND us.PartIIID = p.PartIIID
+GROUP BY us.RankID,us.PartIIID) PartIIID
+
+
+FROM bn_rank r
+LEFT JOIN (SELECT RANKID, FIRSTPARTID, COUNT(SAILORID)borne
+FROM sailor WHERE SAILORSTATUS = 1 GROUP BY RANKID, FIRSTPARTID) b ON r.RANK_ID = b.RANKID
+LEFT JOIN bn_branch br ON r.BRANCH_ID = br.BRANCH_ID
+left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+LEFT JOIN partii p ON p.PartIIID = b.FIRSTPARTID
+where r.ACTIVE_STATUS = 1 -- AND s.ZONEID IN (4) AND s.ZONEID IN (4)
+  AND a.GROUP_ID IN (1,2,3,4,5,7) -- order by r.BRANCH_ID, r.POSITION, p.PartIIID;
+ORDER BY r.BRANCH_ID, r.POSITION, p.PartIIID;
+
 ## End If one table is dependent on another table or like inner loop
 
 
@@ -1281,42 +1314,346 @@ left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
 where  r.ACTIVE_STATUS = 1   AND a.GROUP_ID IN (1,2,3,4,5,7) and br.branch_id=1
 order by r.BRANCH_ID, r.POSITION, p.PartIIID;
 
-
-
 select sum(us.SanctionNo)sanction
 from unitwisesanction us
 where us.RankID = 2 and us.PartIIID = 1
 group by us.RankID,us.PartIIID;
 
 
-select br.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, sa.sanction sanc, b.Borne, sa.Remarks
-    from bn_rank r
-    left join (select us.RankID, us.PartIIID, sum(us.SanctionNo)sanction, us.Remarks from unitwisesanction us group by us.RankID,us.PartIIID) sa on r.RANK_ID = sa.RankID
-    left join (select s.RANKID, s.FIRSTPARTID, count(s.SAILORID)borne from sailor s where s.SAILORSTATUS = 1 group by s.RANKID,s.FIRSTPARTID) b on r.RANK_ID = b.RANKID
-    left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
-    left join partii p on p.PartIIID = b.FIRSTPARTID
-    left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
-    where  r.ACTIVE_STATUS = 1   AND a.GROUP_ID IN (1,2,3,4,5,7) and br.branch_id=1
-    order by r.BRANCH_ID, r.POSITION;
+
+####################################
+select br.BRANCH_NAME Branch, r.RANK_ID, r.RANK_NAME Rank, p.PartIIID, p.Name Part, b.Borne,
+       (SELECT SUM(us.SanctionNo)sanction
+       FROM unitwisesanction us
+       WHERE us.RankID = r.RANK_ID
+       AND us.PartIIID = p.PartIIID
+       GROUP BY us.RankID,us.PartIIID) sanction
+from bn_rank r
+left join (select SAILORID,RANKID, FIRSTPARTID, count(SAILORID)borne from sailor where SAILORSTATUS = 1 group by RANKID, FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join partii p on p.PartIIID = b.FIRSTPARTID
+left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+left join sailor s on s.SAILORID = b.SAILORID
+where r.ACTIVE_STATUS = 1 $sql $daoGroup
+order by r.BRANCH_ID, r.POSITION, p.PartIIID;
 
 
-select sum(us.SanctionNo)sanction from unitwisesanction us where us.RankID = 7 and us.PartIIID = group by us.RankID,us.PartIIID
+select br.BRANCH_NAME Branch, r.RANK_ID, r.RANK_NAME Rank, p.PartIIID, p.Name Part, b.Borne,
+    (SELECT SUM(us.SanctionNo)sanction
+    FROM unitwisesanction us
+    WHERE us.RankID = r.RANK_ID
+    AND us.PartIIID = p.PartIIID
+    GROUP BY us.RankID,us.PartIIID) sanction
+from bn_rank r
+left join (select RANKID, FIRSTPARTID, count(SAILORID)borne from sailor where SAILORSTATUS = 1 group by RANKID, FIRSTPARTID) b on r.RANK_ID = b.RANKID
+left join bn_branch br on r.BRANCH_ID = br.BRANCH_ID
+left join sailor s on s.RANKID = r.RANK_ID
+left join partii p on p.PartIIID = s.FIRSTPARTID
+left join bn_daogroup a on br.DAO_GROUPID = a.GROUP_ID
+where r.ACTIVE_STATUS = 1
+AND s.ZONEID IN (1)
+AND a.GROUP_ID IN (1,2,3,4,5,7)
+group by r.RANK_ID, p.PartIIID, s.RANKID
+order by r.BRANCH_ID, r.POSITION, p.PartIIID
+;
+
+
+### done by nurulla bhai
+
+select b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+       (SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us  WHERE us.RankID = s.RANKID
+       AND us.PartIIID = s.FIRSTPARTID GROUP BY us.RankID,us.PartIIID) sanction
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+where SAILORSTATUS = 1 AND a.GROUP_ID IN (1,2,3,4,5,7)
+group by RANKID, FIRSTPARTID
+order by b.BRANCH_ID, r.POSITION, p.PartIIID
+
+### done by nurullah bhai
+select sh.NAME ShipName, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1 -- $sql $daoGroup
+and s.POSTINGUNITID = 1
+and s.BRANCHID = 1
+group by s.POSTINGUNITID, s.RANKID, s.FIRSTPARTID
+limit 100;
+
+
+select sh.NAME ShipName, sh.ZONE_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+-- left join bn_navyadminhierarchy bnh on sh.ZONE_ID = bnh.PARENT_ID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1 AND s.ZONEID IN (1) AND s.AREAID IN (5) AND s.EQUIVALANTRANKID IN (1) AND a.GROUP_ID IN (1,2,3,4,5,7)
+group by s.POSTINGUNITID, s.RANKID, s.BRANCHID
+-- limit 50
+
+
+select *, ADMIN_ID, PARENT_ID
+from bn_navyadminhierarchy where ADMIN_TYPE = 2; #1 means zone, 2 means area
+
+
+SELECT a.NAME AREA_NAME, a.ADMIN_ID, a.PARENT_ID, z.NAME ZONE_NAME
+FROM bn_navyadminhierarchy a
+LEFT JOIN (SELECT * FROM bn_navyadminhierarchy WHERE ADMIN_TYPE = 1 AND ACTIVE_STATUS = 1 ORDER BY CAST(CODE AS SIGNED) ASC) z on a.PARENT_ID = z.ADMIN_ID
+WHERE a.ADMIN_TYPE = 2
+AND a.ACTIVE_STATUS = 1
+ORDER BY a.PARENT_ID;
+
+
+select *
+from sailor where AREAID != 5;
+
+select *
+from bn_ship_establishment where AREA_ID
 
 
 
-SELECT b.BRANCH_NAME AS Branch, r.RANK_NAME AS Rank, p.Name AS Part, count(uws.SanctionNo) AS sanc, pro.Borne, uws.Remarks
-FROM  bn_branch b
-      LEFT JOIN bn_rank r ON b.BRANCH_ID = r.BRANCH_ID
-      LEFT JOIN unitwisesanction uws ON r.RANK_ID = uws.RankID
-      LEFT JOIN partii p ON uws.PartIIID = p.PartIIID
-      LEFT JOIN promotionrosterdata pro ON uws.RankID = pro.RankID AND b.BRANCH_ID = pro.BranchID
-GROUP BY b.BRANCH_ID, r.RANK_ID, p.PartIIID
-ORDER BY b.BRANCH_ID, r.POSITION, p.PartIIID;
+select sh.NAME ShipName,sh.AREA_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
 
-select *,med.MedicalCategoryName from pfttran pft left join sailor sai on sai.SAILORID = pft.SailorID left join medicalcategory med on med.MedicalCategoryID = sai.MEDICALCATEGORY left join bn_rank bnr on bnr.RANK_ID= sai.RANKID where pft.SailorID= 6816 order by pft.PftID desc
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1  AND s.ZONEID IN (1)  AND a.GROUP_ID IN (1,2,3,4,5,7)
+group by s.POSTINGUNITID, s.RANKID, s.BRANCHID
 
 
-select * from sailor where SAILORID = 6816;
+
+select sh.NAME ShipName, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1 -- $sql $daoGroup
+and s.zoneid = 1
+and s.areaId = 5
+      and s.POSTINGUNITID = 216
+and s.BRANCHID = 1
+group by s.POSTINGUNITID, RANKID, FIRSTPARTID
+
+
+
+;
+
+
+
+select sh.NAME ShipName,sh.AREA_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1
+AND a.GROUP_ID IN (1,2,3,4,5,7)
+
+AND s.ZONEID IN (1) AND s.AREAID IN (5)
+AND s.POSTINGUNITID IN (216)
+AND s.BRANCHID = 1
+group by s.POSTINGUNITID, s.RANKID, s.FIRSTPARTID
+
+
+
+SELECT DISTINCT s.OFFICIALNUMBER AS O_No , s.FULLNAME AS Name , r.RANK_NAME AS Rank,
+                (SELECT CASE ass.CharacterType WHEN 0 THEN 'VG' WHEN 1 THEN 'VG_' WHEN 2 THEN 'GOOD' WHEN 3 THEN 'FAIR' WHEN 4 THEN 'INDIF' WHEN 5 THEN 'BAD' ELSE NULL END) AS CHAR2009,
+                (SELECT CASE ass.EfficiencyType WHEN 0 THEN 'SUPER' WHEN 1 THEN 'SAT' WHEN 2 THEN 'MOD' WHEN 3 THEN 'INFER' WHEN 4 THEN 'UT' ELSE NULL END) AS Eff,
+                bpu.NAME AS posting_unit , s.SAILORID
+FROM sailor s
+LEFT JOIN assessment ass ON s.SAILORID = ass.SailorID
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+LEFT JOIN bn_trade td ON s.BRANCHID = td.BRANCH_ID
+left join bn_branch br on br.BRANCH_ID =s.BRANCHID
+left join postingunit b on b.PostingUnitID = s.POSTINGUNITID
+LEFT JOIN bn_daogroup dao ON dao.GROUP_ID = br.DAO_GROUPID
+LEFT JOIN partii p ON td.TRADE_ID = p.TradeID WHERE s.SAILORSTATUS=1 and ass.AssessYear in ('2018') AND dao.GROUP_ID IN (1,2,3,4,5,7) AND b.OrganizationID NOT IN (63)
+
+
+select *
+from bn_branch;
+
+select *, POSTINGUNITID
+from sailor;
+
+select *, OrganizationID, PostingUnitID
+from postingunit;
+
+
+
+select m.SAILORID, m.OFFICIALNUMBER, m.FULLNAME, r.RANK_NAME, p.NAME posting_unit
+from
+(select SAILORID, OFFICIALNUMBER, FULLNAME, RANKID, FIRSTPARTID, POSTINGUNITID, BRANCHID, AREAID, ZONEID
+from sailor
+where SAILORSTATUS = 1
+and SAILORID not in (select SailorID from assessment where AssessYear = 2018))m
+left join bn_rank r on m.RANKID = r.RANK_ID
+left join bn_branch br on br.BRANCH_ID = m.BRANCHID
+LEFT JOIN bn_posting_unit p ON m.POSTINGUNITID = p.POSTING_UNITID
+left join partii par on m.FIRSTPARTID = par.PartIIID
+LEFT JOIN bn_trade t on t.TRADE_ID = par.TradeID
+LEFT JOIN bn_daogroup dao ON dao.GROUP_ID = br.DAO_GROUPID
+;
+
+select a.SailorID, c.LOOKUP_DATA_NAME CharacterName, e.LOOKUP_DATA_NAME EfficiencyName
+from assessment a
+left join sa_lookup_data c on a.CharacterType = c.ORDER_SL_NO and c.LOOKUP_GRP_ID = 12
+left join sa_lookup_data e on a.EfficiencyType = e.ORDER_SL_NO and e.LOOKUP_GRP_ID = 13
+where a.SailorID = 23123 and a.AssessYear = 2017
+
+
+select a.SailorID, group_concat(c.LOOKUP_DATA_NAME) CharacterName, group_concat(e.LOOKUP_DATA_NAME) EfficiencyName
+from assessment a
+left join sa_lookup_data c on a.CharacterType = c.ORDER_SL_NO and c.LOOKUP_GRP_ID = 12
+left join sa_lookup_data e on a.EfficiencyType = e.ORDER_SL_NO and e.LOOKUP_GRP_ID = 13
+where a.SailorID = 23123 and a.AssessYear IN (2017,2016) order by a.AssessYear
+
+
+SELECT DISTINCT s.OFFICIALNUMBER AS O_No , s.FULLNAME AS Name, r.RANK_NAME AS Rank, bpu.NAME AS posting_unit , s.SAILORID
+FROM sailor s
+left join bn_rank r on r.RANK_ID = s.RANKID
+LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+LEFT JOIN partii pa2 on pa2.PartIIID = s.FIRSTPARTID
+where s.SAILORSTATUS=1
+AND dao.GROUP_ID IN (1,2,3,4,5,7)
+AND p.ORG_ID IN (63) and not exists (select 1 FROM sailor m left join assessment ass on ass.SailorID = m.SAILORID where AssessYear = '2018' and m.SAILORID = s.SAILORID )
+
+# stable
+SELECT DISTINCT s.OFFICIALNUMBER AS O_No , s.FULLNAME AS Name, r.RANK_NAME AS Rank, bpu.NAME AS posting_unit , s.SAILORID
+FROM sailor s
+left join bn_rank r on r.RANK_ID = s.RANKID
+LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+LEFT JOIN transfer t ON s.SAILORID = t.SailorID
+LEFT JOIN partii pa2 on pa2.PartIIID = s.FIRSTPARTID
+where s.SAILORSTATUS=1
+AND dao.GROUP_ID IN (1,2,3,4,5,7)
+and not exists (select 1 FROM assessment asses where AssessYear = '2018' and asses.SailorID = s.SAILORID)
+
+
+# stable
+
+select s.SAILORID, s.OFFICIALNUMBER, s.FULLNAME,
+      CASE
+        WHEN s.MAXGCB = 1 THEN '1st'
+        WHEN s.MAXGCB = 2 THEN '2nd'
+        WHEN s.MAXGCB = 3 THEN '3rd'
+      ELSE ''
+END MAXGCB,
+(CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) Rank,
+s.NavyId, s.IsMLR,date_format(s.ENTRYDATE, '%d-%m-%Y')JOINING_DATE, s.MOBILE, s.REMARKS
+from sailor s
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+where s.SAILORSTATUS = 1
+ORDER BY s.BRANCHID, r.POSITION, s.OFFICIALNUMBER ASC
+
+
+# stable
+
+select s.SAILORID, s.OFFICIALNUMBER, s.FULLNAME, m.MedicalCategoryName,
+(CASE WHEN (p.Name != '') THEN concat(r.RANK_NAME, '(', p.Name, ')') ELSE r.RANK_NAME END) Rank,
+pft.RunningWalk, pft.PushUp, pft.ReachUp, pft.ShuttleRun, pft.Swimming, pft.Remarks
+from sailor s
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+LEFT JOIN bn_daogroup dao ON b.DAO_GROUPID = dao.GROUP_ID
+LEFT JOIN bn_posting_unit bpu ON s.POSTINGUNITID = bpu.POSTING_UNITID
+LEFT JOIN bn_ship_establishment bse ON s.SHIPESTABLISHMENTID = bse.SHIP_ESTABLISHMENTID
+left join medicalcategory m on m.MedicalCategoryID = s.MEDICALCATEGORY
+left join (select * from (select * from pfttran order by SailorID, PftID desc)m group by SailorID)pft on s.SAILORID = pft.SailorID
+where s.SAILORSTATUS = 1
+ORDER BY s.BRANCHID, r.POSITION, s.OFFICIALNUMBER ASC
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
