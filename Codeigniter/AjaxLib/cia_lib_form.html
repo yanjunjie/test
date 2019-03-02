@@ -71,7 +71,9 @@
         });
 
 
-        $(document).on('click','.modal_btn',function(){
+        $(document).on('click','.modal_btn',function(e){
+            e.preventDefault();
+            e.stopPropagation();
             let cia_modal = $('.cia_modal');
             //Set modal show/hide
             cia_modal.modal('toggle');
@@ -107,7 +109,7 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Material Details</h4>
+                    <h4 class="modal-title">Title Here</h4>
                 </div>
                 <div class="modal-body">
                     <textarea class="ck_editor" name="test_name" id="test" cols="30" rows="10"></textarea>

@@ -690,7 +690,11 @@ $(document).on("click", ".cia_update_row", function (e) {
 });
 
 
-//Content shown on Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* @author   Bablu <bablu@atilimited.net>
+* @return   Ajax Modal
+*/
 $(document).on("click", ".cia_modal_btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -736,7 +740,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let dataReload = $(this).attr('data-reload');
     let dataRedirect = $(this).attr('data-redirect');
     let reloadArea = $(this).attr("data-reload-id");
-    let dataTitle = $(this).attr("data-title");
+    let dataTitle = $(this).attr("title");
     let dataModalTitle = $(this).attr("data-modal-title");
     let dataHeaderBg = $(this).attr("data-header-bg");
     let dataModalType = $(this).attr("data-modal-type");
@@ -750,12 +754,12 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let windowReload = dataReload?dataReload:(windowReloadD?windowReloadD:'');
     let windowRedirect = dataRedirect?dataRedirect:(windowRedirectD?windowRedirectD:'');
     let title = dataTitle?dataTitle:(titleD?titleD:'');
-    let modalTitle = dataModalTitle?dataModalTitle:(modalTitleD?modalTitleD:'');
+    //let modalTitle = dataModalTitle?dataModalTitle:(modalTitleD?modalTitleD:'');
     let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
     let modalType = dataModalType?dataModalType:(modalTypeD?modalTypeD:'');
     let modalContent = dataModalContent?dataModalContent:(modalContentD?modalContentD:'');
 
-    //Modal elements
+    //Modal elements to show contents
     let cia_modal = $('.cia_modal');
     let modal_dialog = cia_modal.find('.modal-dialog');
     let modal_header = cia_modal.find('.modal-header');
@@ -767,9 +771,9 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     cia_modal.modal('toggle');
 
     //Set Modal Title
-    if(modalTitle && (modalTitle!=null))
+    if(title && (title!=null))
     {
-        modal_title.html(modalTitle);
+        modal_title.html(title);
     }
     //Set Modal Header Background
     if(headerBg && (headerBg!=null))
@@ -813,14 +817,17 @@ $(document).on("click", ".cia_modal_btn", function (e) {
 
             modal_body.html(data);
         },
-        error: function(){
-            alert('Error! Please check form data');
+        error: function( req, status, err ) {
+            alert("Error! " + err + " (" + status + ") ");
         }
     });
 });
 
 //Normal Modal +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-$(document).on('click','.modal_btn', function () {
+$(document).on('click','.modal_btn', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     //Default Settings
     let titleD = "";
     let headerBgD = "";
@@ -828,7 +835,7 @@ $(document).on('click','.modal_btn', function () {
     //End Default Settings
 
     //Attributes:
-    let dataTitle = $(this).attr("data-title");
+    let dataTitle = $(this).attr("title");
     let dataHeaderBg = $(this).attr("data-header-bg");
     let dataModalType = $(this).attr("data-modal-type");
 
