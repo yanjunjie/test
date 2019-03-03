@@ -1,5 +1,6 @@
 //checkbox selectors:
 
+$(this).closest('li').find("input:checkbox").not(':first');
 $("input:checkbox")
 $('input[name=ship_ids][checked=checked]')
 $('input[type=checkbox]:checked')
@@ -8,7 +9,9 @@ $("#pakker input[type='checkbox']:checked")
 Here the : is attribute name and checkbox is value
 It means it will select all inputs that are checkboxes
 
+
 //Radio selectors:
+
 $(":input[type='radio']").wijradio();
 $('input[type=radio]').wijradio();
 

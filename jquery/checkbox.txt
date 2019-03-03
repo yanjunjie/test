@@ -29,6 +29,7 @@ let values = (function() {
  <input type="checkbox" value="cricket" name="hobbies"  class="checkboxes">Cricket 
  <input type="checkbox" value="hockey" name="hobbies" class="checkboxes">Hockey
 
+
 //v.04, toggle
 
 $('#isAgeSelected').click(function() {
@@ -43,6 +44,60 @@ $('#isAgeSelected').click(function() {
 //Or
 
 $("#txtAge").toggle($("#isAgeSelected").is(':checked'));
+
+
+//v.05
+
+// All checkbox select
+    $(document).on('click','.chkAll',function () {
+
+        // Fetch all child CheckBoxes.
+        var chkboxes = $(this).closest('li').find("input:checkbox").not(':first');
+
+        // Check each child CheckBox.
+        if(this.checked) {
+            chkboxes.each(function() {
+                this.checked = true;
+                $(this).attr("checked", "checked");
+            });
+        }else{
+            chkboxes.each(function() {
+                this.checked = false;
+                $(this).removeAttr("checked");
+            });
+        }
+
+    });
+
+//Html:
+
+    <ul id="myUL">
+        <?php
+        foreach ($zone as $key => $value1) {
+            $area = $this->db->query("select ADMIN_ID, CODE, NAME from bn_navyadminhierarchy where ADMIN_TYPE = 2 and PARENT_ID = $value1->ADMIN_ID")->result();
+            ?>
+            <li><span class="carett glyphicon"></span><input class="chkAll" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value1->CODE . ']' . $value1->NAME ?>
+                <ul class="nested">
+                    <?php
+                    foreach ($area as $key2 => $value2) {
+                        $ship = $this->db->query("select SHIP_ESTABLISHMENTID, CODE, NAME from bn_ship_establishment where AREA_ID = $value2->ADMIN_ID")->result();
+                        ?>
+                        <li><span class="carett glyphicon"></span><input class="chkAll" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value2->CODE . ']' . $value2->NAME ?>
+                            <ul class="nested">
+                                <?php foreach ($ship as $key3 => $value3) { ?>
+                                    <li><input style="margin-right: 5px;" name="ship_ids" type="checkbox" value="<?php echo $value3->SHIP_ESTABLISHMENTID; ?>"><?php echo '[' . $value3->CODE . ']' . $value3->NAME ?></li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </li>
+        <?php } ?>
+    </ul>
+
+
+
+
 
 
 

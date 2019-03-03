@@ -117,10 +117,10 @@
                     <?php } ?>
                 </select>
             </div>
-            <div class="col-md-3"><button class="btn btn-info cia_modal_btn" title="Applied Ship"
-                    data-action="<?php echo base_url('report/QueryTool/engagementReport')?>">
-                <i class="glyphicon glyphicon-option-horizontal"></i></button>
-            </div>
+            <button style="margin-left: 5px; margin-top: 5px;" type="button" class="btn btn-info btn-xs cia_modal_btn" title="Applied Ship"
+                          data-action="<?php echo base_url('report/QueryTool/engagementReport')?>">
+                <i class="glyphicon glyphicon-option-horizontal"></i>
+            </button>
         </div>
     </div>
 </fieldset>
@@ -584,7 +584,6 @@
             return shipIds;
         })();
 
-        console.log(values);
         // select for ship applied
         $("#APPLIEDSHIP_ID").val(values).change();
         $(".selectpicker").selectpicker('refresh');
