@@ -12,7 +12,7 @@ return this.value; }).get().join(",");
  //HTML Code
 
  <input type="checkbox" value="cricket" name="hobbies[]"  class="hobbies_class">Cricket 
-  <input type="checkbox" value="hockey" name="hobbies[]" class="hobbies_class">Hockey
+ <input type="checkbox" value="hockey" name="hobbies[]" class="hobbies_class">Hockey
 
 //v.02
 let values = (function() {
@@ -24,3 +24,7 @@ let values = (function() {
                 return a;
             })();
 
+ //HTML Code
+
+ <input type="checkbox" value="cricket" name="hobbies"  class="checkboxes">Cricket 
+ <input type="checkbox" value="hockey" name="hobbies" class="checkboxes">Hockey

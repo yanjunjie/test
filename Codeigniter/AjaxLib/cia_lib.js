@@ -152,7 +152,7 @@ $(document).on('keyup change', ".cia_attr_exists", function () {
             else
             {
                 $(spanElement).html('');
-                $(submitBtn).removeAttr('disabled','disabled');
+                $(submitBtn).removeAttr('disabled');
                 $(submitBtn).on('click');
             }
         }

@@ -14,16 +14,12 @@
         user-select: none;
     }
     .carett::before {
-        /*content: "\25B6";*/
         content:"\2b";
         color: #171616;
         display: inline-block;
         margin-right: 15px;
     }
     .carett-down::before {
-        /*-ms-transform: rotate(90deg); !* IE 9 *!
-        -webkit-transform: rotate(90deg); !* Safari *!
-         transform: rotate(90deg);*/
         content:"\2212";
     }
     .nested {
@@ -33,28 +29,7 @@
         display: block;
     }
     </style>
-    <!--    <ul id="myUL">
-            <li><span class="carett"><input type="checkbox">Beverages</span>
-                <ul class="nested">
-                    <li>Water</li>
-                    <li>Coffee</li>
-                    <li><span class="carett"><input type="checkbox">Tea</span>
-                        <ul class="nested">
-                            <li>Black Tea</li>
-                            <li>White Tea</li>
-                            <li><span class="carett"><input type="checkbox">Green Tea</span>
-                                <ul class="nested">
-                                    <li>Sencha</li>
-                                    <li>Gyokuro</li>
-                                    <li>Matcha</li>
-                                    <li>Pi Lo Chun</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>-->
+
     <ul id="myUL">
         <?php
         foreach ($zone as $key => $value1) {
@@ -63,13 +38,13 @@
             <li><span class="carett glyphicon"></span><input class="chkAll" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value1->CODE . ']' . $value1->NAME ?>
                 <ul class="nested">
                     <?php
-                    foreach ($area as $key => $value2) {
+                    foreach ($area as $key2 => $value2) {
                         $ship = $this->db->query("select SHIP_ESTABLISHMENTID, CODE, NAME from bn_ship_establishment where AREA_ID = $value2->ADMIN_ID")->result();
                         ?>
                         <li><span class="carett glyphicon"></span><input class="chkAll" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value2->CODE . ']' . $value2->NAME ?>
                             <ul class="nested">
-                                <?php foreach ($ship as $key => $value3) { ?>
-                                    <li><input class="chk" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value3->CODE . ']' . $value3->NAME ?></li>
+                                <?php foreach ($ship as $key3 => $value3) { ?>
+                                    <li><input style="margin-right: 5px;" name="ship_ids" type="checkbox" value="<?php echo $value3->SHIP_ESTABLISHMENTID; ?>"><?php echo '[' . $value3->CODE . ']' . $value3->NAME ?></li>
                                 <?php } ?>
                             </ul>
                         </li>
@@ -78,3 +53,14 @@
             </li>
         <?php } ?>
     </ul>
+
+<script>
+    // Tree View
+    let toggler = document.getElementsByClassName("carett");
+    for (let i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("carett-down");
+        });
+    }
+</script>

@@ -118,16 +118,9 @@
                 </select>
             </div>
             <div class="col-md-3"><button class="btn btn-info cia_modal_btn" title="Applied Ship"
-                                          data-id="<?php //echo $row->CM_ID; ?>"
-                                          data-table="UMS_COURSE_MATERIALS"
-                                          data-attr="CM_ID"
-                                          data-action="<?php echo base_url('report/QueryTool/engagementReport')?>"
-                                          data-redirect=""
-                                          data-reload=""
-                                          data-trigger-click="find_courses_btn"
-                                          data-reload-id="cia_reload_area">
-
-                    <i class="glyphicon glyphicon-option-horizontal"></i></button></div>
+                    data-action="<?php echo base_url('report/QueryTool/engagementReport')?>">
+                <i class="glyphicon glyphicon-option-horizontal"></i></button>
+            </div>
         </div>
     </div>
 </fieldset>
@@ -312,7 +305,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary okBtn" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -554,35 +548,44 @@
     });
 
     // Tree View
-    $(document).on('click','.carett',function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+    /*$(document).on('click','.carett',function () {
         $(this).parent().find('.nested').toggleClass("active");
         $(this).toggleClass("carett-down");
-    });
+    });*/
 
     // All checkbox select
-    $(document).on('click','.chkAll',function (e) {
-        $(this).removeClass('chk');
+    $(document).on('click','.chkAll',function () {
 
-        //Fetch all parent CheckBoxes.
-        var pChkboxes = $(this).parent().find(".chkAll");
+        // Fetch all child CheckBoxes.
+        var chkboxes = $(this).closest('li').find("input:checkbox").not(':first');
 
-        //Fetch all child CheckBoxes.
-        var chkboxes = $(this).parent().find(".chk");
+        // Check each child CheckBox.
+        if(this.checked) {
+            chkboxes.each(function() {
+                this.checked = true;
+            });
+        }else{
+            chkboxes.each(function() {
+                this.checked = false;
+            });
+        }
 
-        //checked each CheckBox.
-        chkboxes.each(function () {
-            if ($(this).is(':checked'))
-            {
-                $(this).prop('checked', false);
-            }
-            else
-            {
-                $(this).prop('checked', true);
-            }
-        });
     });
+
+    // select value using tree
+    $(document).on("click",".okBtn", function(){
+        let values = (function() {
+            let shipIds = [];
+            $('input[name=ship_ids]').each(function() {
+                shipIds.push(this.value);
+            });
+            return shipIds;
+        })();
+
+        // select for ship applied
+        $("#APPLIEDSHIP_ID").val(values).change();
+        $(".selectpicker").selectpicker('refresh');
+    });
+
 
 </script>
