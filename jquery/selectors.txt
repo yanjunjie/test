@@ -1,6 +1,9 @@
 //checkbox selectors:
 
 $(this).closest('li').find("input:checkbox").not(':first');
+$("input.myClass:checkbox")
+$("input.myClass[type=checkbox]")
+$("input:checkbox").hasClass("myClass")
 $("input:checkbox")
 $('input[name=ship_ids][checked=checked]')
 $('input[type=checkbox]:checked')
