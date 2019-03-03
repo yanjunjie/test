@@ -28,3 +28,24 @@ let values = (function() {
 
  <input type="checkbox" value="cricket" name="hobbies"  class="checkboxes">Cricket 
  <input type="checkbox" value="hockey" name="hobbies" class="checkboxes">Hockey
+
+//v.04, toggle
+
+$('#isAgeSelected').click(function() {
+    $("#txtAge").toggle(this.checked);
+});
+
+//Html:
+
+<input type="checkbox" id="isAgeSelected"/>
+<div id="txtAge" style="display:none">Age is something</div>
+
+//Or
+
+$("#txtAge").toggle($("#isAgeSelected").is(':checked'));
+
+
+
+
+
+

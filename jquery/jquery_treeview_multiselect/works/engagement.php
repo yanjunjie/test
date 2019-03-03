@@ -563,10 +563,12 @@
         if(this.checked) {
             chkboxes.each(function() {
                 this.checked = true;
+                $(this).attr("checked", "checked");
             });
         }else{
             chkboxes.each(function() {
                 this.checked = false;
+                $(this).removeAttr("checked");
             });
         }
 
@@ -576,12 +578,13 @@
     $(document).on("click",".okBtn", function(){
         let values = (function() {
             let shipIds = [];
-            $('input[name=ship_ids]').each(function() {
+            $('input[name=ship_ids][checked=checked]').each(function() {
                 shipIds.push(this.value);
             });
             return shipIds;
         })();
 
+        console.log(values);
         // select for ship applied
         $("#APPLIEDSHIP_ID").val(values).change();
         $(".selectpicker").selectpicker('refresh');

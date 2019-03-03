@@ -1,0 +1,15 @@
+//checkbox selectors:
+
+$("input:checkbox")
+$('input[name=ship_ids][checked=checked]')
+$('input[type=checkbox]:checked')
+$("#pakker input[type='checkbox']:checked")
+
+Here the : is attribute name and checkbox is value
+It means it will select all inputs that are checkboxes
+
+//Radio selectors:
+$(":input[type='radio']").wijradio();
+$('input[type=radio]').wijradio();
+
+Here :input selector is a jQuery extension while input is a CSS selector.
