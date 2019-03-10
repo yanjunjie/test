@@ -320,19 +320,37 @@ public function cia_dependency_by_one_to_many_to_one()
       }
       return $yearInfo;
     }
+
+    function insertDataB($data, $tableName) {
+        // values
+        $arr_values = array_map(function($v) {
+            //return "'$v'";
+            return "\"$v\"";
+        }, array_values($data));
+        $values = implode(", ", $arr_values);
+
+        // fields
+        $fields = implode(',', array_keys($data));
+
+        // query
+        $sql = "INSERT INTO $tableName ($fields) VALUES ($values)";
+
+        return $this->db->query($sql);
+    }
     
-    
-    function updateDataBablu($tableName, $data, $condition)
+    function updateDataB($tableName, $data, $condition)
     {
         //Data
         $arr_data = array_map(function($k, $v){
-            return "$k='$v'";
+            //return "$k='$v'";
+            return "$k=\"$v\"";
         }, array_keys($data), array_values($data));
         $data_str = implode(", ",$arr_data);
 
         //Condition
         $arr_con = array_map(function($k, $v){
-            return "$k='$v'";
+            //return "$k='$v'";
+            return "$k=\"$v\"";
         }, array_keys($condition), array_values($condition));
         $con_str = implode(" AND ",$arr_con);
 

@@ -13,6 +13,9 @@
             e.preventDefault();
             e.stopPropagation();
 
+            // reset equivalent rank selectpicker
+           $('#EQUIVALANT_RANKID').val([]).change();
+
             // find closest selectpicker
             selectPickerId = $(this).prev().find(".selectpicker").attr('id');
             let selectPickerIdAlt = $(this).prevAll('.selectpicker').attr('id');
@@ -130,9 +133,16 @@
         $(document).on("click",".okBtn", function(){
             let values = (function() {
                 let shipIds = [];
-                $('input[name=ship_ids][checked=checked]').each(function() {
+                /*$('input[name=ship_ids][checked=checked]').each(function() {
                     shipIds.push(this.value);
+                });*/
+
+                $('input[name=ship_ids]').each(function() {
+                    if(this.checked) {
+                        shipIds.push(this.value);
+                    }
                 });
+
                 return shipIds;
             })();
 
@@ -170,7 +180,7 @@
                     if(equRankIds)
                         $('.chkAll').trigger('click');
 
-                    $('.selectpicker').selectpicker();
+                    $('.selectpicker').selectpicker('refresh');
                 },
                 error: function( req, status, err ) {
                     alert("Error! " + err + " (" + status + ") ");
