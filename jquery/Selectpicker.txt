@@ -1,0 +1,9 @@
+<select class="selectpicker form-control" name="PftGroupID" id="PftGroupID" data-actions-box="true" data-live-search="true" data-size="5" data-live-search-placeholder="Search" title="Select Group" aria-hidden="true">
+    <?php
+    foreach ($groupType as $row):
+        ?>
+        <option value="<?php echo $row->ORDER_SL_NO ?>"><?php echo  $row->LOOKUP_DATA_NAME ?></option>
+    <?php
+    endforeach;
+    ?>
+</select>

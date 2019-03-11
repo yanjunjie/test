@@ -728,7 +728,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let titleD = "";
     let modalTitleD = "";
     let headerBgD = "";
-    let modalTypeD = "";
+    let modalSizeD = "";
     let modalContentD = "";
     //End Default Settings
 
@@ -743,7 +743,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let dataTitle = $(this).attr("title");
     let dataModalTitle = $(this).attr("data-modal-title");
     let dataHeaderBg = $(this).attr("data-header-bg");
-    let dataModalType = $(this).attr("data-modal-type");
+    let dataModalSize = $(this).attr("data-modal-size");
     let dataModalContent = $(this).attr("data-modal-content");
 
     //Ajax Params:
@@ -756,7 +756,7 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     let title = dataTitle?dataTitle:(titleD?titleD:'');
     //let modalTitle = dataModalTitle?dataModalTitle:(modalTitleD?modalTitleD:'');
     let headerBg = dataHeaderBg?dataHeaderBg:(headerBgD?headerBgD:'');
-    let modalType = dataModalType?dataModalType:(modalTypeD?modalTypeD:'');
+    let modalSize = dataModalSize?dataModalSize:(modalSizeD?modalSizeD:'');
     let modalContent = dataModalContent?dataModalContent:(modalContentD?modalContentD:'');
 
     //Modal elements to show contents
@@ -782,10 +782,10 @@ $(document).on("click", ".cia_modal_btn", function (e) {
         modal_header.addClass(headerBg);
     }
     //Set Modal Size
-    if(modalType && (modalType!=null))
+    if(!!modalSize)
     {
         modal_dialog.attr('class', 'modal-dialog');
-        modal_dialog.addClass(modalType);
+        modal_dialog.addClass(modalSize);
     }
     //Set Form Data
     let formData = new FormData();
