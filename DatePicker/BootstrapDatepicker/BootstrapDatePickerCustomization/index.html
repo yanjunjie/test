@@ -43,9 +43,9 @@
     <div class="col-md-4 col-md-offset-4">
         <div class="input-group">
             <div class="inputholder form-control date">
-                <input class="dateField bdday" style="width: 18px;" type="text" value="DD">
-                <input class="dateField bdmonth" style="width: 27px;" type="text" value="MM">
-                <input class="dateField bdyear" style="width: 40px;" type="text" value="YYYY">
+                <input class="dateField bdday" style="width: 18px;" type="text" value="DD" onFocus="this.select()">
+                <input class="dateField bdmonth" style="width: 27px;" type="text" value="MM" onFocus="this.select()">
+                <input class="dateField bdyear" style="width: 40px;" type="text" value="YYYY" onFocus="this.select()">
             </div>
             <input type="hidden" class="form-control bdpicker_hidden_input">
             <div class="input-group-addon datepickerTrigger">
@@ -85,8 +85,18 @@
                 //$('.datepicker').datepicker('getFormattedDate')
                 $(".datepicker").data('datepicker').getFormattedDate('dd-mm-yyyy')
             );
-            //alert($(".datepicker").data('datepicker').viewDate);
-            //alert($(".datepicker").data('datepicker').moment().endOf('m'));
+
+            $('.bdday').val(
+                //$(".datepicker").data('datepicker').getFormattedDate('dd')
+            );
+
+            $('.bdmonth').val(
+                //$(".datepicker").data('datepicker').getFormattedDate('mm')
+            );
+
+            $('.bdyear').val(
+                //$(".datepicker").data('datepicker').getFormattedDate('yyyy')
+            );
         });
 
         // Custom Bootstrap Datepicker
@@ -237,8 +247,10 @@
 
 
                let formatedDate = day+'-'+monthNamesObj[month]+'-'+year;
-
                $('.bdpicker_hidden_input').val(formatedDate);
+
+               formatedDate = day+'-'+(monthNamesObj[month] + 1)+'-'+year;
+               $('.datepicker').datepicker('setDate', formatedDate);
            });
            
            // Datepicker Click Trigger
