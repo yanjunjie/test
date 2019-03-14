@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Select with Tree View</title>
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="css/dropdowntree.css">-->
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="css/dropdowntree.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">-->
-    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+ 
     <style>
         .tag
         {
@@ -47,128 +40,6 @@
     </style>
 </head>
 <body>
-    <br><br>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="treeview-selectpicker">
-                    <select name="partTwo[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true" style="display: inline;">
-                        <option value="value1">Mustard</option>
-                        <option value="value4">Ketchup</option>
-                        <option value="value7">Relish</option>
-                    </select>
-                    <div style="display: inline;" class="dropdown dropdown-tree" id="firstDropDownTree"></div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <!--<div class="dropdown dropdown-tree" id="firstDropDownTree"></div>-->
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container">
-        <div class="col-md-12">
-            <h2>Stacked Bootstrap Modal Example.</h2>
-            <a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a>
-
-            <div class="modal fade" id="myModal" data-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Modal 1</h4>
-
-                        </div>
-                        <div class="container"></div>
-                        <div class="modal-body">Content for the dialog / modal goes here.
-                            <br>
-                            <br>
-                            <br>
-                            <p>more content</p>
-                            <br>
-                            <br>
-                            <br>	<a data-toggle="modal" href="#myModal2" class="btn btn-primary">Launch modal</a>
-
-                        </div>
-                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
-                            <a href="#" class="btn btn-primary">Save changes</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade rotate" id="myModal2">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Modal 2</h4>
-
-                        </div>
-                        <div class="container"></div>
-                        <div class="modal-body">Content for the dialog / modal goes here.
-                            <br>
-                            <br>
-                            <p>come content</p>
-                            <br>
-                            <br>
-                            <br>	<a data-toggle="modal" href="#myModal3" class="btn btn-primary">Launch modal</a>
-
-                        </div>
-                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
-                            <a href="#" class="btn btn-primary">Save changes</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="myModal3">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Modal 3</h4>
-
-                        </div>
-                        <div class="container"></div>
-                        <div class="modal-body">Content for the dialog / modal goes here.
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>	<a data-toggle="modal" href="#myModal4" class="btn btn-primary">Launch modal</a>
-
-                        </div>
-                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
-                            <a href="#" class="btn btn-primary">Save changes</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="myModal4">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Modal 4</h4>
-
-                        </div>
-                        <div class="container"></div>
-                        <div class="modal-body">Content for the dialog / modal goes here.</div>
-                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
-                            <a href="#" class="btn btn-primary">Save changes</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <input type="text" id="mytext"/>
-<div class="clearfix"></div>
     <div class="col-md-4 col-md-offset-4">
         <div class="input-group">
             <div class="inputholder form-control date">
@@ -176,18 +47,11 @@
                 <input class="dateField bdmonth" style="width: 27px;" type="text" value="MM">
                 <input class="dateField bdyear" style="width: 40px;" type="text" value="YYYY">
             </div>
-            <input type="hidden" class="form-control">
+            <input type="hidden" class="form-control bdpicker_hidden_input">
             <div class="input-group-addon datepickerTrigger">
                 <span class="glyphicon glyphicon-calendar"><span style="pointer-events:none;padding: 0;" class="datepicker"></span></span>
             </div>
         </div>
-
-        <!--<div class="datepicker" data-date="12/03/2012"></div>-->
-        <input type="hidden" class="bdpicker_hidden_input" value="">
-
-
-
-
 
         <!--Temp-->
         <!--<div class="inputholder form-control">
@@ -196,22 +60,13 @@
             <input class="dateField" style="width: 40px;" type="text" value="YYYY">
         </div>-->
 
-        <!--<div class="input-group date">
-            <input type="text" class="form-control" value="12-02-2012">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th datepicker"></span>
-            </div>
-        </div>-->
-
     </div>
 
     <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="js/dropdowntree.js"></script>
-    <script src="js/bootstrap-select.min.js"></script>
-    <script src="js/moment.js"></script>
-    <script src="js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
         $(function () {
@@ -249,7 +104,8 @@
            let inputDay;
            let currentMonth;
            const monthNamesArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
-           const monthNamesObj = {"Jan":'00', "Feb": '01', "Mar": '02', "Apr":'03', "May":'04', "Jun":'05', "Jul":'06', "Aug":'07', "Sept":'08', "Oct":'09', "Nov":'10', "Dec":'11'};
+           //const monthNamesObj = {"Jan":'00', "Feb": '01', "Mar": '02', "Apr":'03', "May":'04', "Jun":'05', "Jul":'06', "Aug":'07', "Sept":'08', "Oct":'09', "Nov":'10', "Dec":'11'};
+           const monthNamesObj = {"Jan":0, "Feb": 1, "Mar": 2, "Apr":3, "May":4, "Jun":5, "Jul":6, "Aug":7, "Sept":8, "Oct":9, "Nov":10, "Dec":11};
 
            // default date
            $('.bdday').val(newDate.getDate());
@@ -390,82 +246,6 @@
                $('.datepicker').datepicker('show');
            });
        });
-
-
-
-    </script>
-
-    <script>
-        var arr4=[
-            {title:"St Fatima",href:"#1",dataAttrs:[{title:"id",data:"value1"}]},
-            {title:"Korba",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
-            {title:"Roxi",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
-        ];
-
-        var arr3=[
-            {title:"Abbas Al Akkad",href:"#1",dataAttrs:[{title:"id",data:"value1"}]},
-            {title:"Makram Obeid",href:"#2",dataAttrs:[],data:arr4},
-            {title:"Mostafa Al Nahas",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
-        ];
-
-        var arr2=[
-            {title:"Teriumph",href:"#1",dataAttrs:[] ,data:arr3},
-            {title:"Safir",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
-            {title:"El-Hegaz Sq",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
-        ];
-
-        var arr=[
-            {title:"Heliopolis",href:"#1",dataAttrs:[], data: arr2},
-            {title:"Nasr City",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
-            {title:"Down Town",href:"#3",dataAttrs:[],data:arr3}
-        ];
-
-        var options = {
-            title : '<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>',
-            data: arr,
-            maxHeight: 300,
-            clickHandler: function(element){
-                // console.log($(element).GetParents());
-                // $("#firstDropDownTree").SetTitle($(element).find("a").first().text());
-                // console.log("Selected Elements",$("#firstDropDownTree").GetSelected());
-            },
-            expandHandler: function(element,expanded){
-               // console.log("expand",element,expanded);
-            },
-            checkHandler: function(element,checked){
-                // console.log("check",element,checked);
-                let selectedOpt = [];
-                $.each(($("#firstDropDownTree").GetSelected()), function (key, val) {
-                    // console.log($(val).attr("data-id"));
-                    selectedOpt.push($(val).attr("data-id"));
-                });
-                $(".selectpicker").val(selectedOpt).change();
-            },
-            closedArrow: '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
-            openedArrow: '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>',
-            multiSelect: true,
-            selectChildren: true,
-        };
-
-        $("#firstDropDownTree").DropDownTree(options);
-
-
-        $(document).ready(function () {
-
-            $('#openBtn').click(function () {
-                $('#myModal').modal('show');
-            });
-
-            $(document).on('show.bs.modal', '.modal', function (event) {
-                var zIndex = 1040 + (10 * $('.modal:visible').length);
-                $(this).css('z-index', zIndex);
-                setTimeout(function() {
-                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-                }, 0);
-            });
-
-
-        });
 
     </script>
 </body>
