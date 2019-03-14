@@ -1,0 +1,8 @@
+$file_name = 'yourFileName.pdf';
+$mpdf->Output($file_name, 'D');
+Help:
+
+'D': download the PDF file
+'I': serves in-line to the browser(which will output the PDF to the browser)
+'S': returns the PDF document as a string
+'F': save as file $file_out

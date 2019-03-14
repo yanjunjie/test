@@ -1,0 +1,60 @@
+$('.datepicker').on('changeDate', function(event) {
+            //console.log(event.date);
+            $('#my_hidden_input').val(
+                //$('.datepicker').datepicker('getFormattedDate')
+                $(".datepicker").data('datepicker').getFormattedDate('dd-mm-yyyy')
+            );
+            //alert($(".datepicker").data('datepicker').viewDate);
+            //alert($(".datepicker").data('datepicker').moment().endOf('m'));
+        });
+
+
+       /*$('.datepicker').datepicker().on('changeDate', function(event) {
+
+           $(this).datepicker('hide');
+
+
+          // $('#issue_date, #due_date').datepicker('setEndDate', calculatedEndDate);
+
+       }).on('clearDate', function(event) {
+           $(this).datepicker('setDate', today);
+       });*/
+
+
+       $('.datepicker').datepicker({
+           format: "dd M yyyy",
+           todayBtn:  1,
+           autoclose: true
+       });
+
+       $(document).on('change click',function () {
+            $('.datepicker').hide();
+
+           let maxdayFn = function(y,m){
+               return  new Date(y, m +1, 0).getDate();
+           };
+           let maxDay;
+           let selected_day;
+           let current_month;
+
+           let date = $(this).datepicker('getDate');
+           current_month = parseInt(moment(new Date()).format("MM"));
+           selected_day = new Date(date.getTime());
+           selected_day = selected_day.getDate();
+           maxDay = maxdayFn(moment(date).format("YYYY"),moment(date).format("MM"));
+           console.log(selected_day);
+           console.log(maxDay);
+           console.log(current_month);
+           //let onlyday = moment(new Date()).format("YYYY/MM/DD");
+           // let onlyday = moment(date).format("YYYY/MM/DD");
+
+           if(selected_day == 2)
+           {
+               if( current_month > maxDay)
+               {
+                   alert('stop');
+               }
+               console.log('hi');
+           }
+
+       });
