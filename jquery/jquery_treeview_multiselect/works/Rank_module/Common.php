@@ -75,28 +75,14 @@ class Common extends CI_Controller {
     public function treeEquRank()
     {
         $equRankIds = $this->input->post('equRankIds');
-
-
-        if($equRankIds == 'null')
-        {
-            $data['branch'] = $this->db->query("select BRANCH_CODE, BRANCH_ID, BRANCH_NAME from bn_branch where ACTIVE_STATUS = 1 ")->result();
-
+        
+        $data['branch'] = $this->db->query("select BRANCH_CODE, BRANCH_ID, BRANCH_NAME from bn_branch where ACTIVE_STATUS = 1 ")->result();
+        $data['equRankIds'] = "";
+        if($equRankIds == 'null'){
+            $data['equRankIds'] .= ' ';
+        }  else {
+            $data['equRankIds'] .= ' AND EQUIVALANT_RANKID IN ('.$equRankIds.')';
         }
-        else
-        {
-            $data['branch'] = $this->db->query("SELECT b.BRANCH_CODE, b.BRANCH_ID, b.BRANCH_NAME
-                                        FROM bn_branch b, bn_rank r
-                                        WHERE b.BRANCH_ID = r.BRANCH_ID
-                                        AND r.ACTIVE_STATUS = 1
-                                        AND b.ACTIVE_STATUS = 1
-                                        AND EXISTS(SELECT 1
-                                        FROM bn_equivalent_rank er
-                                        WHERE er.ACTIVE_STATUS = 1
-                                        AND er.EQUIVALANT_RANKID IN ($equRankIds)
-                                        AND er.EQUIVALANT_RANKID = r.EQUIVALANT_RANKID)
-                                        GROUP BY b.BRANCH_NAME")->result();
-        }
-
         return $this->load->view('common/treeEquRank',$data);
     }
 

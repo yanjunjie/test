@@ -1,3 +1,4 @@
+//v.01-------------------------------
 //By each()
 var testval = [];
  $('.hobbies_class:checked').each(function() {
@@ -14,7 +15,7 @@ return this.value; }).get().join(",");
  <input type="checkbox" value="cricket" name="hobbies[]"  class="hobbies_class">Cricket 
  <input type="checkbox" value="hockey" name="hobbies[]" class="hobbies_class">Hockey
 
-//v.02
+//v.02--------------------------------------
 let values = (function() {
                 let a = [];
                 $(".checkboxes:checked").each(function() {
@@ -30,7 +31,9 @@ let values = (function() {
  <input type="checkbox" value="hockey" name="hobbies" class="checkboxes">Hockey
 
 
-//v.04, toggle
+//v.04-------------------------------- 
+
+//toggle
 
 $('#isAgeSelected').click(function() {
     $("#txtAge").toggle(this.checked);
@@ -46,7 +49,7 @@ $('#isAgeSelected').click(function() {
 $("#txtAge").toggle($("#isAgeSelected").is(':checked'));
 
 
-//v.05
+//v.05-----------------------------------------
 
 // All checkbox select
     $(document).on('click','.chkAll',function () {
@@ -94,6 +97,56 @@ $("#txtAge").toggle($("#isAgeSelected").is(':checked'));
             </li>
         <?php } ?>
     </ul>
+
+
+v.06 -----------------------------------------------
+<style>
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
+
+// Disabled HTML
+$(window).load(function () {
+    $(".retPenQuery").addClass("disabledbutton");
+    $(document).on('click', '.retQuery', function() {
+        if(this.checked) {
+            $(".retPenQuery").removeClass("disabledbutton");
+            $('#SAILORSTATUS_ID').val(3).change();
+        }else{
+            $(".retPenQuery").addClass("disabledbutton");
+            $('#SAILORSTATUS_ID').val(1).change();
+        }
+    });
+});
+
+
+//v.07-----------------------------------------------
+
+// select value using tree
+$(document).on("click",".okBtn", function(){
+    let values = (function() {
+        let shipIds = [];
+        /*$('input[name=ship_ids][checked=checked]').each(function() {
+            shipIds.push(this.value);
+        });*/
+
+        $('input[name=ship_ids]').each(function() {
+            if(this.checked) {
+                shipIds.push(this.value);
+            }
+        });
+
+        return shipIds;
+    })();
+
+    // select for ship applied
+    // $("#APPLIEDSHIP_ID").val(values).change();
+    $("#"+selectPickerId).val(values).change();
+    $(".selectpicker").selectpicker('refresh');
+});
+
 
 
 

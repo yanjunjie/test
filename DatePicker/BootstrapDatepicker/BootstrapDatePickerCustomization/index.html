@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Select with Tree View</title>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/dropdowntree.css">-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/dropdowntree.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">-->
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <style>
+        .tag
+        {
+            margin-right:2px;
+            background:green;
+            color:white;
+            text-align:center;
+            padding:5px;
+        }
+
+        .dateField
+        {
+            border:0;
+            display:inline-block;
+            padding:0;
+        }
+
+
+        .inputholder
+        {
+            border:1px solid #ccc;
+            padding: 6px 12px;
+        }
+
+        /*my*/
+
+    </style>
+</head>
+<body>
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="treeview-selectpicker">
+                    <select name="partTwo[]" class="selectpicker" multiple data-live-search="true" data-actions-box="true" style="display: inline;">
+                        <option value="value1">Mustard</option>
+                        <option value="value4">Ketchup</option>
+                        <option value="value7">Relish</option>
+                    </select>
+                    <div style="display: inline;" class="dropdown dropdown-tree" id="firstDropDownTree"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <!--<div class="dropdown dropdown-tree" id="firstDropDownTree"></div>-->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="col-md-12">
+            <h2>Stacked Bootstrap Modal Example.</h2>
+            <a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a>
+
+            <div class="modal fade" id="myModal" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Modal 1</h4>
+
+                        </div>
+                        <div class="container"></div>
+                        <div class="modal-body">Content for the dialog / modal goes here.
+                            <br>
+                            <br>
+                            <br>
+                            <p>more content</p>
+                            <br>
+                            <br>
+                            <br>	<a data-toggle="modal" href="#myModal2" class="btn btn-primary">Launch modal</a>
+
+                        </div>
+                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
+                            <a href="#" class="btn btn-primary">Save changes</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade rotate" id="myModal2">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Modal 2</h4>
+
+                        </div>
+                        <div class="container"></div>
+                        <div class="modal-body">Content for the dialog / modal goes here.
+                            <br>
+                            <br>
+                            <p>come content</p>
+                            <br>
+                            <br>
+                            <br>	<a data-toggle="modal" href="#myModal3" class="btn btn-primary">Launch modal</a>
+
+                        </div>
+                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
+                            <a href="#" class="btn btn-primary">Save changes</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal3">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Modal 3</h4>
+
+                        </div>
+                        <div class="container"></div>
+                        <div class="modal-body">Content for the dialog / modal goes here.
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>	<a data-toggle="modal" href="#myModal4" class="btn btn-primary">Launch modal</a>
+
+                        </div>
+                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
+                            <a href="#" class="btn btn-primary">Save changes</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal4">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Modal 4</h4>
+
+                        </div>
+                        <div class="container"></div>
+                        <div class="modal-body">Content for the dialog / modal goes here.</div>
+                        <div class="modal-footer">	<a href="#" data-dismiss="modal" class="btn">Close</a>
+                            <a href="#" class="btn btn-primary">Save changes</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" id="mytext"/>
+<div class="clearfix"></div>
+    <div class="col-md-4 col-md-offset-4">
+        <div class="input-group">
+            <div class="inputholder form-control date">
+                <input class="dateField bdday" style="width: 18px;" type="text" value="DD">
+                <input class="dateField bdmonth" style="width: 27px;" type="text" value="MM">
+                <input class="dateField bdyear" style="width: 40px;" type="text" value="YYYY">
+            </div>
+            <input type="hidden" class="form-control">
+            <div class="input-group-addon datepickerTrigger">
+                <span class="glyphicon glyphicon-calendar"><span style="pointer-events:none;padding: 0;" class="datepicker"></span></span>
+            </div>
+        </div>
+
+        <!--<div class="datepicker" data-date="12/03/2012"></div>-->
+        <input type="hidden" class="bdpicker_hidden_input" value="">
+
+
+
+
+
+        <!--Temp-->
+        <!--<div class="inputholder form-control">
+            <input class="dateField" style="width: 24px;" type="text" value="DD">
+            <input class="dateField" style="width: 27px;" type="text" value="MM">
+            <input class="dateField" style="width: 40px;" type="text" value="YYYY">
+        </div>-->
+
+        <!--<div class="input-group date">
+            <input type="text" class="form-control" value="12-02-2012">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th datepicker"></span>
+            </div>
+        </div>-->
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/dropdowntree.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+        });
+    </script>
+
+
+    <script>
+
+        $('.datepicker').on('changeDate', function(event) {
+            //console.log(event.date);
+            $('.bdpicker_hidden_input').val(
+                //$('.datepicker').datepicker('getFormattedDate')
+                $(".datepicker").data('datepicker').getFormattedDate('dd-mm-yyyy')
+            );
+            //alert($(".datepicker").data('datepicker').viewDate);
+            //alert($(".datepicker").data('datepicker').moment().endOf('m'));
+        });
+
+        // Custom Bootstrap Datepicker
+       $(document).ready(function () {
+           $('.datepicker').datepicker({
+               format: "dd M yyyy",
+               todayBtn:  1,
+               autoclose: true
+           });
+
+           const newDate = new Date();
+           let maxDayOfInputedMonth;
+           let rawInputDay;
+           let rawInputMonth;
+           let inputDay;
+           let currentMonth;
+           const monthNamesArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+           const monthNamesObj = {"Jan":'00', "Feb": '01', "Mar": '02', "Apr":'03', "May":'04', "Jun":'05', "Jul":'06', "Aug":'07', "Sept":'08', "Oct":'09', "Nov":'10', "Dec":'11'};
+
+           // default date
+           $('.bdday').val(newDate.getDate());
+           $('.bdmonth').val(monthNamesArr[newDate.getMonth()]);
+           $('.bdyear').val(newDate.getFullYear());
+
+           // return parse max day of the inputed month
+           let maxdayFn = function(m,y){
+               return  new Date(y, m +1, 0).getDate();
+           };
+
+           // return max day of the inputed month
+           function maxDaysInMonth(m, y) { // m is 0 indexed: 0-11
+               switch (m) {
+                   case 1 :
+                       return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)) ? 29 : 28;
+                   case 8 : case 3 : case 5 : case 10 :
+                       return 30;
+                   default :
+                       return 31
+               }
+           }
+
+           // return true/false of the inputed full date
+           function isValidDate(d, m, y) { // m is 0 indexed: 0-11
+               return m >= 0 && m < 12 && d > 0 && d <= maxDaysInMonth(m, y);
+           }
+
+           // return true/false of the inputed day
+           function isValidDay(d, m, y) { // m is 0 indexed: 0-11
+               return d > 0 && d <= maxDaysInMonth(m, y);
+           }
+
+           // return true/false of the inputed month
+           function isValidMonth(m) { // m is 0 indexed: 0-11
+               return m >= 0 && m < 12;
+           }
+
+           // return true/false of the inputed year
+           function isValidYear(year) {
+               if(isNaN(year))
+               {
+                   return false;
+               }
+
+              let text = /^[0-9]+$/;
+               if(!year && !text.test(year))
+               {
+                   return false;
+               }
+
+               return true;
+           }
+
+           $(document).on('change paste click','.dateField',function () {
+               $('.datepicker').datepicker('hide');
+
+               let bdpicker_hidden_input_value = $('.bdpicker_hidden_input').val();
+
+               let day = rawInputDay = $('.bdday').val();
+               let month = rawInputMonth = $('.bdmonth').val();
+               if (!isNaN(month))
+               {
+                   month = monthNamesArr[month-1];
+                   $('.bdmonth').val(month);
+               }
+
+               let year = $('.bdyear').val();
+               if ((year.toString()).length < 3)
+               {
+                   let yearLastStr = '';
+                   if ((year.toString()).length == 1)
+                   {
+                       yearLastStr = '0' + year.toString();
+                   }
+                   if ((year.toString()).length == 2)
+                   {
+                       yearLastStr = year.toString();
+                   }
+
+                   let thisYear = new Date().getFullYear().toString();
+                   thisYear = thisYear.substring(0, thisYear.length-2);
+                   thisYear = thisYear + yearLastStr;
+                   //console.log(thisYear);
+                   year = parseInt(thisYear);
+                   $('.bdyear').val(year);
+               }
+               if ((year.toString()).length == 3 || (year.toString()).length > 4)
+               {
+                   $('.bdyear').val(new Date().getFullYear());
+               }
+
+               let rawFormat = year+'-'+monthNamesObj[month]+'-'+day;
+
+               // parsed inputed full date
+               let inputDate = new Date(rawFormat);
+               //let inputDate = $(this).datepicker('getDate');
+
+               //parsed current month
+               currentMonth = newDate.getMonth() + 1;
+               //currentMonth = parseInt(moment(new Date()).format("MM"));
+
+               //parsed inputed day
+               inputDay = inputDate.getDate();
+
+               //parsed max day of the inputed month
+               maxDayOfInputedMonth = maxdayFn(inputDate.getMonth(),inputDate.getFullYear());
+               //maxDayOfInputedMonth2 = maxdayFn(moment(inputDate).format("MM"),moment(inputDate).format("YYYY"));
+
+               /*if(!isValidDate(day,monthNamesObj[month],year)) //month is str ie. Jan, Feb ...
+               {
+                   $('.bdday').val('0');
+               }*/
+
+               if(!isValidDay(day,monthNamesObj[month],year))
+               {
+                   $('.bdday').val('0');
+               }
+
+               if(!isValidMonth(monthNamesObj[month]))
+               {
+                   $('.bdmonth').val('0');
+               }
+
+               if(!isValidYear(year))
+               {
+                   $('.bdyear').val('0');
+               }
+
+
+               let formatedDate = day+'-'+monthNamesObj[month]+'-'+year;
+
+               $('.bdpicker_hidden_input').val(formatedDate);
+           });
+           
+           // Datepicker Click Trigger
+           $('.datepickerTrigger').click(function () {
+               $('.datepicker').datepicker('show');
+           });
+       });
+
+
+
+    </script>
+
+    <script>
+        var arr4=[
+            {title:"St Fatima",href:"#1",dataAttrs:[{title:"id",data:"value1"}]},
+            {title:"Korba",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
+            {title:"Roxi",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
+        ];
+
+        var arr3=[
+            {title:"Abbas Al Akkad",href:"#1",dataAttrs:[{title:"id",data:"value1"}]},
+            {title:"Makram Obeid",href:"#2",dataAttrs:[],data:arr4},
+            {title:"Mostafa Al Nahas",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
+        ];
+
+        var arr2=[
+            {title:"Teriumph",href:"#1",dataAttrs:[] ,data:arr3},
+            {title:"Safir",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
+            {title:"El-Hegaz Sq",href:"#3",dataAttrs:[{title:"id",data:"value7"}]}
+        ];
+
+        var arr=[
+            {title:"Heliopolis",href:"#1",dataAttrs:[], data: arr2},
+            {title:"Nasr City",href:"#2",dataAttrs:[{title:"id",data:"value4"}]},
+            {title:"Down Town",href:"#3",dataAttrs:[],data:arr3}
+        ];
+
+        var options = {
+            title : '<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>',
+            data: arr,
+            maxHeight: 300,
+            clickHandler: function(element){
+                // console.log($(element).GetParents());
+                // $("#firstDropDownTree").SetTitle($(element).find("a").first().text());
+                // console.log("Selected Elements",$("#firstDropDownTree").GetSelected());
+            },
+            expandHandler: function(element,expanded){
+               // console.log("expand",element,expanded);
+            },
+            checkHandler: function(element,checked){
+                // console.log("check",element,checked);
+                let selectedOpt = [];
+                $.each(($("#firstDropDownTree").GetSelected()), function (key, val) {
+                    // console.log($(val).attr("data-id"));
+                    selectedOpt.push($(val).attr("data-id"));
+                });
+                $(".selectpicker").val(selectedOpt).change();
+            },
+            closedArrow: '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+            openedArrow: '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>',
+            multiSelect: true,
+            selectChildren: true,
+        };
+
+        $("#firstDropDownTree").DropDownTree(options);
+
+
+        $(document).ready(function () {
+
+            $('#openBtn').click(function () {
+                $('#myModal').modal('show');
+            });
+
+            $(document).on('show.bs.modal', '.modal', function (event) {
+                var zIndex = 1040 + (10 * $('.modal:visible').length);
+                $(this).css('z-index', zIndex);
+                setTimeout(function() {
+                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                }, 0);
+            });
+
+
+        });
+
+    </script>
+</body>
+</html>

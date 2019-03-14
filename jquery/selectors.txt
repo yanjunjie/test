@@ -12,6 +12,19 @@ $("#pakker input[type='checkbox']:checked")
 Here the : is attribute name and checkbox is value
 It means it will select all inputs that are checkboxes
 
+$("a.clickme").click(function(){
+  $(this)                    // Link has been clicked
+    .closest("td")           // Get Parent TD
+    .find("input:checkbox")  // Find all checkboxes
+    .attr("disabled", true); // Disable them
+});
+
+Or ...
+
+$('table input[type=checkbox]').attr('disabled','true');
+
+The Same thing
+
 
 //Radio selectors:
 

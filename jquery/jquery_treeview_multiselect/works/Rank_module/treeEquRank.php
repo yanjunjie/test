@@ -1,7 +1,7 @@
 <ul id="myUL">
     <?php
     foreach ($branch as $key => $value1) {
-        $rank = $this->db->query("select RANK_CODE, RANK_ID, RANK_NAME from bn_rank where ACTIVE_STATUS = 1 and BRANCH_ID = $value1->BRANCH_ID")->result();
+        $rank = $this->db->query("select RANK_CODE, RANK_ID, RANK_NAME from bn_rank where ACTIVE_STATUS = 1 and BRANCH_ID = $value1->BRANCH_ID $equRankIds")->result();
         ?>
         <li><span class="carett glyphicon"></span><input class="chkAll" style="margin-right: 5px;" type="checkbox"><?php echo '[' . $value1->BRANCH_CODE . '] ' . $value1->BRANCH_NAME ?>
             <ul class="nested">

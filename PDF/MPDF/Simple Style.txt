@@ -1,4 +1,10 @@
 <style>
+    @media print {
+        .noprint {
+            display: none !important;
+        }
+    }
+
     @page {
         header: page-header;
         footer: page-footer;
