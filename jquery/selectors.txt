@@ -1,6 +1,8 @@
 //checkbox selectors:
 
 $(this).closest('li').find("input:checkbox").not(':first');
+jQuery(".checkbox:checkbox:not(:checked)").trigger("click");
+$('.checkbox:not(:checked)').trigger("click");
 $("input.myClass:checkbox")
 $("input.myClass[type=checkbox]")
 $("input:checkbox").hasClass("myClass")

@@ -20,32 +20,26 @@
             text-align:center;
             padding:5px;
         }
-
         .dateField
         {
             border:0;
             display:inline-block;
             padding:0;
         }
-
-
         .inputholder
         {
             border:1px solid #ccc;
             padding: 6px 12px;
         }
-
-        /*my*/
-
     </style>
 </head>
 <body>
     <div class="col-md-4 col-md-offset-4">
         <div class="input-group">
             <div class="inputholder form-control date">
-                <input class="dateField bdday" style="width: 18px;" type="text" value="DD" onFocus="this.select()">
-                <input class="dateField bdmonth" style="width: 27px;" type="text" value="MM" onFocus="this.select()">
-                <input class="dateField bdyear" style="width: 40px;" type="text" value="YYYY" onFocus="this.select()">
+                <input class="dateField bdday" style="width: 24px;" type="text" placeholder="DD" onclick="this.focus();this.select()">
+                <input class="dateField bdmonth" style="width: 32px;" type="text" placeholder="MM" onclick="this.focus();this.select()">
+                <input class="dateField bdyear" style="width: 40px;" type="text" placeholder="YYYY" onclick="this.focus();this.select()">
             </div>
             <input type="hidden" class="form-control bdpicker_hidden_input">
             <div class="input-group-addon datepickerTrigger">
@@ -76,22 +70,32 @@
         });
     </script>
 
-
     <script>
 
-        $('.datepicker').on('changeDate', function(event) {
+        /*$('.datepicker').datepicker().on('changeDate', function(event) {*/
+        $(document).on('changeDate', '.datepicker', function(event) {
+            event.stopPropagation();
             //console.log(event.date);
+            /*const monthNamesArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+            //const monthNamesObj = {"Jan":'00', "Feb": '01', "Mar": '02', "Apr":'03', "May":'04', "Jun":'05', "Jul":'06', "Aug":'07', "Sept":'08', "Oct":'09', "Nov":'10', "Dec":'11'};
+            const monthNamesObj = {"Jan":0, "Feb": 1, "Mar": 2, "Apr":3, "May":4, "Jun":5, "Jul":6, "Aug":7, "Sept":8, "Oct":9, "Nov":10, "Dec":11};
+            let test =  $('.bdpicker_hidden_input').val();
+            console.log(test);
+
+            alert('hi');*/
+
             $('.bdpicker_hidden_input').val(
                 //$('.datepicker').datepicker('getFormattedDate')
-                $(".datepicker").data('datepicker').getFormattedDate('dd-mm-yyyy')
+               $(".datepicker").data('datepicker').getFormattedDate('dd-mm-yyyy')
             );
 
             $('.bdday').val(
-                //$(".datepicker").data('datepicker').getFormattedDate('dd')
+               // $(".datepicker").data('datepicker').getFormattedDate('dd')
+
             );
 
             $('.bdmonth').val(
-                //$(".datepicker").data('datepicker').getFormattedDate('mm')
+               // $(".datepicker").data('datepicker').getFormattedDate('mm')
             );
 
             $('.bdyear').val(
@@ -102,9 +106,9 @@
         // Custom Bootstrap Datepicker
        $(document).ready(function () {
            $('.datepicker').datepicker({
-               format: "dd M yyyy",
-               todayBtn:  1,
-               autoclose: true
+              // format: "dd M yyyy",
+               //todayBtn:  1,
+              // autoclose: true
            });
 
            const newDate = new Date();
@@ -170,20 +174,35 @@
                return true;
            }
 
-           $(document).on('change paste click','.dateField',function () {
+           $(document).on('change paste click ','.dateField, .bdpicker_hidden_input',function () {
                $('.datepicker').datepicker('hide');
-
-               let bdpicker_hidden_input_value = $('.bdpicker_hidden_input').val();
 
                let day = rawInputDay = $('.bdday').val();
                let month = rawInputMonth = $('.bdmonth').val();
+               let year = $('.bdyear').val();
+
+               let bdpicker_hidden_input_value = $('.bdpicker_hidden_input').val();
+
+               /*if(!!bdpicker_hidden_input_value)
+               {
+                   let initial = bdpicker_hidden_input_value.split('-');
+                   day = initial[0];
+                   month = initial[1];
+                   month = monthNamesArr[month-1];
+                   year = initial[2];
+                   console.log(day,month,year);
+               }*/
+
+
+
+               //Month setting
                if (!isNaN(month))
                {
                    month = monthNamesArr[month-1];
                    $('.bdmonth').val(month);
                }
 
-               let year = $('.bdyear').val();
+               // Year Setting
                if ((year.toString()).length < 3)
                {
                    let yearLastStr = '';
@@ -208,6 +227,7 @@
                    $('.bdyear').val(new Date().getFullYear());
                }
 
+               // Inputed Raw Full Date
                let rawFormat = year+'-'+monthNamesObj[month]+'-'+day;
 
                // parsed inputed full date
