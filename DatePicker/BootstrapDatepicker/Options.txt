@@ -82,6 +82,15 @@ $('.datepicker').on('changeDate', function(event) {
 	// maxDayOfInputedMonth2 = maxdayFn(moment(inputDate).format("MM"),moment(inputDate).format("YYYY"));
 	*/
 
+//spliting an array:
+	/*
+	let dateArr = bdpicker_hidden_input_value.split('-');
+	day = dateArr[0];
+	month = dateArr[1];
+	month = monthNamesArr[month-1];
+	year = dateArr[2];
+	*/
+
 
 
 //v.02
