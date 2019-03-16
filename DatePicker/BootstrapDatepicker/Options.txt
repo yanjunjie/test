@@ -62,6 +62,27 @@ $('.datepicker').on('changeDate', function(event) {
        });
 
 
+	/*
+	// Inputed Raw Full Date
+	let rawFormat = year+'-'+monthNamesObj[month]+'-'+day;
+
+	// parsed inputed full date
+	let inputDate = new Date(rawFormat);
+	// let inputDate = $(this).datepicker('getDate');
+
+	// parsed current month
+	currentMonth = newDate.getMonth() + 1;
+	// currentMonth = parseInt(moment(new Date()).format("MM"));
+
+	// parsed inputed day
+	inputDay = inputDate.getDate();
+
+	// parsed max day of the inputed month
+	maxDayOfInputedMonth = maxdayFn(inputDate.getMonth(),inputDate.getFullYear());
+	// maxDayOfInputedMonth2 = maxdayFn(moment(inputDate).format("MM"),moment(inputDate).format("YYYY"));
+	*/
+
+
 
 //v.02
 
