@@ -70,8 +70,10 @@
     // Custom Bootstrap Datepicker
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            format: "dd-mm-yyyy"
-        });
+            format: "dd-mm-yyyy",
+            todayHighlight: true,
+            autoclose: true
+        }).datepicker("setDate",'now');
 
         const newDate = new Date();
         let rawInputDay;
