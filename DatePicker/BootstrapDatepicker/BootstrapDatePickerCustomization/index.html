@@ -40,9 +40,9 @@
 <div class="col-md-4 col-md-offset-4">
     <div class="input-group">
         <div class="inputholder form-control date">
-            <input class="dateField bdday" style="width: 24px;" type="text" placeholder="DD" onclick="this.focus();this.select()">
+            <input maxlength="2" class="dateField bdday" style="width: 24px;" type="text" placeholder="DD" onclick="this.focus();this.select()">
             <input tabindex="-1" class="dateField bdmonth" style="width: 32px;" type="text" placeholder="MM" onclick="this.focus();this.select()">
-            <input tabindex="-1" class="dateField bdyear" style="width: 40px;" type="text" placeholder="YYYY" onclick="this.focus();this.select()">
+            <input maxlength="4" tabindex="-1" class="dateField bdyear" style="width: 40px;" type="text" placeholder="YYYY" onclick="this.focus();this.select()">
         </div>
         <input type="hidden" class="form-control bdpicker_hidden_input">
         <div class="input-group-addon datepickerTrigger">
@@ -199,6 +199,7 @@
                 // $('.bdday').val('0');
                 day = maxDaysInMonth(monthNamesObj[month], year);
                 $('.bdday').val(day);
+                $('.bdday').select();
                 return false;
             }
 
@@ -208,6 +209,7 @@
                 //$('.bdmonth').val('0');
                 month = monthNamesArr[new Date().getMonth()];
                 $('.bdmonth').val(month);
+                $('.bdmonth').select();
                 return false;
             }
 
@@ -217,6 +219,7 @@
                 //$('.bdyear').val('0');
                 year = new Date().getFullYear();
                 $('.bdyear').val(year);
+                $('.bdyear').select();
                 return false;
             }
 
@@ -284,7 +287,7 @@
         // on key up event for month
         $(document).on('keyup','.bdmonth', function (e) {
             $('.datepicker').datepicker('hide');
-            customBootstrapDatepicker();
+            setTimeout(function(){ customBootstrapDatepicker(); }, 300);
         });
     });
 
