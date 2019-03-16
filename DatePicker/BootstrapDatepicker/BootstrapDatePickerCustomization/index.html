@@ -81,7 +81,6 @@
         //let test =  $('.bdpicker_hidden_input').val();
         let month = $(".datepicker").data('datepicker').getFormattedDate('mm');
         let year = $(".datepicker").data('datepicker').getFormattedDate('yyyy');
-
         month = monthNamesArr[month-1];
 
         $('.bdpicker_hidden_input').val(
@@ -222,6 +221,7 @@
             if ((year.toString()).length == 3 || (year.toString()).length > 4)
             {
                 $('.bdyear').val(new Date().getFullYear());
+                year = new Date().getFullYear();
             }
 
             // Inputed Raw Full Date
