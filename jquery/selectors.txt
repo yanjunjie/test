@@ -1,4 +1,4 @@
-//checkbox selectors:
+//checkbox selectors------------------------------------
 
 $(this).closest('li').find("input:checkbox").not(':first');
 jQuery(".checkbox:checkbox:not(:checked)").trigger("click");
@@ -28,9 +28,17 @@ $('table input[type=checkbox]').attr('disabled','true');
 The Same thing
 
 
-//Radio selectors:
+//Radio selectors-------------------------------------------
 
 $(":input[type='radio']").wijradio();
 $('input[type=radio]').wijradio();
 
 Here :input selector is a jQuery extension while input is a CSS selector.
+
+
+//Not But All---------------------------------------------
+
+$('#sailorTable>tbody>tr:not([style*="display: none"])').length
+
+
+
