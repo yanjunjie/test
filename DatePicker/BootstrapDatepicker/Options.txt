@@ -1,3 +1,5 @@
+//v.01
+
 $('.datepicker').on('changeDate', function(event) {
             //console.log(event.date);
             $('#my_hidden_input').val(
@@ -58,3 +60,80 @@ $('.datepicker').on('changeDate', function(event) {
            }
 
        });
+
+
+	/*
+	// Inputed Raw Full Date
+	let rawFormat = year+'-'+monthNamesObj[month]+'-'+day;
+
+	// parsed inputed full date
+	let inputDate = new Date(rawFormat);
+	// let inputDate = $(this).datepicker('getDate');
+
+	// parsed current month
+	currentMonth = newDate.getMonth() + 1;
+	// currentMonth = parseInt(moment(new Date()).format("MM"));
+
+	// parsed inputed day
+	inputDay = inputDate.getDate();
+
+	// parsed max day of the inputed month
+	maxDayOfInputedMonth = maxdayFn(inputDate.getMonth(),inputDate.getFullYear());
+	// maxDayOfInputedMonth2 = maxdayFn(moment(inputDate).format("MM"),moment(inputDate).format("YYYY"));
+	*/
+
+//spliting an array:
+	/*
+	let dateArr = bdpicker_hidden_input_value.split('-');
+	day = dateArr[0];
+	month = dateArr[1];
+	month = monthNamesArr[month-1];
+	year = dateArr[2];
+	*/
+
+
+
+//v.02
+
+$('#date-daily').datepicker().on('changeDate', function(e) {
+    //$('#other-input').val(e.format(0,"dd/mm/yyyy"));
+    //alert(e.date);
+    //alert(e.format(0,"dd/mm/yyyy"));
+    //console.log(e.date); 
+});
+
+https://bootstrap-datepicker.readthedocs.io/en/latest/events.html
+
+
+//v.03
+
+
+$(document).ready(function () {
+    $('#dp3').datepicker().on('changeDate', function (ev) {
+        $('#date-daily').change();
+    });
+    $('#date-daily').val('0000-00-00');
+    $('#date-daily').change(function () {
+        $('#stdout').append($('#date-daily').val() + '\n');
+        console.log($('#date-daily').val());
+    });
+});
+
+<div class="well">
+    <div class="input-append date" id="dp3" data-date="2012-01-02" data-date-format="yyyy-mm-dd">
+        <input type="text" id="date-daily" /> <span class="add-on"><i class="icon-th"></i></span> 
+    </div>
+</div>
+<textarea id="stdout" style="width:100%;height:10em;"></textarea>
+
+
+//v.04
+
+
+
+
+
+
+
+
+
