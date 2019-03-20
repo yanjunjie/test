@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+    function HelloWorld(props) {
+        return (<h1>Hello, {props.id}!</h1>);
+    }
+
+    class Age extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                count: 0
+            };
+
+            this.yourRef = React.createRef();
+
+            this.textInput = null;
+            this.setTextInputRef = element => {
+                this.textInput = element;
+            };
+        }
+
+        myFunc() {
+            this.setState({ count: this.state.count + 1 });
+            //console.log(this.refs.textInput.value);
+            //this.refs.textInput.value = 'Hello';
+
+            /*console.log(this.yourRef.current.value);
+            this.yourRef.current.value = 'Hello';*/
+
+
+            //console.log(this.textInput.value);
+            //this.textInput.value = 'Hello';
+            if (this.textInput)
+            {
+                this.textInput.focus();
+                this.textInput.select();
+            }
+
+
+        }
+
+        render() {
+            return (
+                <div>
+                    <button onClick = {()=>this.myFunc()} >Count</button>
+                    <span>{!!this.state.count && (this.state.count)}</span>
+                    <HelloWorld id={this.state.count} />
+                    {/*<input ref="textInput" type="text" />
+                    <input ref={this.yourRef} type="text" />*/}
+                    <input ref = {this.setTextInputRef} type="text" />
+                </div>
+            );
+        }
+
+    }
+
+    ReactDOM.render(
+        <div>
+            <HelloWorld name="Nawim"/>
+            <Age age="28"/>
+        </div>
+        ,
+        document.getElementById('root')
+    );
+
+</script>
+</body>
+</html>
