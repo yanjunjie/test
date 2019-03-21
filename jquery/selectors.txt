@@ -9,6 +9,13 @@ $("input:checkbox").hasClass("myClass")
 $("input:checkbox")
 $('input[name=ship_ids][checked=checked]')
 $('input[type=checkbox]:checked')
+
+$("[ind]").length will give the count of all the elements with attribute ind
+$(document).ready(function(){
+    console.log($("[ind]").length);
+    console.log($(this).find('td[rowspan]').length);
+});
+
 $("#pakker input[type='checkbox']:checked")
 
 Here the : is attribute name and checkbox is value
