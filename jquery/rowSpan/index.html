@@ -1286,13 +1286,19 @@
                         let prevUnit = thisRow.prevAll('.units:first');
                         let prevBranch = thisRow.prevAll('.units:first');
 
-                        //debugger;
-
-                        thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
+                        //thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
+                        thisRow.after('<tr>'+
+                                            '<td><strong>Branch Total</strong></td>'+
+                                            '<td></td>'+
+                                            '<td><strong>'+"<?php echo $bTotalSanc; ?>"+'</strong></td>'+
+                                            '<td><strong>'+"<?php echo $bTotalBorn; ?>"+'</strong></td>'+
+                                            '<td></td>'+
+                                            '<td></td>'+
+                                        '</tr>');
 
                         // below conditions for identify the unit based on rowspan length
                         if (prevUnit.find('td[rowspan]').length == 2) {
-                            // ship rowspan increment by 1
+                            // ship rowspan incremented by 1
                             let prevShipRowspan = parseInt(prevShip.find('td:first').attr('rowspan'));
                             let newPrevShipRowspan = prevShipRowspan+1;
                             prevShip.find('td:first').attr('rowspan',newPrevShipRowspan);
@@ -1309,7 +1315,7 @@
                         }
 
                         else if (prevUnit.find('td[rowspan]').length == 3) {
-                            // ship rowspan increment by 1
+                            // ship rowspan incremented by 1
                             let prevShipRowspan = parseInt(prevShip.find('td:first').attr('rowspan'));
                             let newPrevShipRowspan = prevShipRowspan+1;
                             prevShip.find('td:first').attr('rowspan',newPrevShipRowspan);
