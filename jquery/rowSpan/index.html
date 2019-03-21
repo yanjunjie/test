@@ -1212,49 +1212,45 @@
 
 <script>
     $(document).ready(function () {
-
         let allrow = $('body .allrow');
 
-        // all ships which are grater than 1 rowspan
-        allrow.find('td:eq(2)').filter(function () {
-            //return this.rowSpan > 1;
-            if (this.rowSpan > 1)
-                $(this).parent().addClass('ships');
+        /*$('.allrow').filter(function(){
+            return $('[rowspan]', this).length > 2;
+        }).addClass('ships');*/
+
+        $('.allrow').each(function() {
+            if ($(this).find('td[rowspan]').length > 2) {
+                $(this).addClass('ships');
+            }
         });
 
         //All ships
         if (allrow.hasClass('ships')) {
             $('tbody .ships').each(function () {
                 let thisShip = $(this);
-                //ship
-                let firstColShip = $(this).find('td:eq(0)');
-                let secondColShip = $(this).find('td:eq(1)');
-                let thirdColShip = $(this).find('td:eq(2)');
+                let allTrBetweenTwoShip = thisShip.nextUntil(thisShip).addBack();
 
-                let firstColRowspanShip = parseInt(firstColShip.attr('rowspan'));
-                let secondColRowspanShip = parseInt(secondColShip.attr('rowspan'));
-                let thirdColRowspanShip = parseInt(thirdColShip.attr('rowspan'));
+                // add new new class 'units'
+                allTrBetweenTwoShip.each(function () {
 
-                //console.log($(this).find('td[rowspan]').length);
+                    if ($(this).find('td[rowspan]').length == 2) {
+                        if (parseInt($(this).find('td[rowspan]:first').attr('rowspan')) > 1) {
+                            $(this).addClass('units');
+                        }
+                    }
 
-                thisShip.addClass('units');
-
-                //between two ship class inside all siblings or units filtered by rowspan
-                thisShip.nextUntil('.ships').each(function () {
-
-                    $(this).find('td:eq(0)').filter(function () {
-                        if (this.rowSpan > 1)
-                            $(this).parent().addClass('units');
-                    });
+                    if ($(this).find('td[rowspan]').length == 3) {
+                        if (parseInt($(this).find('td[rowspan]:eq(1)').attr('rowspan')) > 1) {
+                            $(this).addClass('units');
+                        }
+                    }
                 });
-
-                let nextUnit = 0;
 
                 // All units
                 if (allrow.hasClass('units')) {
-                    //console.log($('.units').length);
+
+                    // add new class 'expectedRow'
                     allrow.each(function () {
-                        //console.log(++i);
                         let thisRow = $(this);
                         let thisIndex = $(this).index();
                         let firstColUnit = '';
@@ -1272,56 +1268,51 @@
                         let firstColRowspanUnit = firstColUnit ? parseInt(firstColUnit.attr('rowspan')) : 0;
                         let secondColRowspanUnit = secondColUnit ? parseInt(secondColUnit.attr('rowspan')) : 0;
 
-                        //expected row class insert
+                        // expected class added here
                         if (thisRow.hasClass('units')) {
                             let expectedIndex = parseInt(thisIndex) + firstColRowspanUnit;
                             let expectedRow = $('.allrow:eq(' + (expectedIndex - 1) + ')');
                             expectedRow.addClass('expectedRow');
                         }
-
                     });
                 }
+
+                // New row added after each 'expectedRow' class
+                if (allrow.hasClass('expectedRow')) {
+
+                    $('.expectedRow').each(function () {
+                        let thisRow = $(this);
+                        let thisShip = thisRow.prevAll('.ships:first');
+
+                        thisRow.after('<tr><td colspan="8"><strong>Branch Total</strong></td></tr>');
+
+                        let shipRowspan = parseInt(thisShip.find('td:eq(0)').attr('rowspan'));
+                        let newShipRowspan = shipRowspan+1;
+                        thisShip.find('td:eq(0)').attr('rowspan',newShipRowspan)
+
+                        /*
+                         if(thisRow.hasClass('ships')){
+                            let s = firstColShip ? parseInt(firstColShip.attr('rowspan')) : 0;
+                        }
+                        let t = firstColUnit ? parseInt(firstColUnit.attr('rowspan')) : 0;
+                        let tt = secondColUnit ? parseInt(secondColUnit.attr('rowspan')) : 0;
+
+                        if(!!firstColShip)
+                        {
+                            firstColShip.attr('rowspan', s + 1);
+                        }
+
+                        if(!!firstColUnit)
+                        {
+                            //firstColUnit.attr('rowspan', t + 1);
+                            //secondColUnit.attr('rowspan', tt + 1);
+                        }*/
+
+                        // console.log(thisIndex,expectedIndex);
+                    });
+                }
+
             });
-        }
-
-        // new row add
-        if (allrow.hasClass('expectedRow')) {
-            //let thisRow = $(this);
-            //let thisIndex = $(this).index();
-            let expectedRow = $('.expectedRow');
-            expectedRow.after('<tr><td colspan="8"><strong>Branch Total</strong></td></tr>');
-
-            let exRowLength = expectedRow.length;
-            let ships = $('.ships');
-            let shipRowspan = parseInt(ships.find('td:eq(0)').attr('rowspan'));
-            let newRowspan = shipRowspan+exRowLength;
-            ships.find('td:eq(0)').attr('rowspan',newRowspan)
-
-            
-
-
-
-
-
-            /*
-             if(thisRow.hasClass('ships')){
-                let s = firstColShip ? parseInt(firstColShip.attr('rowspan')) : 0;
-            }
-            let t = firstColUnit ? parseInt(firstColUnit.attr('rowspan')) : 0;
-            let tt = secondColUnit ? parseInt(secondColUnit.attr('rowspan')) : 0;
-
-            if(!!firstColShip)
-            {
-                firstColShip.attr('rowspan', s + 1);
-            }
-
-            if(!!firstColUnit)
-            {
-                //firstColUnit.attr('rowspan', t + 1);
-                //secondColUnit.attr('rowspan', tt + 1);
-            }*/
-
-            // console.log(thisIndex,expectedIndex);
         }
     });
 </script>
