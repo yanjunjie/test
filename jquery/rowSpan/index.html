@@ -1284,10 +1284,11 @@
                         let thisRow = $(this);
                         let prevShip = thisRow.prevAll('.ships:first');
                         let prevUnit = thisRow.prevAll('.units:first');
+                        let prevBranch = thisRow.prevAll('.units:first');
 
                         //debugger;
 
-                        thisRow.after('<tr><td colspan="7"><strong>Branch Total</strong></td></tr>');
+                        thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
 
                         // below conditions for identify the unit based on rowspan length
                         if (prevUnit.find('td[rowspan]').length == 2) {
@@ -1300,6 +1301,11 @@
                             let unitRowspan = parseInt(prevUnit.find('td:first').attr('rowspan'));
                             let newUnitRowspan = unitRowspan+1;
                             prevUnit.find('td:first').attr('rowspan',newUnitRowspan);
+
+                            // branch rowspan incremented by 1
+                            let branchRowspan = parseInt(prevUnit.find('td:eq(1)').attr('rowspan'));
+                            let newBranchRowspan = branchRowspan+1;
+                            prevBranch.find('td:eq(1)').attr('rowspan',newBranchRowspan);
                         }
 
                         else if (prevUnit.find('td[rowspan]').length == 3) {
@@ -1312,29 +1318,12 @@
                             let unitRowspan = parseInt(prevUnit.find('td:eq(1)').attr('rowspan'));
                             let newUnitRowspan = unitRowspan+1;
                             prevUnit.find('td:eq(1)').attr('rowspan',newUnitRowspan);
+
+                            // branch rowspan incremented by 1
+                            let branchRowspan = parseInt(prevBranch.find('td:eq(2)').attr('rowspan'));
+                            let newBranchRowspan = branchRowspan+1;
+                            prevBranch.find('td:eq(2)').attr('rowspan',newBranchRowspan);
                         }
-
-                        //;
-
-                        /*
-                         if(thisRow.hasClass('ships')){
-                            let s = firstColShip ? parseInt(firstColShip.attr('rowspan')) : 0;
-                        }
-                        let t = firstColUnit ? parseInt(firstColUnit.attr('rowspan')) : 0;
-                        let tt = secondColUnit ? parseInt(secondColUnit.attr('rowspan')) : 0;
-
-                        if(!!firstColShip)
-                        {
-                            firstColShip.attr('rowspan', s + 1);
-                        }
-
-                        if(!!firstColUnit)
-                        {
-                            //firstColUnit.attr('rowspan', t + 1);
-                            //secondColUnit.attr('rowspan', tt + 1);
-                        }*/
-
-                        // console.log(thisIndex,expectedIndex);
                     });
                 }
             });
