@@ -1286,12 +1286,15 @@
                         let prevUnit = thisRow.prevAll('.units:first');
                         let prevBranch = thisRow.prevAll('.units:first');
 
+                        let sancSubTotal = thisRow.find('.sancSubTotal').val();
+                        let borneSubTotal = thisRow.find('.borneSubTotal').val();
+
                         //thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
                         thisRow.after('<tr>'+
                                             '<td><strong>Branch Total</strong></td>'+
                                             '<td></td>'+
-                                            '<td><strong>'+"<?php echo $bTotalSanc; ?>"+'</strong></td>'+
-                                            '<td><strong>'+"<?php echo $bTotalBorn; ?>"+'</strong></td>'+
+                                            '<td><strong>'+sancSubTotal+'</strong></td>'+
+                                            '<td><strong>'+borneSubTotal+'</strong></td>'+
                                             '<td></td>'+
                                             '<td></td>'+
                                         '</tr>');
