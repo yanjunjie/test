@@ -1289,6 +1289,9 @@
                         let sancSubTotal = thisRow.find('.sancSubTotal').val();
                         let borneSubTotal = thisRow.find('.borneSubTotal').val();
 
+                        sancSubTotal = sancSubTotal?sancSubTotal:0;
+                        borneSubTotal = borneSubTotal?borneSubTotal:0;
+
                         //thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
                         thisRow.after('<tr>'+
                                             '<td><strong>Branch Total</strong></td>'+

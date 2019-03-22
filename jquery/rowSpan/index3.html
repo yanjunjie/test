@@ -21,7 +21,7 @@
 </style>
 
 </head>
-<body data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="">
+<body>
 <table width="100%" style="vertical-align: bottom; color: #000000; font-weight: bold; font-style: italic;">
     <tbody>
     <tr>
@@ -61359,6 +61359,10 @@
     $(document).ready(function () {
         let allrow = $('body .allrow');
 
+        /*$('.allrow').filter(function(){
+            return $('[rowspan]', this).length > 2;
+        }).addClass('ships');*/
+
         $('.allrow').each(function () {
             if ($(this).find('td[rowspan]').length > 2) {
                 $(this).addClass('ships');
@@ -61426,8 +61430,12 @@
                         let prevShip = thisRow.prevAll('.ships:first');
                         let prevUnit = thisRow.prevAll('.units:first');
                         let prevBranch = thisRow.prevAll('.units:first');
+
                         let sancSubTotal = thisRow.find('.sancSubTotal').val();
                         let borneSubTotal = thisRow.find('.borneSubTotal').val();
+
+                        sancSubTotal = sancSubTotal ? sancSubTotal : 0;
+                        borneSubTotal = borneSubTotal ? borneSubTotal : 0;
 
                         //thisRow.after('<tr><td colspan="6"><strong>Branch Total</strong></td></tr>');
                         thisRow.after('<tr>' +
@@ -61478,13 +61486,4 @@
     });
 </script>
 </body>
-<div>
-    <div class="gr_-editor gr-iframe-first-load" style="display: none;">
-        <div class="gr_-editor_back"></div>
-        <iframe class="gr_-ifr gr-_dialog-content" src="./index3_files/saved_resource.html"></iframe>
-    </div>
-</div>
-<grammarly-card>
-    <div></div>
-</grammarly-card>
-<span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span></html>
+</html>
