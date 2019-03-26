@@ -1,3 +1,10 @@
+//Initialization-------------------
+
+$this->load->library('upload', $config);
+// Alternately you can set preferences by calling the `initialize()` method. Useful if you auto-load the class:
+$this->upload->initialize($config);
+
+
 //V.01
     $applicant_photo_path = '';
     $applicant_sign_path = '';
@@ -38,7 +45,7 @@
             $applicant_sign_path = $finfo2['file_name'];
         }
     }
-//End Signature
+   //End Signature
 
 //V.02, update
 

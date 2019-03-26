@@ -685,10 +685,10 @@ select *,PARENT_ID,NAME,ADMIN_ID from bn_navyadminhierarchy where ACTIVE_STATUS 
 select SHIP_ESTABLISHMENTID from bn_posting_unit where ACTIVE_STATUS = 1 order by CODE asc;
 
 #zone
-select * from bn_navyadminhierarchy where ACTIVE_STATUS = 1 and ADMIN_TYPE = 1 order by CODE asc;
+select * from bn_navyadminhierarchy where ACTIVE_STATUS = 1 and ADMIN_TYPE = 1 order by CODE asc; # admin_id = zone based on type
 
 #area
-select * from bn_navyadminhierarchy where ACTIVE_STATUS = 1 and ADMIN_TYPE = 2 AND PARENT_ID =  order by CODE asc;
+select * from bn_navyadminhierarchy where ACTIVE_STATUS = 1 and ADMIN_TYPE = 2 AND PARENT_ID = 1 order by CODE asc; # admin_id = area & parent_id = zone based on type
 
 #ship
 select *, AREA_ID from bn_ship_establishment where ACTIVE_STATUS = 1 order by CODE asc;
@@ -1642,12 +1642,72 @@ left join (select * from (select * from pfttran order by SailorID, PftID desc)m 
 where s.SAILORSTATUS = 1
 ORDER BY s.BRANCHID, r.POSITION, s.OFFICIALNUMBER ASC
 
+# stable
+select m.MovementID, m.SailorID, a.NAME Appoinment, sh.SHORT_NAME, p.NAME Posting,
+DATE_FORMAT(m.DraftInDate, '%d-%m-%Y')DraftInDate, DATE_FORMAT(m.DraftOutDate, '%d-%m-%Y')DraftOutDate, c.FULL_NAME, u.FULL_NAME, DATE_FORMAT(m.CRE_DT, '%d-%m-%Y')CRE_DT, DATE_FORMAT(m.UPD_DT, '%d-%m-%Y')UPD_DT
+from movement m
+left join bn_appointmenttype a on m.AppointmentTypeID = a.APPOINT_TYPEID
+left join bn_ship_establishment sh on sh.SHIP_ESTABLISHMENTID = m.ShipEstablishmentID
+left join bn_posting_unit p on m.PostingUnitID = p.POSTING_UNITID
+left join sa_users c on c.USER_ID = m.CRE_BY
+left join sa_users u on u.USER_ID = m.UPD_BY
+where m.SailorID = 20050149
+order by m.DraftInDate, m.DraftOutDate;
 
 
 
 
 
 
+
+select sh.NAME ShipName,sh.AREA_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, count(SAILORID)Borne,
+
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(select count(t.TransferID)TotalOut from transfer t left join sailor ts on t.SailorID = ts.SAILORID where ts.RANKID = s.RANKID
+and ts.FIRSTPARTID = s.FIRSTPARTID and ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+from sailor s
+left join bn_branch b on s.BRANCHID = b.BRANCH_ID
+left join bn_rank r on s.RANKID = r.RANK_ID
+left join partii p on s.FIRSTPARTID = p.PartIIID
+left join bn_daogroup a on b.DAO_GROUPID = a.GROUP_ID
+left join bn_ship_establishment sh on s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+left join bn_posting_unit pu on s.POSTINGUNITID = pu.POSTING_UNITID
+where SAILORSTATUS = 1  AND s.ZONEID IN (1) AND s.SHIPESTABLISHMENTID IN (53)  AND a.GROUP_ID IN (1,2,3,4,5,7)
+group by s.POSTINGUNITID, RANKID, FIRSTPARTID
+
+
+
+
+SELECT ShipName, AREA_ID, PostingName,Branch, Rank, Part,
+SUM(Borne) Borne, SUM(sanction) sanction, SUM(TotalIn) TotalIn, SUM(TotalOut) TotalOut
+FROM
+(SELECT sh.NAME ShipName,sh.AREA_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME Rank, p.Name Part, COUNT(SAILORID)Borne,
+
+(SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+(SELECT COUNT(t.TransferID)TotalOut FROM transfer t LEFT JOIN sailor ts ON t.SailorID = ts.SAILORID WHERE ts.RANKID = s.RANKID
+AND ts.FIRSTPARTID = s.FIRSTPARTID AND t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+(SELECT COUNT(t.TransferID)TotalOut FROM transfer t LEFT JOIN sailor ts ON t.SailorID = ts.SAILORID WHERE ts.RANKID = s.RANKID
+AND ts.FIRSTPARTID = s.FIRSTPARTID AND ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+FROM sailor s
+LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+LEFT JOIN partii p ON s.FIRSTPARTID = p.PartIIID
+LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+LEFT JOIN bn_ship_establishment sh ON s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+LEFT JOIN bn_posting_unit pu ON s.POSTINGUNITID = pu.POSTING_UNITID
+WHERE SAILORSTATUS = 1 AND s.ZONEID IN (1) AND s.SHIPESTABLISHMENTID IN (53) AND a.GROUP_ID IN (1,2,3,4,5,7)
+GROUP BY s.POSTINGUNITID, RANKID, FIRSTPARTID) a
+GROUP BY ShipName, AREA_ID, PostingName, Branch,Rank, Part WITH ROLLUP
 
 
 

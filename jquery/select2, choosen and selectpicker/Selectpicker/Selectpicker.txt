@@ -7,3 +7,24 @@
     endforeach;
     ?>
 </select>
+
+
+Options:----------------------------------------
+
+Size:
+<select class="selectpicker" data-width="auto">
+  ...
+</select>
+<select class="selectpicker" data-width="fit">
+  ...
+</select>
+<select class="selectpicker" data-width="100px">
+  ...
+</select>
+<select class="selectpicker" data-width="75%">
+  ...
+</select>
+
+
+
+
