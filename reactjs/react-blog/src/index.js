@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './Style.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Header from "./components/Header";
@@ -10,7 +11,7 @@ import {Home} from "./components/Home";
 ReactDOM.render(
     <React.Fragment>
         <Header />
-        <Home />
+        <Home/>
         <Footer />
     </React.Fragment>
     , document.getElementById('root'));

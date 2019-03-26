@@ -1,8 +1,18 @@
+body {background: #0089ff}
 .float_clear {clear: both;}
 .container {
     width: 960px;
     margin: 0 auto;
 }
+.article_area {
+    background: #ededed;
+}
+
+.article {
+    background: #fefefe;
+    padding: 25px;
+}
+
 /*-----------------------Styles Header------------------------*/
 .header_area{background: #282c34}
 .logo {float: left; margin-top: 10px; margin-bottom: 5px;}
