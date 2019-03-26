@@ -6,12 +6,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import {Home} from "./components/Home";
+import Web from "./Web";
+
 
 ReactDOM.render(
     <React.Fragment>
         <Header />
-        <Home/>
+        <Web />
         <Footer />
     </React.Fragment>
     , document.getElementById('root'));
