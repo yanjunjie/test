@@ -1,0 +1,7 @@
+<select class="select2 form-control required proposedBilletID" name="proposedBillet" id="proposedBilletSingID_<?php echo $key ?>" data-placeholder="Select Billet Name" aria-hidden="true" data-allow-clear="true" data-width="150px"
+        rankID="<?php echo $value->RANKID; ?>" partIIID="<?php echo $value->FIRSTPARTID; ?>" >
+    <option value="">Select Billet</option>
+    <?php foreach ($Billets as $row): ?>
+        <option value="<?php echo $row->POSTING_UNITID . ',' . $row->NAME ?>"><?php echo "[" . $row->CODE . "] " . $row->NAME ?></option>
+    <?php endforeach; ?>
+</select>
