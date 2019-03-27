@@ -699,15 +699,13 @@ $(document).on("click", ".cia_modal_btn", function (e) {
     e.preventDefault();
     e.stopPropagation();
     /*
-        ### This Ajax Modal View is made by Bablu Ahmed
-        ### For debugging, check erro message in browser console
-        *** Dynamic Settings:
-            1. i.e,
+        Example:
                 <button type="button" class="btn btn-info btn-xs cia_modal_btn" title="Click For Details" style="margin: 0; font-size: 11px; padding: 1px 3px; color: #fff; font-weight: 600; line-height: 1.3;"
                         data-id="<--?php echo $row->CM_ID; ?>"
                         data-table="UMS_COURSE_MATERIALS"
                         data-attr="CM_ID"
                         data-action="<--?php echo base_url('assignment/material_details')?>"
+                        data-modal-content="sailorsInfo/doRemarkInfo/modalForDetails"
                         data-redirect=""
                         data-reload=""
                         data-trigger-click="find_courses_btn"
