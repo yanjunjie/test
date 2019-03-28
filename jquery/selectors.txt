@@ -17,8 +17,9 @@ $(document).ready(function(){
 });
 
 $("#pakker input[type='checkbox']:checked")
+$('.theClass:checkbox:checked')
 
-Here the : is attribute name and checkbox is value
+Here the colon (:) means any attribute (invisible) and its value checkbox and squire brackets [] means a attribute with value. 
 It means it will select all inputs that are checkboxes
 
 $("a.clickme").click(function(){
