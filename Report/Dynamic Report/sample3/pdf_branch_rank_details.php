@@ -318,9 +318,31 @@ foreach ($arr_zone_area as $key_area => $row_area)
 
 <script>
     $(document).ready(function () {
+        // Unit Total
+        $("tbody tr td").each(function() {
+            var thisTr = $(this).parent();
+            var tdText = $(this).text();
+            if ($.trim(tdText) == "Unit Total") {
+                $(thisTr).find('td').slice(1, 4).remove();
+                $(this).attr("colspan", 4).css({"text-align":"left"});
+                $(thisTr).find('td').css({"font-weight":"bold"});
+            }
+        });
 
-        $('tbody tr:last td').slice(1, 5).remove();
-        $('tbody tr:last td:eq(0)').attr("colspan", 5).css({"text-align":"center"});
+        // Branch Total
+        $("tbody tr td").each(function() {
+            var thisTr = $(this).parent();
+            var tdText = $(this).text();
+            if ($.trim(tdText) == "Branch Total") {
+                $(thisTr).find('td').slice(1, 3).remove();
+                $(this).attr("colspan", 3).css({"text-align":"left"});
+                $(thisTr).find('td').css({"font-weight":"bold"});
+            }
+        });
+
+        // Grand Total
+        $('tbody tr:last td').slice(1, 2).remove();
+        $('tbody tr:last td:eq(0)').attr("colspan", 5).css({"text-align":"left", 'font-weight':'bold'});
 
     });
 </script>
