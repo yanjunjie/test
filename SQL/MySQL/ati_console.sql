@@ -1710,6 +1710,137 @@ GROUP BY s.POSTINGUNITID, RANKID, FIRSTPARTID) a
 GROUP BY ShipName, AREA_ID, PostingName, Branch,Rank, Part WITH ROLLUP
 
 
+#--------------------------------------------------Stable--------------------------------------------------
+-- SELECT K.ShipName, K.AREA_ID, K.PostingName,K.Branch, K.RANK_NAME, K.Part, sum(K.Borne) Borne, sum(K.sanction)sanction, sum(K.TotalIn) TotalIn, sum(K.TotalOut) TotalOut
+SELECT coalesce(K.ShipName,'Ship Total')ShipName, K.AREA_ID, coalesce(K.PostingName,'Unit Total')PostingName, coalesce(K.Branch,'Branch Total')Branch, coalesce(K.RANK_NAME,'')RANK_NAME , K.Part, ifnull(sum(K.Borne),0)Borne, ifnull(sum(K.sanction),0)sanction, sum(K.TotalIn)TotalIn, sum(K.TotalOut)TotalOut
+FROM (
+      SELECT ShipName, AREA_ID, PostingName,Branch, RANK_NAME, ifnull(Part,'') Part, Borne, sanction, TotalIn, TotalOut
+      FROM (
+            SELECT sh.NAME ShipName,sh.AREA_ID, pu.NAME PostingName, b.BRANCH_NAME Branch, r.RANK_NAME , p.Name Part, COUNT(SAILORID)Borne,
+            (SELECT SUM(us.SanctionNo)sanction FROM unitwisesanction us WHERE us.RankID = s.RANKID AND us.PostingUnitID = s.POSTINGUNITID
+            AND us.PartIIID = s.FIRSTPARTID GROUP BY us.PostingUnitID,us.RankID,us.PartIIID) sanction,
+
+            (SELECT COUNT(t.TransferID)TotalOut FROM transfer t LEFT JOIN sailor ts ON t.SailorID = ts.SAILORID WHERE ts.RANKID = s.RANKID
+            AND ts.FIRSTPARTID = s.FIRSTPARTID AND t.PostingUnitID = s.POSTINGUNITID )TotalIn,
+
+            (SELECT COUNT(t.TransferID)TotalOut FROM transfer t LEFT JOIN sailor ts ON t.SailorID = ts.SAILORID WHERE ts.RANKID = s.RANKID
+            AND ts.FIRSTPARTID = s.FIRSTPARTID AND ts.POSTINGUNITID = s.POSTINGUNITID )TotalOut
+
+            FROM sailor s
+            LEFT JOIN bn_branch b ON s.BRANCHID = b.BRANCH_ID
+            LEFT JOIN bn_rank r ON s.RANKID = r.RANK_ID
+            LEFT JOIN partii p ON s.FIRSTPARTID = p.PartIIID
+            LEFT JOIN bn_daogroup a ON b.DAO_GROUPID = a.GROUP_ID
+            LEFT JOIN bn_ship_establishment sh ON s.SHIPESTABLISHMENTID = sh.SHIP_ESTABLISHMENTID
+            LEFT JOIN bn_posting_unit pu ON s.POSTINGUNITID = pu.POSTING_UNITID
+            WHERE SAILORSTATUS = 1 AND s.ZONEID IN (1) AND s.SHIPESTABLISHMENTID IN (53,125) AND a.GROUP_ID IN (1,2,3,4,5,7)
+            GROUP BY s.POSTINGUNITID, RANKID, FIRSTPARTID) a
+  ) K
+GROUP BY ShipName, PostingName, Branch, RANK_NAME, Part WITH ROLLUP
+HAVING Part IS NOT NULL OR RANK_NAME IS NULL
+;
+
+
+
+#--------------------------------------------------Stable--------------------------------------------------
+SELECT
+    (SELECT FULL_NAME FROM sa_users WHERE USER_ID = a.CRE_BY) CRE_BY, s.OFFICIALNUMBER O_NO,
+    a.TranField, COUNT(a.CRE_BY)TotalEntry, DATE_FORMAT(a.CRE_DT,'%d-%m-%Y')CRE_DT, DATE_FORMAT(a.CRE_DT,'%H:%i')CRE_TM,
+    (SELECT FULL_NAME FROM sa_users WHERE USER_ID = a.UPD_BY) UPD_BY, COUNT(UPD_BY)TotUpd, DATE_FORMAT(a.UPD_DT,'%d-%m-%Y')UPD_DT,
+    DATE_FORMAT(a.UPD_DT,'%H:%i')UPD_TM
+FROM
+    (
+    SELECT CRE_BY, 'Exam/Test Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM examtran
+    UNION
+    SELECT CRE_BY, 'Training/Course' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM coursetran
+    UNION
+    SELECT CRE_BY, 'Leave Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM `leave`
+    UNION
+    SELECT CRE_BY, 'Re-Engagement Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM engagement
+    UNION
+    SELECT CRE_BY, 'Medical Category Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM medical
+    UNION
+    SELECT CRE_BY, 'Transfer Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM transfer
+    UNION
+    SELECT CRE_BY, 'Movement History' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM movement
+    UNION
+    SELECT CRE_BY, 'Temporary Movement Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM movementtemp
+    UNION
+    SELECT CRE_BY, 'GCB Award/Restore' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM gcb
+    UNION
+    SELECT CRE_BY, 'Marriage Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM marriage
+    UNION
+    SELECT CRE_BY, 'Children Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM children
+    UNION
+    SELECT CRE_BY, 'Academic Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM academic
+    UNION
+    SELECT CRE_BY, 'PFT Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM pfttran
+    UNION
+    SELECT CRE_BY, 'Medal Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM medaltran
+    UNION
+    SELECT CRE_BY, 'Honor Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM honortran
+    UNION
+    SELECT CRE_BY, 'Jesthata Padak Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM jesthatapadaktran
+    UNION
+    SELECT CRE_BY, 'Punishment Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM punishment
+    UNION
+    SELECT CRE_BY, 'Mark Run/Absent Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM markrun # End Regular Transaction
+    UNION
+    SELECT CRE_BY, 'Assessment Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM assessment
+    UNION
+    SELECT CRE_BY, 'Language Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM languagetran
+    UNION
+    SELECT CRE_BY, 'Sailors Opinion Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM willingnotwilling
+    UNION
+    SELECT CRE_BY, 'Fraudulent Entry Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM fraudulentinfo
+    UNION
+    SELECT CRE_BY, 'Specialization Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM spectran
+    UNION
+    SELECT CRE_BY, 'Security Clearance Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM clearanceinfo
+    UNION
+    SELECT CRE_BY, 'Nominee Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM nominee
+    UNION
+    SELECT CRE_BY, 'Navy ID Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM navyid
+    UNION
+    SELECT CRE_BY, 'MLR Info' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM mlr
+    UNION
+    SELECT CRE_BY, 'DAO Amendments' TranField, CRE_DT, UPD_BY, UPD_DT, SailorID
+    FROM daoamend
+    ) a
+left join sailor s on s.SAILORID = a.SailorID
+WHERE ((CAST(a.CRE_DT AS DATE) BETWEEN '$from_date' AND '$to_date') OR (CAST(a.UPD_DT AS DATE) BETWEEN '$from_date' AND '$to_date')) AND (a.CRE_BY IN ($userIdStr) OR a.UPD_BY IN ($userIdStr))
+GROUP BY a.CRE_BY, s.OFFICIALNUMBER, a.UPD_BY
+
+
+
+
 
 
 
