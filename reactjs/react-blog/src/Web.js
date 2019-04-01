@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Link, NavLink, Redirect, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {Home} from "./components/Home";
 import {About} from "./components/About";
 import {Contact} from "./components/Contact";
 import {Products} from "./components/Products";
+import ReduxTest from "./components/reduxTest";
 
 class Web extends Component {
     render() {
@@ -20,6 +21,7 @@ class Web extends Component {
                         }
                     }/>
                 </Switch>
+                <ReduxTest/>
             </div>
         );
     }
