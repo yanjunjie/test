@@ -1712,7 +1712,7 @@ GROUP BY ShipName, AREA_ID, PostingName, Branch,Rank, Part WITH ROLLUP
 
 #--------------------------------------------------Stable--------------------------------------------------
 -- SELECT K.ShipName, K.AREA_ID, K.PostingName,K.Branch, K.RANK_NAME, K.Part, sum(K.Borne) Borne, sum(K.sanction)sanction, sum(K.TotalIn) TotalIn, sum(K.TotalOut) TotalOut
-SELECT coalesce(K.ShipName,'Ship Total')ShipName, K.AREA_ID, coalesce(K.PostingName,'Unit Total')PostingName, coalesce(K.Branch,'Branch Total')Branch, coalesce(K.RANK_NAME,'')RANK_NAME , K.Part, ifnull(sum(K.Borne),0)Borne, ifnull(sum(K.sanction),0)sanction, sum(K.TotalIn)TotalIn, sum(K.TotalOut)TotalOut
+SELECT coalesce(K.ShipName,'Grand Total')ShipName, K.AREA_ID, coalesce(K.PostingName,'Ship Total')PostingName, coalesce(K.Branch,'Unit Total')Branch, coalesce(K.RANK_NAME,'Branch Total')RANK_NAME , K.Part, ifnull(sum(K.Borne),0)Borne, ifnull(sum(K.sanction),0)sanction, sum(K.TotalIn)TotalIn, sum(K.TotalOut)TotalOut
 FROM (
       SELECT ShipName, AREA_ID, PostingName,Branch, RANK_NAME, ifnull(Part,'') Part, Borne, sanction, TotalIn, TotalOut
       FROM (

@@ -48,7 +48,6 @@ function rowspan_count($query_result, $query_attr, $query_value)
 //rowspan count for each branch using groupby
 function rowspan_count_groupby($query_result, $countable, $ship_value, $unit_value, $branch_value)
 {
-    //die(var_dump($ship_value, $unit_value, $branch_value));
 
     $ships = [];
     $units = [];
@@ -164,15 +163,49 @@ foreach ($area as $key_area => $row_area) {
     }
 }
 
-//rearrange nominal records
-$reNominalRoll = [];
+/*// zone name
+$arr_zone = [];
+foreach ($zone as $key_zone => $row_zone) {
+    foreach ($nominalRoll as $key => $value) {
+        if ($row_zone->ADMIN_ID == $value->AREA_ID) {
+            $arr_zone[$key_zone] = (object)[
+                'ZONE_NAME' => $row_zone->NAME,
+                'ADMIN_ID' => $row_zone->ADMIN_ID,
+            ];
+        }
+    }
+}*/
+
+
+
+
+$gTotalBorn = 0;
+$gTotalSanc = 0;
+$gTotalIn = 0;
+$gTotalOut = 0;
+
+
+$last_nomi_element = end($nominalRoll);
+$last_nomi_element_key = key($nominalRoll);
+//die(var_dump($last_nomi_element_key,count($nominalRoll)-1));
+$gTotalBorn = $last_nomi_element->Borne;
+$gTotalSanc = $last_nomi_element->sanction;
+$gTotalIn = $last_nomi_element->TotalIn;
+$gTotalOut = $last_nomi_element->TotalOut;
+
+//die(print_r($nominalRoll));
+
+//rearrange nominal records according to Area
+/*$reNominalRoll = [];
 foreach ($area as $key_area => $row_area) {
     foreach ($nominalRoll as $key => $value) {
         if ($row_area->ADMIN_ID == $value->AREA_ID) {
             array_push($reNominalRoll, $value);
         }
     }
-}
+}*/
+
+//die(print_r($reNominalRoll));
 
 
 $count = 0;
@@ -187,13 +220,22 @@ $ship = 0;
 $unit = 0;
 $branch = 0;
 
-$gTotalBorn = 0;
-$gTotalSanc = 0;
-$bTotalBorn = 0;
-$bTotalSanc = 0;
+
+$zoneTotalBorne = 0;
+$zoneTotalSanc = 0;
+$zoneTotalIn = 0;
+$zoneTotalOut = 0;
+
+$last_zone_element = end($arr_zone_area);
+$last_zone_element_key = key($arr_zone_area);
 
 foreach ($arr_zone_area as $key_area => $row_area)
 {
+    $areaTotalBorne = 0;
+    $areaTotalSanc = 0;
+    $areaTotalIn = 0;
+    $areaTotalOut = 0;
+
 ?>
 
 <table class="table" id="aca_tbl" width="100%" cellspacing="0">
@@ -216,16 +258,16 @@ foreach ($arr_zone_area as $key_area => $row_area)
     </thead>
     <tbody>
     <?php
-    $status = 0;
-    $newTotal = 0;
-    foreach ($reNominalRoll as $key => $value) {
-        if ($row_area->ADMIN_ID == $value->AREA_ID) {
-            $gTotalBorn += (int)$value->Borne;
-            $gTotalSanc += (int)$value->sanction;
 
-            $total = rowspan_count_groupby(array_slice($reNominalRoll,$key, null, true), 'ship', $value->ShipName, $value->PostingName, $value->Branch);
-            $total2 = rowspan_count_groupby(array_slice($reNominalRoll,$key, null, true), 'unit', $value->ShipName, $value->PostingName, $value->Branch);
-            $total3 = rowspan_count_groupby(array_slice($reNominalRoll,$key, null, true), 'branch', $value->ShipName, $value->PostingName, $value->Branch);
+    foreach ($nominalRoll as $key => $value) {
+        /*$gTotalBorn += (int)$value->Borne;
+        $gTotalSanc += (int)$value->sanction;*/
+
+        // filtering data area wise
+        if ($row_area->ADMIN_ID == $value->AREA_ID) {
+            $total = rowspan_count_groupby(array_slice($nominalRoll,$key, null, true), 'ship', $value->ShipName, $value->PostingName, $value->Branch);
+            $total2 = rowspan_count_groupby(array_slice($nominalRoll,$key, null, true), 'unit', $value->ShipName, $value->PostingName, $value->Branch);
+            $total3 = rowspan_count_groupby(array_slice($nominalRoll,$key, null, true), 'branch', $value->ShipName, $value->PostingName, $value->Branch);
 
             //die(var_dump($total,$total2,$total3));
 
@@ -233,6 +275,13 @@ foreach ($arr_zone_area as $key_area => $row_area)
             $total2 = rowspan_count_groupby($reNominalRoll, 'unit', 'ShipName', 'PostingName', 'Branch');
             $total3 = rowspan_count_groupby($reNominalRoll, 'branch', 'ShipName', 'PostingName', 'Branch');*/
 
+            /*area total*/
+            if ($value->PostingName == 'Ship Total' && $last_nomi_element_key != $key) {
+                $areaTotalBorne += $value->Borne;
+                $areaTotalSanc += $value->sanction;
+                $areaTotalIn += $value->TotalIn;
+                $areaTotalOut += $value->TotalOut;
+            }
             ?>
             <tr class="allrow">
                 <!--Ship Col-->
@@ -268,49 +317,84 @@ foreach ($arr_zone_area as $key_area => $row_area)
 
                 <td><?php echo $value->RANK_NAME ?></td>
                 <td><?php echo $value->Part ?></td>
-                <td><?php echo $value->sanction;
-                    $bTotalSanc += (int)$value->sanction; ?>
-                    <input class="sancSubTotal" type="hidden" value="<?php echo $bTotalSanc; ?>">
-                </td>
-                <td>
-                    <?php echo $value->Borne;
-                    $bTotalBorn += (int)$value->Borne; ?>
-                    <input class="borneSubTotal" type="hidden" value="<?php echo $bTotalBorn; ?>">
-                </td>
+                <td><?php echo $value->sanction; ?></td>
+                <td><?php echo $value->Borne; ?></td>
                 <td><?php echo $value->TotalIn ?></td>
                 <td><?php echo $value->TotalOut ?></td>
             </tr>
 
-            <!--Branch Total Row-->
             <?php
 
-            if ($count3 == 0) {
-
-                /*echo "<tr>";
+            /*if ($count3 == 0) {
+                //Branch Total Row
+                echo "<tr>";
                 echo "<td style='color:#000;font-weight: bold;'>Branch Total</td>";
                 echo "<td style='color:#000;font-weight: bold;'>" . $bTotalSanc . "</td>";
                 echo "<td style='color:#000;font-weight: bold;'>" . $bTotalBorn . "</td>";
                 echo "<td style='color:#000;font-weight: bold;'></td>";
                 echo "<td style='color:#000;font-weight: bold;'></td>";
                 echo "<td style='color:#000;font-weight: bold;'></td>";
-                echo "</tr>";*/
+                echo "</tr>";
 
                 $bTotalSanc = 0;
                 $bTotalBorn = 0;
+            }*/
             }
         }
-    }
+        ?>
+
+        <!--Area Total Row-->
+        <tr>
+            <td style="text-align: center; font-weight: bold;" colspan="5">Area Total</td>
+            <td style="text-align: left; font-weight: bold;"><?php echo $areaTotalSanc; ?></td>
+            <td style="text-align: left; font-weight: bold;"><?php echo $areaTotalBorne; ?></td>
+            <td style="text-align: left; font-weight: bold;"><?php echo $areaTotalIn; ?></td>
+            <td style="text-align: left; font-weight: bold;"><?php echo $areaTotalOut; ?></td>
+        </tr>
+
+            <?php
+
+                $zoneTotalBorne += $areaTotalBorne;
+                $zoneTotalSanc += $areaTotalSanc;
+                $zoneTotalIn += $areaTotalIn;
+                $zoneTotalOut += $areaTotalOut;
+
+                $total_zone = rowspan_count($arr_zone_area, 'ZONE_NAME', $row_area->ZONE_NAME);
+
+                if (!empty($total_zone_count)) {
+                    $total_zone_count--;
+                } else {
+                    $total_zone_count = $total_zone - 1;
+                }
+
+            if ($total_zone_count == 0) {
+                ?>
+                <!--Zone Total Row-->
+                <tr>
+                    <td style="text-align: center; font-weight: bold;" colspan="5">Zone Total</td>
+                    <td style="text-align: left; font-weight: bold;"><?php echo $zoneTotalSanc; ?></td>
+                    <td style="text-align: left; font-weight: bold;"><?php echo $zoneTotalBorne; ?></td>
+                    <td style="text-align: left; font-weight: bold;"><?php echo $zoneTotalIn; ?></td>
+                    <td style="text-align: left; font-weight: bold;"><?php echo $zoneTotalOut; ?></td>
+                </tr>
+                <?php
+
+                $zoneTotalBorne = 0;
+                $zoneTotalSanc= 0;
+                $zoneTotalIn= 0;
+                $zoneTotalOut= 0;
+            }
     }
     ?>
 
     <!--Grand Total Row-->
-    <!--<tr>
+    <tr>
         <td style="text-align: center; font-weight: bold;" colspan="5">Grand Total</td>
-        <td style="text-align: center; font-weight: bold;"><?php /*echo $gTotalSanc; */?></td>
-        <td style="text-align: center; font-weight: bold;"><?php /*echo $gTotalBorn; */?></td>
-        <td></td>
-        <td></td>
-    </tr>-->
+        <td style="text-align: left; font-weight: bold;"><?php echo $gTotalSanc; ?></td>
+        <td style="text-align: left; font-weight: bold;"><?php echo $gTotalBorn; ?></td>
+        <td style="text-align: left; font-weight: bold;"><?php echo $gTotalIn; ?></td>
+        <td style="text-align: left; font-weight: bold;"><?php echo $gTotalOut; ?></td>
+    </tr>
     </tbody>
 </table>
 
@@ -352,9 +436,19 @@ foreach ($arr_zone_area as $key_area => $row_area)
             }
         });
 
+
         // Grand Total
-        $('tbody tr:last td').slice(1, 3).remove();
-        $('tbody tr:last td:eq(0)').attr("colspan", 5).css({"text-align":"left", 'font-weight':'bold'});
+        $("tbody tr td").each(function() {
+            var thisTr = $(this).parent();
+            var tdText = $(this).text();
+            if ($.trim(tdText) == "GrandTotal") {
+                $(thisTr).remove();
+            }
+        });
+
+        // Grand Total
+        /*$('tbody tr:last td').slice(1, 3).remove();
+        $('tbody tr:last td:eq(0)').attr("colspan", 5).css({"text-align":"left", 'font-weight':'bold'});*/
 
     });
 </script>
