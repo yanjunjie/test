@@ -1,0 +1,75 @@
+
+//------------------------------------------Blank Page Shown---------------------------
+The problem is with this block of code:
+
+var specialElementHandlers = {
+    '#ricercaChat': function (element, renderer) {
+        return true;
+    }
+};
+
+What it does is, it tells jsPDF to ignore the content in "#ricercaChat" while generating the pdf. Hence you get a blank pdf. You can simply generate without the specialElementHandlers:
+
+doc.fromHTML($("#ricercaChat").html(), 15, 15);
+
+
+//------------------------------------------get(0) instead of html()---------------------------
+Use get(0) instead of html(). In other words, replace
+
+doc.fromHTML($('#htmlTableId').html(), 15, 15, {
+    'width': 170,'elementHandlers': specialElementHandlers
+});
+
+
+doc.fromHTML($('#htmlTableId').get(0), 15, 15, {
+    'width': 170,'elementHandlers': specialElementHandlers
+});
+
+
+//------------------------------------------Auto Table---------------------------
+
+<table id="my-table"><!-- ... --></table>
+
+doc.autoTable({html: '#my-table'});
+    
+    // Or JavaScript:
+    doc.autoTable({
+        head: [['Name', 'Email', 'Country']],
+        body: [
+            ['David', 'david@example.com', 'Sweden'],
+            ['Castille', 'castille@example.com', 'Norway'],
+            // ...
+        ]
+    });
+
+
+//------------------------------------------Options---------------------------
+
+var pdf = new jsPDF('p', 'pt', [580, 630]);
+var pdf = new jsPDF('p', 'in', 'letter');
+var pdf = new jsPDF('p', 'pt', 'a4',true);
+var pdf = new jsPDF('l', 'pt', 'a4'), // landscape/point(Unit)/A4(size)
+
+
+
+var options = {
+        pagesplit: true, //include this in your code
+	background: '#fff', //White Background
+      };
+      var pdf = new jsPDF('p', 'pt', 'a4');
+      pdf.addHTML($("#pdfContent"), 15, 15, options, function() {
+        pdf.save('Menu.pdf');
+      });
+doc.setFontSize(40)
+doc.setTextColor(255, 0, 0);
+doc.text(35, 25, 'Paranyan loves jsPDF')
+
+doc.autoPrint()
+
+Link: http://www.rotisedapsales.com/snr/cloud2/website/jsPDF-master/docs/global.html
+
+
+
+
+
+
