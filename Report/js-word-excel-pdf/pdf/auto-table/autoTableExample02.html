@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+<button type="button" onclick="DownloadSchedulePDF()">Download PDF</button>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
+
+<script>
+    DownloadSchedulePDF = function () {
+        var doc = new jsPDF('p', 'pt');
+        doc.setFontSize(12);
+        doc.setTextColor(0);
+        doc.setFontStyle('bold');
+        doc.text('Col and row span', 40, 50);
+        debugger;
+        var data = getData(40);
+        data.sort(function (a, b) {
+            return parseFloat(b.expenses) - parseFloat(a.expenses);
+        });
+        doc.autoTable(getColumns(), data, {
+            theme: 'grid',
+            startY: 60,
+            drawRow: function (row, data) {
+                // Colspan
+                doc.setFontStyle('bold');
+                doc.setFontSize(10);
+                if (row.index === 0) {
+                    doc.setTextColor(200, 0, 0);
+                    doc.rect(data.settings.margin.left, row.y, data.table.width, 20, 'S');
+                    doc.autoTableText("Priority Group", data.settings.margin.left + data.table.width / 2, row.y + row.height / 2, {
+                        halign: 'center',
+                        valign: 'middle'
+                    });
+                    data.cursor.y += 20;
+                }
+                //adding page
+                if (row.index % 5 === 0) {
+                    var posY = row.y + row.height * 6 + data.settings.margin.bottom;
+                    if (posY > doc.internal.pageSize.height) {
+                        data.addPage();
+                    }
+                }
+            },
+            drawCell: function (cell, data) {
+                // Rowspan
+                if (data.column.dataKey === 'id') {
+                    if (data.row.index % 5 === 0) {
+                        doc.rect(cell.x, cell.y, data.table.width, cell.height * 5, 'S');
+                        doc.autoTableText(data.row.index / 5 + 1 + '', cell.x + cell.width / 2, cell.y + cell.height * 5 / 2, {
+                            halign: 'center',
+                            valign: 'middle'
+                        });
+                    }
+                    return false;
+                }
+            }
+        });
+        doc.save('demo.pdf');
+    };
+
+    function getData(rowCount) {
+        rowCount = rowCount || 4;
+        var data = [];
+        for (var j = 1; j <= rowCount; j++) {
+            data.push({
+                id: j,
+                tatics: "Tatics",
+                vopa: "Vopa",
+                specialists: "Specialists",
+                hospital: "Hospital",
+                retailpharm: "Retailpharm",
+                expenses: "Expenses",
+                practioner: "Practioner"
+            });
+        }
+        return data;
+    }
+
+
+    // Returns a new array each time to avoid pointer issues
+    var getColumns = function () {
+        return [
+            {title: "Strategic Activities", dataKey: "id"},
+            {title: "Tatics", dataKey: "tatics"},
+            {title: "Value of performing activity to Pfizer", dataKey: "vopa"},
+            {title: "Specialists General", dataKey: "specialists"},
+            {title: "Public Hosp. Dec. Makers", dataKey: "hospital"},
+            {title: "Retail Pharm. Independent", dataKey: "retailpharm"},
+            {title: "Retail Pharm. chains", dataKey: "expenses"},
+            {title: "General Practioner", dataKey: "practioner"}
+        ];
+    };
+</script>
+
+</body>
+</html>

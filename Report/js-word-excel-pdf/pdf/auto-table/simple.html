@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple example</title>
+</head>
+<style>
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+</style>
+<body>
+
+<div class="container">
+    <table id="table-id">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>IP-address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Donna</td>
+            <td>Moore</td>
+            <td>dmoore0@furl.net</td>
+            <td>China</td>
+            <td>211.56.242.221</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td colspan="2">Janice</td>
+            <td>jhenry1@theatlantic.com</td>
+            <td>Ukraine</td>
+            <td>38.36.7.199</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td colspan="2">Bablu</td>
+            <td>bablu@w3public.com</td>
+            <td>Ahmed</td>
+            <td>38.36.7.199</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<button type="button" id="export">Generate pdf</button>
+
+<script src="libs/jquery.js"></script>
+<script src="libs/jspdf.debug.js"></script>
+<script src="libs/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    function htmlToPdf(otherHtml = '', fileName = '', autoTableId='') {
+        //let doc = new jsPDF();
+        let doc = new jsPDF('p', 'pt', 'a4', true);  //pt = px * .75
+        let otherContent = otherHtml ? otherHtml : document.getElementById("otherContent"); // $("#other-id").get(0)
+        let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
+        let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("tableId");
+        let startY = 30;
+        let finalY = doc.previousAutoTable.finalY + 15;
+        let finalY2 = doc.autoTable.previous.finalY + 10;
+        let pageNumber = doc.internal.getNumberOfPages();
+        doc.setPage(pageNumber);
+
+        let margins = {
+            mTop: 10,
+            mBottom: 60,
+            mLeft: 50,
+            pTop: 10,
+            pBottom: 60,
+            pLeft: 50,
+            width: 800
+        };
+
+        // skip elements instead of display: none
+        let specialElementHandlers = {
+            '#skipText': function (element,renderer) {
+                return true;
+            }
+        };
+
+        // other content options
+        let otherContentOptions = {
+            'width': margins.width, //max width of content on PDF
+            'elementHandlers': specialElementHandlers,
+            'pagesplit': true,
+        };
+
+        /*
+        //doc.addPage();
+        // Document defaults
+        doc.autoTableSetDefaults({
+            headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
+            margin: {top: 25},
+            didDrawPage: function(data) {
+                doc.setFontSize(20);
+                doc.text('Default options', data.settings.margin.left, 20);
+            }
+        });
+        doc.setFont('RopaSans-Regular');
+        doc.setFontType('normal');
+        doc.deletePage(1); // delete the first page
+        doc.setFontSize(18);
+        doc.text('With content', 14, 22);
+        doc.setFontSize(11);
+        doc.setTextColor(100);
+        doc.setFontStyle('normal');
+        doc.text("From javascript arrays", 14, finalY + 15);
+        let header = function(data) {
+            doc.setFontSize(18);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+            //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+            doc.text("Testing Report", data.settings.margin.left, 50);
+        };
+        */
+
+        doc.autoTable({
+            html: table,
+            startY: startY,
+            theme: 'plain', //striped, plain, grid
+            cellWidth: 'auto',
+            useCss: true,
+            //tableWidth: 'wrap',
+            styles: {
+                fontSize: 10.5, //14px
+                font: 'helvetica', //helvetica, times, courier
+                lineColor: [0, 0, 0], //or single value ie. lineColor: 255,
+                lineWidth: .75, //1px
+                cellPadding: 1.5,
+                textColor: [0, 0, 0],
+                fillColor: [255, 255, 255], //false for transparent or number or array of number
+                valign: 'middle', //top, middle, bottom
+                halign: 'left', //left, center, right
+                cellWidth: 'auto', //'auto', 'wrap' or a number
+                overflow: 'ellipsize', //visible, hidden, ellipsize or linebreak
+                fontStyle: 'normal', //normal, bold, italic, bolditalic
+            },
+
+            /*
+            from documentation
+            tableLineColor: [0, 0, 0],
+            tableLineWidth: 0.75,
+            pageBreak: 'avoid', // always, avoid
+            cellWidth: 'wrap', // 20, auto
+            bodyStyles: {valign: 'top'},
+            styles: {cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', cellPadding: 0.5, fontSize: 8, overflow: 'ellipsize', overflow: 'hidden', overflow: 'linebreak', valign: 'middle', halign: 'center'},
+            headStyles: { fillColor: [241, 196, 15], fontSize: 15 },
+            footStyles: { fillColor: [241, 196, 15], fontSize: 15 },
+            bodyStyles: { fillColor: [52, 73, 94], textColor: 240 },
+            columnStyles: {0: {cellWidth: 50}, 1: {cellWidth: 'auto'}, text: {cellWidth: 'auto'}, fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold'}
+            margin: {right: 107,left: 107},
+            showHead: 'firstPage', //false
+            startY: doc.autoTable.previous.finalY + 10,
+            pageBreak: 'avoid',
+            alternateRowStyles: { fillColor: [74, 96, 117] },
+            rowStyles: { 0: {rowHeight: 50} },
+            allSectionHooks: true,
+            beforePageContent: header,
+            startY: doc.autoTableEndPosY() + 20
+            */
+        });
+
+        // other content
+        /*doc.fromHTML(
+            otherContent,
+            margins.mLeft, //x coord
+            margins.mTop, //y coord
+            otherContentOptions, //options object
+            margins
+        );*/
+
+        // output
+        //doc.save(newFileName);
+        doc.output("dataurlnewwindow");
+
+    }
+
+    // click handler
+    $('#export').click(function (e) {
+        e.preventDefault();
+        //let otherHtml = $('#otherContent').get(0);
+        htmlToPdf('', 'newname', 'table-id');
+    });
+</script>
+</body>
+</html>

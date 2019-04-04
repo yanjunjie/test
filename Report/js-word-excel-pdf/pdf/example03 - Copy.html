@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>html2pdf</title>
+
+<body>
+
+<table id="table-id">
+    <tr>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Track</td>
+        <td>S.S.C Roll</td>
+        <td>S.S.C Division</td>
+        <td>H.S.C Roll</td>
+        <td>H.S.C Division</td>
+        <td>District</td>
+    </tr>
+
+
+    <tr>
+        <td>Safaa</td>
+        <td>Safaa@safaa.com</td>
+        <td>1</td>
+        <td>2222</td>
+        <td>US</td>
+        <td>3333</td>
+        <td>DD</td>
+        <td>33</td>
+    </tr>
+
+    <tr>
+        <td>Alaa</td>
+        <td>Alaa@safaa.com</td>
+        <td>1</td>
+        <td>2222</td>
+        <td>US</td>
+        <td>3333</td>
+        <td>DD</td>
+        <td>33</td>
+    </tr>
+
+    <tr>
+        <td>Nasser</td>
+        <td>Nasser@safaa.com</td>
+        <td>1</td>
+        <td colspan="2">2222</td>
+        <td>3333</td>
+        <td>DD</td>
+        <td>33</td>
+    </tr>
+
+</table>
+
+<a href="javascript:callme()">Call Me</a>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+
+<script>
+
+    function callme(){
+        var table = tableToJson($('#table-id').get(0));
+        var doc = new jsPDF('l','pt','letter',true);
+
+
+        $.each(table, function(i, row){
+            $.each(row, function(j,cell){
+                if(j=="email" | j==1){
+                    doc.cell(1,10,190,20,cell,i);
+                }
+                else{
+                    doc.cell(1,10,90,20,cell,i);
+                }
+
+            });
+        });
+
+        doc.save('Safaa.pdf');
+    }
+
+    function tableToJson(table) {
+        var data = [];
+
+        // first row needs to be headers
+        var headers = [];
+        for (var i=0; i<table.rows[0].cells.length; i++) {
+            headers[i] = table.rows[0].cells[i].innerHTML.toLowerCase().replace(/ /gi,'');
+        }
+        data.push(headers);
+        // go through cells
+        for (var i=1; i<table.rows.length; i++) {
+
+            var tableRow = table.rows[i];
+            var rowData = {};
+
+            for (var j=0; j<tableRow.cells.length; j++) {
+
+                rowData[ headers[j] ] = tableRow.cells[j].innerHTML;
+
+            }
+
+            data.push(rowData);
+        }
+
+        return data;
+    }
+
+</script>
+</body>
+</html>
