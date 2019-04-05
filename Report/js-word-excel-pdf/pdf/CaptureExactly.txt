@@ -1,0 +1,16 @@
+<canvas id="canvas" width="480" height="320"></canvas> 
+      <button id="download">Download Pdf</button>
+
+
+
+ function genPDF () {
+	html2canvas($("#canvas"), {
+            onrendered: function(canvas) {         
+                var imgData = canvas.toDataURL(
+                    'image/png');              
+                var doc = new jsPDF('p', 'mm');
+                doc.addImage(imgData, 'PNG', 10, 10); //JPEG
+                doc.save('sample-file.pdf');
+            }
+        });
+ }
