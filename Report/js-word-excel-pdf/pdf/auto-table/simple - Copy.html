@@ -68,91 +68,71 @@
         let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
         let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("tableId");
         let startY = 30;
-        let finalY = doc.previousAutoTable.finalY;
+        let finalY = doc.previousAutoTable.finalY + 15;
+        let finalY2 = doc.autoTable.previous.finalY + 10;
         let pageNumber = doc.internal.getNumberOfPages();
         doc.setPage(pageNumber);
-        let totalPagesExp = "{total_pages_count_string}";
 
-        // Document default options
-        doc.autoTableSetDefaults({
-            //headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
-            //margin: {top: 25},
-        });
+        let margins = {
+            mTop: 10,
+            mBottom: 60,
+            mLeft: 50,
+            pTop: 10,
+            pBottom: 60,
+            pLeft: 50,
+            width: 800
+        };
 
-        // Document margin list
-        let margins = {mTop: 10, mBottom: 60, mLeft: 50, pTop: 10, pBottom: 60, pLeft: 50, width: 800};
-
-        // Skip elements instead of display: none
+        // skip elements instead of display: none
         let specialElementHandlers = {
             '#skipText': function (element,renderer) {
                 return true;
             }
         };
 
-        // Other content options
+        // other content options
         let otherContentOptions = {
             'width': margins.width, //max width of content on PDF
             'elementHandlers': specialElementHandlers,
             'pagesplit': true,
         };
 
-        // Header content options
+        /*
+        //doc.addPage();
+        // Document defaults
+        doc.autoTableSetDefaults({
+            headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
+            margin: {top: 25},
+            didDrawPage: function(data) {
+                doc.setFontSize(20);
+                doc.text('Default options', data.settings.margin.left, 20);
+            }
+        });
+        doc.setFont('RopaSans-Regular');
+        doc.setFontType('normal');
+        doc.deletePage(1); // delete the first page
+        doc.setFontSize(18);
+        doc.text('With content', 14, 22);
+        doc.setFontSize(11);
+        doc.setTextColor(100);
+        doc.setFontStyle('normal');
+        doc.text("From javascript arrays", 14, finalY + 15);
         let header = function(data) {
             doc.setFontSize(18);
             doc.setTextColor(40);
             doc.setFontStyle('normal');
             //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
-            /*if (base64Img) {
-                doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
-            }*/
-
-            let headerHtml = '<header>Hello Header</header>';
-
-            //doc.text(headerHtml, data.settings.margin.left + 15, 22);
-            doc.fromHTML(
-                headerHtml,
-                margins.mLeft, //x coord
-                margins.mTop, //y coord
-                otherContentOptions, //options object
-                margins
-            );
+            doc.text("Testing Report", data.settings.margin.left, 50);
         };
-
-        // Footer content options
-        let footer = function(data) {
-            let str = "Page " + doc.internal.getNumberOfPages();
-            // Total page number plugin only available in jspdf v1.0+
-            if (typeof doc.putTotalPages === 'function') {
-                str = str + " of " + totalPagesExp;
-            }
-            doc.setFontSize(10);
-
-            // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-            let pageSize = doc.internal.pageSize;
-            let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-            doc.text(str, data.settings.margin.left, pageHeight - 10);
-        };
-
-        /*
-        //doc.addPage();
-        doc.setFont('RopaSans-Regular');
-        doc.setFontType('normal');
-        doc.setFontSize(11);
-        doc.setTextColor(100);
-        doc.text("From javascript arrays", 14, finalY + 15); // Text with margins
-        doc.deletePage(1); // delete the first page
         */
 
-        // Auto table content options
-        let autoTableOptions = {
+        doc.autoTable({
             html: table,
             startY: startY,
-            //margin: {top: 30},
             theme: 'plain', //striped, plain, grid
             cellWidth: 'auto',
             useCss: true,
             //tableWidth: 'wrap',
-            tableLineWidth: .75,
             styles: {
                 fontSize: 10.5, //14px
                 font: 'helvetica', //helvetica, times, courier
@@ -166,15 +146,6 @@
                 cellWidth: 'auto', //'auto', 'wrap' or a number
                 overflow: 'ellipsize', //visible, hidden, ellipsize or linebreak
                 fontStyle: 'normal', //normal, bold, italic, bolditalic
-            },
-
-            // Header & Footer
-            didDrawPage: function (data) {
-                // Header Content
-                header(data);
-
-                // Footer Content
-                footer(data);
             },
 
             /*
@@ -194,21 +165,14 @@
             startY: doc.autoTable.previous.finalY + 10,
             pageBreak: 'avoid',
             alternateRowStyles: { fillColor: [74, 96, 117] },
+            rowStyles: { 0: {rowHeight: 50} },
             allSectionHooks: true,
             beforePageContent: header,
-            startY: doc.autoTableEndPosY() + 20,
+            startY: doc.autoTableEndPosY() + 20
             */
-        };
+        });
 
-        // Auto table content
-        doc.autoTable(autoTableOptions);
-
-        // Total page number
-        if (typeof doc.putTotalPages === 'function') {
-            doc.putTotalPages(totalPagesExp);
-        }
-
-        // Other content
+        // other content
         /*doc.fromHTML(
             otherContent,
             margins.mLeft, //x coord
@@ -217,9 +181,10 @@
             margins
         );*/
 
-        // Output
+        // output
         //doc.save(newFileName);
         doc.output("dataurlnewwindow");
+
     }
 
     // click handler
