@@ -146,10 +146,11 @@
 
 <script src="<?php echo base_url('dist/scripts/jquery.min.js') ?>"></script>
 <script src="<?php echo base_url('dist/jquery.table2excel.js') ?>"></script>
-<script src="<?php echo base_url('dist/html2canvas.js') ?>"></script>
-<script src="<?php echo base_url('dist/jspdf.debug.js') ?>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.0.15/jspdf.plugin.autotable.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.0.15/jspdf.plugin.autotable.src.js"></script>
+<!--<script src="<?php /*echo base_url('dist/html2canvas.js') */?>"></script>
+<script src="<?php /*echo base_url('dist/jspdf.debug.js') */?>"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.1.1/jspdf.plugin.autotable.min.js"></script>
+
 
 <script>
     $(document).on('click', '.preview', function(event) {
@@ -302,13 +303,12 @@
 
                     if(rType === 'pdf')
                     {
-                        htmlToPdf(data,'','aca_tbl');
-                        //htmlToPdf(data);
+                        htmlToPdf('aca_tbl','test');
                     }
 
                     if(rType === 'word')
                     {
-
+                        htmlToWord(htmlData);
                     }
 
                     if(rType === 'excel')
@@ -329,8 +329,25 @@
 
 
     // html to word function
-    function htmlToWord() {
+    function htmlToWord(html, filename='') {
+        // Specify file name
+        filename = filename?filename+'.doc':'document.doc';
 
+        let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Export HTML to Word Document</title></head><body>";
+        let footer = "</body></html>";
+        //let sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+        let sourceHTML = header+html+footer;
+
+        let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        let fileDownload = document.createElement("a");
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = filename;
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
     }
 
     // html to excel function
@@ -356,65 +373,135 @@
     }
 
     // html to pdf function
-    function htmlToPdf(html = '', fileName = '', autoTableId='') {
-        //let doc = new jsPDF('l', 'pt', 'a3');
-        let doc = new jsPDF('p', 'pt', 'a4',true);
+    function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlId='', otherHtmlId = '' ) {
+        //let doc = new jsPDF();
+        let doc = new jsPDF('p', 'pt', 'a4', true);  //pt = px * .75
+
+        let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("autoTableId");
         let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
+        let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerHtmlId");
+        let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
+        let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
 
-        /*doc.addHTML(html, function() {
-            doc.save(newFileName);
-        });*/
-        //doc.fromHTML(html);
-        //doc.save(newFileName);
+        let startY = 30;
+        let finalY = doc.previousAutoTable.finalY;
+        let pageNumber = doc.internal.getNumberOfPages();
+        doc.setPage(pageNumber);
+        let totalPagesExp = "{total_pages_count_string}";
 
-        doc.cellInitialize();
+        // Document default options
+        doc.autoTableSetDefaults({
+            //headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
+            //margin: {top: 25},
+        });
 
+        // Document margin list
+        let margins = {mTop: 10, mBottom: 60, mLeft: 50, pTop: 10, pBottom: 60, pLeft: 50, width: 800};
 
-        // auto table
-       /* if(!!autoTableId) {
-            doc.autoTable({html: '#'+autoTableId});
-        }*/
-
-        var specialElementHandlers = {
-            '#editorText': function (element,renderer) {
+        // Skip elements instead of display: none
+        let specialElementHandlers = {
+            '#skipElement': function (element,renderer) {
                 return true;
             }
         };
 
-        // to skip special element to be rendered
-        /*let specialElementHandlers = {
-            '#skipToBePDF': function (element, renderer) {
-                return true
-            }
-        };*/
-
-        let margins = {
-            top: 10,
-            bottom: 60,
-            left: 50,
-            width: 800
-        };
-
-        let options = {
-            'width': margins.width, // max width of content on PDF
+        // Other content options
+        let otherContentOptions = {
+            'width': margins.width, //max width of content on PDF
             'elementHandlers': specialElementHandlers,
-            //pagesplit: true
+            'pagesplit': true,
         };
 
-        //doc.autoPrint();
+        // Header content options
+        let header = function(data) {
+            doc.setFontSize(18);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
 
-        //cell.styles.cellPadding = styles.cellPadding || 5;
+            //let headerHtml = '<header>Hello Header</header>';
 
-        // all coords and widths are in jsPDF instance's declared units, 'inches' in this case
+            //doc.text(headerHtml, data.settings.margin.left + 15, 22);
+            doc.fromHTML(
+                headerHtml,
+                margins.mLeft, //x coord
+                margins.mTop, //y coord
+                otherContentOptions, //options object
+                margins
+            );
+        };
+
+        // Footer content options
+        let footer = function(data) {
+            let str = "Page " + doc.internal.getNumberOfPages();
+            // Total page number plugin only available in jspdf v1.0+
+            if (typeof doc.putTotalPages === 'function') {
+                str = str + " of " + totalPagesExp;
+            }
+            doc.setFontSize(10);
+
+            // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+            let pageSize = doc.internal.pageSize;
+            let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+            doc.text(str, data.settings.margin.left, pageHeight - 10);
+        };
+
+        // Auto table content options
+        let autoTableOptions = {
+            html: table,
+            startY: startY,
+            //margin: {top: 30},
+            theme: 'plain', //striped, plain, grid
+            cellWidth: 'auto',
+            useCss: true,
+            pageBreak: 'auto', // always, avoid, auto
+            //tableWidth: 'wrap',
+            //tableLineWidth: .75,
+            styles: {
+                fontSize: 10.5, //14px
+                font: 'helvetica', //helvetica, times, courier
+                lineColor: [0, 0, 0], //or single value ie. lineColor: 255,
+                lineWidth: .75, //1px
+                cellPadding: 1.5,
+                textColor: [0, 0, 0],
+                fillColor: [255, 255, 255], //false for transparent or number or array of number
+                valign: 'middle', //top, middle, bottom
+                halign: 'left', //left, center, right
+                cellWidth: 'auto', //'auto', 'wrap' or a number
+                overflow: 'ellipsize', //visible, hidden, ellipsize or linebreak
+                fontStyle: 'normal', //normal, bold, italic, bolditalic
+            },
+
+            // Header & Footer
+            didDrawPage: function (data) {
+                // Header Content
+                header(data);
+
+                // Footer Content
+                footer(data);
+            },
+
+        };
+
+        // Auto table content
+        doc.autoTable(autoTableOptions);
+
+        // Total page number
+        if (typeof doc.putTotalPages === 'function') {
+            doc.putTotalPages(totalPagesExp);
+        }
+
+        // Other content
         doc.fromHTML(
-            html,
-            margins.left, // x coord
-            margins.top, // y coord
-            options,
-            function (dispose) {
-                // dispose: object with X, Y of the last line add to the PDF. This allows the insertion of new lines after html
-                doc.save(newFileName);
-            }, margins);
+            otherHtml,
+            margins.mLeft, //x coord
+            margins.mTop, //y coord
+            otherContentOptions, //options object
+            margins
+        );
+
+        // Output
+        doc.save(newFileName);
+       //doc.output("dataurlnewwindow");
     }
 
     // html to print function

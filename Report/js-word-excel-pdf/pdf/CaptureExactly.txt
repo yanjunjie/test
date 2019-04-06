@@ -14,3 +14,41 @@
             }
         });
  }
+
+
+//------------------------v.02------------------------
+let HTML_Width = $(".thisReportData").width();
+        let HTML_Height = $(".thisReportData").height();
+
+       // console.log(HTML_Width);
+
+        let top_left_margin = 15;
+        let PDF_Width = HTML_Width+(top_left_margin*2);
+        let PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+        let canvas_image_width = HTML_Width;
+        let canvas_image_height = HTML_Height;
+
+        let totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+
+
+        html2canvas($(".thisReportData")[0],{
+            onrendered: function(canvas) {
+
+               // canvas.getContext('2d');
+
+                console.log(canvas.height + "  " + canvas.width);
+
+
+                let imgData = canvas.toDataURL("image/png", 1.0);
+                let pdf = new jsPDF('p', 'mm', 'a4'); //[PDF_Width, PDF_Height]
+                pdf.addImage(imgData, 'PNG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+
+                for (let i = 1; i <= totalPDFPages; i++) {
+                    pdf.addPage(PDF_Width, PDF_Height);
+                    pdf.addImage(imgData, 'PNG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+                }
+
+                pdf.save("HTML-Document.pdf");
+            }
+        });

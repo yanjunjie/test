@@ -61,12 +61,18 @@
 <script src="libs/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-    function htmlToPdf(otherHtml = '', fileName = '', autoTableId='') {
+
+    // html to pdf function
+    function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlId='', otherHtmlId = '' ) {
         //let doc = new jsPDF();
         let doc = new jsPDF('p', 'pt', 'a4', true);  //pt = px * .75
-        let otherContent = otherHtml ? otherHtml : document.getElementById("otherContent"); // $("#other-id").get(0)
+
+        let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("autoTableId");
         let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
-        let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("tableId");
+        let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerHtmlId");
+        let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
+        let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
+
         let startY = 30;
         let finalY = doc.previousAutoTable.finalY;
         let pageNumber = doc.internal.getNumberOfPages();
@@ -106,7 +112,7 @@
                 doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
             }*/
 
-            let headerHtml = '<header>Hello Header</header>';
+            //let headerHtml = '<header>Hello Header</header>';
 
             //doc.text(headerHtml, data.settings.margin.left + 15, 22);
             doc.fromHTML(
@@ -146,12 +152,13 @@
         // Auto table content options
         let autoTableOptions = {
             html: table,
-            startY: startY,
+            startY: startY, //false
             //margin: {top: 30},
             theme: 'plain', //striped, plain, grid
             cellWidth: 'auto',
             useCss: true,
             //tableWidth: 'wrap',
+            margin: {bottom:20},
             tableLineWidth: .75,
             styles: {
                 fontSize: 10.5, //14px
@@ -181,7 +188,7 @@
             from documentation
             tableLineColor: [0, 0, 0],
             tableLineWidth: 0.75,
-            pageBreak: 'avoid', // always, avoid
+            pageBreak: 'avoid', // always, avoid, auto
             cellWidth: 'wrap', // 20, auto
             bodyStyles: {valign: 'top'},
             styles: {cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', cellPadding: 0.5, fontSize: 8, overflow: 'ellipsize', overflow: 'hidden', overflow: 'linebreak', valign: 'middle', halign: 'center'},
@@ -190,9 +197,8 @@
             bodyStyles: { fillColor: [52, 73, 94], textColor: 240 },
             columnStyles: {0: {cellWidth: 50}, 1: {cellWidth: 'auto'}, text: {cellWidth: 'auto'}, fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold'}
             margin: {right: 107,left: 107},
-            showHead: 'firstPage', //false
+            showHead: 'firstPage', //false, 'everyPage', 'firstPage'
             startY: doc.autoTable.previous.finalY + 10,
-            pageBreak: 'avoid',
             alternateRowStyles: { fillColor: [74, 96, 117] },
             allSectionHooks: true,
             beforePageContent: header,
