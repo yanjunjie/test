@@ -5,6 +5,8 @@ $this->load->library('upload', $config);
 $this->upload->initialize($config);
 
 
+//FCPATH for codeigniter
+
 //V.01
     $applicant_photo_path = '';
     $applicant_sign_path = '';
