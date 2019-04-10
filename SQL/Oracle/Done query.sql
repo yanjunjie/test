@@ -1,5 +1,6 @@
 //Done query:
 alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
+$this->db->query("alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS'");
 /
 SELECT accr.*, acc.AC_NAME, insprogram.PROGRAM_NAME, ins_s.SESSION_NAME || '-' || ins_y.DINYEAR AS SESSION_NAME
 FROM fn_academic_charge_rate accr

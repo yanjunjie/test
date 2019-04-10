@@ -1,15 +1,15 @@
 //Current Date
-public function oracle_date($timestamp='')
+public function oracle_cur_date($dateType='') //date, timestamp or datetime
 	{
         $this->load->helper('date');
-        if($timestamp=='date'){
-            $datestring = '%d-%M-%y';
+        if($dateType=='date'){
+            $datestring = '%d-%M-%y'; //date only
         }
-        else
+        else if($dateType=='timestamp' || dateType=='datetime')
         {
-            $datestring = '%d-%M-%Y %h.%i.%s %a';
+            $datestring = '%d-%M-%Y %h.%i.%s %a'; //timestamp
         }
-
+	
         $time = time();
         $timestamp = strtoupper(mdate($datestring, $time));
         return $timestamp;
@@ -17,15 +17,15 @@ public function oracle_date($timestamp='')
 
 //Input date
 
-    public function oracle_date_input($input,$timestamp='')
+    public function oracle_to_date($date, $dateType='') //date, timestamp or datetime
     {
         $this->load->helper('date');
-        if($timestamp=='date'){
-            $datestring = date('d-M-Y',strtotime($input));
+        if($dateType=='date'){
+            $datestring = date('d-M-Y',strtotime($date)); //date only
         }
-        else
+        else if($dateType=='timestamp' || dateType=='datetime')
         {
-            $datestring = date('d-M-Y h.i.s a',strtotime($input));
+            $datestring = date('d-M-Y h.i.s a',strtotime($input)); //timestamp
         }
 
         $time = time();
@@ -33,8 +33,14 @@ public function oracle_date($timestamp='')
         return $timestamp;
     }
 
+
+Uses for insertion:
+1. 'LOGIN_DATE'=>($this->session->userdata('my_db')=='ORACLE')?$this->oracle_cur_date('timestamp'):date('Y-m-d h:i:sa'),
+2. 'BIRTH_DATE' => ($this->session->userdata('my_db')=='ORACLE')?$this->oracle_to_date($this->input->post('DATE_OF_BIRTH'),'date'):date('Y-m-d',strtotime($this->input->post('DATE_OF_BIRTH'))),
+
+
 //Automatic
-Link: 
+Links: 
 https://apex.oracle.com/pls/apex/germancommunities/apexcommunity/tipp/6381/index-en.html
 https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions180.htm
 
