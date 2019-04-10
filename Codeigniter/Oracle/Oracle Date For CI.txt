@@ -34,7 +34,7 @@ public function oracle_cur_date($dateType='') //date, timestamp or datetime
     }
 
 
-Uses for insertion:
+Uses:
 1. 'LOGIN_DATE'=>($this->session->userdata('my_db')=='ORACLE')?$this->oracle_cur_date('timestamp'):date('Y-m-d h:i:sa'),
 2. 'BIRTH_DATE' => ($this->session->userdata('my_db')=='ORACLE')?$this->oracle_to_date($this->input->post('DATE_OF_BIRTH'),'date'):date('Y-m-d',strtotime($this->input->post('DATE_OF_BIRTH'))),
 
@@ -58,11 +58,16 @@ class MY_Controller extends CI_Controller {
       $this->user_session = $this->session->userdata('logged_in');
       $this->load->model('utilities');
       $this->load->library("form_validation");
+      date_default_timezone_set("Asia/Dhaka");
       $this->db->query("alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS'");
   }
   
 
 }
+
+// Uses:
+'UPDATE_DATE'=> date("Y-m-d G:i:s") // G means without leading zero and H is with leading zero
+
 
 
 //

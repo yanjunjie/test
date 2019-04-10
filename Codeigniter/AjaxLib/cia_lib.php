@@ -483,6 +483,109 @@ public function cia_dependency_by_one_to_many_to_one()
     }
     //End Datatable
 
+    //DataTable Mysql +++++++++++++++++++++++++
+    function datatable_mysql()
+    {
+        // storing  request (ie, get/post) global array to a variable
+        $requestData = $_REQUEST;
+        // table
+       // $table = $this->input->post('table');
+        $table = 'student';
+
+        // sortable columns
+       // $sortable_cols = json_decode($_POST['searchable_cols']);
+        $sortable_cols = array('ROLL_NO','FULL_NAME_EN','DEPARTMENT');
+
+        // presentable columns
+        //$presentable_cols = json_decode($_POST['presentable_cols']);
+        $presentable_cols = array('ROLL_NO','FULL_NAME_EN','DEPARTMENT');
+        $presentable_cols_str = implode(',', $presentable_cols);
+
+        // sortable and searchable request data
+        $limit = $requestData['length']; // limit
+        $start = $requestData['start']; // offset
+        $sortable_col = $sortable_cols[$requestData['order'][0]['column']]; //column
+        $dir = $requestData['order'][0]['dir']; // 'asc' or 'desc'
+        $search = $requestData['search']['value']; // a search string
+
+        // search data from table
+        function search_data($value,$key,$presentable_cols)
+        {
+            echo "$key LIKE '" . $_REQUEST['search']['value'] . "%'";
+        }
+
+        // getting total number records without any search
+        $query = $this->db->query("SELECT $presentable_cols_str FROM $table")->num_rows();
+
+        // total number of records
+        $totalData = $query;
+
+        // default total number of filtered records
+        $totalFiltered = $totalData;
+
+
+        if (!empty($requestData['search']['value']))
+        {
+            // if there is a search parameter
+            $query = $this->db->query("
+                SELECT $presentable_cols_str
+                FROM $table
+                WHERE a.COURSE_TITLE like '%$search%' 
+                OR b.DEPT_NAME like '%$search%'
+                AND RN BETWEEN $start and $limit
+                ORDER BY $sortable_col $dir
+            ")->result();
+
+            $query = $this->db->query("
+                SELECT $presentable_cols_str
+                FROM $table 
+                WHERE " . array_walk($presentable_cols,"search_data") . " and rownum <= " . $requestData['length'] .
+                "ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir']
+            )->result();
+            $totalFiltered = $query;
+        }
+        else
+        {
+            //ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir'] . " LIMIT " . $requestData['start'] . " ," . $requestData['length']
+            $query = $this->db->query("
+                SELECT $presentable_cols_str
+                FROM $table
+                WHERE rownum <= " . $requestData['length'] .
+                " ORDER BY " . $sortable_cols[$requestData['order'][0]['column']] . "   " . $requestData['order'][0]['dir']
+            )->result();
+        }
+
+        // loop for presentable columns records
+        $data = array();
+        foreach ($query as $row)
+        {
+            // preparing a record
+            $nestedData = array();
+
+            foreach ($presentable_cols as $presentable_col)
+            {
+                $nestedData[] = $row->$presentable_col;
+            }
+
+            // all records
+            $data[] = $nestedData;
+        }
+
+        $json_data = array("draw" => intval($requestData['draw']),
+            // for every request/draw by clientside
+            "recordsTotal" => intval($totalData),
+            // total number of records
+            "recordsFiltered" => intval($totalFiltered),
+            // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data" => $data
+
+        );
+
+        echo json_encode($json_data);
+        exit;
+    }
+    //End Datatable Mysql
+
     
     /**
      * @method      Bootstrap Alert Message
