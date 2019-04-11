@@ -45,6 +45,7 @@
 
 //--------------------------Image Validation-------------------------
 
+<input type="file" accept="image/*" />
 
 //v.01
 $("#user_profile_pic").change(function() {
@@ -65,6 +66,28 @@ $("#user_profile_pic").change(function() {
 
 
 //v.02
+const file = this.files[0];
+const  fileType = file['type'];
+const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+if (!validImageTypes.includes(fileType)) {
+    // invalid file type code goes here.
+}
+
+Or
+
+// Image upload validation
+$(document).on('change', ':file',function () {
+    const file = this.files[0];
+    const fileType = file['type'];
+    const validImageTypes = ['image/jpeg', 'image/png'];
+    if (!validImageTypes.includes(fileType)) {
+        alert('Only JPG file type is allowed');
+        this.value = '';
+    }
+});
+
+
+//v.03
 (function($) {
     $.fn.checkFileType = function(options) {
         var defaults = {

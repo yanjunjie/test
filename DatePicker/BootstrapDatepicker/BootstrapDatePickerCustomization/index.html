@@ -100,7 +100,7 @@
         const monthNamesObj = {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, "Jul": 6, "Aug": 7, "Sept": 8, "Oct": 9, "Nov": 10, "Dec": 11};
 
         // default date
-        $('.bdday').val(newDate.getDate());
+        $('.bdday').val(("0" + newDate.getDate()).slice(-2));
         $('.bdmonth').val(monthNamesArr[newDate.getMonth()]);
         $('.bdyear').val(newDate.getFullYear());
         $('.bdpicker_hidden_input').val(
@@ -297,5 +297,6 @@
         });
     });
 </script>
+
 </body>
 </html>

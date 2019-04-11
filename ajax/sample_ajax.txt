@@ -20,7 +20,12 @@
             contentType: false,
             cache: false,
             processData:false,
-            success: function(data){
+	    beforeSend: function() {
+				$('.ajax-loader').css("visibility", "visible");
+				//thisBtn.before('<img class="thisLoadingImg" style="margin-right: 5px;" src="<?php echo base_url(); ?>dist/img/loader-small.gif" />');
+			    },
+
+            success: function(data) {
                 if(data != undefined && $.trim(data) == 'yes')
                 {
                     thisForm[0].reset();
@@ -43,9 +48,17 @@
                     );
                 }
             },
-            error: function (err) {
-                ('.alertMsg').html('Error: ' + err);
-            }
+            error: function( req, status, err ) {
+		    alert("Error! " + err + " (" + status + ") ");
+		},
+
+
+	   complete: function() {
+			$('.ajax-loader').css("visibility", "hidden");
+			$('.printbutton').css("display", "block");
+			//$('.thisLoadingImg').remove();
+		    }
+
         });
     });
 
