@@ -1,39 +1,60 @@
-<style type="text/css">
-    #footer {
-        text-align: center;
+<div class="downloadable">
+    <?php if ($showGrid == 0) { ?>
+
+        <style type="text/css">
+            #aca_tbl th, #aca_tbl td {
+                border: 1px solid black;
+                padding: 3px;
+            }
+
+            #aca_tbl {
+                border-collapse: collapse;
+                vertical-align: middle;
+                color: #000000;
+                text-align: center;
+            }
+            .grand_total {}
+            .grand_total td{
+                text-align: center; font-weight: bold;
+            }
+        </style>
+    <?php } else {
+        ?>
+        <style>
+            #aca_tbl {
+                border-collapse: collapse;
+            }
+            #aca_tbl th {
+                vertical-align: middle;
+                text-align: left;
+                padding-bottom: 10px;
+            }
+            .grand_total {}
+            .grand_total td{
+                text-align: left; font-weight: bold;
+            }
+        </style>
+        <?php
     }
-    .footer-text {
-        text-align: center;
-    }
-</style>
+    ?>
 
-<table width="100%" style="vertical-align: bottom; color: #000000; font-weight: bold; font-style: italic;">
-    <tr>
-        <td width="33%"></td>
-        <td width="33%" align="center" style="font-weight: bold; font-family: serif; font-size: 10pt;"><?php echo $reportTitle; ?></td>
-        <td width="33%"></td>
-    </tr>
-    <tr>
-        <td width="33%"></td>
-        <td width="33%" align="center" style="font-weight: bold; font-style: italic; font-size: 8pt;"><?php echo $reportSubTitle; ?></td>
-        <td width="33%"></td>
-    </tr>
+    <div id="aca_tbl_header" class="title_area" style="font-family: serif; vertical-align: bottom; color: #000000; font-weight: bold; margin-bottom: 10px; line-height: 1.10;">
+        <div style="text-align: center;">
+            <div style="font-family: serif; font-size: 18px;"><?php echo $headerText; ?></div>
+            <div style="font-size: 17px;"><?php echo $reportTitle; ?></div>
+            <div style="font-style: italic; font-size: 15px;"><?php echo $reportSubTitle; ?></div>
+        </div>
+        <div>
+            <div style="font-size: 14px; text-align: right;">
+                <?php if ($reportDate == '1') {
+                    echo "Report Date : ".date('d-m-Y');
+                } ?>
+            </div>
+        </div>
+    </div>
 
-</table>
-
-<style type="text/css">
-    #aca_tbl, #aca_tbl th, #aca_tbl td {
-        border: 1px solid black;
-        padding: 5px;
-    }
-
-    #aca_tbl {
-        border-collapse: collapse;
-    }
-</style>
-
-<table id="aca_tbl" width="100%">
-    <thead>
+    <table id="aca_tbl" width="100%">
+        <thead>
         <tr>
             <th>Branch</th>
             <th>Rank</th>
@@ -42,25 +63,31 @@
             <th>Borne</th>
             <th>Remarks</th>
         </tr>
-    </thead>
+        </thead>
 
-    <tbody>
-        <?php 
+        <tbody>
+        <?php
+
+        //rowspan count for each branch
+        function rowspan_count($query_result, $query_attr, $query_value)
+        {
+            $newarr = [];
+            foreach ($query_result as $key=>$value)
+            {
+                $newarr[] =  $value->$query_attr;
+            }
+            $counts_each_branch = array_count_values($newarr);
+            $total_branch = $counts_each_branch[$query_value];
+            return $total_branch;
+        }
+
         $gTotalBorn =  0;
         $gTotalSanc =  0;
 
         $bTotalBorn =  0;
         $bTotalSanc =  0;
 
-        // rowspan count
         $count = 0;
-        $newarr = [];
-        foreach ($branchNormal as $key=>$value)
-        {
-            $newarr[] =  $value->Branch;
-        }
-        $counts_each_branch = array_count_values($newarr);
-
 
         foreach ($branchNormal as $key => $value)
         {
@@ -69,8 +96,7 @@
             ?>
             <tr>
                 <?php
-                $total = $counts_each_branch[$value->Branch];
-
+                $total = rowspan_count($branchNormal, 'Branch',  $value->Branch);
                 if ($count != 0)
                     $count--;
                 else
@@ -106,101 +132,16 @@
         <?php }?>
 
         <!--Grand Total Row-->
-        <tr>
-            <td style="text-align: center; font-weight: bold;" colspan="3">Grand Total</td>
-            <td style="text-align: center; font-weight: bold;"><?php echo $gTotalSanc ?></td>
-            <td style="text-align: center; font-weight: bold;"><?php echo $gTotalBorn ?></td>
+        <tr class="grand_total">
+            <td colspan="3">Grand Total</td>
+            <td><?php echo $gTotalSanc ?></td>
+            <td><?php echo $gTotalBorn ?></td>
             <td></td>
         </tr>
-    </tbody>
-</table>
-<br><br>
+        </tbody>
+    </table>
 
-
-<!--<tbody>
-        <?php
-        $tSanc = 0;
-        $tBorne = 0;
-        $gtSanc = 0;
-        $gtBorne = 0;
-        ?>
-        <?php
-        $arr = array();
-        $branch = array();
-        $rank = array();
-        $part = array();
-        $sanc = array();
-        $borne = array();
-        $remarks = array();
-
-        foreach ($branchNormal as $key => $row) {
-            array_push($branch, $row->Branch);
-            array_push($rank, $row->Rank);
-            array_push($part, $row->Part);
-            array_push($borne, $row->Borne);
-            //array_push($sanc, $sanctionInfo);
-            array_push($sanc, $row->sanction);
-            array_push($remarks, '');
-
-            // increment rowspan
-            if (empty($arr[$row->Branch])) {
-                $arr[$row->Branch]['rowspan'] = 1;
-            } else {
-                $arr[$row->Branch]['rowspan'] += 1;
-                
-                $arr[$row->Branch]['printed'] = 'no';
-            }
-        }
-
-
-        for ($i = 0; $i < sizeof($branch); $i++) {
-            $branchName = $branch[$i];
-
-            echo "<tr>";
-
-            // Branch Name
-            if ($arr[$branchName]['printed'] == 'no') {
-                echo "<td rowspan='" . ($arr[$branchName]['rowspan'] + 1) . "'>" . $branchName . "</td>";
-                $arr[$branchName]['printed'] = 'yes';
-                $rowspan = $arr[$branchName]['rowspan'];
-            } else {
-                $rowspan -= 1;
-            }
-
-            echo "<td>" . $rank[$i] . "</td>";
-            echo "<td>" . $part[$i] . "</td>";
-            echo "<td>" . $sanc[$i] . "</td>";
-            echo "<td>" . $borne[$i] . "</td>";
-            echo "<td>" . $remarks[$i] . "</td>";
-            echo "</tr>";
-
-            $tSanc += is_numeric($sanc[$i]) ? $sanc[$i] : 0;
-            $tBorne += is_numeric($borne[$i]) ? $borne[$i] : 0;
-
-            if ($rowspan == 1)
-            {
-                echo "<tr>";
-                echo "<td style='color:#000;'><b>Branch Total</b></td>";
-                echo "<td style='color:#000;'></td>";
-                echo "<td style='color:#000;'><b>" . $tSanc . "</b></td>";
-                echo "<td style='color:#000;'><b>" . $tBorne . "</b></td>";
-                echo "<td style='color:#000;'></td>";
-                echo "</tr>";
-                $gtSanc += $tSanc;
-                $gtBorne += $tBorne;
-                $tBorne = 0;
-                $tSanc = 0;
-            }
-
-            if (($i + 1) == count($branch)) {
-                echo "<tr>";
-                echo "<td colspan='2' style='color:#000; text-align: center'><b>Grand Total</b></td>";
-                echo "<td style='color:#000;'></td>";
-                echo "<td style='color:#000;'><b>" . $gtSanc . "</b></td>";
-                echo "<td style='color:#000;'><b>" . $gtBorne . "</b></td>";
-                echo "<td style='color:#000;'></td>";
-                echo "</tr>";
-            }
-        }
-        ?>
-    </tbody>-->
+    <div id="aca_tbl_footer" style="margin-top: 20px;">
+        <p style="min-height:50px; text-align: center;"><?php echo $footerText; ?></p>
+    </div>
+</div>
