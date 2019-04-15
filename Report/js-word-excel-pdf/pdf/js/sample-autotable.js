@@ -5,9 +5,9 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
 
     let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("autoTableId");
     let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
-    let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerHtmlId");
-    let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
-    let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
+    //let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerId");
+    //let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerId");
+    let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherId");
 
     let startY = 30;
     let finalY = doc.previousAutoTable.finalY;
@@ -38,7 +38,7 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
         'pagesplit': true,
     };
 
-    // Header content options
+    // Header content function
     let header = function(data) {
         doc.setFontSize(18);
         doc.setTextColor(40);
@@ -48,42 +48,36 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
             doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
         }*/
 
-        //let headerHtml = '<header>Hello Header</header>';
-
+        let headerHtml = '<header align="center">Hello Header</header>';
         //doc.text(headerHtml, data.settings.margin.left + 15, 22);
         doc.fromHTML(
             headerHtml,
             margins.mLeft, //x coord
             margins.mTop, //y coord
-            otherContentOptions, //options object
-            margins
         );
     };
 
-    // Footer content options
+    // Footer content function
     let footer = function(data) {
         let str = "Page " + doc.internal.getNumberOfPages();
+
         // Total page number plugin only available in jspdf v1.0+
         if (typeof doc.putTotalPages === 'function') {
             str = str + " of " + totalPagesExp;
         }
+
         doc.setFontSize(10);
 
         // jsPDF 1.4+ uses getWidth, <1.4 uses .width
         let pageSize = doc.internal.pageSize;
         let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
         doc.text(str, data.settings.margin.left, pageHeight - 10);
-    };
 
-    /*
-    //doc.addPage();
-    doc.setFont('RopaSans-Regular');
-    doc.setFontType('normal');
-    doc.setFontSize(11);
-    doc.setTextColor(100);
-    doc.text("From javascript arrays", 14, finalY + 15); // Text with margins
-    doc.deletePage(1); // delete the first page
-    */
+        // Total page number
+        if (typeof doc.putTotalPages === 'function') {
+            doc.putTotalPages(totalPagesExp);
+        }
+    };
 
     // Auto table content options
     let autoTableOptions = {
@@ -122,43 +116,10 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
             // Footer Content
             footer(data);
         },
-
-        /*
-        from documentation
-        pageBreak: 'avoid', // always, avoid, auto
-        cellWidth: 'wrap', // 20, auto
-        bodyStyles: {valign: 'top'},
-        styles: {cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', cellPadding: 0.5, fontSize: 8, overflow: 'ellipsize', overflow: 'hidden', overflow: 'linebreak', valign: 'middle', halign: 'center'},
-        headStyles: { fillColor: [241, 196, 15], fontSize: 15 },
-        footStyles: { fillColor: [241, 196, 15], fontSize: 15 },
-        bodyStyles: { fillColor: [52, 73, 94], textColor: 240 },
-        columnStyles: {0: {cellWidth: 50}, 1: {cellWidth: 'auto'}, text: {cellWidth: 'auto'}, fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold'}
-        margin: {right: 107,left: 107},
-        startY: doc.autoTable.previous.finalY + 10,
-        alternateRowStyles: { fillColor: [74, 96, 117] },
-        allSectionHooks: true,
-        beforePageContent: header,
-        startY: doc.autoTableEndPosY() + 20,
-        var startingPage = doc.internal.getCurrentPageInfo().pageNumber;
-        */
     };
 
-    // Auto table content
+    // Auto table content with footer page number
     doc.autoTable(autoTableOptions);
-
-    // Total page number
-    if (typeof doc.putTotalPages === 'function') {
-        doc.putTotalPages(totalPagesExp);
-    }
-
-    // Other content
-    /*doc.fromHTML(
-        otherContent,
-        margins.mLeft, //x coord
-        margins.mTop, //y coord
-        otherContentOptions, //options object
-        margins
-    );*/
 
     // Output
     //doc.save(newFileName);
@@ -169,5 +130,5 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
 $('#export').click(function (e) {
     e.preventDefault();
     //let otherHtml = $('#otherContent').get(0);
-    htmlToPdf('table-id','newname');
+    htmlToPdf('table-id','newname', 'aca_tbl_header', 'aca_tbl_footer');
 });
