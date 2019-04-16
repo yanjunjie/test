@@ -1220,10 +1220,10 @@
         let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
         let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
 
-        let startY = 30;
+        let startY = 300;
         let finalY = doc.previousAutoTable.finalY;
-        let pageNumber = doc.internal.getNumberOfPages();
-        doc.setPage(pageNumber);
+        /*let pageNumber = doc.internal.getNumberOfPages();
+        doc.setPage(pageNumber);*/
         let totalPagesExp = "{total_pages_count_string}";
 
         // Document default options
@@ -1231,7 +1231,6 @@
             //headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
             //margin: {top: 25},
         });
-
 
         // Document margin list
         let margins = {mTop: 10, mBottom: 60, mLeft: 50, pTop: 10, pBottom: 60, pLeft: 50, width: 800};
@@ -1256,18 +1255,33 @@
             doc.setTextColor(40);
             doc.setFontStyle('normal');
 
-            //let headerHtml = '<header>Hello Header</header>';
-            //doc.text(headerHtml, data.settings.margin.left + 15, 22);
+           headerHtml = '<div style="text-align: center;">' +
+                            '<p style="width: 200px;">Main Header</p> ' +
+                            '<p style="width: 200px;">Second Header</p>' +
+                            '<p style="width: 200px;">Third Header</p>' +
+                        '</div>';
+            //doc.text('This is header', data.settings.margin.left + 15, 22);
 
             doc.fromHTML(
                 headerHtml,
-                margins.mLeft, //x coord
-                margins.mTop, //y coord
-                otherContentOptions, //options object
-                margins
+                //margins.mLeft, //x coord
+               // margins.mTop, //y coord
+                {
+                    useCss: true,
+                    margin: {left:0, right: 0},
+                    align: "center"
+                }
+                //otherContentOptions, //options object
+                //margins
             );
-
         };
+
+        //header();
+
+       /* let pageNumber = doc.internal.getNumberOfPages();
+        if (pageNumber === 1) {
+
+        }*/
 
         // Footer content options
         let footer = function(data) {
@@ -1293,15 +1307,16 @@
         // Auto table content options
         let autoTableOptions = {
             html: table,
-            startY: startY,
+            startY: 100, //false
             //margin: {top: 30},
             theme: 'plain', //striped, plain, grid
             cellWidth: 'auto',
             useCss: true,
-            pageBreak: 'auto', // always, avoid, auto
             //tableWidth: 'wrap',
+            margin: {bottom:20},
+            showHead: 'everyPage', //false, 'everyPage', 'firstPage'
             //tableLineWidth: .75,
-            showHead: 'firstPage', //false, 'everyPage', 'firstPage'
+            //tableLineColor: [0, 0, 0],
             styles: {
                 fontSize: 10.5, //14px
                 font: 'helvetica', //helvetica, times, courier
@@ -1313,33 +1328,36 @@
                 valign: 'middle', //top, middle, bottom
                 halign: 'left', //left, center, right
                 cellWidth: 'auto', //'auto', 'wrap' or a number
-                overflow: 'ellipsize', //visible, hidden, ellipsize or linebreak
+                overflow: 'visible', //visible, hidden, ellipsize or linebreak
                 fontStyle: 'normal', //normal, bold, italic, bolditalic
+                rowPageBreak: 'always', //always, auto, avoid
+                useCss: true,
             },
 
             // Header & Footer
             didDrawPage: function (data) {
                 // Header Content
-                if(doc.setPage(1)) {
+                //let pageNumber = doc.internal.getNumberOfPages();
+                if(data.pageNumber === 1) {
                     header(data);
                 }
-                // Footer Content for Page number
+
+                // Footer Content
                 footer(data);
             },
-
         };
 
         // Auto table with header content and footer page number
         doc.autoTable(autoTableOptions);
 
         // Footer content
-        doc.fromHTML(
+        /*doc.fromHTML(
             footerHtml,
             margins.mLeft, //x coord
             margins.mTop, //y coord
            // otherContentOptions, //options object
             margins
-        );
+        );*/
 
 
         // Output
