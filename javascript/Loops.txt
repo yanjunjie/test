@@ -17,10 +17,26 @@ Object.values(a).forEach(e => ele.textContent += e + "    ")
 <p id="pingStatus" type="text"></p>
 
 
-//for..of is only for Array
+//for..of is only for Array and we can use break & continue statement
 let mytest = [10, 'bablu'];
 for (myvar of mytest)
 console.log(myvar); //10, bablu
+
+Ex 02:
+
+var myObj = [{"a": "1","b": null},{"a": "2","b": 5}]
+var result = false
+
+for(var call of myObj) {
+    console.log(call)
+
+    var a = call['a'], b = call['b']
+
+    if(a == null || b == null) {
+        result = false
+        break
+    }
+}
 
 
 //for..in is enumerable over objects it aslo works on array
