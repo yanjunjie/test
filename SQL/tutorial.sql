@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2019 at 07:26 AM
+-- Generation Time: Apr 18, 2019 at 08:44 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -37,6 +37,15 @@ CREATE TABLE `images` (
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `images`
+--
+
+INSERT INTO `images` (`id`, `path`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(3, 'images/2019-04-18-07-46-593cb07e9ce077946b094343c995505d9fdf8427ce', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0),
+(4, 'images/2019-04-18-07-47-403cb07e9ce077946b094343c995505d9fdf8427ce', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0),
+(5, 'images/2019-04-18-07-48-223cb07e9ce077946b094343c995505d9fdf8427ce', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -44,7 +53,7 @@ CREATE TABLE `images` (
 --
 
 CREATE TABLE `user` (
-  `user_id` int(10) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -55,7 +64,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `name`, `email`, `password`, `photo`) VALUES
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `photo`) VALUES
 (37, 'Faruk Ahmed Bablu', 'bablukpik@gmail.com', '12345678', ''),
 (38, 'Bablu', 'bablucse@outlook.com', '123', '');
 
@@ -73,7 +82,7 @@ ALTER TABLE `images`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -83,13 +92,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
