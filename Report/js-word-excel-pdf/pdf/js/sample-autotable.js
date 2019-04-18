@@ -5,14 +5,14 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
 
     let table = autoTableId ? ($("#"+autoTableId).get(0)) : document.getElementById("autoTableId");
     let newFileName = fileName ? (fileName + '.pdf') : 'report.pdf';
-    //let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerId");
-    //let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerId");
-    let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherId");
+    let headerHtml = headerHtmlId ? ($("#"+headerHtmlId).get(0)) : document.getElementById("headerHtmlId");
+    let footerHtml = footerHtmlId ? ($("#"+footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
+    let otherHtml = otherHtmlId ? ($("#"+otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
 
-    let startY = 30;
+    let startY = 300;
     let finalY = doc.previousAutoTable.finalY;
-    let pageNumber = doc.internal.getNumberOfPages();
-    doc.setPage(pageNumber);
+    /*let pageNumber = doc.internal.getNumberOfPages();
+    doc.setPage(pageNumber);*/
     let totalPagesExp = "{total_pages_count_string}";
 
     // Document default options
@@ -26,7 +26,7 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
 
     // Skip elements instead of display: none
     let specialElementHandlers = {
-        '#skipText': function (element,renderer) {
+        '#skipElement': function (element,renderer) {
             return true;
         }
     };
@@ -38,26 +38,38 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
         'pagesplit': true,
     };
 
-    // Header content function
+    // Header content options
     let header = function(data) {
         doc.setFontSize(18);
         doc.setTextColor(40);
         doc.setFontStyle('normal');
-        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
-        /*if (base64Img) {
-            doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
-        }*/
 
-        let headerHtml = '<header align="center">Hello Header</header>';
-        //doc.text(headerHtml, data.settings.margin.left + 15, 22);
+        headerHtml = '<div style="text-align: center;">' +
+                        '<p>Main Header</p> ' +
+                        '<p>Second Header</p>' +
+                        '<p>Third Header</p>' +
+                    '</div>';
+
         doc.fromHTML(
             headerHtml,
-            margins.mLeft, //x coord
-            margins.mTop, //y coord
+            50, //x coord
+            10, //y coord
+            {
+                useCss: true,
+                margin: {left:0, right: 0},
+                align: "center"
+            }
         );
     };
 
-    // Footer content function
+    //header();
+
+    /* let pageNumber = doc.internal.getNumberOfPages();
+     if (pageNumber === 1) {
+
+     }*/
+
+    // Footer content options
     let footer = function(data) {
         let str = "Page " + doc.internal.getNumberOfPages();
 
@@ -65,7 +77,6 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
         if (typeof doc.putTotalPages === 'function') {
             str = str + " of " + totalPagesExp;
         }
-
         doc.setFontSize(10);
 
         // jsPDF 1.4+ uses getWidth, <1.4 uses .width
@@ -82,16 +93,16 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
     // Auto table content options
     let autoTableOptions = {
         html: table,
-        startY: startY, //false
+        startY: 100, //false
         //margin: {top: 30},
         theme: 'plain', //striped, plain, grid
         cellWidth: 'auto',
         useCss: true,
         //tableWidth: 'wrap',
         margin: {bottom:20},
-        showHead: 'firstPage', //false, 'everyPage', 'firstPage'
-        tableLineWidth: .75,
-        tableLineColor: [0, 0, 0],
+        showHead: 'everyPage', //false, 'everyPage', 'firstPage'
+        //tableLineWidth: .75,
+        //tableLineColor: [0, 0, 0],
         styles: {
             fontSize: 10.5, //14px
             font: 'helvetica', //helvetica, times, courier
@@ -103,23 +114,37 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
             valign: 'middle', //top, middle, bottom
             halign: 'left', //left, center, right
             cellWidth: 'auto', //'auto', 'wrap' or a number
-            overflow: 'linebreak', //visible, hidden, ellipsize or linebreak
+            overflow: 'visible', //visible, hidden, ellipsize or linebreak
             fontStyle: 'normal', //normal, bold, italic, bolditalic
             rowPageBreak: 'always', //always, auto, avoid
+            useCss: true,
         },
 
         // Header & Footer
         didDrawPage: function (data) {
             // Header Content
-            header(data);
+            //let pageNumber = doc.internal.getNumberOfPages();
+            if(data.pageNumber === 1) {
+                header(data);
+            }
 
             // Footer Content
             footer(data);
         },
     };
 
-    // Auto table content with footer page number
+    // Auto table with header content and footer page number
     doc.autoTable(autoTableOptions);
+
+    // Footer content
+    /*doc.fromHTML(
+        footerHtml,
+        margins.mLeft, //x coord
+        margins.mTop, //y coord
+       // otherContentOptions, //options object
+        margins
+    );*/
+
 
     // Output
     //doc.save(newFileName);
