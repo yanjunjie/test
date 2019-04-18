@@ -1,0 +1,24 @@
+//Reduce
+
+let allProducts = [{
+    "unique_id": "102",
+    "currency": "$",
+    "price": "529.99",
+    "watt": 150
+  },
+  {
+    "unique_id": "11",
+    "currency": "$",
+    "price": "323",
+    "watt": 150
+  },
+  {
+    "unique_id": "13",
+    "currency": "$",
+    "price": "23",
+    "watt": 77
+  }
+];
+
+const sum = allProducts.reduce((a, {watt}) => a + watt, 0);
+console.log(sum);
