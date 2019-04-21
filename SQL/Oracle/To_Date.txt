@@ -67,6 +67,28 @@ to_char(TO_DATE('$fromDate', 'YYYY-MM-DD'),'DD-MM-YYYY')
 
 
 //v.04
+TO_DATE(val,
+  CASE WHEN REGEXP_LIKE(val, '(AM|PM)')
+    THEN 'MM/DD/YYYY HH:MI:SS AM'
+    ELSE 'MM/DD/YYYY HH24:MI:SS'
+  END)
+
+
+//v.05, raw example:
+
+$USER_IP = $_SERVER["REMOTE_ADDR"];
+$DATE_TIME = date('d-m-Y');
+$h = date('H');
+$i = date('i');
+$sql = "insert into ACCESS_INFO (ACCESS_INFO_ID,USER_ID,DATE_TIME,USER_IP)
+        values (ACCESS_INFO_SEQ.NEXTVAL,$USER_ID,TO_DATE('$DATE_TIME $h:$i:00','DD/MM/YYYY HH24:MI:SS'),'$USER_IP')";
+$stmt = oci_parse($conn, $sql);
+oci_execute($stmt);
+
+oci_parse: Prepares Oracle statement for execution. oci_parse() returns FALSE on error.
+oci_execute: oci_execute() executes a previously parsed statement. It returns TRUE on success or FALSE on failure.
+
+
 
 
 
