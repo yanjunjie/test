@@ -13,12 +13,12 @@
 	  <label>Custom file label:</label>
 	  <input type="text" name="filelabel" size="12" maxlength="32" /><br />
 	  <label>File to stash:</label>
-	 
-	 
+
+        <input type="file" id="input">
+
 	  <input type="submit" value="Stash the file!" />
 	</form>
 	<div></div>
- <input type="file" id="input">
 	<script>
 		var form = document.forms.namedItem("fileinfo");
 		var formData = new FormData(form);

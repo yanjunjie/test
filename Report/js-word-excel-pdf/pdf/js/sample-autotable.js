@@ -44,30 +44,47 @@ function htmlToPdf(autoTableId='', fileName = '', headerHtmlId = '', footerHtmlI
         doc.setTextColor(40);
         doc.setFontStyle('normal');
 
-        headerHtml = '<div style="text-align: center;">' +
-                        '<p>Main Header</p> ' +
+        headerHtml = '<div id="canvas" style="text-align: center;">' +
+                        '<p>Main Header Main Header Main Header Main Header</p> ' +
                         '<p>Second Header</p>' +
                         '<p>Third Header</p>' +
                     '</div>';
+        let pdfWidth = doc.internal.pageSize.getWidth();
+        //let textWidth = doc.getTextWidth(headerHtml);
+        //var imgData='';
+        /*html2canvas($("#aca_tbl_header")[0], {
+            useCORS : true,
+            onrendered: function(canvas) {
+                var imgData = canvas.toDataURL(
+                    'image/png');
+                //var doc = new jsPDF('p', 'mm');
+                doc.addImage(imgData, 'PNG', 10, 10);
+                doc.save('sample-file.pdf');
+            }
+        });*/
 
-        doc.fromHTML(
+        //doc.addImage(imgData, 'JPEG', 10, 10); //JPEG
+
+        html2canvas(document.querySelector('#aca_tbl_header'),
+            {scale: 1}
+        ).then(canvas => {
+            let pdf = new jsPDF('p', 'pt');
+            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10);
+            pdf.save('report.pdf');
+        });
+
+
+        /*doc.fromHTML(
             headerHtml,
-            50, //x coord
+            pdfWidth/2, //x coord
             10, //y coord
             {
                 useCss: true,
                 margin: {left:0, right: 0},
-                align: "center"
+                textAlign: "center"
             }
-        );
+        );*/
     };
-
-    //header();
-
-    /* let pageNumber = doc.internal.getNumberOfPages();
-     if (pageNumber === 1) {
-
-     }*/
 
     // Footer content options
     let footer = function(data) {
