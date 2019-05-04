@@ -1,0 +1,38 @@
+1. What is Dockerfile
+2. How to create Dockerfile
+3. How to build image from Dockerfile
+4. Basic Commands
+
+TIPS & TRICKS
+
+Dockerfile : 
+A text file with instructions to build image
+Automation of Docker Image Creation
+
+FROM
+RUN
+CMD
+
+
+Step 1 : Create a file named Dockerfile
+
+Step 2 : Add instructions in Dockerfile
+
+Step 3 : Build dockerfile to create image
+
+Step 4 : Run image to create container
+
+
+
+COMMANDS
+: docker build 
+: docker build -t ImageName:Tag directoryOfDocekrfile
+
+: docker run image
+
+References:
+https://github.com/wsargent/docker-cheat-sheet#dockerfile
+https://docs.docker.com/engine/reference/builder/#environment-replacement
+
+https://www.google.com/search?q=dockerfile&rlz=1C5CHFA_enIN734IN734&source=lnms&tbm=isch&sa=X&ved=0ahUKEwicqqOe_oTcAhWLbysKHX_6B5sQ_AUICigB&biw=1280&bih=703#imgrc=zY4gTeVpM446JM:
+
