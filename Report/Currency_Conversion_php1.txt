@@ -1,5 +1,5 @@
 // Function--------------------------
-function convert_number_to_words($number, $curr_part1 = 'Taka', $curr_part2 = 'Poisha')
+function convert_number_to_words($number, $curr_part1 = '', $curr_part2 = '')
 {
     $hyphen = ' ';
     $conjunction = ' and ';
@@ -117,7 +117,7 @@ function convert_number_to_words($number, $curr_part1 = 'Taka', $curr_part2 = 'P
 
 
 // Method----------------------
-public function currency_number_to_words($number, $curr_part1 = 'Taka', $curr_part2='Poisha') {
+public function currency_number_to_words($number, $curr_part1 = '', $curr_part2='') {
         $orginalNumb = $number ? $number : '';
         $hyphen = ' ';
         $conjunction = ' and ';
