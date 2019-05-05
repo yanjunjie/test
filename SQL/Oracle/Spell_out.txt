@@ -1,0 +1,4 @@
+// Number to words
+function SPEL_OUT_AMOUNT($amount) {
+   return $this->db->query("SELECT SPELL_OUT ($amount) AS IN_WORD  FROM dual")->row()->IN_WORD;
+}
