@@ -236,13 +236,15 @@ public function currency_number_to_words($number, $curr_part1 = '', $curr_part2=
             $string .= $integerOnly;
         }
 
-        return $string;
+        return strtoupper($string);
     }
 
 
 ---------------------Access the above method from view directly-----------------------------
 $CI = &get_instance();
-echo $CI->currency_number_to_words('101', 'taka', 'poisha');
+echo $CI->currency_number_to_words(floatval(573.06), 'taka', 'poisha') . ' ONLY';
+
+Output: Amount In Word : FIVE HUNDRED AND SEVENTY THREE TAKA AND ZERO SIX POISHA ONLY
 
 
 
