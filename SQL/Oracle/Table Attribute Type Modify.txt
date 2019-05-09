@@ -26,7 +26,20 @@ select * from inv_issue_chd_200918;
 --Drop the backup table
 drop table inv_issue_chd_200918;
 
---Done!
+-- New Column Add 
+ALTER TABLE SA_ORGANIZATION
+ADD CURR_PART2 varchar2(50);
+
+-- Column Rename
+ALTER TABLE SA_ORGANIZATION
+RENAME COLUMN CURRENCY TO CURR_PART1;
+
+
+
+
+
+
+
 
 
 

@@ -17,9 +17,11 @@ $(document).ready(function(){
 });
 
 $("#pakker input[type='checkbox']:checked")
+$('.pinfo_tr').find('.newProdQty[name="BATCH_NO[]"]').length;
+$('.pinfo_tr').find(':input[name="BATCH_NO[]"]:last');
 $('.theClass:checkbox:checked')
 
-Here the colon (:) means any attribute (invisible) and its value checkbox and squire brackets [] means a attribute with value. 
+Here the colon (:) means any attribute (invisible) & then its value checkbox and on the other hand, the squire brackets [] means a attribute with value. 
 It means it will select all inputs that are checkboxes
 
 $("a.clickme").click(function(){
