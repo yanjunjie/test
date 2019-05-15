@@ -65,6 +65,9 @@ Step 4 :  Initialize Docker Swarm    docker swarm init --advertise-addr MANAGER_
     docker node ls
     (this command will work only in swarm manager and not in worker)
 
+    To leave a swarm with nodes: 
+    docker swarm leave --force
+
 
 Step 5 :  Join workers in the swarm
     Get command for joining as worker
