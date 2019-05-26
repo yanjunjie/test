@@ -14,8 +14,8 @@ Images
 ————————————
 Containers
 : docker ps
-: docker run   i.e, docker run image_name if don't have locally it will download from docker hub repository
-: winpty docker run -it ubuntu    here, winpty for git bash and -it for start container and login it (ubuntu)
+: docker run   i.e, docker run image_name if don't have locally it will download from docker hub repository and start a container
+: winpty docker run -it ubuntu    here, winpty for git bash and -it for start a container and login it (ubuntu)
 : docker start
 : docker stop
 ————————————

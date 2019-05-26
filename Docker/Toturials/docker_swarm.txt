@@ -61,7 +61,8 @@ Step 3 :  SSH (connect) to docker machine
     docker-machine ssh manager1
 
 
-Step 4 :  Initialize Docker Swarm    docker swarm init --advertise-addr MANAGER_IP
+Step 4 :  Initialize Docker Swarm
+    docker swarm init --advertise-addr MANAGER_IP
     docker node ls
     (this command will work only in swarm manager and not in worker)
 
@@ -73,6 +74,7 @@ Step 5 :  Join workers in the swarm
     Get command for joining as worker
     In manager node run command
     docker swarm join-token worker
+
     This will give command to join swarm as worker
 
     docker swarm join-token manager
@@ -130,6 +132,7 @@ Step 11 :  Remove service
 
 
 docker swarm leave : to leave the swarm
+docker-machine start machineName : to start a machine
 docker-machine stop machineName : to stop the machine
 docker-machine rm machineName : to remove the machine
 

@@ -21,7 +21,7 @@ Step 1 : install docker compose
    
    2 Ways
 
-   1.  https://github.com/docker/compose/rel...
+   1.  https://github.com/docker/compose/releases
 
    2. Using PIP
     pip install -U docker-compose

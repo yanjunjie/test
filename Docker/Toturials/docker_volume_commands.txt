@@ -1,0 +1,31 @@
+Start a container of ubuntu image and login it:
+
+docker run -it ubuntu
+winpty docker run -it ubuntu
+
+here, winpty for git bash in windows and -it for start a container and login it (ubuntu machine) interactively
+
+
+
+create a container of ubuntu image with a volume (storage) and map/bind local system's location with the machine:
+
+docker run -it --name linuxmachine1 -v ~/Desktop/test-docker/test3:/test3 ubuntu bash
+winpty docker run -it --name linuxmachine1 -v /c/Users/Bablu/Desktop/test-docker/test3:/test3 ubuntu bash
+
+
+
+Login to the running container of ubuntu
+
+docker exec -it linuxmachine1 bash
+winpty docker exec -it linuxmachine1 bash
+docker attach linuxmachine1
+
+
+
+
+
+
+
+
+
+

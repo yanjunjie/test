@@ -1,0 +1,79 @@
+To setup the env for default host in windows. There are three ways 
+
+
+1. To set the env for power sheel, git bash, and cmd by starting/restarting already created a default machine by Docker:
+
+docker-machine start default
+docker-machine restart default
+
+Now check docker-machine env
+
+2. The following environment properties need to be set:
+
+set DOCKER_CERT_PATH=%USERPROFILE%\.docker\machine\machines\default
+set DOCKER_HOST=tcp://192.168.99.100:2376
+set DOCKER_MACHINE_NAME=default
+set DOCKER_TLS_VERIFY=1
+
+
+3. To create a new machine using the following command:
+
+Windows 10/HyperV:
+docker-machine create --driver hyperv default
+docker-machine create -d hyperv default
+
+Mac, Linux, windows 7 & 8:
+docker-machine create --driver virtualbox default
+docker-machine create -d virtualbox default
+
+
+
+
+Rename Port Number:
+
+docker run -d -p 80:80 --rm --name webserver nginx
+
+If you want to force stop, remove, and recreate container, use the --rm flag
+
+
+
+Rename container name:
+
+docker rename 345df9ed5b47 new_name
+
+
+
+To clean up any resources — images, containers, volumes, and networks — that are dangling (not associated with a container):
+
+docker system prune
+
+
+To additionally remove any stopped containers and all unused images (not just dangling images), add the -a flag to the command:
+
+docker system prune -a
+
+
+To delete all containers including its volumes use:
+
+docker rm -vf $(docker ps -a -q)
+
+-v: Remove all associated volumes
+-f: Forces the removal
+
+
+To delete all the images:
+
+docker rmi -f $(docker images -a -q)
+docker images purge
+
+-a: for all containers, even not running
+-q: to remove all the details other than the ID of containers
+
+Remember, you should remove all the containers before removing all the images from which those containers were created.
+
+
+
+//
+
+
+

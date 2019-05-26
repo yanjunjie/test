@@ -6,8 +6,8 @@
 TIPS & TRICKS
 
 Dockerfile : 
-A text file with instructions to build image
-Automation of Docker Image Creation
+A text file with instructions to build image.
+It is an automation of Docker Image Creation
 
 FROM
 RUN

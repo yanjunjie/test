@@ -1,0 +1,45 @@
+Method 01:
+
+From a container ID (using docker ps -a), commit it to a new image name:
+
+docker commit c16378f943fe registryhost/bablukpik/new_image_name:tag
+
+And then login:
+
+docker login
+
+Finally, push it to a registry:
+
+docker push registryhost/bablukpik/new_image_name:tag
+
+
+
+Method 02:
+
+From a source image to target (own) image. Hence, first tag the image with the host name or IP address, and the port of the registry and then username and then imagename:version/tag
+
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+docker image tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+
+For Example:
+
+docker image tag image_name hub.docker.com/bablukpik/image_name
+docker tag rhel-httpd registry-host:5000/myadmin/rhel-httpd
+docker tag rhel-httpd registry-host:5000/myadmin/rhel-httpd-abc:1.0
+
+
+Then push the image to the registry using the same tag.
+
+docker push NAME[:TAG]
+bablukpik/image_name
+registry-host:5000/myadmin/rhel-httpd-abc:1.0
+
+N.B: Here, hub.docker.com is default so we can ommit it
+
+
+
+
+
+
+
