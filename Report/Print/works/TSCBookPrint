@@ -1,0 +1,933 @@
+<button class="btn btn-info pull-right control-group sailorProfilePrint" type="button">Print</button>
+<div id="printablediv">
+    <style type="text/css" media="print">
+
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            height: auto;
+        }
+
+        /*Two column layout*/
+        div.main-print-page {
+            columns: 2;
+            column-gap: 5em;
+            width: 98%;
+        }
+
+        /* Size in mm */
+        @page {
+            size: A4 landscape;
+            max-height:100%;
+            max-width:100%
+        }
+
+        /*Page Break*/
+        div.page {
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        /*Reverse Page*/
+        div.r-page {
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform:rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            direction: ltr;
+            height: 95%;
+            width: 100%;
+        }
+
+        /*Page Number*/
+        @page main-print-page:right {
+            @bottom-right {
+                content: counter(page);
+                font-size: 11pt;
+                color: grey;
+            }
+        }
+
+            /*
+            @page {
+            margin-top: 149px;
+            margin-left: 2px;
+            margin-bottom: 40px;
+            margin-right: 2px;
+            size: landscape;
+
+            counter-increment: page;
+            @bottom-right {
+                padding-right:20px;
+                content: "Page sdfasd" counter(page);
+            }
+        }*/
+
+        .noprint{
+            display: none !important;
+        }
+
+        /*Table style*/
+        .ptable, .ptable th, .ptable td{
+            border: 1px solid #000 !important;
+            border-collapse: collapse;
+        }
+
+        .float-l {
+            float: left !important;
+        }
+
+        .float-r {
+            float: right !important;
+        }
+
+        /*Margin and padding 0px*/
+        .mt-0 {
+            margin-top: 0px !important;
+        }
+
+        .mb-0 {
+            margin-bottom: 0px !important;
+        }
+
+        .pt-0 {
+            padding-top: 0px !important;
+        }
+
+        .pb-0 {
+            padding-bottom: 0px !important;
+        }
+
+        /*Margin and padding 20px*/
+        .mt-20 {
+            margin-top: 20px !important;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px !important;
+        }
+
+        .pt-20 {
+            padding-top: 20px !important;
+        }
+
+        .pb-20 {
+            padding-bottom: 20px !important;
+        }
+
+        /*Alignment*/
+        .align-left {
+            text-align: left;
+        }
+        .align-right {
+            text-align: right;
+        }
+        .align-center {
+            text-align: center;
+        }
+
+    </style>
+    <style media="screen,print">
+        .customTdWidth {
+            width: 35% !important;
+            font-weight: bold;
+        }
+
+        .tdValue {
+            width: 65%;
+            border-bottom: 1px dotted black !important;
+        }
+
+    </style>
+
+    <style>
+        html, body { width: 100%; height: 100%; }
+    </style>
+
+    <form class="form-horizontal frmContent unitMainForm" method="post">
+        <div class="panel-body">
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="main-print-page">
+
+                        <!--Page 24-->
+                        <div class="page" style="font-family: Arial, sans-serif;">
+                            <p style="text-transform: uppercase;">In the event of loss, a report to be made to the local police station and a request for a duplicate copy can be made with the following documents:</p>
+                            <ol type="a">
+                                <li>Copy of FIR from PS on loss</li>
+                                <li>A postal order of Tk. 100/00 for MCPO, SCPO <br> & CPO, Tk. 90/00 for PO & Leading and Tk. <br> 80/00 for AB/OD in favour of Dte of Welfare. <br>Naval Headquarters, Banani, Dhaka-1213</li>
+                                <li>An application with details of the retired sailor.</li>
+                            </ol>
+                            <br>
+                            <p style="font-style: italic; font-weight: bold;">Note : This certificate has been issued without alternation of erasure.</p>
+                            <p style="font-style: italic; margin-top: 150px;">F(SP)-35 Job No. 826(M) Printed at NHQ Printing Press</p>
+                        </div>
+                        <!--Page 1-->
+                        <div class="page">
+                            <p style="float: right;">S. No............</p>
+                            <div style="clear: both;"></div>
+                            <div style="text-align: center; text-transform: uppercase; font-family: Arial, sans-serif; font-weight: bold;">
+                                <p>Termination of Service Certificate</p>
+                                <div>
+                                    <img width="100" src="<?php echo base_url(); ?>dist/img/navy_logo.jpg" alt="Navy Logo">
+                                    <p style="letter-spacing: 5px;">Bangladesh Navy</p>
+                                </div>
+                                <p style="margin-top: 30px; margin-bottom: 30px;">Certificate of Services <br> And <br> Certificate of Discharge</p>
+                                <table style="text-transform: none;" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                    <tr>
+                                        <td style="white-space: nowrap">F/O No</td>
+                                        <td style="width: 98%; text-align: left;border-bottom: 1px dotted black;"><?php echo (int)$personal_info->OFFICIALNUMBER ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap">Name</td>
+                                        <td style="width: 98%; text-align: left;border-bottom: 1px dotted black;"><?php echo $personal_info->FULLNAME ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap">Rank</td>
+                                        <td style="width: 98%; text-align: left;border-bottom: 1px dotted black;"><?php echo $personal_info->RANK_NAME ?></td>
+                                    </tr>
+                                </table>
+                                <p class="mt-20" style="color: #F30000; text-align: left; text-transform: none;">This certificate is not transferable and is the property of the Government of Bangladesh. Its unauthorized use or transfer to another person or impersonation is penal offence</p>
+                                <p class="mt-20" style="text-align: left; text-transform: uppercase;">Any person finding this certificate is requested to forward it without stamp to the drafting authority, naval headquarters, Banani, dhaka-1213, Bangladesh.</p>
+                            </div>
+                        </div>
+
+                        <!--Page 23-->
+                        <div class="page r-page" style="font-family: Arial, sans-serif;">
+                            <h4 style="text-transform: uppercase;">
+                                <center><u>TO THE OWNER OF THIS CERTIFICATE</u></center>
+                            </h4>
+                            <div>
+                                <P><span style="text-transform: uppercase;">YOU ARE WARNED</span> that the unauthorized disclosure of information acquired during your service with the BN which may be used by Enemy, at any time, renders you liable to prosecution under the Official Act.</P>
+                                <p><span style="text-transform: uppercase;">YOU ARE REMINDED</span> that your release does not remove any liablity you still have for recall for Service with BN as may be necessry.</p>
+                                <p><span style="text-transform: uppercase;">YOU ARE RECOMMENDED</span> never to part with this certificate, nor forward it by post when applying for a situation. A properly attested copy should be used for this purpose, Replacement will be made only in excepptional circumstances.</P>
+                            </div>
+                            <div style="margin-top: 250px; float: right; width: 200px; font-size: 14px;">
+                                <p>............................</p>
+                                <p>Signature of Issuing Officer</p>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <!--Page 2-->
+                        <div class="page r-page">
+                            <div style="text-align: center;">
+                                <div class="photo" style="display: table; width:150px;height:150px; margin: 0 auto; border:1px solid black">
+
+                                    <img src="<?php echo base_url()?>uploads/img/<?php echo (int)$personal_info->OFFICIALNUMBER.'.jpg'; ?>" height="150px" width="150px" alt="No Image Found">
+                                </div>
+                                <p>Signature and Rank <br>
+                                    of Issuing Officer</p>
+                            </div>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="customTdWidth">Full Name (In Block Letters)</td>
+                                    <td class="tdValue"> <?php echo strtoupper($personal_info->FULLNAME) ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Rank</td>
+                                    <td class="tdValue"> <?php echo $personal_info->RANK_NAME ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Father's Name</td>
+                                    <td class="tdValue"> <?php echo $personal_info->FATHERNAME ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Mother's Name</td>
+                                    <td class="tdValue"> <?php echo $personal_info->MOTHERNAME ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Permanent Address</td>
+                                    <td class="tdValue"> <?php echo $personal_info->PERMANENTADDRESS ?> </td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Town/Village</td>
+                                    <td class="tdValue"> <?php echo $personal_info->PERMANENTADDRESS ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Post Office</td>
+                                    <td class="tdValue"></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Telegraph Office</td>
+                                    <td class="tdValue"></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Police Station</td>
+                                    <td class="tdValue"></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">District</td>
+                                    <td class="tdValue"> <?php echo $personal_info->DISTRICT; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth" colspan="2">
+                                        Bangladesh.
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!--Page 22-->
+                        <div class="page">&nbsp;</div>
+                        <!--Page 3-->
+                        <div class="page">
+                            <h4>
+                                <center><u>PERSONAL PARTICULARS</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="customTdWidth">Date Of Birth</td>
+                                    <td class="tdValue"><?php echo $personal_info->BIRTHDAY ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">In Word</td>
+                                    <td class="tdValue"><?php
+                                        echo date("jS F, Y", strtotime($personal_info->BIRTHDAY));
+                                        ?></td>
+                                </tr>
+                            </table>
+                            <h5><u>Physical Description</u></h5>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="customTdWidth">Height</td>
+                                    <td class="tdValue"><?php
+                                        $inch = $personal_info->HEIGHT;
+                                        $inch = $personal_info->HEIGHT / 2.54;
+                                        echo floor($inch / 12) . ' Feet ' . ($inch % 12) . ' Inch' . ' (' . $personal_info->HEIGHT . ' cm)';
+                                        ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Colour Of Eyes</td>
+                                    <td class="tdValue"><?php echo $personal_info->EYECOLOR ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Colour Of Hair</td>
+                                    <td class="tdValue"><?php echo $personal_info->HAIRCOLOR ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Complexion</td>
+                                    <td class="tdValue"><?php echo $personal_info->COMPLEXION ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Identification Marks</td>
+                                    <td class="tdValue"><?php echo $personal_info->IDMARKS ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Medical Category</td>
+                                    <td class="tdValue"><?php echo $personal_info->MEDICALCATEGORY ?></td>
+                                </tr>
+                                <tr class="customTdWidth">
+                                    <td>Blood Group</td>
+                                    <td class="tdValue"><?php echo $personal_info->BLOODGROUP ?></td>
+                                </tr>
+                            </table>
+                            <h5><u>LANGUAGES</u></h5>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td>................................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>................................................................................</td>
+                                </tr>
+                            </table>
+                            <h5><u>SPECIMEN SIGNATURES</u></h5>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td>(1) ............................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>(2) ............................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>(3) ............................................................................</td>
+                                </tr>
+                            </table>
+                            <h5><u>WITNESS BY</u></h5>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td>Name and Rank ..................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Signature ......................................................................</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!--Page 21-->
+                        <div class="page r-page">
+                            <h4 class="align-center">
+                                <u>FAMILY PICUTURE</u>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        1. Name ..............................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br><br>
+                            <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        2. Name ..............................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--Page 4-->
+                        <div class="page r-page">
+                            <h4>
+                                <center><u>CERTIFICATE OF RELEASE</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="customTdWidth">Official Number</td>
+                                    <td class="tdValue"><?php echo (int)$personal_info->OFFICIALNUMBER; ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Branch</td>
+                                    <td>.........................</td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Rank at time Of Release/Discharge</td>
+                                    <td>.........................</td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Date Of joining</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Regular Service</td>
+                                    <td>...........Years.........Months.........Days</td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Date Of Final Release/Discharge</td>
+                                    <td>..........................</td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Total Length Of Service</td>
+                                    <td>...........Years.........Months.........Days</td>
+                                </tr>
+                                <tr>
+                                    <td class="customTdWidth">Reason for Final Release/Discharge</td>
+                                    <td class="tdValue"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="tdValue">......................</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">(In Red if Discharged or Dismissed on disciplinary ground)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding-top:180px!important;">Authority: Drafting Authority letter no DA/ .......................</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!--Page 20-->
+                        <div class="page">&nbsp;</div>
+                        <!--Page 5-->
+                        <div class="page">
+                            <h4>
+                                <center><u>ASSESSMENT OF CONDUCT AND EFFICIENCY</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="pb-20">
+                                        While Under Training<br><br>
+                                        Throughout the Service *<br>
+                                        On Release/Discharge/
+                                        Dismissed **
+                                    </td>
+                                    <td>
+                                        <table class="table table-striped table-bordered ptable text-center" width="100%" cellspacing="0">
+                                            <tr>
+                                                <th>Conduct</th>
+                                                <th>Efficiency</th>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td class="pb-20">* Conduct may be classed Very Good (VG). Good, Fair Indifferent or Bad.</td>
+                                </tr>
+                                <tr>
+                                    <td class="pb-20">Efficiency may be classed Superior, Satisfactory Moderate or Inferior.</td>
+                                </tr>
+                                <tr>
+                                    <td class="pb-20">** Assessment here will be that which has appeared most frequently on Annual Account Throughout his Service.</td>
+                                </tr>
+                            </table>
+                            <h4>
+                                <center><u>GENERAL COMMENT ON CHARACTER</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td>Initiative : ...................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Power Command : ................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Professional Ability : .........................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Turn Out : .....................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Games : ........................................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>Others : .......................................................................</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!--Page 19-->
+                        <div class="page r-page">
+                            <h4 class="align-center">
+                                <u>FAMILY PICUTURE</u>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        5. Name ................................................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br><br>
+                            <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        6. Name ..................................................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--Page 6-->
+                        <div class="page r-page">
+                            <h4>
+                                <center><u>EDUCATIONAL QUALIFICATIONS</u></center>
+                            </h4>
+                            <h5 class="mb-20"><u>Civil Education</u></h5>
+                            <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <tr>
+                                    <td>Prior to joining BN ............................................................</td>
+                                </tr>
+                                <tr>
+                                    <td>During Released/Discharged .....................................................</td>
+                                </tr>
+                            </table>
+                            <h5 style="margin-bottom: 1px"><u>Military Education</u></h5>
+                            <h5 class="mb-20">1. <u>Lower Education Test</u></h5>
+                            <table class="table table-striped table-bordered" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><h5 style="margin-top: 10px; margin-bottom: 0;"><u>Subject</u></h5></td>
+                                    <td><h5 style="margin-top: 10px; margin-bottom: 0;"><u>Date of Pass</u></h5></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">a.Elementary Mathematics</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">b.Language & General Knowledge (English &Bengali)</td>
+                                </tr>
+
+                                <tr><td class="pb-20" colspan="2"></td></tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <h5 style="margin-top: 10px; margin-bottom: 0;" class="mb-0">2. <u>Higher Education Test</u></h5>
+                                        <p class="mt-0">(Recognised equivalent to HSC)</p>
+                                    </td>
+                                </tr>
+
+                                <tr><td class="pb-20" colspan="2"></td></tr>
+
+                                <tr class="mb-0">
+                                    <td><h5 style="margin-top: 10px; margin-bottom: 0;"><u>General Subject</u></h5></td>
+                                    <td><h5 style="margin-top: 10px; margin-bottom: 0;"><u>Date of Pass</u></h5></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">a. Bengali</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">b. English</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">c. History</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">d. Geography</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">e. General Knowledge</td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-20" colspan="2">
+                                        <h5 style="margin-top: 10px; margin-bottom: 0;"><u>Special Subject</u></h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">f. Mathematics</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">g. Physics</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">h. Navigation</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">i. Nursing</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">j. Administration</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">l. Supply Duties</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">l. Accounting</td>
+                                </tr>
+                            </table>
+                            <h5 style="margin-top: 10px; margin-bottom: 0;">3. <u>Additional Qualification</u></h5>
+                        </div>
+
+                        <!--Page 18-->
+                        <div class="page">&nbsp;</div>
+                        <!--Page 7-->
+                        <div class="page">
+                            <h4>
+                                <center><u>COURSES COMPLETED DURING SERIVCE</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered ptable text-center" width="100%" cellspacing="0">
+                                <tr>
+                                    <th rowspan="2">Course</th>
+                                    <th>Where Held</th>
+                                    <th rowspan="2">Marks<br>
+                                        and/or<br>
+                                        Comments
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td class="align-center">Commenced</td>
+                                </tr>
+                                <?php for ($i=1; $i<=9; $i++): ?>
+                                    <tr>
+                                        <td style="padding: 20px;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+                        </div>
+
+                        <!--Page 17-->
+                        <div class="page r-page">&nbsp;</div>
+                        <!--Page 8-->
+                        <div class="page r-page">
+                            <h4>
+                                <center><u>WORK/DUTIES CARRIED OUT BY RATING</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <?php for ($i=1; $i<=16; $i++): ?>
+                                    <tr>
+                                        <td style="border: none; border-bottom: 1px dotted black;padding: 10px;">&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+                        </div>
+
+                        <!--16-->
+                        <div class="page">&nbsp;</div>
+                        <!--Page 9-->
+                        <div class="page">
+                            <h4>
+                                <center><u>ADDITIONAL EXPERIENCES</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <?php for ($i=1; $i<=7; $i++): ?>
+                                    <tr>
+                                        <td style="border: none; border-bottom: 1px dotted black;padding: 10px;">&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+
+                            <br><br>
+                            <h4>
+                                <center><u>FOREIGN COUNTRY VISITED</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <?php for ($i=1; $i<=7; $i++): ?>
+                                    <tr>
+                                        <td style="border: none; border-bottom: 1px dotted black;padding: 10px;">&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+                        </div>
+
+                        <!--15-->
+                        <div class="page r-page">
+                            <h4 class="align-center">
+                                <u>FAMILY PICUTURE</u>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        1. Name ................................................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br><br>
+                            <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        2. Name ..................................................
+                                    </td>
+                                    <td>
+                                        <div style="display: table; width: 200px; height: 200px; border: 1px solid black;">
+                                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                                Photo
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--Page 10-->
+                        <div class="page r-page">
+                            <h4>
+                                <center><u>DECORATION, MEDALS AND AWARDS</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered " width="100%" cellspacing="0">
+                                <tr>
+                                    <td colspan="2">
+                                        <h5>1. Bangladesh</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 1%;">a.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>b.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>c.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>d.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>e.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>f.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>g.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>h.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>i</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>j</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>k</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+
+                                <tr><td class="pb-20"></td></tr>
+
+                                <tr>
+                                    <td colspan="2" class="pt-20">
+                                        <h5>2. Pre-Independence</h5>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>a.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>b.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>c.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>d.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>e.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>f.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>g.</td>
+                                    <td style="width: 100%; border-bottom: 1px solid black;"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!--Page 14-->
+                        <div class="page" style="display: table; width: 100%; height: 100%;">
+                            <div style="display: table-cell; vertical-align: middle; text-align: center;">
+                                <h4><u>SERVICE IN BANGLADESH FLEET RESERVE <br> AND <br> RE-ENGAGEMENT ORDER FOR DEFENCE SERVICE</u></h4>
+                            </div>
+                        </div>
+                        <!--Page 11-->
+                        <div class="page">
+                            <h4>
+                                <center><u>FAMILY PARTICULARS</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered ptable" width="100%" cellspacing="0">
+                                <tr>
+                                    <td>S.No</td>
+                                    <td>Name</td>
+                                    <td>Date of Birth</td>
+                                    <td>Relation</td>
+                                </tr>
+                                <?php for ($i=0; $i<10; $i++): ?>
+                                    <tr>
+                                        <td style="padding: 10px;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+                        </div>
+
+                        <!--Page 13-->
+                        <div class="page r-page">
+                            <h4>
+                                <center><u>RE-ENGAGEMENT ORDER FOR DEFENCE SERVICE</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered ptable" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <th>Date of Re-call</th>
+                                    <th>Cause</th>
+                                    <th>Date of Release</th>
+                                    <th>Medical Category</th>
+                                    <th>Ship/Estb</th>
+                                    <th>Conduct Prior Re-called Service</th>
+                                </tr>
+                                <?php for ($i=0; $i<15; $i++): ?>
+                                    <tr>
+                                        <td style="padding: 6px;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </table>
+                        </div>
+                        <!--Page 12-->
+                        <div class="page r-page last-page">
+                            <h4>
+                                <center><u>BANGLADESH FLEET RESERVE</u></center>
+                            </h4>
+                            <table class="table table-striped table-bordered text-center ptable" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <th>Date of <br> Re-call</th>
+                                    <th>Cause</th>
+                                    <th>Date of <br>Release</th>
+                                    <th>Medical <br>Category</th>
+                                    <th>Ship/Estb</th>
+                                    <th>Conduct <br>Prior <br>Re-called <br>Service</th>
+                                </tr>
+                                <?php for ($i=0; $i<14; $i++): ?>
+                                    <tr>
+                                        <td style="padding: 6px;">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                <?php endfor; ?>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
