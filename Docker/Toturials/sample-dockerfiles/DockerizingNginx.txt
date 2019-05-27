@@ -1,0 +1,23 @@
+FROM ubuntu
+
+# File Author / Maintainer
+MAINTAINER Bablu Ahmed <bablukpik@gmail.com>
+
+# Update the repository sources list
+RUN apt-get update
+
+# Install Nginx
+RUN apt-get install -y nginx && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Add an HTML File
+ADD index.html /usr/share/nginx/html/index.html
+
+# Run Nginx
+# 'daemon off' is foreground mode and 'daemon on' is background mode
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"] 
+
+# Port of this Image
+EXPOSE 80
+
+# To build the image use this - docker build -t 'give a name of the image' .
+# docker build -t registryhost/username/imageName:tagName 'Location of Dockerfile'
