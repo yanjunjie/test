@@ -14,8 +14,11 @@ Images
 ————————————
 Containers
 : docker ps
-: docker run   i.e, docker run image_name if don't have locally it will download from docker hub repository and start a container
-: winpty docker run -it ubuntu    here, winpty for git bash and -it for start a container and login it (ubuntu)
+: docker run i.e, docker run image_name if don't have locally it will download from docker hub repository and start a container
+: winpty docker run -it ubuntu  - here, winpty for git bash and -it for start a container and login it (ubuntu)
+: docker run -it --rm ubuntu bash - here, --rm will remove the container after leaving it by using 'exit'
+: docker -it --rm bablukpik/ubuntu-smart:1.0 /bin/sh - this is for when we create our custom image by using Dockerfile
+
 : docker start
 : docker stop
 ————————————

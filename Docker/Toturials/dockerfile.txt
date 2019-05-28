@@ -11,6 +11,10 @@ It is an automation of Docker Image Creation
 
 FROM
 RUN
+RUN apt-get update && \
+	apt-get upgrade && \
+	apt-get install vim
+RUN apt-get update upgrade vim curl wget
 CMD
 
 
@@ -24,11 +28,26 @@ Step 4 : Run image to create container
 
 
 
-COMMANDS
-: docker build 
-: docker build -t ImageName:Tag directoryOfDocekrfile
+COMMANDS:
+docker build 
+docker build -t ImageName:Tag directoryOfDocekrfile
+docker run image
+docker images --filter "dangling=true"
 
-: docker run image
+Removing only dangling images:
+docker rmi (docker images -q --filter "dangling=true")
+docker rmi $(docker images | grep "<none>")
+
+Removing only untagged images (ones with no labels, or with label with no tag):
+docker rmi $(docker images -a | grep "^<none>")
+
+Removing unused Docker images:
+docker image prune
+
+Removing all images:
+docker system prune --all --filter "until=24h"
+docker system prune -a
+
 
 References:
 https://github.com/wsargent/docker-cheat-sheet#dockerfile
