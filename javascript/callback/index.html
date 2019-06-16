@@ -5,7 +5,10 @@
 	<title>Callback</title>
 </head>
 <body>
-	<h1>Callback Test</<h1></h1>
+	<h1>Callback in Javascript</<h1>
+	
+	<p>A callback function is a function that is passed to another function (let's call this other function “otherFunction”) as a parameter, and the callback function is called (or executed) inside the otherFunction</p>
+	
 	<script src="https://code.jquery.com/jquery.min.js"></script>
 	<script type="text/javascript">
 	
@@ -23,13 +26,16 @@
 		};
 		
 		
-		// By using callback
+		// callee 
 		let calc = function(num1, num2, callback){ //3 params: 2 var and one function as callback
 			if(typeof callback === "function") //typeof returns the type of object
+			// caller
+			// we can see here the function is calling back
 			return callback(num1, num2); //return 6
 		};
 
-		var result = calc(2, 3, function(a, b){
+		// caller
+		var result = calc(2, 3, function(a, b){ // here the anonymous function is callee
 			return a*b;
 		});
 
