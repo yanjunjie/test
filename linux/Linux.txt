@@ -32,6 +32,10 @@ A file will open write as follows:
   AllowOverride All
 </Directory>
 
+For Update Version (2.4):
+AllowOverride None
+Require all granted
+
 Then run below two commands:
 sudo a2enmod rewrite
 sudo service apache2 restart
