@@ -1,0 +1,10 @@
+First add new task and nameit like 'mydocker-toolbox' then
+
+set the working directory by adding a task parameter:
+/dir "C:\Program Files\Docker Toolbox"
+
+we need to add a command to the task:
+"C:\Program Files\Git\bin\bash.exe" --login -i "C:\Program Files\Docker Toolbox\start.sh"
+
+For quickstart desktop shortcut:
+C:\Users\your-user-folder-name\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Docker

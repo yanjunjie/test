@@ -26,3 +26,5 @@ RUN a2enmod rewrite
 # During running container we can login inside that container - docker -it container_name/id bash or /bin/bash
 # For enable mod rewrite - a2enmod rewrite
 # Then restart the container - docker restart container_name/id
+# To run a container and login: docker run -it --rm ubuntu bash - here, --rm will remove the container after leaving it by using 'exit'
+# To login and install something inside a running container: docker exec -it ubuntu bash
