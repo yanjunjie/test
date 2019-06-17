@@ -25,7 +25,8 @@
 			console.log(`Here are your two numbers back ${a}, ${b}`);
 		};
 		
-		
+	//v.0.1
+	
 		// callee 
 		let calc = function(num1, num2, callback){ //3 params: 2 var and one function as callback
 			if(typeof callback === "function") //typeof returns the type of object
@@ -39,7 +40,33 @@
 			return a*b;
 		});
 
-		console.log(result);
+		//console.log(result);
+		
+		
+	//v.0.2
+	let first = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	let second = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	let third = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	
+	first(2, function(firstResult, err){
+		if(!err) {
+			console.log(firstResult);
+			second(firstResult, function(secondResult, err){
+				console.log(secondResult);
+				third(secondResult, function(thirdResult, err){
+					console.log(thirdResult);
+				});
+			});
+		}		
+	});
+	
+	// In the above, we want the value of first function, for the second, and the second function's value for the third function or dependent value, In that case we need callback
 		
 	</script>
 </body>

@@ -5,88 +5,108 @@
 	<title></title>
 </head>
 <body>
+<h1>Promise</h1>
+<p>The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.</p>
 
+<h3>Syntax:</h3>
+<pre>
+new Promise(executor);
+</pre>
+
+<h3>For example:</h3>
+<pre>
+var promise1 = new Promise(function(resolve, reject) {
+  setTimeout(function() {
+    resolve('foo');
+  }, 300);
+});
+
+promise1.then(function(value) {
+  console.log(value);
+  // expected output: "foo"
+});
+
+console.log(promise1);
+// expected output: [object Promise]
+</pre>
+
+
+<h2>Methods</h2>
+<pre>Promise.all(iterable)</pre>
+<p>Wait for all promises to be resolved, or for any to be rejected.
+If the returned promise resolves, it is resolved with an aggregating array of the values from the resolved promises in the same order as defined in the iterable of multiple promises. If it rejects, it is rejected with the reason from the first promise in the iterable that was rejected.
+</p>
+
+<pre>Promise.race(iterable)</pre>
+<p>Wait until any of the promises is resolved or rejected.
+If the returned promise resolves, it is resolved with the value of the first promise in the iterable that resolved. If it rejects, it is rejected with the reason from the first promise that was rejected.
+</p>
+
+<pre>Promise.reject()</pre>
+<p>Returns a new Promise object that is rejected with the given reason.</p>
+
+<pre>Promise.resolve()</pre>
+<p>Returns a new Promise object that is resolved with the given value. If the value is a thenable (i.e. has a then method), the returned promise will "follow" that thenable, adopting its eventual state; otherwise the returned promise will be fulfilled with the value. Generally, if you don't know if a value is a promise or not, Promise.resolve(value) it instead and work with the return value as a promise.</p>
+
+
+
+
+<h2>Then Syntax</h2>
+<pre>
+p.then(onFulfilled[, onRejected]);
+
+p.then((value) => {
+  // fulfillment
+}, (reason) => {
+  // rejection
+});
+</pre>
 
 <script type="text/javascript">
-	function watchTutorialCallback(callback, errorCallback) {
-	  let userLeft = false
-	  let userWatchingCatMeme = false
 
-	  if (userLeft) {
-		errorCallback({
-		  name: 'User Left', 
-		  message: ':('
-		})
-	  } else if (userWatchingCatMeme) {
-		errorCallback({
-		  name: 'User Watching Cat Meme',
-		  message: 'WebDevSimplified < Cat' 
-		})
-	  } else {
-		callback('Thumbs up and Subscribe')
-	  }
-	}
+	/*
+	let first = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	let second = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	let third = (val, callback)=> {
+		return callback(val+2, false);
+	};
+	
+	// Callback
+	first(2, function(firstResult, err){
+		if(!err) {
+			console.log(firstResult);
+			second(firstResult, function(secondResult, err){
+				console.log(secondResult);
+				third(secondResult, function(thirdResult, err){
+					console.log(thirdResult);
+				});
+			});
+		}		
+	});
+	*/
+	
+	// Promise
+	let first = (val)=> {
+		return val+2;
+	};
+	let second = (val)=> {
+		return val+2;
+	};
+	let third = (val)=> {
+		return val+2;
+	};
 
-	function watchTutorialPromise() {
-	  let userLeft = false
-	  let userWatchingCatMeme = false
-	  return new Promise((resolve, reject) => {
-		if (userLeft) {
-		  reject({
-			name: 'User Left', 
-			message: ':('
-		  })
-		} else if (userWatchingCatMeme) {
-		  reject({
-			name: 'User Watching Cat Meme',
-			message: 'WebDevSimplified < Cat' 
-		  })
-		} else {
-		  resolve('Thumbs up and Subscribe')
-		}
-	  })
-	}
-
-	watchTutorialCallback(message => {
-	  console.log(message)
-	}, error => {
-	  console.log(error.name + ' ' + error.message)
-	})
-
-	watchTutorialPromise().then(message => {
-	  console.log(message)
-	}).catch(error => {
-	  console.log(error.name + ' ' + error.message)
-	})
-
-	const recordVideoOne = new Promise((resolve, reject) => {
-	  resolve('Video 1 Recorded')
-	})
-
-	const recordVideoTwo = new Promise((resolve, reject) => {
-	  resolve('Video 2 Recorded')
-	})
-
-	const recordVideoThree = new Promise((resolve, reject) => {
-	  resolve('Video 3 Recorded')
-	})
-
-	Promise.all([
-	  recordVideoOne,
-	  recordVideoTwo,
-	  recordVideoThree
-	]).then(messages => {
-	  console.log(messages)
-	})
-
-	Promise.race([
-	  recordVideoOne,
-	  recordVideoTwo,
-	  recordVideoThree
-	]).then(message => {
-	  console.log(message)
-	})
-
+	let promise = new Promise(function(resolve, reject){
+		resolve(2);
+	});
+	
+	promise.then(first).then(second).then(third).then(function(response){
+		console.log(response);
+	});
 
 </script>
 </body>
