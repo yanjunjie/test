@@ -10,24 +10,45 @@
 
 <h3>Syntax:</h3>
 <pre>
-new Promise(executor);
+	new Promise(executor);
 </pre>
 
 <h3>For example:</h3>
 <pre>
-var promise1 = new Promise(function(resolve, reject) {
-  setTimeout(function() {
-    resolve('foo');
-  }, 300);
-});
+	var promise1 = new Promise(function(resolve, reject) {
+	  setTimeout(function() {
+		resolve('foo');
+	  }, 300);
+	});
 
-promise1.then(function(value) {
-  console.log(value);
-  // expected output: "foo"
-});
+	promise1.then(function(value) {
+	  console.log(value);
+	  // expected output: "foo"
+	});
 
-console.log(promise1);
-// expected output: [object Promise]
+	console.log(promise1);
+	// expected output: [object Promise]
+</pre>
+
+<h3>For example 02:</h3>
+<pre>
+	let first = (val)=> {
+		return val+2;
+	};
+	let second = (val)=> {
+		return val+2;
+	};
+	let third = (val)=> {
+		return val+2;
+	};
+
+	let promise = new Promise(function(resolve, reject){
+		resolve(2);
+	});
+
+	promise.then(first).then(second).then(third).then(function(response){
+		console.log(response);
+	});
 </pre>
 
 
@@ -49,22 +70,36 @@ If the returned promise resolves, it is resolved with the value of the first pro
 <p>Returns a new Promise object that is resolved with the given value. If the value is a thenable (i.e. has a then method), the returned promise will "follow" that thenable, adopting its eventual state; otherwise the returned promise will be fulfilled with the value. Generally, if you don't know if a value is a promise or not, Promise.resolve(value) it instead and work with the return value as a promise.</p>
 
 
-
-
-<h2>Then Syntax</h2>
+<h2>Then Function</h2>
+<p>Javascript then() function is related to "Javascript promises" that allows you to call a method called "then" that lets you specify the function(s) to use as the callbacks</p>
+<p>The then() method returns a Promise. It takes up to two arguments: callback functions for the success and failure cases of the Promise.</p>
+<h3>Then Syntax</h3>
 <pre>
-p.then(onFulfilled[, onRejected]);
+	p.then(onFulfilled[, onRejected]);
 
-p.then((value) => {
-  // fulfillment
-}, (reason) => {
-  // rejection
-});
+	p.then((value) => {
+	  // fulfillment
+	}, (reason) => {
+	  // rejection
+	});
+</pre>
+
+<h3>For example:</h3>
+<pre>
+	var promise1 = new Promise(function(resolve, reject) {
+	  resolve('Success!');
+	});
+
+	promise1.then(function(value) {
+	  console.log(value);
+	  // expected output: "Success!"
+	});
 </pre>
 
 <script type="text/javascript">
 
 	/*
+	// Callback
 	let first = (val, callback)=> {
 		return callback(val+2, false);
 	};
@@ -75,7 +110,6 @@ p.then((value) => {
 		return callback(val+2, false);
 	};
 	
-	// Callback
 	first(2, function(firstResult, err){
 		if(!err) {
 			console.log(firstResult);
@@ -89,6 +123,7 @@ p.then((value) => {
 	});
 	*/
 	
+	/*
 	// Promise
 	let first = (val)=> {
 		return val+2;
@@ -107,7 +142,49 @@ p.then((value) => {
 	promise.then(first).then(second).then(third).then(function(response){
 		console.log(response);
 	});
-
+	*/
+	
+	//example 02
+	function makeRequest(location){
+		return new Promise((resolve, reject)=>{
+			console.log(`Making Request to ${location}`);
+			if(location==='google'){
+				resolve('Google says hi');
+			} else {
+				reject('We can only talk to Google');
+			}
+		});
+	}
+	
+	function processRequest(response){
+		return new Promise((resolve, reject)=>{
+			console.log('Processing response');
+			resolve(`Extra Information + ${response}`);
+		});
+	}
+/*	
+	makeRequest('google').then(response=>{
+		console.log('Response Received');
+		return processRequest(response);
+	}).then(processResponse=>{
+		console.log(processResponse);
+	}).catch(err=>{
+		console.log(err);
+	});
+*/
+	// async and await
+	async function doWork(){
+		try{
+			const response = await makeRequest('Facebook');
+			console.log('Response Received');
+			const processResponse = await processRequest(response);
+			console.log(processResponse);
+		}catch(err) {
+			console.log(err);
+		}
+	}
+	
+	doWork();
 </script>
 </body>
 </html>
