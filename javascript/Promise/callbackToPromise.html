@@ -51,6 +51,36 @@
 	});
 </pre>
 
+<h3>For example 03:</h3>
+<pre>
+	function makeRequest(media){
+		return new Promise((resolve, reject)=>{
+			console.log(`Making Request to ${media}`);
+			if(media==='google'){
+				resolve('Google says hi');
+			} else {
+				reject('We can only talk to Google');
+			}
+		});
+	}
+	
+	function processRequest(response){
+		return new Promise((resolve, reject)=>{
+			console.log('Processing response');
+			resolve(`Extra Information + ${response}`);
+		});
+	}
+	
+	makeRequest('google').then(response=>{
+		console.log('Response Received');
+		return processRequest(response);
+	}).then(processResponse=>{
+		console.log(processResponse);
+	}).catch(err=>{
+		console.log(err);
+	});
+</pre>
+
 
 <h2>Methods</h2>
 <pre>Promise.all(iterable)</pre>
@@ -145,10 +175,10 @@ If the returned promise resolves, it is resolved with the value of the first pro
 	*/
 	
 	//example 02
-	function makeRequest(location){
+	function makeRequest(media){
 		return new Promise((resolve, reject)=>{
-			console.log(`Making Request to ${location}`);
-			if(location==='google'){
+			console.log(`Making Request to ${media}`);
+			if(media==='google'){
 				resolve('Google says hi');
 			} else {
 				reject('We can only talk to Google');
@@ -162,7 +192,7 @@ If the returned promise resolves, it is resolved with the value of the first pro
 			resolve(`Extra Information + ${response}`);
 		});
 	}
-/*	
+
 	makeRequest('google').then(response=>{
 		console.log('Response Received');
 		return processRequest(response);
@@ -171,20 +201,24 @@ If the returned promise resolves, it is resolved with the value of the first pro
 	}).catch(err=>{
 		console.log(err);
 	});
-*/
+	
+	console.dir(makeRequest('google'));
+
 	// async and await
+	/*
 	async function doWork(){
 		try{
-			const response = await makeRequest('Facebook');
+			const response = await makeRequest('google'); // here response is resolved value
 			console.log('Response Received');
 			const processResponse = await processRequest(response);
 			console.log(processResponse);
-		}catch(err) {
+		}catch(err){
 			console.log(err);
 		}
 	}
-	
 	doWork();
+	*/
+	
 </script>
 </body>
 </html>
