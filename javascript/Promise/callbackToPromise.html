@@ -218,7 +218,150 @@ If the returned promise resolves, it is resolved with the value of the first pro
 	}
 	doWork();
 	*/
-	
+
+	//Example 03
+	function scaryClown() {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve(':)');
+				//reject('(:');
+			}, 2000);
+		});
+	}
+
+	async function msg() {
+		try {
+			const msg = await scaryClown(); // await is waiting for resolve/reject
+			console.log(msg); // resolved/response value
+			return msg;
+		} catch(err) {
+			console.log(err); // rejected value
+		}
+	}
+
+	let pro = msg();
+	//msg(); //? Message: :)
+	pro.then(msg=>console.log(`Hi ${msg}`));
+	msg().then(msg=>console.log(`Hi ${msg}`));
+
+
+	// Example 04:
+	function who() {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('Bablu');
+			}, 200);
+		});
+	}
+
+	function what() {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('lurks');
+			}, 300);
+		});
+	}
+
+	function where() {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('in the shadows');
+			}, 500);
+		});
+	}
+
+	async function msg2() {
+		const a = await who();
+		const b = await what();
+		const c = await where();
+
+		console.log(`${ a } ${ b } ${ c }`);
+	}
+
+	msg2();
+
+
+	async function msg3() {
+		const [a, b, c] = await Promise.all([who(), what(), where()]);
+		console.log(`${ a } ${ b } ${ c }`);
+	}
+
+	msg3();
+
+
+	// Example 05:
+	async function hello() {
+		return 'Hello Bablu!';
+	}
+
+	const b = hello();
+	console.log(b); // [object Promise] { ... }
+
+	b.then(x => console.log(x)); // Hello Bablu!
+	//or
+	hello().then(x => console.log(x));
+
+
+	// Example 06: Arrow functions
+	const msg4 = async function() {
+		const msg = await scaryClown();
+		console.log('Message:', msg);
+	}
+
+	const msg5 = async () => {
+		const msg = await scaryClown();
+		console.log('Message:', msg);
+	}
+
+
+	// Example 07: Error Handling
+	function yayOrNay() {
+		return new Promise((resolve, reject) => {
+			const val = Math.round(Math.random() * 1); // 0 or 1, at random
+			val ? resolve('Lucky!!') : reject('Nope 😠');
+		});
+	}
+
+	async function msg6() {
+		try {
+			const msg = await yayOrNay();
+			console.log(msg);
+		} catch(err) {
+			console.log(err);
+		}
+	}
+
+	msg6(); // Lucky!! or Nope
+
+	// We know that async functions always return a promise. So we can use catch statement
+	async function msg7() {
+		const msg = await yayOrNay();
+		//console.log(msg);
+	}
+
+	msg7().catch(x => console.log(x)); // Nope
+
+
+	// Example 08
+	function caserUpper(val) {
+		return new Promise((resolve, reject) => {
+			resolve(val.toUpperCase());
+		});
+	}
+
+	async function msg8(x) {
+		try {
+			const msg = await caserUpper(x);
+			console.log(msg);
+		} catch(err) {
+			console.log('Ohh no:', err.message);
+		}
+	}
+
+	msg8('Hello'); // HELLO
+	msg8(34); // Ohh no: val.toUpperCase is not a function
+
+
 </script>
 </body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Regex</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//Capturing Group/parentheses
+		//Example 01
+		let firstThenLast = "Bablu Ahmed";
+		let getFirstAndlast = /\w+ \w+/;
+		console.log(firstThenLast.match(getFirstAndlast)); // ["Bablu Ahmed"]
+		
+		//Example 02
+		firstThenLast = "BabluAhmed";
+		getFirstAndlast = /\w+ \w+/;
+		console.log(firstThenLast.match(getFirstAndlast)); // null
+		
+		//Example 03
+		firstThenLast = "Bablu Ahmed";
+		getFirstAndlast = /(\w+) (\w+)/;
+		console.log(firstThenLast.match(getFirstAndlast)); // ["Bablu Ahmed", "Bablu", "Ahmed"]
+		//Here we can see extra two elements in the array that the Capturing group remembered or stored or captured or extracted from the matched
+	
+		lastCommaFirst = firstThenLast.replace(getFirstAndlast, "$2, $1"); //$1 = Bablu, $2 = Ahmed
+		console.log(lastCommaFirst); // Ahmed, Bablu
+		
+		//Example 04
+		firstSecondThenLast = "Faruk Ahmed Bablu";
+		getFirstSecondAndlast = /faruk ahmed bablu/i;
+		console.log(firstSecondThenLast.match(getFirstSecondAndlast)); // ["Faruk Ahmed Bablu"]
+		console.log(firstSecondThenLast.match(/(faruk) ahmed bablu/i)); // ["Faruk Ahmed Bablu", "Faruk"]
+		console.log(firstSecondThenLast.match(/(faruk) ahmed bablu/i)[1]); // Faruk
+		
+		firstSecondThenLast = "Faruk Ahmed Bablu";
+		console.log(firstSecondThenLast.match(/(farr?uk) ahmed bablu/i)[1]); // Faruk
+		
+		// Capturing with alternation
+		firstSecondThenLast = "Rahim Ahmed Bablu";
+		console.log(firstSecondThenLast.match(/(farr?uk|rahim) ahmed bablu/i)[1]); // Rahim
+		
+		let country = "Bangladesh"; //UK
+		let rightCountry = country.match(/(bangladesh|uk|usa)/i);
+		console.log(rightCountry); //["Bangladesh", "Bangladesh"] //["UK", "UK"]
+		
+		//Example 05
+const csv = `Date, Host
+2019-06-22, Bablu Ahmed
+2019-07-22, Faruk Ahmed
+2019-06-22, Rahim Ahmed`
+		
+let dateAndHost = /^(\d{4}-\d{2}-\d{2}), (bablu ahmed|faruk ahmed|rahim ahmed)$/i;
+let newHostsWhen = csv
+	.split("\n") //? ["Date, Host", "2019-06-22, Bablu Ahmed", "2019-07-22, Faruk Ahmed", "2019-06-22, Rahim Ahmed"]
+	.filter(line=>{
+		return line.match(dateAndHost)
+	}) //? ["2019-06-22, Bablu Ahmed", "2019-07-22, Faruk Ahmed", "2019-06-22, Rahim Ahmed"]
+	.map(line=>line.replace(dateAndHost, "$2 hosted DevTips on $1")) //? ["Bablu Ahmed hosted DevTips on 2019-06-22", "Faruk Ahmed hosted DevTips on 2019-07-22", "Rahim Ahmed hosted DevTips on 2019-06-22"]
+	.join(". ") //? Bablu Ahmed hosted DevTips on 2019-06-22. Faruk Ahmed hosted DevTips on 2019-07-22. Rahim Ahmed hosted DevTips on 2019-06-22
+	console.log(newHostsWhen)
+
+		
+	// Non-capturing parentheses
+	let input = "Bablu hosts DevTips";
+	let extractChannelCorrectHost = /(?:farr?uk|bablu) hosts (.+)/i
+	let channel = input.match(extractChannelCorrectHost)[1] //? Bablu
+	console.log(channel)
+	//Here, the first captured has been not remembered, so [1] is showing the second captured value
+	
+		
+		
+		
+	</script>
+</body>
+</html>
