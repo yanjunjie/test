@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Regular Expressions the Ultra Basics</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+
+      <link rel="stylesheet" href="./style.css">
+
+  
+</head>
+
+<body>
+
+  <div class="container-fluid">
+  <h1>
+    Regular Expressions - the ultra basics
+  </h1>
+  <p>
+    Companion code to the  <a href="">DevTips</a> video  <a href="https://youtu.be/VrT3TRDDE4M">Regular Expressions the Ultra Basics in JavaScript</a>
+  </p>
+  <div id="patterns">
+    <div class="pattern-head">
+      <label>Pattern</label><label></label><label>Content</label><label>Result</label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="pattern" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="matching the pattern?" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="aaaa" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a{6}" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a{4,5}" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a{0,}" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a*" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a{0,1}" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="babababa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a?" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="babababa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a{1,}" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="baaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="a+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="aaaaaaaa" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[xyz]" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="yyyzzzzxxx" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[xyz]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="xxxxzyzyxxy" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[0123456789]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="5555" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[0-9]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="984398457928347" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[a-z]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="hgefdx" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[a-z0-9]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="x123abc" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[a-z0-9A-Z_]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="x123abcBD" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[\w]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="xx1111233___BBDS12" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[\d]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="-3434343,434.23" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="[-\d\.]+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="-3333.50" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="\s" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="match in between" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="^beginning" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="beginning of string" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="end$" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="match at the end" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value=".+" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="fdksljdsad34324scxds fdsfdsf" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="domain\.com" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="domain.com" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="" /><label></label>
+    </div>
+    <div class="pattern">
+      <input class="form-control input" type="text" value="" /><input class="btn btn-sm btn-secondary" type="submit" value="match" /><input class="form-control content" type="text" value="" /><label></label>
+    </div>
+  </div>
+</div>
+  
+  
+
+    <script  src="./script.js"></script>
+
+
+
+
+</body>
+
+</html>

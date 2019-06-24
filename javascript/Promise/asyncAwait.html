@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Async Await</title>
+</head>
+<body>
+	<script type="text/javascript">
+	function makeRequest(media){
+		return new Promise((resolve, reject)=>{
+			console.log(`Making Request to ${media}`);
+			if(media==='google'){
+				resolve('Google says hi');
+			} else {
+				reject('We can only talk to Google');
+			}
+		});
+	}
+	
+	function processRequest(response){
+		return new Promise((resolve, reject)=>{
+			console.log('Processing response');
+			resolve(`Extra Information + ${response}`);
+		});
+	}
+
+	// async and await
+	async function doWork(){
+		try{
+			const response = await makeRequest('google'); // here response is resolved value
+			console.log('Response Received');
+			const processResponse = await processRequest(response);
+			console.log(processResponse);
+		}catch(err){
+			console.log(err);
+		}
+	}
+	doWork();
+	
+	// promise
+	/*makeRequest('google').then(response=>{
+		console.log('Response Received');
+		return processRequest(response);
+	}).then(processResponse=>{
+		console.log(processResponse);
+	}).catch(err=>{
+		console.log(err);
+	});
+	console.dir(makeRequest('google'));
+	*/
+	
+	</script>
+</body>
+</html>

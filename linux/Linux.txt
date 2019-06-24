@@ -83,7 +83,11 @@ Then restart apache
 In details: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
 
 
-
+// Upgrade Ubuntu To Latest Version:
+sudo apt update 
+sudo apt upgrade
+sudo apt dist-upgrade
+sudo do-release-upgrade -d
 
 
 //
