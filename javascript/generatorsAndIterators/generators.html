@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Generators and Iterators</title>
+</head>
+<body>
+	<h1>Generators and Iterators</h1>
+	<script>
+
+		// Normal Function
+		function normalFunc() {
+		  console.log('I')
+		  console.log('cannot')
+		  console.log('be')
+		  console.log('stopped.')
+		}
+
+		//normalFunc();
+		
+
+		// Generators
+		function * generatorFunction() { // Line 1
+		  console.log('This will be executed first.');
+		  yield 'Hello, ';   // Line 2
+		  console.log('I will be printed after the pause');  
+		  yield 'World!';
+		}
+
+		// const generatorObject = generatorFunction(); // Line 3
+		// console.log(generatorObject.next().value); // Line 4
+		// console.log(generatorObject.next().value); // Line 5
+		// console.log(generatorObject.next().value); // Line 6
+		// This will be executed first.
+		// Hello, 
+		// I will be printed after the pause
+		// World!
+		// undefined
+
+
+		function * generatorFuncWithReturn() {
+			  yield 'a';
+			  return 'b'; // Generator ends here.
+			  yield 'a'; // Will never be executed. 
+		}
+
+		const generatorFuncWithReturnObj = generatorFuncWithReturn();
+		// console.log(generatorFuncWithReturnObj.next().value) // a
+		// console.log(generatorFuncWithReturnObj.next().value) // b
+		// console.log(generatorFuncWithReturnObj.next().value) // undefined
+
+
+		// Implementing Iterables
+		const iterableObj = {
+		  [Symbol.iterator]() {
+		    let step = 0;
+		    return {
+		      next() {
+		        step++;
+		        if (step === 1) {
+		          return { value: 'This', done: false};
+		        } else if (step === 2) {
+		          return { value: 'is', done: false};
+		        } else if (step === 3) {
+		          return { value: 'iterable.', done: false};
+		        }
+		        return { value: '', done: true };
+		      }
+		    }
+		  },
+		}
+
+		for (const val of iterableObj) {
+		 // console.log(val);
+		}
+
+		// This
+		// is 
+		// iterable.
+
+
+		// Here’s the same thing using generators —
+		function * iterableObj2() {
+		  yield 'This';
+		  yield 'is';
+		  yield 'iterable.'
+		}
+
+		for (const val of iterableObj2()) {
+		  //console.log(val);
+		}
+
+		// This
+		// is 
+		// iterable.
+
+
+		// Better Async functionality using promises and callbacks such as —
+
+		function fetchJson(url) {
+		    return fetch(url)
+		    .then(request => request.text())
+		    .then(text => {
+		        return JSON.parse(text);
+		    })
+		    .catch(error => {
+		        console.log(`ERROR: ${error.stack}`);
+		    });
+		}
+
+
+		// Can be written as (with the help of libraries such as co.js)—
+
+		// const fetchJson = co.wrap(function * (url) {
+		//     try {
+		//         let request = yield fetch(url);
+		//         let text = yield request.text();
+		//         return JSON.parse(text);
+		//     }
+		//     catch (error) {
+		//         console.log(`ERROR: ${error.stack}`);
+		//     }
+		// });
+
+
+
+		// Infinite Data Streams
+		function * naturalNumbers() {
+		  let num = 1;
+		  while (true) {
+		    yield num;
+		    num = num + 1
+		  }
+		}
+
+		const numbers = naturalNumbers();
+		// console.log(numbers.next().value)
+		// console.log(numbers.next().value)
+
+		// 1
+		// 2
+
+
+		// combinator 
+		function * take(n, iter) {
+		  let index = 0;
+		  for (const val of iter) {
+		    if (index >= n) {
+		      return;
+		    }
+		    index = index + 1;
+		    yield val;
+		  }
+		}
+
+		//let takeVal = take(3, ['a', 'b', 'c', 'd', 'e'])
+		for(let val of take(3, ['a', 'b', 'c', 'd', 'e'])) {
+			console.log(val)
+		}
+		// a b c
+
+
+
+	</script>
+</body>
+</html>
