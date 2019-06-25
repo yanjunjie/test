@@ -89,7 +89,17 @@ x, exec = run command (the rest of the line) using shell
 
 3. Forece push
 
-//
+
+// Modify Last Commit
+git commit --amend -m "New commit message"
+
+// Push a specific branch to remote
+git push -u origin bablu-assignment
+
+// Clone a specific branch from remote
+git clone -b bablu-assignment <url>
+
+
 
 
 
