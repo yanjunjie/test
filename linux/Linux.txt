@@ -4,9 +4,14 @@ sudo apt-get update && sudo apt-get upgrade
 // Install software
 sudo apt-get install apache2 mysql-server php phpmyadmin php-cli php-curl php-gd
 
+// Now check apache is available or not in firewale
+sudo ufw app list
+
 // Remove software
 sudo apt-get remove apache2*
 sudo apt-get --purge apache2*
+sudo apt-get autoremove
+sudo apt-get autoclean
 
 // You can check apache port number
 sudo vi /etc/apache2/ports.conf
