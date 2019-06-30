@@ -1,31 +1,15 @@
-sudo apt-get update 
-sudo apt-get upgrade 
-sudo apt-get install apache2 php mysql-server
-sudo apt-get install phpmyadmin php-cli php-curl php-gd
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install apache2 mysql-server php phpmyadmin php-cli php-curl php-gd
 
 If phpmyadmin do not work then follow the below instructon:
-sudo -H gedit /etc/apache2/apache2.conf
+sudo gedit /etc/apache2/apache2.conf
+or 
+sudo vi /etc/apache2/apache2.conf
+
 Then add the following line to the end of the file:
 Include /etc/phpmyadmin/apache.conf
 
-sudo vi /etc/apache2/apache2.conf
-sudo vi /etc/apache2/mods-enabled/dir.conf 
-sudo apt-get install vim vim-gtk3 
-sudo vim /etc/apache2/mods-enabled/dir.conf
-vim /var/www/html/index.html 
-sudo rm /var/www/html/index.html 
-sudo chown -R bablu:www-data /var/www/html/
-sudo chmod -R 777 /var/www/html/
-vim /var/www/html/index.php
-sudo systemctl apache2 restart
-sudo apachectl restart
-sudo apachectl status
-sudo tail -f /var/log/apache2/error.log
-sudo service apache2 restart
-sudo tail -f /var/log/apache2/error.log
-
 Now fix Not Found The requested URL using below command:
-sudo vi /etc/apache2/apache2.conf
 
 A file will open write as follows:
 <Directory /var/www/html/>
@@ -33,8 +17,17 @@ A file will open write as follows:
 </Directory>
 
 For Update Version (2.4):
-AllowOverride None
-Require all granted
+<Directory /var/www/html/>
+  AllowOverride None
+  Require all granted
+</Directory>
+
+// If you need to add file extension
+sudo vi /etc/apache2/mods-enabled/dir.conf
+
+// Enable permission:
+sudo chown -R bablu:www-data /var/www/html/
+sudo chmod -R 777 /var/www/html/
 
 Then run below two commands:
 sudo a2enmod rewrite
@@ -42,6 +35,9 @@ sudo service apache2 restart
 
 If still not work then run the beolow command see the log and search google
 sudo vi /var/log/apache2/error.log
+
+//*******The End*********
+
 
 
 //New Way:
