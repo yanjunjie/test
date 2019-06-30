@@ -1,5 +1,10 @@
 sudo apt-get update && sudo apt-get upgrade
+// Install software
 sudo apt-get install apache2 mysql-server php phpmyadmin php-cli php-curl php-gd
+
+// Remove software
+sudo apt-get remove apache2*
+sudo apt-get --purge apache2*
 
 If phpmyadmin do not work then follow the below instructon:
 sudo gedit /etc/apache2/apache2.conf
