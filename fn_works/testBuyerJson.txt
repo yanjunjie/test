@@ -1,0 +1,27 @@
+{
+  "marketplaceBuyers": {
+    "buyer1Admin": {
+      "id": 3906,
+      "username": "buyer1Admin1507633135",
+      "password": "1"
+    }
+  },
+  "marketplaceProviders": {
+    "mpProvider1": {
+      "id": 3908,
+      "username": "mpProvider11507633135",
+      "password": "1"
+    },
+    "mpProvider2": {
+      "id": 3909,
+      "username": "mpProvider21507633135",
+      "password": "1"
+    }
+  },
+  "paymentAccounts": {
+    "account1": {
+      "name": "account11507633135"
+    }
+  },
+  "timestamp": "1507633135"
+}

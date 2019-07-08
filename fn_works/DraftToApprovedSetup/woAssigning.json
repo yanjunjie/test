@@ -1,0 +1,55 @@
+{
+  "category": "assignedWorkOrder",
+  "description": "Creates a assigned work order and link to buyer, provider",
+  "project": "mono",
+  "schema": {
+    "marketplaceBuyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "marketplaceBuyer1"
+      }
+    },
+    "marketplaceProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "photo": true,
+        "policyProcedures": true,
+        "typesOfWork": "5-10",
+        "emailVerified": true,
+        "marketplace": true,
+        "geo": "mn:zipCode:55133",
+        "onboarding": "agreements,platform,profile,tax"
+      }
+    },
+    "assignedWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "published": true,
+        "requested": true,
+        "geo": "mn:zipCode:55133"
+      }
+    }
+  }
+}

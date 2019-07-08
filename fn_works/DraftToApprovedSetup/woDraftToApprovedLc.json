@@ -1,0 +1,57 @@
+{
+  "category": "draftWorkOrder",
+  "description": "Creates a draft work order and link with buyer",
+  "project": "mono",
+  "schema": {
+    "buyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": false,
+        "experimentsUser": {
+          "Template Create": 1
+        }
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "buyer1"
+      }
+    },
+    "draftWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "buyer1",
+        "account": "account1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "geo": "mn",
+        "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm"
+      }
+    },
+    "mpProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "photo": true,
+        "typesOfWork": "5-10",
+        "emailVerified": true,
+        "marketplace": true,
+        "geo": "mn",
+        "onboarding": "company,payment,insurance,tax,providers,profile,coverage,agreements,activate,platform",
+        "preferences": {
+          "fnAgreementProvider": 1504035677
+        }
+      }
+    }
+  }
+}

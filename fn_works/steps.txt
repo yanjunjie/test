@@ -1,0 +1,88 @@
+//ENVIRONMENT=test2 PLATFORM=chrome npm run test-only @4429bab2
+
+
+When(/^I set reason for cancellation work order$/, async function (table) {
+  const values = table.rowsHash();
+  if (values.reasonForCancellation) {
+    await setTextBox(
+      this,
+      this.pages.workOrderDetails.cancellationReasonType, values.reasonForCancellation, Key.ENTER,
+    );
+  }
+  if (values.messageToAssignedProvider) {
+    await setTextBox(
+      this,
+      this.pages.workOrderDetails.messageAssignedProvider, values.messageToAssignedProvider,
+    );
+  }
+  if (values.explanationForCancellation) {
+    await setTextBox(
+      this,
+      this.pages.workOrderDetails.explainCancellationReason, values.explanationForCancellation,
+    );
+  }
+});
+
+/////////////////////////////////////////
+
+When I search 'marketplaceProvider1' provider by id
+
+
+//******************Events**********************
+When(/^I click the '(.+)' tab for cancellation fees$/, async function (tabName) {
+  await this.retry(async () => {
+    // click the tab
+    const [tab] = await this.waitFor(this.pages.staffFeeCancellation.tab.replace(`{txt}`, tabName));
+    await tab.click();
+    // check for active
+    await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
+  }, 45000, 200);
+  await waitForLoader(this, `//*[text()='Loading...']`);
+});
+
+When(/^I click the '(.+)' link$/, async function (text) {
+  await this.waitFor(this.pages.staffFeeCancellation.link.replace(`{txt}`, text)).then(([el]) => el.click());
+});
+
+When(/^set Create New Campaign$/, async function (table) {
+  const values = table.rowsHash();
+  const { newCampaign } = this.pages;
+  // set title
+  if (values.title) {
+    await setTextBox(this, newCampaign.campaignName, values.title);
+  }
+  // set add invited
+  if (values.add_invited) {
+    await setCheckBox(this, newCampaign.addInvited, `checked`);
+    const [select] = await this.waitFor(newCampaign.talentPools);
+    await select.click();
+    await clickElement(this, newCampaign.uncategorized);
+  }
+  // TODO set 'set custom registration page
+  // set invite marketplace providers
+  if (values.invite_marketplace_providers) {
+    await clickElement(this, newCampaign.talentType);
+  }
+});
+
+When(/^I click '(.+)' button for dispute fee cancellation$/, async function (name) {
+  await this.retry(async () => {
+    await clickElement(this, this.pages.global.button(name));
+  });
+  await waitForLoader(this, `//div[@data-nw-id='Loader-container']`, { maxWaitTime: 30 }); // wait for loader to finish
+});
+
+
+clickStoppedElement event is used when an element is animated or moving or static
+
+//******************End Events**********************
+
+
+//******************Loader**********************
+  await waitForLoader(this, `//*[text()='Loading...']`);
+  await waitForLoader(this, `//div[@data-nw-id='Loader-container']`, { maxWaitTime: 50 }); // wait for loader to finish
+
+//******************End Loader**********************
+
+
+

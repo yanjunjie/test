@@ -1,0 +1,238 @@
+//Draft to Approved
+
+{
+  "category": "draftWorkOrder",
+  "description": "Creates a draft work order and link with buyer",
+  "project": "mono",
+  "schema": {
+    "buyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": false,
+        "experimentsUser": {
+          "Template Create": 1
+        }
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "buyer1"
+      }
+    },
+    "draftWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "buyer1",
+        "account": "account1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "geo": "mn",
+        "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm"
+      }
+    },
+    mpProvider1: {
+      item: 'marketplaceProvider',
+      configs: {
+        password: true,
+        loginToken: true,
+        photo: true,
+        typesOfWork: '5-10',
+        emailVerified: true,
+        marketplace: true,
+        geo: 'mn',
+        onboarding: 'company,payment,insurance,tax,providers,profile,coverage,agreements,activate,platform',
+        preferences: {
+          fnAgreementProvider: 1504035677
+        }
+      }
+    }
+  }
+}
+
+
+////////////////////////////////////////////// All at a time//////////////////////////////////////////
+
+@reuseData @woDtoA
+
+Feature: WO life cycle from draft to approved
+
+  Background: Common Steps for every Scenario
+    Given I create data 'woDraftToApprovedLc'
+
+  @abc1
+  Scenario: Work Order publish
+    #Given I create data 'woDraftToApprovedLc'
+    And I authenticate as 'buyer1'
+    When I go to the 'draftWorkOrder1' details page
+    And click 'Publish' button
+    And work order status should be set to 'Published'
+
+  @abc1
+  Scenario: Request workorder with ETA
+    #Given I create data 'woDraftToApprovedLc'
+    And I authenticate as 'mpProvider1'
+    When I go to the 'draftWorkOrder1' details page
+    And click 'Request' button
+    And I set ETA for work order
+      | duration    | 1        |
+      | arrivalDate | tomorrow |
+      | arrivalTime | 2:00 PM  |
+    And click modal 'Send ETA & Request' button
+    Then the 'Withdraw Request' button displays
+
+  @abc1
+  Scenario: Assign to provider
+#    And I authenticate as 'buyer1'
+#    When I go to the 'draftWorkOrder1' details page
+#    And I click the 'providers' tab
+#    And I click assign button
+#    Then work order status should be set to 'Assigned'
+
+    When I authenticate as 'buyer1'
+    And I go to the 'draftWorkOrder1' providers pending_assignment tab
+    And click 'Assign' button
+    Then work order status should be set to 'Assigned'
+
+  @abc1
+  Scenario: Complete tasks and mark as complete
+    And I authenticate as 'mpProvider1'
+    #And I login as 'mpProvider1' provider and click remind me later
+    When I go to the 'draftWorkOrder1' details page
+    And click 'Confirm' button
+    And click 'Mark On My Way' button
+    And click 'Check In' button
+    And click 'Check Out' button
+    And click text 'Enter closeout notes'
+    And I set the closeout notes 'Work is done'
+    And click modal 'Save' button
+    And click 'Mark Complete' button
+    Then the 'Mark Incomplete' button displays
+    And work order status should be set to 'Work Done'
+
+  # @abc1
+  Scenario: Approve Work Order From Details Page
+    And I authenticate as 'buyer1'
+    When I go to the 'draftWorkOrder1' details page
+    And click 'Approve' button
+    And click modal 'Approve' button
+    And click modal 'Save Rating' button
+    Then work order status should be set to 'Approved'
+    When I go to the work order listing page
+    Then I expect the workorder 'draftWorkOrder1' should be in the 'Approved' list
+
+
+
+    #ENVIRONMENT=test2 PLATFORM=chrome npm run test-only @woDtoA
+
+
+
+
+////////////////////////////////////////////// Splited into Modules//////////////////////////////////////////
+
+
+@woDtoA
+
+Feature: WO life cycle from draft to approved
+
+  #Background: Common Steps for every Scenario
+    #Given I create data 'woDraftToApprovedLc'
+
+  @abc1
+  Scenario: Work Order publish
+    Given I create data 'woPublishing'
+    And I authenticate as 'buyer1'
+    When I go to the 'draftWorkOrder1' details page
+    And click 'Publish' button
+    And work order status should be set to 'Published'
+
+  @abc2
+  Scenario: Request an WO with ETA
+    Given I create data 'woRequesting'
+    And I authenticate as 'mpProvider1'
+    When I go to the 'publishWorkOrder1' details page
+    And click 'Request' button
+    And I set ETA for work order
+      | duration    | 1        |
+      | arrivalDate | tomorrow |
+      | arrivalTime | 2:00 PM  |
+    And click modal 'Send ETA & Request' button
+    Then the 'Withdraw Request' button displays
+
+  @abc3
+  Scenario: Assign the WO to a provider
+    Given I create data 'woAssigning'
+    When I authenticate as 'marketplaceBuyer1'
+    And I go to the 'assignedWorkOrder1' providers pending_assignment tab
+    And click 'Assign' button
+    Then work order status should be set to 'Assigned'
+
+  @abc4
+  Scenario: Complete tasks and mark as complete
+    Given I create data 'woMarkDone'
+    #And I authenticate as 'mpProvider1'
+    And I login as 'mpProvider1' provider and click remind me later
+    When I go to the 'assignedWorkOrder1' details page
+    And click 'Confirm' button
+    And click 'Mark On My Way' button
+    And click 'Check In' button
+    And click 'Check Out' button
+    And click text 'Enter closeout notes'
+    And I set the closeout notes 'Work is done'
+    And click modal 'Save' button
+    And click 'Mark Complete' button
+    Then the 'Mark Incomplete' button displays
+    And work order status should be set to 'Work Done'
+
+  @abc5
+  Scenario: Approve The Work Order From Details Page
+    Given I create data 'woApproving'
+    And I authenticate as 'buyer1Admin'
+    When I go to the 'completeWorkOrder1' details page
+    And click 'Approve' button
+    And click modal 'Approve' button
+    And click modal 'Save Rating' button
+    Then work order status should be set to 'Approved'
+    When I go to the work order listing page
+    Then I expect the workorder 'completeWorkOrder1' should be in the 'Approved' list
+
+    #ENVIRONMENT=test2 PLATFORM=chrome npm run test-only @abc5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

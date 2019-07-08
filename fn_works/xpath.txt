@@ -1,0 +1,18 @@
+"decliningReasonInput": "//input[@id='decline_reason']",
+"explainCancellationReason": "//div[contains(@class, 'ReactModalPortal')]//*/label[contains(text(), 'explanation')]/following-sibling::textarea"
+"messageAssignedProvider": "//div[contains(@class, 'ReactModalPortal')]//*/label[contains(text(), 'Message')]/following-sibling::textarea"
+"markIncompleteDropDown": "//div[@class='ReactModalPortal']//*/select"
+"markIncompleteTextArea": "//div[@class='ReactModalPortal']//*/textarea"
+"decliningReasonSelect": "//label[@for=\"decline_reason\"]/following-sibling::div"
+"userIdFromList": "//div[contains(@data-nw-node,'FixedDataTableCell')]//*/a[contains(text(), '{id}')]"
+"pgBadgeIcon": "//div[@data-nw-file='Badge' and contains(@title, 'In a talent pool')]"
+"pendingAssignmentTab": "//div[contains(@data-nw-file,'UserList')]//li[contains(text(), 'Pending assignment')]"
+"descriptionEdit": "//div[@data-nw-id='WorkOrderDescription']//*/button[@data-nw-id='Edit']"
+"problemNotificationArea": "//div[@data-nw-file=\"NotificationExpander\"]//*/li[contains(text(), 'Problems Reported:')]"
+//div[@id='tab2']//table[@class='payTablecss']//td[text()='$30.00']
+
+// Menu Text Related
+await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
+await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
+
+

@@ -1,0 +1,31 @@
+For Login:
+https://ui-qa1.fndev.net/login
+https://ui-test2.fndev.net/login
+
+For Signup:
+https://ui-qa1.fndev.net/signup/?debug=1
+https://mono-qa1.fndev.net/signup/index.php
+
+Credentials:
+For Buyer: babluahmed+buyer1@fn.com and password: 123
+For Provider: babluahmed+provider1@fn.com and password: 123
+
+Service company life-cycle:
+Service company Admin: Username: babluahmed+servicec@fn.com, pass: 123456
+Managed provider: Usr: bablump1, pass: 123456
+End client user: Usr: babluahmed+client1@fn.com, Pass: 123456
+End Client Portal: test-company-1-portal.jibig.com
+Client ID: 2132
+Client request ID: 189
+Workoder ID: 85389
+
+Portal:
+https://portal-qa1.testing.jibig.com/login
+
+Test Server:
+https://tdg.fndev.net/
+
+
+
+
+

@@ -1,0 +1,54 @@
+{
+  "category": "buyer",
+  "description": "Creates an mp buyer, user and work order",
+  "project": "mono",
+  "schema": {
+    "buyer1Admin": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "mpProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "policyProcedures": true,
+        "photo": true,
+        "typesOfWork": "5-10",
+        "emailVerified": true,
+        "marketplace": true,
+        "onboarding": "agreements,platform,profile,tax"
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "buyer1Admin"
+      }
+    },
+    "assignedWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "buyer1Admin",
+        "account": "account1",
+        "provider": "mpProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "published": true,
+        "assigned": true,
+        "geo": "mn:zipCode:55133"
+      }
+    }
+  }
+}
