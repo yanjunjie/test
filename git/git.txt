@@ -20,7 +20,7 @@ v.03
 
 Quick rebase: remove only a specific commit using its id:
 
-git rebase --onto commit-id^ commit-id
+git rebase --onto commit-id-from^ commit-id-to
 
 
 Alternatives: you could also try:

@@ -37,13 +37,22 @@ When(/^I click the '(.+)' tab for cancellation fees$/, async function (tabName) 
     // check for active
     await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
   }, 45000, 200);
+
+ // or
+ await clickElement(this, pageResource.tab.replace(`{txt}`, tab));
+
+
   await waitForLoader(this, `//*[text()='Loading...']`);
 });
 
-// link click event
-When(/^I click the '(.+)' link$/, async function (text) {
-  await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text)).then(([el]) => el.click());
-});
+ // link click event
+ When(/^I click the '(.+)' link$/, async function (text) {
+   await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text)).then(([el]) => el.click());
+ });
+
+  N.B, We should use like this
+  const [element] = await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text));
+  await element.click();
 
 // select and writting events
 When(/^set Create New Campaign$/, async function (table) {
@@ -81,6 +90,10 @@ When(/^I search for '(.+)' on '(.+)' tab$/, async function (woName, tab) {
   // const locator = `//*[@id='CancelFeesTabs']//*[contains(text(),  '${tab}')]`;
   // const [element] = await this.waitFor(locator);
   // await element.click();
+
+  //or
+  const searchLocator = `${pageResource.searchRevertible}//following-sibling::input[@value='Search']`;
+  await clickElement(this, searchLocator);
 
   // await waitForLoader(this, `//*[text()='Loading...']`, { maxWaitTime: 25 });
 
