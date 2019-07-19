@@ -20,3 +20,5 @@ await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 
 ### Sibling find based on string
 //div[contains(text(), 'Cancellation')]/following-sibling::div
+
+
