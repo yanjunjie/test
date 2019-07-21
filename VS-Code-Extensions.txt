@@ -1,0 +1,51 @@
+1. Live Server
+2. Auto Rename Tag
+3. pretier - code formatter
+4. Javascript (ES6) code snippets
+5. Turbo Console Log
+6. Indent-rainbow
+7. Bracket pair Colorizer
+8. Code Spell Checker
+9. REST Client
+10. Gitlens
+11. Auto-Open Markdown Preview
+12. ES7 React/Redux/GraphQL/React-Native snippets
+13. Vetur for vuejs
+14. Angular v7 Snippets
+15. Material Theme
+16. Material Icon Theme
+17. Better Comments
+18. CSS Peek
+19. Color Highlight
+20. Prettier Now
+21. ESLint - npm i -g eslint - eslint --init
+22. vscode-icons
+
+************************Cucumber************************
+1. Cucumber (Gherkin) Full Support
+
+"cucumberautocomplete.steps": [
+    "features/step_definitions/*.js",
+    "features/**/*.js"
+],
+"cucumberautocomplete.syncfeatures": "features/*feature",
+"cucumberautocomplete.strictGherkinCompletion": true,
+"cucumberautocomplete.smartSnippets": true,
+"cucumberautocomplete.stepsInvariants": true,
+"cucumberautocomplete.customParameters": [
+    {
+        "parameter":"{ab}",
+        "value":"(a|b)"
+    },
+    {
+        "parameter":/\{a.*\}/,
+        "value":"a"
+    },
+],
+"editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+}
+
+
