@@ -26,7 +26,17 @@ When(/^I set reason for cancellation work order$/, async function (table) {
 //******************End Data Table******************
 
 
-//******************Events**********************
+//******************Events (elements.js)**********************
+// select events
+When(/^I set the simple work order address$/, async function (table) {
+  const values = table.rowsHash();
+  if (values.State) {
+    await setTextBoxDropDown(this, simpleWorkPage.state, values.State);
+  }
+}
+
+setDropDown
+setReactDropDown
 
 // tab click event
 When(/^I click the '(.+)' tab for cancellation fees$/, async function (tabName) {
@@ -37,97 +47,31 @@ When(/^I click the '(.+)' tab for cancellation fees$/, async function (tabName) 
     // check for active
     await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
   }, 45000, 200);
-
- // or
- await clickElement(this, pageResource.tab.replace(`{txt}`, tab));
-
-
-  await waitForLoader(this, `//*[text()='Loading...']`);
 });
 
- // link click event
- When(/^I click the '(.+)' link$/, async function (text) {
-   await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text)).then(([el]) => el.click());
- });
-
-  N.B, We should use like this
-  const [element] = await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text));
-  await element.click();
-
-// select and writting events
-When(/^set Create New Campaign$/, async function (table) {
-  const values = table.rowsHash();
-  const { newCampaign } = this.pages;
-  // set title
-  if (values.title) {
-    await setTextBox(this, newCampaign.campaignName, values.title);
-  }
-  // set add invited
-  if (values.add_invited) {
-    await setCheckBox(this, newCampaign.addInvited, `checked`);
-    const [select] = await this.waitFor(newCampaign.talentPools);
-    await select.click();
-    await clickElement(this, newCampaign.uncategorized);
-  }
-  // TODO set 'set custom registration page
-  // set invite marketplace providers
-  if (values.invite_marketplace_providers) {
-    await clickElement(this, newCampaign.talentType);
-  }
-});
-
-// button click event
-When(/^I click '(.+)' button for dispute fee cancellation$/, async function (name) {
-  await this.retry(async () => {
-    await clickElement(this, this.pages.global.button(name));
-  });
-  await waitForLoader(this, `//div[@data-nw-id='Loader-container']`, { maxWaitTime: 30 }); // wait for loader to finish
-});
-
-// click and writting events
+// click and text entry events
 When(/^I search for '(.+)' on '(.+)' tab$/, async function (woName, tab) {
-  // click tab
-  // const locator = `//*[@id='CancelFeesTabs']//*[contains(text(),  '${tab}')]`;
-  // const [element] = await this.waitFor(locator);
-  // await element.click();
-
-  //or
   const searchLocator = `${pageResource.searchRevertible}//following-sibling::input[@value='Search']`;
   await clickElement(this, searchLocator);
 
-  // await waitForLoader(this, `//*[text()='Loading...']`, { maxWaitTime: 25 });
-
-  const pageResource = this.pages.cancellationFees;
-
-  // enter id
+  // text entry event
   const workOrderId = await getWorkOrderId(this, woName);
   await setTextBox(this, pageResource.searchRevertible, workOrderId);
-
-  await waitForLoader(this, `//*[text()='Loading...']`);
-
-  // click search button
-  let searchLocator = '';
-  if (tab === `Revertible`) {
-    searchLocator = `${pageResource.searchRevertible}//following-sibling::input[@value='Search']`;
-  } else if (tab === `Charged`) {
-    searchLocator = `${pageResource.searchCharged}//following-sibling::input[@value='Search']`;
-  } else if (tab === `Reverted`) {
-    searchLocator = `${pageResource.searchReverted}//following-sibling::input[@value='Search']`;
-  }
-  console.log(searchLocator);
-  const [searchBtn] = await this.waitFor(searchLocator);
-  await searchBtn.click();
 });
 
+N.B, We should use like this
+const [element] = await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text));
+await element.click();
 
 *** clickStoppedElement event is used when an element is animated or moving or can also be static
-
 //******************End Events**********************
 
 
 //******************Loader**********************
   await waitForLoader(this, `//*[text()='Loading...']`);
   await waitForLoader(this, `//div[@data-nw-id='Loader-container']`, { maxWaitTime: 50 }); // wait for loader to finish
+  waitForPageLoad
+  waitStoppedElement
 
 //******************End Loader**********************
 
