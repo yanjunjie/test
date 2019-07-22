@@ -34,8 +34,7 @@ When(/^I set the simple work order address$/, async function (table) {
     await setTextBoxDropDown(this, simpleWorkPage.state, values.State);
   }
 }
-
-setDropDown
+await setDropDown(this, this.pages.createWorkOrder.scheduleType, values.type);
 setReactDropDown
 
 // tab click event

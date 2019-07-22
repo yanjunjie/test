@@ -18,7 +18,13 @@ await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 ### Decendent Element find
 //div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
 
-### Sibling find based on string
+### Sibling find based on contents
 //div[contains(text(), 'Cancellation')]/following-sibling::div
+
+### element find based on contents
+const locator = `//input[@data-nw-file='${name}']`;
+await clickElement(this, locator);
+
+
 
 
