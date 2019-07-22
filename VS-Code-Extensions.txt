@@ -20,6 +20,7 @@
 20. Prettier Now
 21. ESLint - npm i -g eslint - eslint --init
 22. vscode-icons
+23. Quokka js
 
 ************************Cucumber************************
 1. Cucumber (Gherkin) Full Support
