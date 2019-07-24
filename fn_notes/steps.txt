@@ -71,6 +71,8 @@ The criteria: `elementNotLocated` will wait until element is disappeared
 
 await Promise.delay(1000); // need to wait extra to use the next textbox on same page
 
+this.retry : This is needed when an action fails again and again 
+
 //******************End Events**********************
 
 
@@ -164,6 +166,20 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
   searchBy = await getWorkOrderTitle(this, alias);
 //******************End User Info**********************
 
+
+//******************Comparison**********************
+// check the text exists or not + wait for element
+  await this.waitFor(`//table[@class='payTablecss']//td[contains(text(),'${txt}')]`);
+
+  await this.retry(async () => {
+    const [myButton] = await this.waitFor(`//button[@data-nw-id='Back to Payment Terms']/parent::span/following-sibling::span/button`);
+    const isEnabled = await myButton.getAttribute(`disabled`);
+    await expect(isEnabled).to.be.null;
+  }, 20000, 200);
+
+include works like indexOf function in javascript
+equals works for equality
+//******************End Comparison**********************
 
 
 
