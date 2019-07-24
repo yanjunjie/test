@@ -1,3 +1,7 @@
+// For Debugging
+https://stackoverflow.com/questions/29386116/inspecting-drop-down-menus-in-new-chrome
+https://stackoverflow.com/questions/49299042/react-select-how-to-keep-dropdown-open-when-styling-in-inspector
+
 "decliningReasonInput": "//input[@id='decline_reason']",
 "explainCancellationReason": "//div[contains(@class, 'ReactModalPortal')]//*/label[contains(text(), 'explanation')]/following-sibling::textarea"
 "messageAssignedProvider": "//div[contains(@class, 'ReactModalPortal')]//*/label[contains(text(), 'Message')]/following-sibling::textarea"
@@ -15,8 +19,10 @@
 await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
 await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 
-### Decendent Element find
+### Decendent Element find using parent
 //div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
+//a[contains(@href,'5693')]//ancestor::div[@data-nw-file="Card"]/preceding-sibling::div//button
+(//bookmark/ancestor::*[@id][1]/@id | //bookmark/preceding::*[@id][1]/@id)[last()]
 
 ### Sibling find based on contents
 //div[contains(text(), 'Cancellation')]/following-sibling::div
