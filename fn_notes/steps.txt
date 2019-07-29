@@ -71,8 +71,10 @@ The criteria: `elementNotLocated` will wait until element is disappeared
 
 await Promise.delay(1000); // need to wait extra to use the next textbox on same page
 
-this.retry : This is needed when an action fails again and again 
+this.retry => This is needed when an action fails again and again 
 
+clickElement => only click element if it is clickable
+clickStopElement => click any element which is moving or having animation. So purpose is it will wait to stop and click it
 //******************End Events**********************
 
 
@@ -177,8 +179,17 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
     await expect(isEnabled).to.be.null;
   }, 20000, 200);
 
-include works like indexOf function in javascript
-equals works for equality
+  include=> works like indexOf function in javascript
+  equals=> works for equality
+
+  if (values.clickSendJobRequestButton) {
+    await this.retry(async () => {
+      const [el] = await this.waitFor(pageResource.clickSendJobRequestButton);
+      expect(await el.isEnabled()).to.equal(true);
+      el.click();
+    }, 20000, 200);
+  }
+
 //******************End Comparison**********************
 
 
