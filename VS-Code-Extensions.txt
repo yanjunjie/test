@@ -21,9 +21,12 @@
 21. ESLint - npm i -g eslint - eslint --init
 22. vscode-icons
 23. Quokka js
+24. Duplicate selection or line
 
 ************************Cucumber************************
 1. Cucumber (Gherkin) Full Support
+
+Run: mkdir .vscode && touch .vscode/settings.json then add the following
 
 "cucumberautocomplete.steps": [
     "features/step_definitions/*.js",
@@ -48,5 +51,18 @@
     "strings": true,
     "other": true
 }
+
+2. Gherkin step autocomplete
+3. Gherkin Indent
+4. Cucumber-gotostep
+
+
+
+
+
+
+
+
+
 
 
