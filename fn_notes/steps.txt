@@ -192,6 +192,9 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
 
 //******************End Comparison**********************
 
+// like session variable
+const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
+this.template.workorder_template.template_data.woId = woId;
 
 
 

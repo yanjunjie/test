@@ -19,10 +19,13 @@ https://stackoverflow.com/questions/49299042/react-select-how-to-keep-dropdown-o
 await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
 await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 
-### Decendent Element find using parent
-//div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
+### Ancestor Element find using contents
 //a[contains(@href,'5693')]//ancestor::div[@data-nw-file="Card"]/preceding-sibling::div//button
 (//bookmark/ancestor::*[@id][1]/@id | //bookmark/preceding::*[@id][1]/@id)[last()]
+//*[title="50"]/ancestor::store
+
+### Descendant Element find using parent
+//div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
 
 ### Sibling find based on contents
 //div[contains(text(), 'Cancellation')]/following-sibling::div
@@ -30,6 +33,26 @@ await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 ### element find based on contents
 const locator = `//input[@data-nw-file='${name}']`;
 await clickElement(this, locator);
+
+### Return Text of the selected element
+/node/child::text()[1] - should return Text1st
+/node/child::text()[2] - should return text2nd
+/node/text()[1] - should return Text1st
+/node/text()[2] - should return text2nd
+/root/div[.//a[@class='1']]/text()
+
+***getText() for selenium
+i.e,
+var textPromise = driver.findElement(webdriver.By.className("credits")).getText();
+textPromise.then((text) => {
+  console.log(text);
+});
+
+driver.findElement(webdriver.By.css('.failures em')).getText().then(function(v) {
+    expect(v).to.equal('0');
+    done();
+});
+
 
 
 
