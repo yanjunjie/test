@@ -1,0 +1,18 @@
+// drop down searchable
+  if (values.location) {
+    await setTextBoxDropDown(this, pageResource.woLocation, values.location, Key.ENTER);
+  }
+
+// drop down select
+  if (values.typeOfWork) {
+    this.retry(async () => {
+      let [el] = await this.waitFor(pageResource.typeOfWork, { timeoutMs: 3000 });
+      el.click();
+      [el] = await this.waitFor(this.pages.global.text(values.typeOfWork), { timeoutMs: 3000 });
+      el.click();
+    });
+  }
+
+
+
+
