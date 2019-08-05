@@ -13,6 +13,37 @@
     });
   }
 
+  await setReactDropDown(
+    this,
+    `//select[@name="templateId"]`,
+    this.template.workorder_template.template_name,
+  );
 
+When(/^I click the work order from list$/, async function (table) {
+  const values = table.rowsHash();
+  if (values.title) {
+    const tempTitle = await parsePayload(values.title, this.template.workorder_template);
+    clickElement(this, `//div[contains(text(), '${tempTitle}')]/parent::a`);
+  }
+});
 
+When(/^I click the newly created work order$/, async function () {
+  const pageResource = this.pages.spreadsheetImport;
+  const templateData = this.template.workorder_template.template_data;
+  const woTitle = templateData.title;
+  templateData.woId
+  = await getElementText(this, pageResource.woIdSelector.replace(`{txt}`, woTitle));
+  const url = `${this.appUrl}/workorders/${templateData.woId}`;
+  this.attach(`url: ${url}`);
+  await this.retry(async () => {
+    await this.driver.get(url);
+    await this.waitFor(this.pages.workOrderDetails.page, { timeoutMs: 20000 });
+  }, 15000, 500);
+  await waitForLoader(this);
+});
 
+// total elements length count
+let totalLocations = await getElementText(this, pageResource.totalLocations);
+[totalLocations] = totalLocations.match(/\d+/);
+const el = await this.waitFor(pageResource.totalChildLocations);
+expect(parseInt(totalLocations, 10)).to.equal(el.length);

@@ -53,6 +53,14 @@ driver.findElement(webdriver.By.css('.failures em')).getText().then(function(v) 
     done();
 });
 
+//Count elements
+count(//input[@name='hai'])
+evaluates to 3
+then
+(//input[@id='stack'])[count(//input[@name='hai'])]
+will select the same nodes as
+(//input[@id='stack'])[3]
+
 
 
 
