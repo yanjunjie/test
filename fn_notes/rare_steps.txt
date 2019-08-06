@@ -47,3 +47,14 @@ let totalLocations = await getElementText(this, pageResource.totalLocations);
 [totalLocations] = totalLocations.match(/\d+/);
 const el = await this.waitFor(pageResource.totalChildLocations);
 expect(parseInt(totalLocations, 10)).to.equal(el.length);
+
+// template
+this.template = await getTemplate(this, values.template);
+this.template.workorder_template.template_data = JSON.parse(
+  this.template.workorder_template.template_data,
+);
+
+const { template1 } = this.testData.templates;
+template1.workorder_template.template_name
+
+
