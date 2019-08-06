@@ -192,6 +192,23 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
 
 //******************End Comparison**********************
 
+
+//******************Chai**********************
+expect(payAmount).to.contain(amount);
+//******************End Chai**********************
+
+
+//******************Javascript**********************
+// except number remove all from string
+amount = '$91.00';
+amount.replace(/[^0-9.]/g, ``); // "91.00"
+
+// only digit from string
+let totalLocations = await getElementText(this, pageResource.totalLocations);
+[totalLocations] = totalLocations.match(/\d+/);
+//******************End Javascript**********************
+
+
 // like session variable
 const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
 this.template.workorder_template.template_data.woId = woId;

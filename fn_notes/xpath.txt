@@ -53,6 +53,13 @@ driver.findElement(webdriver.By.css('.failures em')).getText().then(function(v) 
     done();
 });
 
+i.e,
+  if (values.customFieldName) {
+    const nameTip = await getElementText(this, this.pages.createWorkOrder.customFieldNameTip);
+    expect(nameTip).to.contains(values.customFieldName);
+  }
+
+
 //Count elements
 count(//input[@name='hai'])
 evaluates to 3
