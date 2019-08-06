@@ -195,6 +195,27 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
 
 //******************Chai**********************
 expect(payAmount).to.contain(amount);
+
+if (values.amount) {
+    const actual = await getElementText(this, templateDetailsPage.amount);
+    expect(actual).to.contains(values.amount);
+  }
+
+if (values.hours) {
+    const actual = await getElementText(this, templateDetailsPage.hours);
+    expect(actual).to.equal(values.hours);
+  }
+
+expect(thatSelectedItem).to.match(/(?:jpg|png|gif)/)
+
+expect(pm.response.json().resources.length).to.be.above(0);
+
+An alias of least is gte (great than or equal to). Vice versa, you can use lte (less than or equal to) to check the opposite.
+So, to answer the question, you can do:
+expect(percent).to.be.gte(0)
+
+await expect(isEnabled).to.be.null;
+expect(await el.isEnabled()).to.equal(true);
 //******************End Chai**********************
 
 
