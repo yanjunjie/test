@@ -216,6 +216,8 @@ expect(percent).to.be.gte(0)
 
 await expect(isEnabled).to.be.null;
 expect(await el.isEnabled()).to.equal(true);
+expect(actualTaskText).to.contains(`${values.phone} regarding ${values.regarding}`);
+
 //******************End Chai**********************
 
 

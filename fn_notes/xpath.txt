@@ -23,6 +23,11 @@ await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 //a[contains(@href,'5693')]//ancestor::div[@data-nw-file="Card"]/preceding-sibling::div//button
 (//bookmark/ancestor::*[@id][1]/@id | //bookmark/preceding::*[@id][1]/@id)[last()]
 //*[title="50"]/ancestor::store
+//*[ancestor::foo[bar[@attr="val"]]]
+here, foo is ancestor
+      bar is child
+Or
+//span[text()='Provider Custom Fields']//ancestor::div[@data-nw-file="TileDivision"]//following-sibling::div//button
 
 ### Descendant Element find using parent
 //div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
