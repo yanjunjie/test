@@ -230,7 +230,7 @@ let totalLocations = await getElementText(this, pageResource.totalLocations);
 //******************End Javascript**********************
 
 
-// like session variable
+// like session variable in template
 const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
 this.template.workorder_template.template_data.woId = woId;
 
