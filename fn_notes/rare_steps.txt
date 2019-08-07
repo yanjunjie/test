@@ -57,4 +57,13 @@ this.template.workorder_template.template_data = JSON.parse(
 const { template1 } = this.testData.templates;
 template1.workorder_template.template_name
 
+// Dates
+    if (startDate && endDate) {
+      startDate = await parseDate(startDate);
+      endDate = await parseDate(endDate);
+      startDate = await formatRelativeDate(startDate, `MM/DD/YY`);
+      endDate = await formatRelativeDate(endDate, `MM/DD/YY`);
+    }
+
+
 
