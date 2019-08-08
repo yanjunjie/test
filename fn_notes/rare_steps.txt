@@ -1,9 +1,30 @@
+// debuging assets
+await this.retry(async () => {
+
+}, 10000, 200);
+
+const Promise = require(`bluebird`);
+await Promise.delay(1000); // need to wait extra to use the next textbox on same page
+or 
+await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
+const [el] = await world.waitFor(locator, { timeoutMs: 3000 });
+await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementNotLocated` });
+here, elementNotLocated is a selenium function name
+
+// test text
+const actualText = await getElementText(
+  this,
+  `//h1[contains(@class,'Heading--h2')]`,
+);
+console.log(actualText, 'tittt');
+
+
 // drop down searchable
   if (values.location) {
     await setTextBoxDropDown(this, pageResource.woLocation, values.location, Key.ENTER);
   }
 
-// drop down select
+// react drop down select
   if (values.typeOfWork) {
     this.retry(async () => {
       let [el] = await this.waitFor(pageResource.typeOfWork, { timeoutMs: 3000 });
@@ -18,6 +39,10 @@
     `//select[@name="templateId"]`,
     this.template.workorder_template.template_name,
   );
+
+  await setReactDropDown(this,
+  `//span[text()='Field Type']/parent::label//following-sibling::div//div[@class='Select-control']`,
+  values.fieldType);
 
 When(/^I click the work order from list$/, async function (table) {
   const values = table.rowsHash();

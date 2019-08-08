@@ -1,0 +1,16 @@
+// React Template Create
+    "buyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": false,
+        "experimentsUser": {
+          "Template Create": 1
+        }
+      }
+    }
+
+// 

@@ -1,5 +1,6 @@
 https://fieldnation.atlassian.net/browse/TAI-157?oldIssueView=true
 
+// Done 
 TAI-186
 TAI-185
 TAI-330
@@ -7,3 +8,9 @@ TAI-157
 TAI-162
 TAI-163
 TAI-356
+
+// progress
+TAI-175
+TAI-255
+TAI-144
+TAI-184
