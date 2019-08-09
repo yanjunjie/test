@@ -64,6 +64,15 @@ i.e,
     expect(nameTip).to.contains(values.customFieldName);
   }
 
+// get selected value/text
+"sceduleDayGet": "//div[@data-nw-id='schedule']//label[@for='ScheduleType']//parent::label//following-sibling::div//div[@class='Select-value']",
+const actual = await getElementText(this, scheduleField.sceduleDayGet);
+
+// get input value/text
+"sceduleTime":"//div[@data-nw-id='schedule']//input[@id='StartTimePicker']",
+const actual = await getElementAttribute(this, scheduleField.sceduleTime, `value`);
+
+
 
 //Count elements
 count(//input[@name='hai'])

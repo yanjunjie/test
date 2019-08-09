@@ -6,8 +6,8 @@ await this.retry(async () => {
 const Promise = require(`bluebird`);
 await Promise.delay(1000); // need to wait extra to use the next textbox on same page
 or 
-await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
 const [el] = await world.waitFor(locator, { timeoutMs: 3000 });
+await this.waitFor(buyerSectionInputErrorSelector, { timeoutMs: 3 * 1000 });
 await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementNotLocated` });
 here, elementNotLocated is a selenium function name
 

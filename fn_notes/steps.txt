@@ -180,7 +180,7 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
   }, 20000, 200);
 
   include=> works like indexOf function in javascript
-  equals=> works for equality
+  equal=> works for equality
 
   if (values.clickSendJobRequestButton) {
     await this.retry(async () => {
