@@ -90,5 +90,38 @@ template1.workorder_template.template_name
       endDate = await formatRelativeDate(endDate, `MM/DD/YY`);
     }
 
+// Drag & Drop Elements
+
+    async dragDrop(draggableLocator, droppableLocator) {
+        let draggable = await this.driver.findElement(draggableLocator);
+        let droppable = await this.driver.findElement(droppableLocator);
+        await this.driver
+            .actions()
+            .dragAndDrop(draggable, droppable)
+            .perform();
+    }
+
+
+  dragDropElement: async (draggableLocator, droppableLocator) => {
+    const draggable = await this.driver.findElement(draggableLocator);
+    const droppable = await this.driver.findElement(droppableLocator);
+    await this.driver
+      .actions()
+      .dragAndDrop(draggable, droppable)
+      .perform();
+  },
+
+
+  dragDropElement: async (world, draggableLocator, droppableLocator,
+    waitForMs = 3000, retryMs = 50) => {
+    await world.retry(async () => {
+      const [draggable] = await world.waitFor(draggableLocator);
+      const [droppable] = await world.waitFor(droppableLocator);
+      await driver.actions()
+        .dragAndDrop(draggable, droppable)
+        .perform();
+    }, waitForMs, retryMs);
+  },
+
 
 

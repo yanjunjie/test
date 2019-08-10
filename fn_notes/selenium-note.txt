@@ -8,6 +8,7 @@ driver.get('http://www.google.com');
 driver.findElement(webdriver.By.id('q')).sendKeys('webdriver');
 driver.findElement(webdriver.By.id('btnG')).click();
 
+/*Search and find example*/
 let webdriver = require('selenium-webdriver');
 // webdriver.Browser // to see the availabel list of browsers
 let driver = new webdriver.Builder().forBrowser('chrome').build();
