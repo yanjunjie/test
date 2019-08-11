@@ -1,0 +1,17 @@
+Copy all files and folders ( including public folder ) in public html
+Copy all content of public folder and paste it in document root ( i.e. public_html )
+Remove the public folder
+Open your bootstrap/paths.php and then changed 'public' => __DIR__.'/../public', into 'public' => __DIR__.'/..',
+
+and finally in index.php,
+
+Change
+
+require __DIR__.'/../bootstrap/autoload.php';
+
+$app = require_once __DIR__.'/../bootstrap/start.php';
+into
+
+require __DIR__.'/bootstrap/autoload.php';
+
+$app = require_once __DIR__.'/bootstrap/start.php';

@@ -4,3 +4,4 @@ Create a .htaccess, add the following lines and put the file in your root folder
      RewriteEngine On
      RewriteRule ^(.*)$ public/$1 [L]
 </ifModule>
+Try it, I got my Laravel application working with this.

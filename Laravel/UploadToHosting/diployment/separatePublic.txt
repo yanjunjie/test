@@ -1,0 +1,51 @@
+//**************************************v01*********************************
+//Local to webserver upload 
+We have to change the the below two lines in public/index file
+require __DIR__.'/../../laravel/vendor/autoload.php';
+$app = require_once __DIR__.'/../../laravel/bootstrap/app.php';
+
+
+//**************************************v02*********************************
+1. Create a folder called laravel (or anything you like) on the same level as the public_html folder.
+
+Eg:  
+/
+ |--var  
+    |---www
+        |----laravel
+        |----public_html  
+2. Copy every thing except the public folder from your laravel project in the laravel folder (on server host).
+3. Open the public folder of your laravel project, copy everything and paste in the public_html folder (on server host)
+4. Now open the index.php file in the public_html folder and:
+
+Change:  
+require __DIR__.'/../bootstrap/autoload.php';  
+To:  
+requrie require __DIR__.'/../laravel/bootstrap/autoload.php';  
+And  
+Change: 
+$app = require_once __DIR__.'/../bootstrap/app.php';  
+To:  
+$app = require_once __DIR__.'/../laravel/bootstrap/app.php';  
+Save and close.  
+5. Now go to the laravel folder and open server.php file
+
+Change:  
+require_once __DIR__.'/public/index.php';  
+To:  
+require_once __DIR__.'../public_html/index.php'; 
+Save and close. 
+Now when you visit the url which you configured as the domain with your server, your laravel app should work just as it worked on your localhost.
+
+Note: The 'url'=>'someurl' in the config/app is used by artisan ie the cli, it does not have any effect on your webserver urls.
+Hope it helps.
+
+Edit
+After completing the above if your get a blank page when you try to visit the url, set write permissions for the storage folder recursively .i.e all folders within the storage and its subfolders should have permissions 775 set for the webserver owner and group to have write permission.
+
+You can also set the permissions as 777 to give read, write and execute access to all for the storage folder if you don't plan to store any sensitive information in the storage folder.
+
+Be careful with the file permissions in linux, they are like double edged sword, if not used correctly, they may make your app vulnerable to attacks. For understanding Linux file permissions
+
+
+

@@ -20,9 +20,3 @@
 
 
 
-//Local to webserver upload 
-We have to change the the below two lines in public/index file
-require __DIR__.'/../../laravel/vendor/autoload.php';
-$app = require_once __DIR__.'/../../laravel/bootstrap/app.php';
-
-
