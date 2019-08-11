@@ -180,7 +180,7 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
   }, 20000, 200);
 
   include=> works like indexOf function in javascript
-  equals=> works for equality
+  equal=> works for equality
 
   if (values.clickSendJobRequestButton) {
     await this.retry(async () => {
@@ -192,7 +192,47 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
 
 //******************End Comparison**********************
 
-// like session variable
+
+//******************Chai**********************
+expect(payAmount).to.contain(amount);
+
+if (values.amount) {
+    const actual = await getElementText(this, templateDetailsPage.amount);
+    expect(actual).to.contains(values.amount);
+  }
+
+if (values.hours) {
+    const actual = await getElementText(this, templateDetailsPage.hours);
+    expect(actual).to.equal(values.hours);
+  }
+
+expect(thatSelectedItem).to.match(/(?:jpg|png|gif)/)
+
+expect(pm.response.json().resources.length).to.be.above(0);
+
+An alias of least is gte (great than or equal to). Vice versa, you can use lte (less than or equal to) to check the opposite.
+So, to answer the question, you can do:
+expect(percent).to.be.gte(0)
+
+await expect(isEnabled).to.be.null;
+expect(await el.isEnabled()).to.equal(true);
+expect(actualTaskText).to.contains(`${values.phone} regarding ${values.regarding}`);
+
+//******************End Chai**********************
+
+
+//******************Javascript**********************
+// except number remove all from string
+amount = '$91.00';
+amount.replace(/[^0-9.]/g, ``); // "91.00"
+
+// only digit from string
+let totalLocations = await getElementText(this, pageResource.totalLocations);
+[totalLocations] = totalLocations.match(/\d+/);
+//******************End Javascript**********************
+
+
+// like session variable in template
 const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
 this.template.workorder_template.template_data.woId = woId;
 

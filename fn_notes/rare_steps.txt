@@ -1,9 +1,30 @@
+// debuging assets
+await this.retry(async () => {
+
+}, 10000, 200);
+
+const Promise = require(`bluebird`);
+await Promise.delay(1000); // need to wait extra to use the next textbox on same page
+or 
+const [el] = await world.waitFor(locator, { timeoutMs: 3000 });
+await this.waitFor(buyerSectionInputErrorSelector, { timeoutMs: 3 * 1000 });
+await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementNotLocated` });
+here, elementNotLocated is a selenium function name
+
+// test text
+const actualText = await getElementText(
+  this,
+  `//h1[contains(@class,'Heading--h2')]`,
+);
+console.log(actualText, 'tittt');
+
+
 // drop down searchable
   if (values.location) {
     await setTextBoxDropDown(this, pageResource.woLocation, values.location, Key.ENTER);
   }
 
-// drop down select
+// react drop down select
   if (values.typeOfWork) {
     this.retry(async () => {
       let [el] = await this.waitFor(pageResource.typeOfWork, { timeoutMs: 3000 });
@@ -13,6 +34,94 @@
     });
   }
 
+  await setReactDropDown(
+    this,
+    `//select[@name="templateId"]`,
+    this.template.workorder_template.template_name,
+  );
+
+  await setReactDropDown(this,
+  `//span[text()='Field Type']/parent::label//following-sibling::div//div[@class='Select-control']`,
+  values.fieldType);
+
+When(/^I click the work order from list$/, async function (table) {
+  const values = table.rowsHash();
+  if (values.title) {
+    const tempTitle = await parsePayload(values.title, this.template.workorder_template);
+    clickElement(this, `//div[contains(text(), '${tempTitle}')]/parent::a`);
+  }
+});
+
+When(/^I click the newly created work order$/, async function () {
+  const pageResource = this.pages.spreadsheetImport;
+  const templateData = this.template.workorder_template.template_data;
+  const woTitle = templateData.title;
+  templateData.woId
+  = await getElementText(this, pageResource.woIdSelector.replace(`{txt}`, woTitle));
+  const url = `${this.appUrl}/workorders/${templateData.woId}`;
+  this.attach(`url: ${url}`);
+  await this.retry(async () => {
+    await this.driver.get(url);
+    await this.waitFor(this.pages.workOrderDetails.page, { timeoutMs: 20000 });
+  }, 15000, 500);
+  await waitForLoader(this);
+});
+
+// total elements length count
+let totalLocations = await getElementText(this, pageResource.totalLocations);
+[totalLocations] = totalLocations.match(/\d+/);
+const el = await this.waitFor(pageResource.totalChildLocations);
+expect(parseInt(totalLocations, 10)).to.equal(el.length);
+
+// template
+this.template = await getTemplate(this, values.template);
+this.template.workorder_template.template_data = JSON.parse(
+  this.template.workorder_template.template_data,
+);
+
+const { template1 } = this.testData.templates;
+template1.workorder_template.template_name
+
+// Dates
+    if (startDate && endDate) {
+      startDate = await parseDate(startDate);
+      endDate = await parseDate(endDate);
+      startDate = await formatRelativeDate(startDate, `MM/DD/YY`);
+      endDate = await formatRelativeDate(endDate, `MM/DD/YY`);
+    }
+
+// Drag & Drop Elements
+
+    async dragDrop(draggableLocator, droppableLocator) {
+        let draggable = await this.driver.findElement(draggableLocator);
+        let droppable = await this.driver.findElement(droppableLocator);
+        await this.driver
+            .actions()
+            .dragAndDrop(draggable, droppable)
+            .perform();
+    }
+
+
+  dragDropElement: async (draggableLocator, droppableLocator) => {
+    const draggable = await this.driver.findElement(draggableLocator);
+    const droppable = await this.driver.findElement(droppableLocator);
+    await this.driver
+      .actions()
+      .dragAndDrop(draggable, droppable)
+      .perform();
+  },
+
+
+  dragDropElement: async (world, draggableLocator, droppableLocator,
+    waitForMs = 3000, retryMs = 50) => {
+    await world.retry(async () => {
+      const [draggable] = await world.waitFor(draggableLocator);
+      const [droppable] = await world.waitFor(droppableLocator);
+      await driver.actions()
+        .dragAndDrop(draggable, droppable)
+        .perform();
+    }, waitForMs, retryMs);
+  },
 
 
 

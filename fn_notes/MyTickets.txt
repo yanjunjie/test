@@ -1,0 +1,19 @@
+Link: https://fieldnation.atlassian.net/issues/?jql=assignee%20%3D%20bablu.mia
+
+// Done 
+TAI-186
+TAI-330
+TAI-157
+TAI-162
+
+
+// inprogress
+TAI-185
+TAI-163
+TAI-356
+TAI-175
+
+// backlog
+TAI-255
+TAI-144
+TAI-184
