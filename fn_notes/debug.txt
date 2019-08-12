@@ -3,10 +3,13 @@ workin directory: /var/www/html/cuke_sample
 javascript file: node_modules/.bin/cucumber-js
 aplication parameters: 
 // v.0.1
-"(@quarantime or @readyForDev)" --format-options "{\"colorsEnabled\":true}"
+-t "@wip and not (@mute or @readyForDev)" --format-options "{\"colorsEnabled\":true}"
 // v.0.2
 -t or --tags @wip
 environment variable: PLATFORM=chrome;ENVIRONMENT=test2
+
+// headless
+ENVIRONMENT=qa2 PLATFORM=chrome npm run test-only @wip -s --headless --disable-gpu
 
 // javascript file debugging
 console.log('hi', var_name);
