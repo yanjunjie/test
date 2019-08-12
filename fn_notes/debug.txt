@@ -1,0 +1,17 @@
+// webstrom debug conf for cucumber
+workin directory: /var/www/html/cuke_sample
+javascript file: node_modules/.bin/cucumber-js
+aplication parameters: 
+// v.0.1
+"(@quarantime or @readyForDev)" --format-options "{\"colorsEnabled\":true}"
+// v.0.2
+-t or --tags @wip
+environment variable: PLATFORM=chrome;ENVIRONMENT=test2
+
+// javascript file debugging
+console.log('hi', var_name);
+console.log('hi', 'x=',var1, 'y=',var2);
+console.log(JSON.parse(JSON.stringify(arr/obj))); // because reference type
+console.dir() // for details with prototypes
+console.table(arr, ['find prop1', 'find prop2', ...]);
+debugger;
