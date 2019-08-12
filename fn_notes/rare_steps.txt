@@ -123,5 +123,5 @@ template1.workorder_template.template_name
     }, waitForMs, retryMs);
   },
 
-
+uses: await dragDropElement(this, buyerSectionOneLocator.replace(`{txt}`, values.buyerSection1), buyerSectionOneLocator2.replace(`{txt}`, values.buyerSection2));
 
