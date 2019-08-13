@@ -1,4 +1,6 @@
-// React Template Create
+Mennesota Phone: 612-379-0982
+
+// React Template Create feature
     "buyer1": {
       "item": "marketplaceBuyer",
       "configs": {
@@ -13,4 +15,20 @@
       }
     }
 
-// 
+// Send to Provider feature
+        "marketplaceBuyer1": {
+            "item": "marketplaceBuyer",
+            "configs": {
+                "serviceType": true,
+                "loginToken": true,
+                "password": true,
+                "photo": true,
+                "publishWithoutFunds": true,
+                "geo": "mn:zipCode:55133",
+                "experimentsUser": {
+                    "Work Order Create": 4
+                }
+            }
+        }
+
+

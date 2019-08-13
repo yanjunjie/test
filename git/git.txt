@@ -100,6 +100,10 @@ git push -u origin bablu-assignment
 git clone -b bablu-assignment <url>
 
 
+// Password Save
+git config credential.helper store
+
+
 
 
 
