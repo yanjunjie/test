@@ -1,0 +1,7 @@
+docker run <IMAGE_NAME>
+docker ps # find running container id
+docker stop <CONTAINER_ID>
+docker ps -a # find stoped container id
+docker container start <CONTAINER_ID>
+docker exec -it <CONTAINER_ID> /bin/bash
+
