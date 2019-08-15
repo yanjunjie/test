@@ -1,0 +1,1 @@
+https://developer.paypal.com/docs/checkout/integrate/#2-add-the-paypal-script-to-your-web-page
