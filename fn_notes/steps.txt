@@ -229,6 +229,12 @@ amount.replace(/[^0-9.]/g, ``); // "91.00"
 // only digit from string
 let totalLocations = await getElementText(this, pageResource.totalLocations);
 [totalLocations] = totalLocations.match(/\d+/);
+
+// Specific fractions
+let stateTaxAmount = ((serviceCharge / values.totalTexasSites) * values.stateTaxPercent) / 100;
+stateTaxAmount = parseFloat(stateTaxAmount.toFixed(2));
+or Number(my_float.toFixed(2));
+
 //******************End Javascript**********************
 
 
