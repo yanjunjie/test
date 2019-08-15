@@ -83,6 +83,13 @@ will select the same nodes as
 (//input[@id='stack'])[3]
 
 
+//Select one of two or more elements
+//input[@data-nw-file='PayPal'] | //label[contains(text(), 'PayPal')]//input[@type='radio']
+(//*[@id="xxx"] | //body)[last()]
+Here, The ( ... | ... ) part returns a union of its subparts. These are *[@id="xxx"] -- any element
+
+
+
 
 
 

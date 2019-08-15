@@ -23,3 +23,24 @@ Processor-specific Cards,
 Dankort (PBS),76009244561
 Dankort (PBS),5019717010103742
 Switch/Solo (Paymentech),6331101999990016
+,
+,
+,
+,
+,
+Link: https://fieldnation.atlassian.net/wiki/spaces/DEV/pages/660176899/Paypal+Sandbox+Credentials,
+,
+Sandbox login for test account platform uses for paying from,
+website,https://www.sandbox.paypal.com
+username,it@fieldnation.com
+password,can1:ors
+NVP/SOAP Sandbox API Credentials,
+Username,it_api1.fieldnation.com
+Password,1371437333
+Signature,AFcWxV21C7fd0v3bYYYRCpSSRl31AZWdZrvUtXej52cZuajx70n0gflC
+REST API App (Field Nation),
+Sandbox,
+Sandbox account,it@fieldnation.com
+Client ID,AbRfowl3t3gJEvYQye94QPsEBFMWo0QNg5541a5gti3EyVdm0EgQYaMOc8irtJggGkJzd9PcrIeFxlI_
+Secret,EMSPf1gF1CySb2nEa3oTCsSzkr3zKJJJIk7VAeGfuqv4LCIOvuST46VflNv9PXlLPrNOxRz_Ti8UPiE-
+note: webhooks available but not yet setup,

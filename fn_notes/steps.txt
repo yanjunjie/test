@@ -240,6 +240,7 @@ this.template.workorder_template.template_data.woId = woId;
 // get id for wo | user | email
 const { username } = this.currentUser;
 const username = this.currentUser.user;
+await submitPassword(this, this.currentUser.password);
 const userEmail = this.email;
 
 const workOrderId = this.currentWorkOrder.id;
