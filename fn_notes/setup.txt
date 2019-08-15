@@ -1,5 +1,11 @@
 Mennesota Phone: 612-379-0982
 
+// Staff Experiment
+https://ui-test2.fndev.net/staff/experiments
+- click on Add/Edit Experiment
+- company name
+- search for like custom field
+
 // React Template Create feature config
     "buyer1": {
       "item": "marketplaceBuyer",
@@ -27,6 +33,11 @@ Mennesota Phone: 612-379-0982
             "Work Order Create": 4
         }
     }
+
+// Custom Field feature config
+"experimentsUser": {
+                    "Custom Field Create": 1
+                }
 
 // Workworder schedule config
 "configs": {
