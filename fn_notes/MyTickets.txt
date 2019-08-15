@@ -5,14 +5,13 @@ TAI-186
 TAI-330
 TAI-157
 TAI-162
-
-
-// inprogress
 TAI-185
 TAI-163 - TCM-4363
-TAI-356 - TCM-5470
 TAI-175 - TCM-4529
 TAI-255 - TCM-5269
+
+// inprogress
+TAI-356 - TCM-5470
 
 // backlog
 TAI-144

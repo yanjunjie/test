@@ -234,6 +234,9 @@ let totalLocations = await getElementText(this, pageResource.totalLocations);
 let stateTaxAmount = ((serviceCharge / values.totalTexasSites) * values.stateTaxPercent) / 100;
 stateTaxAmount = parseFloat(stateTaxAmount.toFixed(2));
 or Number(my_float.toFixed(2));
+var twoPlacedFloat = parseFloat(yourString).toFixed(2)
+Here, toFiexed() returns string value
+
 
 //******************End Javascript**********************
 

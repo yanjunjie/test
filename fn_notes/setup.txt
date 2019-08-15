@@ -1,6 +1,6 @@
 Mennesota Phone: 612-379-0982
 
-// React Template Create feature
+// React Template Create feature config
     "buyer1": {
       "item": "marketplaceBuyer",
       "configs": {
@@ -15,20 +15,45 @@ Mennesota Phone: 612-379-0982
       }
     }
 
-// Send to Provider feature
-        "marketplaceBuyer1": {
-            "item": "marketplaceBuyer",
-            "configs": {
-                "serviceType": true,
-                "loginToken": true,
-                "password": true,
-                "photo": true,
-                "publishWithoutFunds": true,
-                "geo": "mn:zipCode:55133",
-                "experimentsUser": {
-                    "Work Order Create": 4
-                }
-            }
+// Send to Provider feature config
+"configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": true,
+        "geo": "mn:zipCode:55133",
+        "experimentsUser": {
+            "Work Order Create": 4
         }
+    }
+
+// Workworder schedule config
+"configs": {
+      "typeOfWork": "random",
+      "pay": {
+        "type": "hourly",
+        "perHour": 40,
+        "hours": 4,
+        "finance": true
+      }
+      "published": true,
+      "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm",
+      "scheduleRange":"today 6:00am to +1d 12:00pm",
+      "geo": "mn"
+    }
+
+
+// Approved Wo config
+    "configs": {
+        "typeOfWork": "random",
+        "geo": "mn:zipCode:55133",
+        "published": true,
+        "requested": true,
+        "assigned": true,
+        "confirmed": true,
+        "completed": true,
+        "approved": true
+      }
 
 
