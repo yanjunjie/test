@@ -1,7 +1,7 @@
 //v.0.1
 driver.actions().mouseDown(elementID).perform();
-    driver.actions(elementID).mouseMove(elementDestination).perform();
-    driver.actions().mouseUp(elementID).perform();
+driver.actions(elementID).mouseMove(elementDestination).perform();
+driver.actions().mouseUp(elementID).perform();
 I have defined my driver like so:
 
 const webDriver = require ('selenium-webdriver'); 
