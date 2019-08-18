@@ -47,7 +47,10 @@ preceding-sibling | self | following-sibling
 last() ...  2   1 |  X   | 1   2  ... last()
 ------------------+------+------------------
 
-i.e: //a[.="Next."]/preceding::a[1]
+i.e: 
+//input[@value='Untitled2']/ancestor::*[2]/preceding-sibling::*[1]
+//input[@value='Untitled2']/ancestor::node()[2]/preceding-sibling::node()[1]
+//a[.="Next."]/preceding::a[1]
 preceding-sibling::*[1][self::p] to select the preceding sibling element if it is a  p element.
 or...
 preceding-sibling::p[not(preceding-sibling::a)][1] select p siblings that don't have a preceding a sibling 
