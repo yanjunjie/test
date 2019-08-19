@@ -28,6 +28,8 @@ Or
 
 // ancestor selecting by index or using ..
 ancestor::node()[3]
+or 
+ancestor::*[3]
 or
 ../../..
 

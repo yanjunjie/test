@@ -241,6 +241,48 @@ Here, toFiexed() returns string value
 //******************End Javascript**********************
 
 
+//******************Data Table**********************
+// hashes()
+ * When I set custom field value
+ * | fieldName   | fieldValue  |
+ * | Buyer Field | Field value |
+
+for (const { fieldName, fieldValue } of table.hashes()) {
+  console.log(fieldName, fieldValue);
+  if (fieldName === `Buyer Field`) {
+    await setTextBox(this, pageResource.customFieldInput.replace(`{txt}`, fieldName), fieldValue);
+  }
+}
+
+Ref: I fill out the license form
+
+// rowsHash()
+* When I set custom field value
+* | fieldName  | Buyer Field       |
+* | fieldValue | Buyer Field value |
+
+const values = table.rowsHash();
+if (values.fieldName && values.fieldValue) {
+  await setTextBox(this, pageResource.customFieldInput.replace(`{txt}`, values.fieldName), values.fieldValue);
+}
+
+//row()
+Given I start with 0
+When I multiply the following numbers:
+  | 1 |
+  | 2 |
+  | 3 |
+  | 4 |
+Then I got 0
+
+this.actualAnswer = table.raw()
+        .map(row => row[0])
+        .map(v => parseInt(v))
+        .reduce((total, val, key) => total * val, 0); //total = 0 as initial value
+
+//******************End Data Table**********************
+
+
 // like session variable in template
 const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
 this.template.workorder_template.template_data.woId = woId;
@@ -263,6 +305,7 @@ this.workOrderId = await this.driver.getCurrentUrl()
 
 const workOrderId = this.workOrderId; // get work order id
 const workOrderId = await getWorkOrderId(this, woName); // get work order id
+
 
 
 
