@@ -26,11 +26,34 @@ here, foo is ancestor
 Or
 //span[text()='Provider Custom Fields']//ancestor::div[@data-nw-file="TileDivision"]//following-sibling::div//button
 
+// ancestor selecting by index or using ..
+ancestor::node()[3]
+or
+../../..
+
+//*[title="50"]/parent::*
+//*[title="50"]/..
+
 ### Descendant Element find using parent
 //div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
 
 ### Sibling find based on contents
 //div[contains(text(), 'Cancellation')]/following-sibling::div
+
+Here, the preceding and following index:
+------------------+------+------------------
+preceding-sibling | self | following-sibling
+------------------|------|------------------
+last() ...  2   1 |  X   | 1   2  ... last()
+------------------+------+------------------
+
+i.e: 
+//input[@value='Untitled2']/ancestor::*[2]/preceding-sibling::*[1]
+//input[@value='Untitled2']/ancestor::node()[2]/preceding-sibling::node()[1]
+//a[.="Next."]/preceding::a[1]
+preceding-sibling::*[1][self::p] to select the preceding sibling element if it is a  p element.
+or...
+preceding-sibling::p[not(preceding-sibling::a)][1] select p siblings that don't have a preceding a sibling 
 
 ### element find based on contents
 const locator = `//input[@data-nw-file='${name}']`;
@@ -71,7 +94,7 @@ const actual = await getElementAttribute(this, scheduleField.sceduleTime, `value
 
 
 
-//Count elements
+//###Count elements
 count(//input[@name='hai'])
 evaluates to 3
 then
@@ -80,10 +103,19 @@ will select the same nodes as
 (//input[@id='stack'])[3]
 
 
-//Select one of two or more elements
+//###Select one of two or more elements
 //input[@data-nw-file='PayPal'] | //label[contains(text(), 'PayPal')]//input[@type='radio']
 (//*[@id="xxx"] | //body)[last()]
 Here, The ( ... | ... ) part returns a union of its subparts. These are *[@id="xxx"] -- any element
+
+//### starts-with
+//Heading[starts-with(., 'Ethical') and ends-with(., 'consent')]
+
+<a href="mylink_somerandomstuff">link text</a>
+//a[starts-with(@href, "mylink")]
+//a[contains(@href, 'mylink')]
+
+
 
 
 

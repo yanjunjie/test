@@ -1,0 +1,44 @@
+﻿The Chai.js library allows 3 syntaxes for writing expectations.
+value.should.XXX 
+expect(value).XXX
+assert.XXX(value)
+
+Normally we use expect() method like this
+expect(valueUnderTest).foo.bar.whatever;
+
+For Example:
+const actual = `There is no God but Allah and Hazrat Muhammad (saw) is the messenger of Allah`;
+const expected = `Hazrat Muhammad (saw)`;
+chai.expect(actual).to.contains(expected);
+Properties
+Chai.js includes 13 assertion properties: ok, true, false, null, undefined, NaN, exist, empty, arguments, itself, sealed, frozen, and finite.
+Chai includes 15 cosmetic properties: to, be, been, is, that, which, and, has, have, with, at, of, same, but, and does.
+Chai includes 7 flagging properties: not, deep, nested, own, ordered, any, and all
+
+The string ‘foo’ is expected to be undefined
+expect(‘foo’).undefined; // fails
+
+Cosmetic Properties for human readers of the code
+expect(‘foo’).to.be.undefined; // fails
+expect(‘foo’).to.not.be.undefined; // passes
+
+Method
+A method is an assertion property which takes one or more additional values.
+expect(‘foo’).to.equal(‘bar’); // fails
+
+Chai includes quite a few methods: a (aliased as an), include (aliased as includes, contain, and contains), equal, eql, above, below, least, most, within, instanceof, property, ownPropertyDescriptor, lengthOf, match, string, keys, throw, respondTo, satisfy, closeTo, members, oneOf, change, increase, decrease, by, and fail.
+
+Chai includes 4 methods which can be treated as properties: a (aliased as an), include (aliased as includes, contain, and contains), length, lengthOf
+
+It’s possible to mix methods and properties.
+expect(‘foo’).to.equal(‘foo’).and.not.be.undefined; // passes
+
+Flagging properties adds a flag which applies to all properties and methods which come after the flagged property in the expectation chain. This means order matters.
+expect(‘foo’).to.not.be.undefined.and.equal(‘foo’) // fails
+
+In the above not this which causes both the undefined and equal to expect that the value under test is not undefined, and not equal to the string ‘foo’.
+
+Chainable Method
+A chainable method combines many of the previous types into one keyword. Chainable methods can be used either as a method, giving it a value, or as a property, or giving it no values.
+expect([1, 2, 3]).to.include(3); // passes
+expect({ a: 1, b: 2 }).to.include.keys('a'); // passes

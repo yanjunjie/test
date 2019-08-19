@@ -1,0 +1,59 @@
+//v.0.1
+driver.actions().mouseDown(elementID).perform();
+driver.actions(elementID).mouseMove(elementDestination).perform();
+driver.actions().mouseUp(elementID).perform();
+I have defined my driver like so:
+
+const webDriver = require ('selenium-webdriver'); 
+const driver = new webDriver.Builder().forBrowser('chrome').build();
+
+//v.0.2
+if your drag&drop is into Iframe tag.
+If it is, then you need to switch to that Iframe.
+i.e:
+
+driver.switchTo().frame(driver.findElement(By.xpath("PutYourXpathIframe")));  
+
+Actions a = new Actions(driver);
+WebElement source = driver.findElement(By.id("PutYourSourceId"));
+WebElement target = driver.findElement(By.id("PutyourTargerId"));
+a.dragAndDrop(source,target).build().perform();
+
+In the end you may want to switch back to default content:
+driver.switchTo().defaultContent();
+
+//v.0.3
+https://github.com/SeleniumHQ/selenium/blob/master/javascript/node/selenium-webdriver/lib/actions.js#L262
+
+dragAndDrop(element, location) {
+    return this.mouseDown(element).mouseMove(location).mouseUp();
+  }
+
+.dragAndDrop(elementToDrag, { x: 100, y: 0 })
+The first parameter is an element to drag and the second parameter is another WebElement or an offset in pixels
+
+or we can use like this...
+mouseDown(element).mouseMove(location).mouseUp();
+
+e.g. mouseMove({x: 100, y: 0})
+N.B: mouseMove takes either element or offset(x, y)
+
+//v.0.4
+async dragDrop() {
+        let draggable = await this.driver.findElement(this.locators.draggable);
+        let droppable = await this.driver.findElement(this.locators.droppable);
+        await this.driver
+            .actions()
+            .dragAndDrop(draggable, droppable)
+            .perform();
+    }
+or...
+const [draggable] = await this.waitFor(buyerSectionOneLocator.replace(`{txt}`, values.buyerSection1), { timeoutMs: 2000 });
+    const [droppable] = await this.waitFor(buyerSectionOneLocator2.replace(`{txt}`, values.buyerSection2), { timeoutMs: 2000 });
+    await this.driver
+      .actions()
+      .dragAndDrop(draggable, droppable)
+      .perform();
+
+
+
