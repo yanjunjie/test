@@ -288,6 +288,9 @@ this.actualAnswer = table.raw()
 // like session variable in template
 const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
 this.template.workorder_template.template_data.woId = woId;
+or
+| title       | %{template.workorder_template.template_data.title} |
+
 
 
 // get id for wo | user | email
@@ -307,6 +310,13 @@ this.workOrderId = await this.driver.getCurrentUrl()
 
 const workOrderId = this.workOrderId; // get work order id
 const workOrderId = await getWorkOrderId(this, woName); // get work order id
+
+// mouse click in selenium
+driver.actions().mouseMove(element).mouseUp().mouseDown().pe‌​rform()
+or
+driver.actions().mouseMove(element).click().perform()
+
+
 
 
 

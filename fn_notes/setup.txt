@@ -72,5 +72,19 @@ https://ui-test2.fndev.net/staff/experiments
  | state         | Minnesota                |
  | zip           | 55133                    |
 
+// Get an element index
+const el = await this.waitFor(`//*`);
+With ES6 destructuring you can do
+const index = [...el.parentElement.children].indexOf(el)
+or
+const index = Array.from(el.parentElement.children).indexOf(el)
+or ES5 version
+var index = Array.prototype.slice.call(el.parentElement.children).indexOf(el)
+jQuery
+const index = $(this).parent().children().index(this);
+
+
+
+
 
 
