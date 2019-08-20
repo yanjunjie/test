@@ -28,11 +28,13 @@ Or
 
 // ancestor selecting by index or using ..
 ancestor::node()[3]
-or 
 ancestor::*[3]
+ancestor::div[3]
 or
 ../../..
+i.e, //input[@value='Untitled']//ancestor::div[11]
 
+// immediate parent
 //*[title="50"]/parent::*
 //*[title="50"]/..
 
