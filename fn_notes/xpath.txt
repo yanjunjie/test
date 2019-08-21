@@ -112,12 +112,25 @@ will select the same nodes as
 (//*[@id="xxx"] | //body)[last()]
 Here, The ( ... | ... ) part returns a union of its subparts. These are *[@id="xxx"] -- any element
 
+//### Select both elements
+//div[contains(@class, "some-class") and .//label[contains(text(), "${inputData.label}")]]//div/input
+
 //### starts-with
 //Heading[starts-with(., 'Ethical') and ends-with(., 'consent')]
 
 <a href="mylink_somerandomstuff">link text</a>
 //a[starts-with(@href, "mylink")]
 //a[contains(@href, 'mylink')]
+
+//### Unique ID
+data-nw-id - This is a unique id that we add to the dom
+example://div[@data-nw-id='Log in']
+//div[@id='Log in']
+
+//### Text Selection
+text - Sometimes the only way to find an element is via text, keep in mind that its easy to find numerous places with the same text on a single page.
+example: //text() = 'Flightboard'
+example: //*[contains(text(), 'Flightboard')]
 
 
 
