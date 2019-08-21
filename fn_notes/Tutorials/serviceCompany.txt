@@ -1,0 +1,17 @@
+Service company Admin: Username: babluahmed+servicec@fn.com, pass: 123456
+Managed provider: Usr: bablump1, pass: 123456
+End client user: Usr: babluahmed+client1@fn.com, Pass: 123456
+End Client Portal: test-company-1-portal.jibig.com
+Client ID: 2132
+Client request ID: 189
+Workoder ID: 85389
+
+
+Actually I have a ticket like `Publish W9 WO from Project`
+ok. so w9 means a marketplace work orderl.
+w9 is a tax term
+we call a independent provider as w9 provider and the marketplace provider as a w9 work order
+Service company should not be able to publish any marketplace work order
+they can only see the w9 work order and can request those work order on behalf of their managed providers
+
+

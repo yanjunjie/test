@@ -84,6 +84,63 @@ jQuery
 const index = $(this).parent().children().index(this);
 
 
+// client, project & network
+
+{
+  "category": "buyer",
+  "description": "Creates an mp buyer, user and work order",
+  "project": "mono",
+  "schema": {
+    "buyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": false,
+        "experimentsUser": {
+          "Template Create": 1
+        }
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "buyer1"
+      }
+    },
+    "client1": {
+      "item": "client",
+      "links": {
+          "company": "buyer1"
+      }
+    },
+    "project1": {
+        "item": "project",
+        "links": {
+            "company": "buyer1",
+            "client": "client1"
+        }
+    },
+    "fieldnationNetwork1": {
+      "item": "network",
+      "configs": {
+        "networkType": "vendor"
+      },
+      "links": {
+        "owner": "buyer1"
+      }
+    }
+  }
+}
+
+
+
+
 
 
 
