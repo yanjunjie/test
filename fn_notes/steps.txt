@@ -286,10 +286,13 @@ this.actualAnswer = table.raw()
 
 
 // like session variable in template
-const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
-this.template.workorder_template.template_data.woId = woId;
-or
-| title       | %{template.workorder_template.template_data.title} |
+ const woId = await getElementText(this, `//div[contains(text(), '${woTitle}')]/parent::a//preceding::a[1]`);
+ this.template.workorder_template.template_data.woId = woId;
+ or
+ | title       | %{template.workorder_template.template_data.title} |
+
+const amount = await parseString(values.amount, this.template.workorder_template);
+ | amount | %{template_data.pay_base_amount}        |
 
 
 
@@ -299,10 +302,9 @@ const username = this.currentUser.user;
 await submitPassword(this, this.currentUser.password);
 const userEmail = this.email;
 
-const workOrderId = this.currentWorkOrder.id;
+const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
 // id initialization at woCommon.js
-const id = await getWorkOrderIdFromUrl(this);
-this.currentWorkOrder = { id };
+const { workOrderId } = await getWorkOrderIdFromUrl(this);
 
 // id initialization at workOrderCreate_steps.js
 this.workOrderId = await this.driver.getCurrentUrl()

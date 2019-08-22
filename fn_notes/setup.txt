@@ -84,7 +84,7 @@ jQuery
 const index = $(this).parent().children().index(this);
 
 
-// client, project & network
+// buyer, provider, client, project & network
 
 {
   "category": "buyer",
@@ -111,6 +111,27 @@ const index = $(this).parent().children().index(this);
       },
       "links": {
         "company": "buyer1"
+      }
+    },
+   "marketplaceProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "photo": true,
+        "typesOfWork": "5-10",
+        "emailVerified": true,
+        "marketplace": true,
+        "geo": "mn",
+        "preferences": {
+          "fnAgreementProvider": 1504035677
+        },
+        "policyProcedures": true,
+        "suspended": false,
+        "tax": "personal",
+        "profile": "personal",
+        "insurance": "valid",
+        "pqap": true
       }
     },
     "client1": {

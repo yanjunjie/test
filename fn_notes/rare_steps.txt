@@ -125,3 +125,21 @@ template1.workorder_template.template_name
 
 uses: await dragDropElement(this, buyerSectionOneLocator.replace(`{txt}`, values.buyerSection1), buyerSectionOneLocator2.replace(`{txt}`, values.buyerSection2));
 
+// form data
+
+    formData: {
+        file: {
+            value: fs.createReadStream('test/test.jpg'),
+            options: {
+                filename: 'test.jpg',
+                contentType: 'image/jpg'
+            }
+        }
+    },
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+
+
+
+
