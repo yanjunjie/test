@@ -121,6 +121,13 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
   }
 });
 
+// check `Set ETA` value under the results object
+And I use auth token for 'marketplaceBuyer1'
+And I GET to 'v2/workorders/%{currentWorkOrder.id}/tasks'
+Then the response body path '%{results[0].descriptions.task}' should contain 'Set ETA'
+
+
+
 
 // by tim
 
@@ -304,7 +311,7 @@ const userEmail = this.email;
 
 const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
 // id initialization at woCommon.js
-const { workOrderId } = await getWorkOrderIdFromUrl(this);
+const workOrderId = await getWorkOrderIdFromUrl(this);
 
 // id initialization at workOrderCreate_steps.js
 this.workOrderId = await this.driver.getCurrentUrl()
