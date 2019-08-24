@@ -325,6 +325,38 @@ driver.actions().mouseMove(element).mouseUp().mouseDown().pe‌​rform()
 or
 driver.actions().mouseMove(element).click().perform()
 
+//*******************Assertions*******************
+Links:
+https://www.chaijs.com/api/bdd/
+https://github.com/chaijs/chai/blob/master/lib/chai/core/assertions.js
+
+//Similar Ordered Deep Equality Assertions
+expect({ a: 1 }).to.equal({ a: 1 }); // fails
+expect({ a: 1 }).to.eql({ a: 1 }); // passes
+expect([{a:1}, {b:2}]).to.eql([{a:1}, {b:2}]); // passes
+expect([1, 2, 3]).to.deep.equal([1, 2, 3]); // passes
+expect([1,2,3]).to.eql([1,2,3]); // passes
+expect([1,2,3]).to.have.ordered.members([1,2,3]); // passes
+
+//Similar Unordered Deep Equality Assertions
+expect([1,2,3]).to.have.members([3,2,1]); // passes
+expect([1,2,3]).to.have.members([1,2,3]); // passes
+expect([1,2,3]).to.include.members([3,2,1]); // passes
+expect([1,2,3,4]).to.include.members([3,2,1]); // passes, here length is not matter
+expect([1,2,3,4]).to.have.members([3,2,1]); // fails, here length is matter
+expect({ a: { c: 3 } }).to.include({ a: { c: 3 } }); // fails
+expect({ a: { c: 3 } }).to.deep.include({ a: { c: 3 } }); // passes
+
+//*******************End Assertions*******************
+
+
+
+
+
+
+
+
+
 
 
 
