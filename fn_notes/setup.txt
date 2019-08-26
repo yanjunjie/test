@@ -72,6 +72,11 @@ https://ui-test2.fndev.net/staff/experiments
  | state         | Minnesota                |
  | zip           | 55133                    |
 
+// finance and deposit amount for buyer
+ "depositAmount": 100000,
+ "financeAmount": 100000
+
+
 // Get an element index
 const el = await this.waitFor(`//*`);
 With ES6 destructuring you can do
@@ -91,7 +96,7 @@ const index = $(this).parent().children().index(this);
   "description": "Creates an mp buyer, user and work order",
   "project": "mono",
   "schema": {
-    "buyer1": {
+    "marketplaceBuyer1": {
       "item": "marketplaceBuyer",
       "configs": {
         "serviceType": true,
@@ -110,10 +115,10 @@ const index = $(this).parent().children().index(this);
         "depositAmount": 100000
       },
       "links": {
-        "company": "buyer1"
+        "company": "marketplaceBuyer1"
       }
     },
-   "marketplaceProvider1": {
+    "marketplaceProvider1": {
       "item": "marketplaceProvider",
       "configs": {
         "password": true,
@@ -137,15 +142,15 @@ const index = $(this).parent().children().index(this);
     "client1": {
       "item": "client",
       "links": {
-          "company": "buyer1"
+        "company": "marketplaceBuyer1"
       }
     },
     "project1": {
-        "item": "project",
-        "links": {
-            "company": "buyer1",
-            "client": "client1"
-        }
+      "item": "project",
+      "links": {
+        "company": "marketplaceBuyer1",
+        "client": "client1"
+      }
     },
     "fieldnationNetwork1": {
       "item": "network",
@@ -153,13 +158,147 @@ const index = $(this).parent().children().index(this);
         "networkType": "vendor"
       },
       "links": {
-        "owner": "buyer1"
+        "owner": "marketplaceBuyer1"
       }
+    },
+    "accountant1": {
+      "item": "staff",
+      "configs": {
+        "group": 9
+      }
+    },
+    "staff1": {
+      "item": "staff"
     }
   }
 }
 
 
+// draftWorkOrder, publishWorkOrder, routedWorkOrder, assignedWorkOrder, completeWorkOrder, approvedWorkOrder
+
+{
+  "category": "buyer",
+  "description": "Creates an mp buyer, user and work order",
+  "project": "mono",
+  "schema": {
+    "marketplaceBuyer1": {
+      "item": "marketplaceBuyer",
+      "configs": {
+        "serviceType": true,
+        "loginToken": true,
+        "password": true,
+        "photo": true,
+        "publishWithoutFunds": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "account1": {
+      "item": "paymentAccount",
+      "configs": {
+        "depositAmount": 100000
+      },
+      "links": {
+        "company": "marketplaceBuyer1"
+      }
+    },
+    "marketplaceProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "photo": true,
+        "policyProcedures": true,
+        "typesOfWork": "8-8",
+        "emailVerified": true,
+        "marketplace": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "draftWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1"
+      },
+      "configs": {
+        "typeOfWork": "8",
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "publishWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1"
+      },
+      "configs": {
+        "typeOfWork": "8",
+        "geo": "mn:zipCode:55133",
+        "published": true
+      }
+    },
+    "routedWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "published": true,
+        "routed": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "assignedWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "published": true,
+        "assigned": true,
+        "geo": "mn:zipCode:55133"
+      }
+    },
+    "completeWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "geo": "mn:zipCode:55133",
+        "published": true,
+        "assigned": true,
+        "completed": true
+      }
+    },
+    "approvedWorkOrder1": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": "random",
+        "geo": "mn:zipCode:55133",
+        "published": true,
+        "assigned": true,
+        "completed": true,
+        "approved": true
+      }
+    }
+  }
+}
+ 
 
 
 
