@@ -248,10 +248,15 @@ Here, toFiexed() returns string value
 const capitalizedDropDown = dropDown.split(/\s+/).map(s => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(` `);
 const capitalized = this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 const capitalized = 'your string'.replace(/\b\w/g, l => l.toUpperCase()); // => 'Your String'
+_.startCase(_.toLower('jhon doe')); //=> Jhon Doe
+_.startCase('jhon doe') //=> Jhon Doe
 
 // capitalized string
 string = 'hello world';
 string.charAt(0).toUpperCase() + string.slice(1).toLowerCase(); //=>"Hello world"
+_.upperFirst('jon doe')
+
+// _.camelCase(section[0])]);
 
 
 //******************End Javascript**********************

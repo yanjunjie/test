@@ -21,6 +21,29 @@ https://ui-test2.fndev.net/staff/experiments
       }
     }
 
+// provider
+"marketplaceProvider1": {
+      "item": "marketplaceProvider",
+      "configs": {
+        "password": true,
+        "loginToken": true,
+        "photo": true,
+        "typesOfWork": "5-10",
+        "emailVerified": true,
+        "marketplace": true,
+        "geo": "mn",
+        "preferences": {
+          "fnAgreementProvider": 1504035677
+        },
+        "policyProcedures": true,
+        "suspended": false,
+        "tax": "personal",
+        "profile": "personal",
+        "insurance": "valid",
+        "pqap": true
+      }
+    }
+
 // Send to Provider feature config
 "configs": {
         "serviceType": true,
