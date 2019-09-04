@@ -16,7 +16,7 @@ https://stackoverflow.com/questions/49299042/react-select-how-to-keep-dropdown-o
 await this.waitFor(`//a[contains(@class, 'selected') and contains(text(), '${tabName}')]`);
 await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 
-### Ancestor Element find using contents
+### Ancestor/closest Element find using contents
 //a[contains(@href,'5693')]//ancestor::div[@data-nw-file="Card"]/preceding-sibling::div//button
 (//bookmark/ancestor::*[@id][1]/@id | //bookmark/preceding::*[@id][1]/@id)[last()]
 //*[title="50"]/ancestor::store
@@ -37,6 +37,7 @@ i.e, //input[@value='Untitled']//ancestor::div[11]
 // immediate parent
 //*[title="50"]/parent::*
 //*[title="50"]/..
+
 
 ### Descendant Element find using parent
 //div[contains(text(), 'Cancellation')]/parent::div/parent::div/following-sibling::div
