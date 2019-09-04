@@ -1,0 +1,21 @@
+version: '3'  
+services: 
+	web1:  
+		build: .  
+		ports:  
+			- "5000:5000"  
+		volumes:  
+			- .:/code
+			- ./myproject:/var/www/html  
+			- logvolume01:/var/log  
+		links:  
+			- redis
+			- php 
+	redis:  
+		image: redis  
+		volumes:  
+			logvolume01: {}
+	php:
+		image: php
+		volumes:
+			myproject: {}
