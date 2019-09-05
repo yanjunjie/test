@@ -1,0 +1,13 @@
+=lookup(B2,
+    {1, 2, 3, 4, 5, 6, 7, 8, 9},
+    {"Sajib", "Juton", "Niloy", "Sajib (ctg)", "Rubel", "Bablu", "Khokon", "Azad", "Nazmul"}
+) 
+
+=ROUND(ArrayFormula(DIVIDE(regexextract(N13, "\s[0-9.]+")+0,regexextract(O13, "\s[0-9.]+")+0)), 2)
+
+=ArrayFormula(DIVIDE(regexextract(N13, "\s[0-9.]+")+0,regexextract(O13, "\s[0-9.]+")+0))
+
+=ArrayFormula(sum(regexextract(N13:O13, "\s[0-9.]+")+0))
+=MINUS(N4, Q4)
+
+
