@@ -250,6 +250,7 @@ const capitalized = this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCa
 const capitalized = 'your string'.replace(/\b\w/g, l => l.toUpperCase()); // => 'Your String'
 _.startCase(_.toLower('jhon doe')); //=> Jhon Doe
 _.startCase('jhon doe') //=> Jhon Doe
+_.capitalize('Amar Sonar Bangla') => Amar sonar bangla
 
 // capitalized string
 string = 'hello world';

@@ -140,6 +140,14 @@ uses: await dragDropElement(this, buyerSectionOneLocator.replace(`{txt}`, values
       'content-type': 'multipart/form-data'
     }
 
+//
+    Then verify work order provider custom fields are not displayed
+      | label                |
+      | Client Custom Field  |
+      | Project Custom Field |
+
+
+
 
 
 

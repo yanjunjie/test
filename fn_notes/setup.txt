@@ -6,6 +6,18 @@ https://ui-test2.fndev.net/staff/experiments
 - company name
 - search for like custom field
 
+// Service contract
+From staff user->company list->edit->site features->Client Invoicing
+-> "invoicing": true,
+
+// Team
+From staff user->company list->edit->Markesite features->Roles on Work
+-> "teams": true
+
+// Talent Type is Company Network
+From staff user->company list->edit->Marketplace Settings->Networks
+
+
 // React Template Create feature config
     "buyer1": {
       "item": "marketplaceBuyer",
@@ -20,6 +32,9 @@ https://ui-test2.fndev.net/staff/experiments
         }
       }
     }
+
+// React Wo Create
+1 => React, 2 => old angular, 3 => simple create 4 => send to provider
 
 // provider
 "marketplaceProvider1": {
@@ -178,10 +193,19 @@ const index = $(this).parent().children().index(this);
     "fieldnationNetwork1": {
       "item": "network",
       "configs": {
-        "networkType": "vendor"
+        "networkType": "fieldNation"
       },
       "links": {
         "owner": "marketplaceBuyer1"
+      }
+    },
+    "vendorNetwork1": {
+      "item": "network",
+      "configs": {
+        "networkType": "vendor"
+      },
+      "links": {
+        "owner": "buyer1"
       }
     },
     "accountant1": {
