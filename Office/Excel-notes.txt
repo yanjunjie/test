@@ -9,5 +9,19 @@
 
 =ArrayFormula(sum(regexextract(N13:O13, "\s[0-9.]+")+0))
 =MINUS(N4, Q4)
+=AND(COUNTIF(C:C, C1) > 1, COUNTIF(C$1:C1, C1) = 1)
 
+In this example, I’ve highlighted all of the students ( C col from 2 no cell ) who scored less than 60 in class, using this formula in the custom formula field:
+= $C2 < 60
 
+ =$C3<>"Tampa"
+
+I start inputting the first cell of my highlighted range: = A2
+Then I add the $ (dollar sign) in front of the A only: = $A2
+Then I add the test condition, in this case whether the cell equals
+ = $A2 = "West"
+
+ = $B2 = TRUE
+ = $B2 = FALSE
+
+ =OR(CELL(“col”)=COLUMN(),CELL(“row”)=ROW())
