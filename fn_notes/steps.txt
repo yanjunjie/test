@@ -63,6 +63,8 @@ await setTextBox(this, pageResource.searchField, searchBy, Key.ENTER);
 N.B, We should use like this
 const [element] = await this.waitFor(this.pages.cancellationFees.link.replace(`{txt}`, text));
 await element.click();
+await this.waitFor(this.pages.templateDetails.overviewEdit).then(([el]) => el.click());
+
 
 await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementNotLocated` });
 The criteria: `elementNotLocated` will wait until element is disappeared
@@ -250,6 +252,8 @@ const capitalized = this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCa
 const capitalized = 'your string'.replace(/\b\w/g, l => l.toUpperCase()); // => 'Your String'
 _.startCase(_.toLower('jhon doe')); //=> Jhon Doe
 _.startCase('jhon doe') //=> Jhon Doe
+
+// capitalized only first Word's letter and all will remain small
 _.capitalize('Amar Sonar Bangla') => Amar sonar bangla
 
 // capitalized string
@@ -316,7 +320,14 @@ this.actualAnswer = table.raw()
 const amount = await parseString(values.amount, this.template.workorder_template);
  | amount | %{template_data.pay_base_amount}        |
 
+this.testData.templates.template1.workorder_template.template_data  // template data details with wo in rare_steps.js
+this.testData.templates.template1.workorder_template.template_name  // template name
 
+// company
+this.testData.marketplaceBuyers.marketplaceBuyer1.company.name // company name
+
+// Buyer
+this.testData.marketplaceBuyers.marketplaceBuyer1.alias // buyer name
 
 // get id for wo | user | email
 const { username } = this.currentUser;
@@ -334,6 +345,10 @@ this.workOrderId = await this.driver.getCurrentUrl()
 
 const workOrderId = this.workOrderId; // get work order id
 const workOrderId = await getWorkOrderId(this, woName); // get work order id
+
+// projects and clients
+  this.testData.clients.client1.alias // client name/title
+  this.testData.projects.project1.alias // project name/title
 
 // mouse click in selenium
 driver.actions().mouseMove(element).mouseUp().mouseDown().pe‌​rform()

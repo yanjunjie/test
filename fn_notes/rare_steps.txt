@@ -147,6 +147,119 @@ uses: await dragDropElement(this, buyerSectionOneLocator.replace(`{txt}`, values
       | Project Custom Field |
 
 
+// template data
+{ 
+   "_v":2,
+   "status_id":1,
+   "status":"STATUS_DRAFT",
+   "status_sub":"SUBSTATUS_DRAFT_TEMPLATE",
+   "status_intent":"normal",
+   "title":"POS unit printing multiple copies of send receipts",
+   "type_of_work":63,
+   "internal_post":false,
+   "description_public":"Replace broken keypad unit on alarm near south wall MUST BE PERFORMED TUESDAY Site survey for RJ-45 install project across entire store follow layout as per instructions Alarm system false reporting due to possible keypad water damage Door closer unit no longer functioning, makes loud noises and refuses to open the cartridge Verify theft of main device due to chain ATM service repair keypad replacement damaged due to water leakage from overhead A/C system Flood caused water damage to CCTV unit in rear office",
+   "description_private":"POS unit printing multiple copies of send receipts Door closer unit no longer functioning, makes loud noises and refuses to open the cartridge Cabling install / replace older cat5 with new fiber lines across north side of front office Replace broken CCTV display at site NO LATER THAN 5pm Broken CCTV display - replace as per on site contaxt ATM KeyPad Replacement Verify theft of main device due to chain",
+   "relative_schedule_date":"+1 day",
+   "relative_schedule_time":"08:00 AM",
+   "relative_schedule_range":"",
+   "connectWise":0,
+   "autotask":0,
+   "externalTicketNumber":0,
+   "companyIntegrationNumber":0,
+   "arriveAt":null,
+   "finance_account":0,
+   "pay_type":2,
+   "pay_base_amount":49,
+   "pay_estimated_hours":19,
+   "contacts":[ 
+      { 
+         "name":"support",
+         "email":"abc@gmail.com",
+         "phone":"+1 877-573-4353",
+         "phone_extension":"100",
+         "role":"Technical help",
+         "notes":"demo notes"
+      }
+   ],
+   "customFields":[ 
+
+   ],
+   "site_manager":547,
+   "penalties":[ 
+      { 
+         "is_visible":true,
+         "penalty_id":2,
+         "name":"Late fee",
+         "amount":"5% of labor",
+         "description":"If job is completed an hour or more past the scheduled ETA provided by the worker."
+      },
+      { 
+         "is_visible":true,
+         "penalty_id":1,
+         "name":"Missing tools",
+         "amount":"$25.00",
+         "description":"If provider needs to perform a retrip due to missing tools called out in the SoW."
+      }
+   ],
+   "tasks":[ 
+      { 
+         "category":"prep",
+         "alertOnCompletion":[ 
+
+         ],
+         "instruction":"Set ETA",
+         "instruction_key":"confirmassignment",
+         "instruction_id":1
+      },
+      { 
+         "category":"onsite",
+         "alertOnCompletion":[ 
+
+         ],
+         "instruction":"Check in",
+         "instruction_key":"checkin",
+         "instruction_id":3
+      },
+      { 
+         "category":"onsite",
+         "alertOnCompletion":[ 
+
+         ],
+         "instruction":"Check out",
+         "instruction_key":"checkout",
+         "instruction_id":4
+      },
+      { 
+         "category":"post",
+         "alertOnCompletion":[ 
+
+         ],
+         "instruction":"Enter close out notes",
+         "instruction_key":"closeoutnotes",
+         "instruction_id":2
+      }
+   ],
+   "networks":[ 
+      { 
+         "id":"1",
+         "text":"Field Nation",
+         "process_payments":"1"
+      }
+   ],
+   "team":null,
+   "service_types":[ 
+      { 
+         "id":"68",
+         "text":"Repair",
+         "service_type_id":"3"
+      }
+   ]
+}
+
+
+
+
+
 
 
 
