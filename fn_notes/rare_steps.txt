@@ -1,3 +1,22 @@
+// in gherkin
+%{testData.marketplaceBuyers.marketplaceBuyer1.company}
+
+if (values.company) {
+    let expected = values.company;
+    if (values.company.match(/%{([^}]+)}/)) {
+      const path = values.company.match(/%{([^}]+)}/);
+      let templateData = _.get(this, path[1]);
+      if (typeof templateData === `string`) {
+        templateData = JSON.parse(templateData);
+      }
+      expected = templateData.name;
+    }
+
+    const elementText = await getElementText(this, this.pages
+      .workOrderDetails.company.replace(`{txt}`, expected));
+    expect(elementText).to.equal(expected);
+  }
+
 // debuging assets
 await this.retry(async () => {
 

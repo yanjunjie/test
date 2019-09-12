@@ -1,4 +1,10 @@
 Mennesota Phone: 612-379-0982
+Toronto, the capital of the province of Ontario
+city: toronto
+state: ontario
+
+Street Name	Municipality	Postal/zip Code
+DONORA DR	TORONTO	        M4B 1B3
 
 // Staff Experiment
 https://ui-test2.fndev.net/staff/experiments
