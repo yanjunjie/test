@@ -17,6 +17,9 @@ if (values.company) {
     expect(elementText).to.equal(expected);
   }
 
+If you guys face any query related error then please hit the url :
+https://ui-test2.fndev.net/tools/dbmigrate/
+
 // debuging assets
 await this.retry(async () => {
 
