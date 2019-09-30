@@ -356,6 +356,8 @@ const { username } = this.currentUser;
 const username = this.currentUser.user;
 await submitPassword(this, this.currentUser.password);
 const userEmail = this.email;
+const userId = this.auth.user.id;
+const userId = this.currentUser.id;
 
 const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
 // id initialization at woCommon.js

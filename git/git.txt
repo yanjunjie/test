@@ -110,6 +110,9 @@ git branch -d {the_local_branch} (use -D instead to force deleting the branch wi
 To remove a remote branch from the server:
 git push origin -d {the_remote_branch}
 
+// Merged files list showing
+git log -m --name-only
+
 
 
 
