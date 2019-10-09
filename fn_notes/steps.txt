@@ -68,6 +68,9 @@ await this.waitFor(this.pages.templateDetails.overviewEdit).then(([el]) => el.cl
 
 await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementNotLocated` });
 The criteria: `elementNotLocated` will wait until element is disappeared
+Or, for element not to be located in the given locator
+await world.waitFor(`//*[@class='Select-loading-zone']`, { criteria: `elementIsClickable` });
+criteria: until element is clickable
 
 *** clickStoppedElement event is used when an element is animated or moving or can also be static
 
