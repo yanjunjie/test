@@ -18,16 +18,20 @@ TAI-369 - TCM-5264
 TAI-136 - TCM-4789
 TAI-374 - TCM-5416
 TAI-387 - Copy Work Order
-
-// In Review
-
-
-
-// In Progress
 TAI-365 - TCM-5414 - Direct Deposit
 TAI-158 - TCM-4523 - Verify ETA Task on Multi-site Child Work Order
 TAI-366 - TCM-5505 - Direct Deposit Batch Payment Process
 TAI-393 - MAR-4773 - Edit Project New Client and Service Contract Links
+TAI-609 - TCM-4712
+
+// In Review
+
+
+// In Progress
+TAI-624 - TCM-4799
+
 
 // backlog
+TAI-645 - TCM-5367
+TAI-287 - 
 
