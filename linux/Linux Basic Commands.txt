@@ -6,7 +6,7 @@ One step back /etc to /
 Go to previous working directory
 [root@pc1 /]# cd -
 
-Go to current login user home directory
+Go to current login user directory
 [root@pc1 etc]# cd ~
 
 Show the contents of /etc in single color
@@ -33,7 +33,7 @@ Copy a file in directory
 Copy a file from /disk/file and paste it in /disk/dir/
 [root@pc1 disk]# cp /disk/file /disk/dir
 
-Copy a directory with â€“r option
+Copy a directory with -r (recursively) option
 [root@pc1 disk]# cp -r dir dir2
 
 Copy a file from /disk/file and paste it in /etc with myfile name
@@ -42,19 +42,19 @@ Copy a file from /disk/file and paste it in /etc with myfile name
 Remove a file
 [root@pc1 disk]# rm file
 
-Remove a file with forcefully option
-[root@pc1 disk]# rm â€“f file
+Remove a file with -f (forcefully) option
+[root@pc1 disk]# rm -f file
 
-Remove a directory with out â€“r option and you face will an error
+Remove a directory
 [root@pc1 disk]# rm dir
 
-Remove a directory with â€“r option
+Remove a directory with -r option
 [root@pc1 disk]# rm -r /disk
 
-Remove a directory with forcefully option
+Remove a directory with recursively & forcefully option
 [root@pc1 disk]# rm -rf dir
 
-Move /etc/dir1 to /disk/ with different name
+Move dir /etc/dir1 to /disk/ with different name
 [root@pc1 disk]# mv /etc/dir1 /disk/mydir
 Rename the folder name mydir to dir
 [root@pc1 disk]# mv /disk/mydir /disk/dir
@@ -74,10 +74,10 @@ Read first ten lines of grub.conf
 Read last ten lings of grub.conf
 [root@pc1 disk]# tail /etc/grub.conf
 
-Read first 12 lines with â€“n option
+Read first 12 lines with -n option
 [root@pc1 disk]# head -n 12 /etc/grub.conf
 
-Read last 11 lines with â€“n option
+Read last 11 lines with -n option
 [root@pc1 disk]# tail -n 11 /etc/grub.conf
 
 Copy the contents of /etc/grub.conf in /disk/file
@@ -86,15 +86,17 @@ Copy the contents of /etc/grub.conf in /disk/file
 Append the contents /etc/mtab in /etc/file
 [root@pc1 disk]# cat /etc/mtab >> /disk/file
 
-Merging tow commands with pipe sign output of the first command is input of second command
-[root@pc1 disk]# cat /etc/squid/squid.conf I more
+Merging two commands with | (pipe) sign here, output of the first command is input of second command
+[root@pc1 disk]# cat /etc/squid/squid.conf | more
 Count the total lines of squid.conf
-[root@pc1 disk]# cat /etc/squid/squid.conf I wc -L
+[root@pc1 disk]# cat /etc/squid/squid.conf | wc -L
 
-Show only spool words in squid.conf
-[root@pc1 disk]# cat /etc/squid/squid.conf I grep spool
+Find only `spool` words in squid.conf
+[root@pc1 disk]# cat /etc/squid/squid.conf | grep spool
 
-Flush the contents of file
+Flush the contents of a file
 [root@pc1 disk]# cat /dev/null > /var/log/messages
+[root@pc1 disk]# echo $null > /var/log/messages
+[root@pc1 disk]# > /var/log/messages
 
 
