@@ -103,8 +103,15 @@ $ cat /dev/null > /var/log/messages
 $ echo $null > /var/log/messages
 $ > /var/log/messages
 
+To see all shells
+$ cat /etc/shells
+
+To view the numerical IDs associated with a user
+$ id username
+
 User creating
-$ useradd username
+$ useradd username (sudo useradd -m -c "Samwise the Brave" sam  -s /bin/bash)
+$ adduser username
 
 Delete a user
 $ userdel username
@@ -114,12 +121,36 @@ $ passwd username
 
 See a list of users
 $ cat /etc/passwd
+$ grep username /etc/passwd
 
 Rename a user (the passwd file shows usernames, names of users, home directories)
 $ vi /etc/passwd
 And then find the user-name and rename it to like user-name1 or as you like
 
-Group creating
+To change shell for a user
+$ grep username /etc/passwd
+$ usermod --shell /bin/bash username
+Or,
+$ chsh --shell /bin/sh username
+Or,
+$ vi /etc/passwd
+
+To see new users info
+$ man newusers
+
+To see a list of group
+$ groups
+
+To see a list of group associated with a user
+$ groups username
+
+To view the numerical IDs associated with each group
+$ id
+
+View all groups on the System
+$ getent group
+
+Create a group
 $ groupadd groupname
 
 Delete a group
@@ -128,14 +159,25 @@ $ groupdel groupname
 Add a member to a group
 $ adduser username groupname
 
+Add a member to multipls groups
+$ usermod -a -G group1,group2,group3 username
+
 To display who is a member of a group
 $ getent group groupname
 
 To remove a member from a group
 $ deluser username groupname
 
+To remove a member from a supplementary group using replacing method
+$ usermod -G groupa,groupb username (if we have groupa,groupb, groupc then groupc will be removed)
+
 To see a list of groups (the group file shows groups and users)
 $ cat /etc/group
+
+Change a user’s primary group
+$ usermod -g groupname username
+-g means to assign a primary group and -G means to assign a new secondary group and
+-a or --append is used to add the user to the supplementary group(s). Use only with the -G option)
 
 Permissions: 
 Entities => user, group, other/everyone else
@@ -169,6 +211,7 @@ $ chmod u=rx, go= => set read,execute on user and remove all permissions on grou
 Changing Ownership:
 To change user ownership
 $ sudo chown -R username file/folder
+$ sudo chown -R hduser:hadoop /home/hduser (change ownership both user and group in one command)
 
 To change group ownership
 $ sudo chgrp -R groupname file/folder (-R for Recursive/Sub directories)
@@ -176,6 +219,8 @@ $ sudo chgrp -R groupname file/folder (-R for Recursive/Sub directories)
 Long listing
 $ ll filename
 $ ls -l
+$ ls -ld
+$ ls -la
 
 
 
