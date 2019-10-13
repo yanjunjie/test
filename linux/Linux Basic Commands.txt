@@ -222,6 +222,41 @@ $ ls -l
 $ ls -ld
 $ ls -la
 
+Check if port is in use
+$ sudo lsof -i -P -n
+$ sudo lsof -i -P -n | grep LISTEN
+
+Find processes running on specific port
+$ lsof -i TCP:22
+
+List Only IPv4 & IPv6 Open Files
+$ lsof -i 4
+$ lsof -i 6
+
+List Open Files of TCP Port ranges 1-1024
+$ lsof -i TCP:1-1024
+
+Exclude User with ‘^’ Character
+$ lsof -i -u^root
+
+Find Out who’s Looking What Files and Commands
+$ lsof -i -u username
+
+List all Network Connections
+$ lsof -i
+
+Search by PID
+$ lsof -p 1
+
+Kill all Activity of Particular User
+$ kill -9 `lsof -t -u username`
+
+
+
+
+
+
+
 
 
 
