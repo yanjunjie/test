@@ -251,6 +251,11 @@ $ lsof -p 1
 Kill all Activity of Particular User
 $ kill -9 `lsof -t -u username`
 
+To see current environment variables and their values
+$ env
+
+
+
 
 
 
