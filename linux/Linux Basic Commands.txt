@@ -222,7 +222,7 @@ $ ls -l
 $ ls -ld
 $ ls -la
 
-Check if port is in use
+Check which ports are in use/running
 $ sudo lsof -i -P -n
 $ sudo lsof -i -P -n | grep LISTEN
 
@@ -251,8 +251,20 @@ $ lsof -p 1
 Kill all Activity of Particular User
 $ kill -9 `lsof -t -u username`
 
+List All Processes in Current Shell 
+$ ps
+
+Display all processes in BSD format
+$ ps axu
+
+Find specific process
+$ ps aux | grep php5
+
 To see current environment variables and their values
 $ env
+
+
+
 
 
 
