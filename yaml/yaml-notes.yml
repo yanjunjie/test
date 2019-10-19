@@ -1,0 +1,42 @@
+# this is a comment
+# file extension can be either yml or yaml
+
+my-object: #To access a value like my-object.booleans
+  string1: "string with double quotes"
+  string2: 'string with single quotes'
+  integers: 30
+  floats: 3.5
+  complex-numbers: 1e+10
+  booleans: true
+  dates-in-ISO-8601: 2018-10-05 4:44:03 # 05 October 2018 4:44:03
+  null-values: null
+  my-list:
+    - item1
+    - item2
+    - item3
+  my-other-list: ["other1", "other2"]
+  list-of-ojects:
+    - name: "value1"
+      age: 28
+    - {name: "value2", age: "27"}
+    - 
+      name: "value3"
+      age: 72
+  text-format-as-single-line: >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+  preserved-formated-text: |
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+       incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+  anchoring-a-value: &anchored-value "some-value"
+  this-will-receive-anchor-value: *anchored-value #it will be rendered as "some-value"
+  anchoring-a-key-value-pair: &my-anchored-keyvalue
+    foo: "bar"
+  object-receiving-a-anchored-key-value-pair:
+    <<: *my-anchored-keyvalue #it will be rendered as foo: bar
+    some-key: "some other value"
+  casting-as-float: !!float 50 # 50.0
+  casting-as-string: !!str 3.5 # "3.5"
+

@@ -1,0 +1,88 @@
+# ------------------------Version 2.0 Notes------------------------
+# Uses of ref
+# define a path with parameter reference
+/path:
+   get:
+      parameters:
+         - $ref: "#/parameters/limitParam"
+         - $ref: "#/parameters/offsetParam"
+
+# define reusable parameters:
+parameters:
+   limitParam:
+      name: limit
+      in: query
+      description: Limits the number of returned results
+      required: false
+      type: integer
+      format: int32
+   offsetParam:
+      name: offset
+      in: query
+      description: Offset from which start returned results
+      required: false
+      type: integer
+      format: int32
+
+# ---------------------------Version 3.0 Notes-------------------------------
+# Uses of ref
+# link: https://swagger.io/docs/specification/using-ref/
+
+# Example 01
+openapi: "3.0.0"
+servers:
+    - url: /v1
+      description: local server
+
+paths:
+   /path:
+      get:
+         parameters:
+            - $ref: "#/components/parameters/limitParam"
+
+components:
+   parameters:
+      limitParam:
+         name: limit
+         in: query
+         description: Limits the number of returned results
+         required: false
+         schema:
+            type: integer
+            minimum: 10
+            default: 10
+            multipleOf: 10 # matches 10, 20, ...
+            format: int32
+
+
+# Example 02
+responses:
+  '200':
+    description: The response
+    schema: 
+      $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+
+# Example 03, $ref cannot be used in the info section and directly under paths:
+# Incorrect!
+info:
+  $ref: info.yaml
+paths:
+  $ref: paths.yaml
+However, you can $ref individual paths, like so:
+paths:
+  /users:
+    $ref: '../resources/users.yaml'
+  /users/{userId}:
+    $ref: '../resources/users-by-id.yaml'
+
+

@@ -1,0 +1,1537 @@
+openapi: 3.0.0
+info:
+  version: 3.2.3
+  title: HID Authentication as a Service (AaaS) System for Cross-domain Identity Management (SCIM)
+  description: The HID Authentication Service is a multi-tenanted software as a service, which solves Identity and  Access Management (IAM) problems. Integrating applications can use the Authentication as a Service (AaaS) for user authentication and manage the user identity lifecycle and the identity information.<br><br>
+    The AaaS supports open web standards for:<br>
+    <li>Authentication
+    <li>Identity Federation and Management
+    <li>OAuth 2.0
+    <li>OpenID Connect (OIDC)
+    <li>System for Cross-domain Identity Management (SCIM)<br><br>
+    Common use cases for the AaaS are:<br>
+    <li>Multi Factor Authentication (MFA)
+    <li>Workforce Identity and Access Management (WIAM)
+    <li>Customer Identity and Access Management (CIAM)
+    <li>Identity Federation (IF)<br><br>
+    <h2>User Identity Management</h2>
+    The SCIM API manages user identities and identity data such as user profiles, authenticators and credentials. The AaaS implements the core SCIM 2.0 schema.<br>
+    <h3>SCIM v2 Endpoints<h3>
+    <h4>Standard Compliant Endpoints</h4>
+    <li>Users <code>/{tenant}/v2/Users</code>
+    <li>Groups  <code>/{tenant}/v2/Groups</code><br>
+    <h4>Extension Endpoints</h4>
+    <li>Authenticator <code>/{tenant}/v2/Authenticator</code>
+    <li>Credential <code>/{tenant}/v2/Credential</code>
+    <li>Device <code>/{tenant}/v2/Device</code>
+    <li>Device Provision <code>/{tenant}/v2/Device/Provision</code>
+    <li>Event <code>/{tenant}/v2/Event</code>
+    <li>Organization <code>/{tenant}/v2/Organization</code>
+    <li>Roles <code>/{tenant}/v2/Roles</code>
+    <li>TokensVault <code>/{tenant}/v2/TokensVault</code>
+    <h4>Configuration Endpoints</h4>
+    <li>AD User Repository <code>/configuration/{tenant}/v2/User/Repository</code>
+    <li>Authenticator Policy <code>/configuration/{tenant}/v2/Policy/Authenticator</code>
+    <li>Device Type <code>/configuration/{tenant}/v2/Device/Type</code>
+    <br><br>
+    <h2>User Authentication</h2>
+    AaaS supports a range of authenticators to provide MFA for users. The choice of authenticator is dependent upon business risk and user convenience. User authentication is performed using the OIDC API.
+    <br>The authentication method for all endpoints in this guide is demonstrated using <b>Bearer Token</b> on HTTPS Header.
+    <h2>API Reference Guide</h2>
+    This API Reference guide provides the RESTful API endpoints that guides AaaS consumers to understand:<br>
+    <li>Resource endpoints
+    <li>CRUD (HTTPS Methods) operation on resources
+    <li>Request and Response payload
+    <li>Content-type <code>application/scim+json</code>
+    <li>Error Codes<br>
+    <h3>HTTPS Methods</h3>Following are the HTTPS methods used in this document<table><tr><th>  Method  </th><th>  Usage  </th><tr>
+    <tr><td>  GET  </td><td>  Retrieves one or more complete or partial resources.  </td><tr>
+    <tr><td>  POST  </td><td>  Depending on the endpoint, creates new resources, creates a search request.  </td><tr>
+    <tr><td>  PUT  </td><td>  Modifies a resource by replacing existing attributes with a specified set of replacement attributes (replace).  Do not use PUT to create new resources.  </td><tr>
+    <tr><td>  DELETE  </td><td>  Deletes a resource.  </td><tr>
+    </table>
+    <h3>Error Responses</h3>
+    The Error responses are defined in the <code>RFC 7644</code> SCIM-Core</h3>.
+    <table><tr><th>Code</th><th>Label</th><th>Applicability</th><th>Description</th><tr>
+            <tr><td>400</td><td>BAD REQUEST</td><td>GET, POST, PUT, DELETE</td><td>Request is unparsable, syntactically incorrect, or violates schema.</td><tr>
+            <tr><td>401</td><td>UNAUTHORIZED</td><td>GET, POST, PUT, DELETE</td><td>Authorization failure. The authorization header is invalid or missing.</td><tr>
+            <tr><td>403</td><td>FORBIDDEN</td><td>GET, POST, PUT, DELETE</td><td>Operation is not permitted based on the supplied authorization.</td><tr>
+            <tr><td>404</td><td>NOT FOUND</td><td>GET, POST, PUT, DELETE</td><td>Specified resource (e.g., User) or end-point, does not exist.</td><tr>
+            <tr><td>409</td><td>CONFLICT</td><td>POST, PUT, DELETE</td><td>The specified version number does not match the resource's latest version number or a service provider refused to create a new, duplicate resource.</td><tr>
+            <tr><td>500</td><td>INTERNAL SERVER ERROR</td><td>GET, POST, PUT, DELETE</td><td>An internal error. Implementers SHOULD provide descriptive debugging advice.</td><tr>
+            </table><br>
+
+    <h3>Glossary of Terms</h3><table>
+    <tr><th>  Term  </th><th>  Description  </th><tr>
+      <tr><td>  REST  </td><td>  Representational State Transfer<br/>
+      Architectural style to perform CRUD operations over the web using HTTPS methods such as GET, POST, PUT, DELETE  </td><tr>
+      
+      <tr><td>  JSON  </td><td>  JavaScript Object Notation<br />
+      Open standard format that uses human-readable text to transmit data objects consisting of attribute–value pairs. Used primarily to transmit data between a server and web application, as an alternative to XML  </td><tr>
+      
+      <tr><td>  JWT  </td><td>  JSON Web Token  </td><tr>
+      
+      <tr><td>  SCIM  </td><td>  System for Cross-domain Identity Management<br>
+         The SCIM protocol is an application-level HTTPS-based protocol for
+         provisioning and managing identity data. The protocol supports creation,
+         modification, retrieval and discovery of core identity resources
+         such as Users and Groups, as well as custom resources and resource
+         extensions.</td><tr>
+      <tr><td>  HTTPS  </td><td>  HyperText Transfer Protocol Secure </td><tr>
+      
+      <tr><td>  CRUD  </td><td>  Create <br/>
+      Read<br/>
+      Update<br/>
+      Delete</td><tr>
+      
+      <tr><td>  Service Provider  </td><td>  HID AaaS Identity Provider<li>SCIM API <li> OIDC API  </td><tr>
+      
+      <tr><td>  Service Consumer (Client)  </td><td>  A website or application that uses the HID AaaS to manage
+            identity provisioning through HTTPS requests.  </td><tr>
+            
+      <tr><td>  Provisioning Domain  </td><td>  
+            A provisioning domain is an administrative domain external to the
+            domain (Identity service that is owned or controlled by a different legal entity for legal or technical reasons) of the HID AaaS.  </td><tr>
+            
+      <tr><td>  Resource Type  </td><td>  A type of a resource that is managed by HID AaaS.  The
+            resource type defines the resource name, endpoint URL, schemas,
+            and other metadata that indicate where a resource is managed and
+            how it is composed, e.g., User or Group     </td><tr>
+            
+      <tr><td>  Resource  </td><td>  An artifact that is managed by HID AaaS and that
+            contains one or more attributes, e.g., User or Group.  </td><tr>
+            
+      <tr><td>  Endpoint  </td><td>  An endpoint is a defined base path relative
+            to the HID AaaS Base URI over which SCIM operations may be performed against SCIM
+            resources.  For example, assuming that the HID AaaS base
+            URI is <code>https://test.aaas.hidcloud.com/scim/</code> User resources may be accessed at
+            the <code>https://test.aaas.hidcloud.com/scim/tenantID/v2/Users</code>
+            endpoint. In this API reference guide, all the resources are demonstrated using SwaggerHub Virtual Server.
+            Base URI <code>https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3</code>
+            and User resources are accessed at <code>https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/{tenant}/v2/Users</code>  </td><tr>
+      
+      <tr><td>  Schema  </td><td>  A collection of attribute definitions that describe the contents of an entire or partial resource, e.g.,
+            <code>urn:ietf:params:scim:schemas:core:2.0:User</code>.  </td><tr>
+      <tr><td>  tenant  </td><td>  tenant (an alpha-numeric value with the prefix <code>t</code>) is a unique identifier and automatically generated  by the AaaS when onboarding an Organization. HID Global supplies your specific Organization ID. In the endpoint, replace {tenant} placeholder with the HID Global supplied ID for your organization. e.g., <code>t30a7090b6259296697652</code>  </td><tr>
+        <tr><td>  User  </td><td>The User group allows to create, browse and manage the users within a tenant in AaaS. It is used to assign roles and place users in groups. A user can be any individual or system that accesses one or more applications associated with AaaS.<br>
+      The User of an organization can be end users, staff, corporate websites, or IVR system.<br>
+      User Types (Direct and Indirect)<br>
+        <li>A direct user can be a calling system that calls the public API directly or an operator who uses the operator user interface to interact with Authentication Service.
+        <li>An indirect users are those people who interact with Authentication Service through channels.</td>
+        
+      <tr><td> Authenticator
+      </td><td> An Authenticator establishes a logical link between a user, an authentication policy and a credential or device password depending on the policy. The user authenticator is generated when a user registrers for an authentication policy and sets the corresponding password or activates credential and devices.
+      
+      </td><tr><td> Authenticator Policy Configuration
+      </td><td> The Authenticator policy endpoint allows tenant (organization) administrator of the Cloud Service to define and edit their own password policies. This endpoint allows  CRUD operations of Authenticator Policy (for password rules).<br>
+        This service does not allows to modify the built-in Authenticator policies for the below reasons:<br>
+      <li>To maintain the consistency of the policies for all the tenants and also to limit the conflict management between HID changes and tenant changes.<br>
+      <li>To implement standard policies or regulation (NIST Special Publication 800-63B), it should not be editable by the admins of the tenants.<br>
+      HID provides a new permission feature to clone or read HID policies that enable tenants admin to CRUD your own policies.
+      
+      </td><tr><td> Credential
+      </td><td> Credentials are stored in devices and contain information used to authenticate users.<br>Each credential relates to a credential type to categorize that credential. Credential types define credentials parameters leveraged during user authentication.
+      
+      </td><tr><td> Device
+      </td><td> A device is the generic term for representing a physical authentication device (a token or a smart card).  Devices enable a user to perform authentication with a computer system or network.<br>Each device is linked to a device type to categorize a device. Device types define devices parameters leveraged during user authentication.
+      Device Import supports PSKC files.
+      
+      </td><tr><td> Device Provision
+      </td><td> A device provision is an invitation for a user to have their device registered in AaaS. This is basically an entity that represents a “future” device, while the registration invitation is sent to the end user.<br><br>Device Provisions are a key concept in the AaaS - HID Approve solution, as it allows to create a QR code to send to the end user, for them to register their device (cellphone) with the HID Approve mobile application. 
+      
+      </td><tr><td> Event
+      </td><td> The event endpoint allows leveraging the Audit logs stored in AaaS. The Audit logs keep a log of any event happening in AaaS, to wit, authentications, transactions, user creations, role assignments and more. AaaS Audit logs are authentic, non-repudiatable and tamper resistant signed logs, which protects the PIIs by leveraging the tokenization concept (General Data Protection Regulation (GDPR) compliance).
+      
+      </td><tr><td> Groups
+      </td><td> Groups are used to model the organizational structure of provisioned resources. Groups may contain users or other groups. Group is always returned along with its members. The caller can use the users search if the group has a large number of users. Only subgroups of the group appears in members.
+      
+      </td><tr><td> Organization
+      </td><td> An Organization resource represents a customer organization. The Organization API endpoints allow to manage the customers organization domains. 
+      
+      </td><tr><td> Roles
+      </td><td> Authentication Service roles represent the relationships users have with an organization. For example, the relationship between a direct user (a call center operator or a clerk) and an organization may be based on the position the direct user holds within the organization. The relationship of an indirect user (a customer or a contractor) maybe based on a commercial or legal agreement with the organization.
+      
+      </td><tr><td> TokensVault
+      </td><td> The audit pseudonymization by tokenization and encryption is implemented to export the audit events in a data lake to feed a SIEM or other Analytics while preserving privacy. The tokens are linked to the user who owns them. The endpoint exposes only the read-only tokens vault resource.
+      
+      </td><tr><td> Common for REST API
+      </td><td> Delete and Search functionalities are commonly used in most of the resources, and follows the same pattern. Only the endpoints and resource types change.
+      
+      </td><tr><td> Device Type Configuration
+      </td><td> The Device Type Configuration endpoint allows tenant (organization) administrator of the Cloud Service to define the presentation and the branding of their HID Approve devices. This endpoint also enables the tenant to manage different devices with different graphical/cryptographic customizations for different subsets of users in the same tenant.<br>This service does not allows to modify the built-in device types for the below reasons:<br>
+        <li> To maintain the consistency of the devices for all the tenants and also to limit the conflict management between HID changes and tenant changes.<br>
+        <li> To implement standard policies or regulation (NIST Special Publication 800-63B), it should not be editable by the admins of the tenants.<br>
+      HID provides a new permission feature to clone or read HID devices that enable tenants admin to CRUD your own devices types.
+      
+      </td><tr><td> User Repository Configuration
+      </td><td> User Repositories define parameters to use Lightweight Directory Access Protocol (LDAP) servers as the source of user data for AaaS. To communicate with your LDAP directory server, configure AaaS that enables access to user data for authentication purpose.<br>Each User Repository entry contains information of the used Connection Settings, the LDAP referrals (if any), the attributes available for the users, a summary of all the Groups (User Types and Admin Groups) and all the roles that are bound to this User Repository.
+      
+      </td><tr><td> Transaction Validation using SMS
+      </td><td> Transaction Validation using SMS is a feature, which provides Payment Services Directive 2 (PSD2) dynamic linking using SMS (a solution for customers who do not own a smartphone).<br>
+      European Banking Authority is a regulatory body, which controls all the payment service providers to complete a payment in EU member states and its businesses around the world. PSD2 is a policy issued by European Banking Authority.<br> PSD2 introduced the payment ecosystem to allow new technologies, whose objective is to simplify online payments or transfers. It also ensures financial transactions with the involvement of strong customer authentication, thus avoids rising costs that are incurred by frauds. PSD2 applies to all business processes payments that are completed in the EU, including “one-leg-out” payments, where only one party is in EU, and the other is not.<br><br>
+      <b>PSD2 Dynamic Linking</b><br>
+      PSD2 dynamic linking defines a set of requirements for transaction validation. Mainly includes:<br>
+        <li> a unique authentication code for each transaction (code can be used only once).
+        <li> an SMS alert, which contains both the amount and the recipient when authenticating.
+      The work flow is as follows:<br>
+      <ol><li>User performs transaction on a banking web site.</li>
+      <li>User receives an SMS on his mobile. The SMS includes transaction text and secret.</li>
+      <li>User types the secret in banking application. It can be one of the 2 conditions below:</li>
+        * The banking application receives approval and completes the transaction.<br>
+        * After timeout, if the banking application does not receive the validation, transaction will be cancelled.
+      <li>After the configuration is done, the system is ready for transaction validation via SMS.</li></ol></td>
+      </table><br>
+  contact:
+    name: Support
+    email: apiteam@hidglobal.com
+  license:
+    name: © 2008-2020 HID Global Corporation/ASSA ABLOY AB. All rights reserved.
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3
+security:
+  - bearerAuth: []
+tags:
+  - name: Users
+paths:
+  '/{tenant}/v2/Users':
+    post:
+      tags:
+      - Users
+      summary: Creates a new user
+      description: Create a new user.
+      operationId: createUser
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          required: true
+          example: Bearer rpxdmgAAAW3OqaiJvylEZ/yUcY7NxzKSJp54fPKb
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        201: 
+          description: HTTP/1.1 201 CREATED
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/UserCreateResponse'
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+  '/{tenant}/v2/Users/.forget':
+    post:
+      tags:
+      - Users
+      summary: Removes all anonymization tokens of a user
+      description: The forget method removes all anonymization tokens (personally identifiable information) for a user in the Audit log.<br> Use only externalId parameter in the request to forget a user. Do not use other parameters.<li> Delete the user before calling forgetUser.<li>Users can perform this with "Forget User" permission  assigned.
+      operationId: forgetUser
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          example: bearer <Access Token>
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/UserForgetRequest'
+      responses:
+        200:
+          description: HTTP/1.1 200 OK<br>Successfully removed all anonymization tokens in the Audit log.
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+  '/{tenant}/v2/Users/.search':
+    post:
+      tags:
+      - Users
+      summary: Searches for user
+      description: Search for users with the supported criteria.<br>Supported search criteria as follows.
+        <table>
+        <tr><th>SCIM Attribute</th><th>Operators supported</th><tr>
+        <tr><td>username</td><td>eq (equal), co (contains), ew (ends with), sw (starts with), pr (present (has value))</td><tr>
+        <tr><td>externalid</td><td>eq, co, ew, sw, pr</td><tr>
+        <tr><td>groups.value</td><td>eq</td><tr>
+        <tr><td>role</td><td>eq, co, ew, sw, pr</td><tr>
+        <tr><td>userType</td><td>eq</td><tr>
+        <tr><td>Other supported attributes</td><td>eq</td><tr>
+        </table><br><li><mark>and</mark> is the only supported logical operator.
+      operationId: findUsers
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          example: bearer <Access Token>
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/UserSearchRequest'
+      responses:
+        200:
+          description: HTTP/1.1 200 OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/UserSearchResponse'
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+  '/{tenant}/v2/Users/{id}':
+    delete:
+      tags:
+      - Users
+      summary: Deletes a known user
+      description: Delete a specific user with the unique identifier.  An empty response with the 204 status code is returned upon success.
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          example: 73168
+          description: id of the specific user
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          example: bearer <Access Token>
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: HTTP/1.1 204 NO CONTENT
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+    get:
+      tags:
+      - Users
+      summary: Gets a known user
+      description: Retrieve specific user with the unique ID
+      operationId: getUser
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          example: 73168
+          description: id of the specific user.
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          example: bearer <Access Token>
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: HTTP/1.1 200 OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/UserGETResponse'
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+    put:
+      tags:
+      - Users
+      summary: Updates a known user
+      description: Update attributes of a specific user using the unique ID.
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: tenant
+          description: tenant is a unique identifier of the client.
+          example: t30a7090b6259296697652
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          example: 73168
+          description: id of the specific user
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: bearerAuth
+          description: Access token prefixed with <code>Bearer</code>
+          example: bearer <Access Token>
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        200:
+          description: HTTP/1.1 200 OK
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateResponse'
+        400:
+          description: HTTP/1.1 400 BAD REQUEST
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/badRequest'
+        401:
+          description: HTTP/1.1 401 UNAUTHORIZED
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/unauthorized'
+        403:
+          description: HTTP/1.1 403 FORBIDDEN
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/forbidden'
+        404:
+          description: HTTP/1.1 404 NOT FOUND
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/notFound'
+        500:
+          description: HTTP/1.1 500 INTERNAL SERVER ERROR
+          content:
+            application/scim+json:
+              schema:
+               $ref: '#/components/schemas/internalServerError'
+components:
+  schemas:
+    UserAttributes:
+      required:
+      - name
+      - type
+      - value
+      - readOnly
+      properties:
+        attributes:
+          description: The list of the user attributes.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: The name of the attribute.
+                type: string
+              type:
+                description: The type of the attribute.
+                type: string
+              value: 
+                description: The value of the attribute.
+                type: string
+              readOnly:
+                description: Boolean value which indicates mutability.
+                type: boolean
+          example:
+          - name: TITLE
+            type: string
+            value: Mr.
+            readOnly: false
+          - name: ATR_MOBILE
+            type: number
+            value: 0000987654321
+            readOnly: false
+          - name: ATR_EMAIL
+            type: string
+            value: jdoe@hidglobal.com
+            readOnly: false
+          - name: LASTNAME
+            type: string
+            value: Doe
+            readOnly: false
+          - name: FIRSTNAME
+            type: string
+            value: John
+            readOnly: false
+          - name: DOB
+            type: string
+            example: 1990-08-01
+    UserAuthenticators:
+      type: object
+      properties:
+        authenticators:
+          description: The list of the user authenticators.
+          type: array
+          items: 
+            type: object
+            properties:
+              display:
+                description: The display name of the Authenticator.
+                type: string
+                enum:
+                  - AT_STDPWD
+                  - AT_ACTPWD
+                  - AT_OOB
+                  - AT_EMPOOB
+              value:
+                type: string
+                description: The value of the authenticator.
+                enum:
+                  - 73168.AT_EMPOOB
+                  - 73168.AT_STDPWD
+              status:
+                description: The status of the authenticator.
+                type: string
+                enum:
+                  - ENABLED
+                  - DISABLED
+              location:
+                description: The direct URI of the authenticator that was returned.
+                type: string
+          example:
+          - display: AT_STDPWD
+            value: 73168.AT_STDPWD
+            status: ENABLED
+            location: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Authenticator/73168.AT_STDPWD
+    UserDevices:
+      type: object
+      properties:
+        devices:
+          description: The list of the user devices.
+          type: array
+          items:
+            type: object
+            properties:
+              display:
+                type: string
+                description: The display name of the device.
+              value:
+                type: string
+                description: The value of the device
+              friendlyName:
+                type: string
+                description: An easily identified name of the device.
+              location:
+                description: The direct URI of the device that was returned.
+                type: string
+          example: 
+          - display: 11059
+            value: 11059
+            friendlyName: my OOB device
+            location: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Device/11059
+    UserCreateRequest:
+      description: This example illustrates creation of a new user in ROOT group with an admin role.
+      required:
+      - schemas
+      - externalId
+      - name
+      - emails
+      properties:
+        schemas:
+          description: The core schemas<li><code>urn:ietf:params:scim:schemas:core:2.0:User</code>The SCIM v2 Core User representation<li><code>urn:hid:scim:api:idp:2.0:UserAttribute</code>HID schema to add additional attributes to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserDevice</code>HID schema to assign devices to user (optional)
+          items:
+            type: string
+            example: 
+            - urn:ietf:params:scim:schemas:core:2.0:User 
+            - urn:hid:scim:api:idp:2.0:UserAttribute
+            - urn:hid:scim:api:idp:2.0:UserDevice
+          type: array
+          uniqueItems: true
+        externalId:
+          type: string
+          example: jdoe
+          description: The unique identifier provided by the Service Consumer.
+        name:
+          description: Enrolled full name (given name + family name) of the user.
+          type: object
+          properties:
+            familiyName:
+              description: The family name of the user.
+              type: string
+              example: Doe
+            givenName:
+              description: The given name of the user.
+              type: string
+              example: John
+        emails:
+          description: The Email address of the user.
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                description: Email ID
+                type: string
+                example: jdoe@hidglobal.com
+              type:
+                description: The nature of the Email ID.
+                type: string
+                example: work
+        roles:
+          description: The list of roles the user is assigned to.
+          type: array
+          items:
+            type: object
+            properties:
+              display:
+                description: The display name of the role.
+                type: string
+                example: Org Admins
+                enum:
+                  - Org Admins
+                  - Client IDs
+              value:
+                description: The value of the role.
+                type: string
+                example: RL_ORGADMIN
+                enum:
+                  - RL_ORGADMIN
+                  - RL_CLIENTID
+        groups:
+          description: The list of groups to which the user belongs to.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: The type of the group.
+                type: string
+                example: Groups
+              display:
+                description: The display name of the group.
+                type: string
+                example: ROOT
+              value:
+                description: The value of the group.
+                type: string
+                example: UG_ROOT
+        urn:hid:scim:api:idp:2.0:UserAttribute:
+          description: HID user Attribute schema.
+          properties: 
+            attributes:
+              description: multi-valued attributes.
+              type: array
+              items: 
+                type: object
+                properties:
+                  name:
+                    description: The name of the attribute.
+                    type: string
+                    example: DOB
+                    enum:
+                      - ADDRESS1    
+                      - ADDRESS2    
+                      - ADDRESS3    
+                      - ADDRESS4    
+                      - CITY    
+                      - DOB (Date of birth)       
+                      - ATR_MOBILE    
+                      - POSTCODE    
+                      - TITLE
+                  value:
+                    description: The value of the attribute.
+                    type: number
+                    example: 2000-08-01
+    UserCreateResponse:
+      required:
+      - schemas
+      - id
+      - externalId
+      - meta
+      - userName
+      - name
+      - displayName
+      - userType
+      - active
+      - emails
+      - groups
+      - roles
+      - urn:hid:scim:api:idp:2.0:UserAttribute
+      - urn:hid:scim:api:idp:2.0:UserAuthenticator
+      - urn:hid:scim:api:idp:2.0:UserDevice
+      properties:
+        schemas:
+          description: The core schemas<li><code>urn:ietf:params:scim:schemas:core:2.0:User</code>The SCIM v2 Core User representation<li><code>urn:hid:scim:api:idp:2.0:UserAttribute</code>HID schema to add additional attributes to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserDevice</code>HID schema to assign devices to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserAuthenticator</code>HID schema to assign authentication to user (optional)
+          items:
+            type: string
+            example:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:hid:scim:api:idp:2.0:UserAttribute
+            - urn:hid:scim:api:idp:2.0:UserDevice
+            - urn:hid:scim:api:idp:2.0:UserAuthenticator
+          type: array
+          uniqueItems: true
+        id: 
+          description: The unique identifier generated for user by the AaaS.
+          type: string
+          example: 73168
+        externalId:
+          description: The unique identifier provided by the Service Consumer.
+          type: string
+          example: jdoe
+        meta:
+          description: A complex attribute which contains user metadata.
+          type: object
+          properties:
+            resourceType:
+              description: The name of the resource type.
+              type: string
+              example: User
+            created:
+              description: Indicates the date and time when the resource (user) was created.
+              format: date-time
+              type: string
+            location:
+              description: The direct URI of the resource that was returned.
+              type: string
+              example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Users/73168
+            version:
+              description: The version of the resource that was returned.
+              type: number
+              example: 1
+        userName:
+          description: A unique identifier of the user. The username for login purpose. 
+          type: string
+          example: jdoe
+        name:
+          description: Enrolled full name (given name + family name) of the user.
+          type: object
+          properties:
+            familiyName:
+              description: The family name of the user.
+              type: string
+              example: Doe
+            givenName:
+              description: The given name of the user.
+              type: string
+              example: John
+        displayName:
+          description: The display name of the user which is suitalbe for display to end users.
+          type: string
+          example: John Doe
+        userType:
+          description: The type of the user, which indicates the relationship of the User to the AaaS.
+          type: string
+          example: External
+        active:
+          description: Boolean value indicates the active status of the user.<li>true - Active user<li> false - Inactive user (suspended account)
+          type: boolean
+          example: true
+        emails:
+          description: The Email address of the user.
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: John.Doe@hidglobal.com
+        groups:
+          description: The list of groups which the user belongs to.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: The type of the group.
+                type: string
+                example: Group
+              display:
+                description: The display name of the group.
+                type: string
+                example: Business Online Banking
+              value:
+                description: The value of the group.
+                type: string
+                example: UG_ROOT
+              location:
+                description: The direct URI of the resource that was returned.
+                type: string
+                example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Groups/UG_ROOT
+        roles:
+          description: The list of roles the user is assigned to.
+          type: array
+          items:
+            type: object
+            properties:
+              display:
+                description: The display name of the role.
+                type: string
+                example: Org Admins
+              value:
+                description: The value of the role.
+                type: string
+                example: RL_ADMIN
+        'urn:hid:scim:api:idp:2.0:UserAttribute':
+          $ref: '#/components/schemas/UserAttributes'
+        'urn:hid:scim:api:idp:2.0:UserAuthenticator':
+          description: The lsit of the user authenticators.
+          properties:
+            authenticators:
+              type: array
+              example: []
+        'urn:hid:scim:api:idp:2.0:UserDevice':
+          description: The lsit of the user devices.
+          properties:
+            devices:
+              type: array
+              example: []
+    UserForgetRequest:
+      required:
+      - externalId
+      properties:
+        schemas:
+          items:
+            type: string
+            example: urn:ietf:params:scim:schemas:core:2.0:User
+            description: The SCIM v2 Core User representation.
+          type: array
+          uniqueItems: true
+        externalId:
+          description: The unique identifier provided by the Service Consumer.
+          type: string
+          example: jdoe
+    UserSearchRequest:
+      required:
+      - schemas
+      - filter
+      - startIndex
+      - count
+      properties:
+        schemas:
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:SearchRequest
+            description: The SCIM v2 search request representation
+          type: array
+          uniqueItems: true
+        filter:
+          description: The filter parameter is used to request a subset of resources.
+          type: string
+          example: groups eq UG_ROOT and name eq John Doe
+        sortBy:
+          description: Indicates the attribute value which is used to form the sorting order of response.
+          type: string
+          example: id
+        sortOrder:
+          description: Indicates the order of response applied by the parameter.
+          type: string
+          example: descending
+          enum:
+          - ascending
+          - descending
+        startIndex:
+          description: Indicates the 0-based index order of response.
+          type: integer
+          example: 0
+        count:
+          description: Indicates the maximum number of query results per page in the response.
+          type: integer
+          example: 100
+    UserSearchResponse:
+      required:
+      - schemas
+      properties:
+        schemas:
+          items:
+            type: string
+            example: urn:ietf:params:scim:api:messages:2.0:ListResponse
+            description: The SCIM v2 format for returning multiple resources.
+          type: array
+          uniqueItems: true
+        totalResults: 
+          description: The total number of results returned.
+          type: integer
+          example: 1
+        resources:
+          description: A multi-valued list of complex objects which contains the requested resources.
+          type: array
+          items:
+            type: object
+            properties:
+              schemas:
+                description: The core schemas<li><code>urn:ietf:params:scim:schemas:core:2.0:User</code>The SCIM v2 Core User representation<li><code>urn:hid:scim:api:idp:2.0:UserAttribute</code>HID schema to add additional attributes to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserDevice</code>HID schema to assign devices to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserAuthenticator</code>HID schema to assign authentication to user (optional)
+                type: string
+                example:
+                - urn:ietf:params:scim:schemas:core:2.0:User
+                - urn:hid:scim:api:idp:2.0:UserDevice
+                - urn:hid:scim:api:idp:2.0:UserAttribute
+                - urn:hid:scim:api:idp:2.0:UserAuthenticator
+              id:
+                description: The unique identifier generated for user by the AaaS.
+                type: integer
+                example: 73168
+              externalId:
+                description: The unique identifier provided by the Service Consumer.
+                type: string
+                example: jdoe
+              meta:
+                description: A complex attribute which contains user metadata.
+                type: object
+                properties:
+                  resourceType:
+                    description: The name of the resource type of the resource.
+                    type: string
+                    example: User
+                  created:
+                    description: Indicates the date and time when the resource (user) was created.
+                    format: date-time
+                    type: string
+                  location:
+                    description: The direct URI of the resource that was returned.
+                    type: string
+                    example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Users/73168
+                  version:
+                    description: The version of the resource that was returned.
+                    type: number
+                    example: 1
+              userName:
+                description: A unique identifier of the user. The username for login purpose. 
+                type: string
+                example: jdoe
+              name:
+                description: Enrolled full name (given name + family name) of the user.
+                type: object
+                properties:
+                  familiyName:
+                    description: The family name of the user.
+                    type: string
+                    example: Doe
+                  givenName:
+                    description: The given name of the user.
+                    type: string
+                    example: John
+              displayName:
+                description: The display name of the user which is suitalbe for display to end user.
+                type: string
+                example: John Doe
+              active:
+                description: Boolean value indicates the active status of the user.<li>true - Active user<li> false - Inactive user (suspended account)
+                type: boolean
+                example: true
+              emails:
+                description: The Email address of the user.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                      example: John.Doe@hidglobal.com
+              groups:
+                description: The list of groups which the user belongs to.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      description: The type of the group.
+                      type: string
+                      example: Group
+                    display:
+                      description: The display name of the group.
+                      type: string
+                      example: Business Online Banking
+                    value:
+                      description: The value of the group.
+                      type: string
+                      example: UG_ROOT
+                    location:
+                      description: The direct URI of the resource that was returned.
+                      type: string
+                      example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Groups/UG_ROOT
+              roles:
+                description: The list of roles the user is assigned to.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    display:
+                      description: The display name of the role.
+                      type: string
+                      example: Org Admins
+                    value:
+                      description: The value of the role.
+                      type: string
+                      example: RL_ADMIN
+              'urn:hid:scim:api:idp:2.0:UserAttribute':
+                $ref: '#/components/schemas/UserAttributes'
+              'urn:hid:scim:api:idp:2.0:UserAuthenticator':
+                $ref: '#/components/schemas/UserAuthenticators'
+              'urn:hid:scim:api:idp:2.0:UserDevice':
+                $ref: '#/components/schemas/UserDevices'
+    UserUpdateRequest:
+      required:
+      - schemas
+      - externalId
+      - groups
+      - urn:hid:scim:api:idp:2.0:UserAttribute
+      properties:
+        schemas:
+          items:
+            type: string
+            example: 
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:hid:scim:api:idp:2.0:UserAttribute
+          type: array
+          uniqueItems: true
+        externalId:
+          type: string
+          example: jdoe
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: UG_ROOT
+        'urn:hid:scim:api:idp:2.0:UserAttribute':
+          type: object
+          properties:
+            attributes:
+              type: array
+              items: 
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: DOB
+                  value:
+                    type: string
+                    example: 1990-08-01
+    UserUpdateResponse:
+      required:
+      - schemas
+      - id
+      - externalId
+      - meta
+      - userName
+      - name
+      - displayName
+      - userType
+      - active
+      - emails
+      - groups
+      - roles
+      - urn:hid:scim:api:idp:2.0:UserAttribute
+      - urn:hid:scim:api:idp:2.0:UserAuthenticator
+      - urn:hid:scim:api:idp:2.0:UserDevice
+      properties:
+        schemas:
+          description: The core schemas<li><code>urn:ietf:params:scim:schemas:core:2.0:User</code>The SCIM v2 Core User representation<li><code>urn:hid:scim:api:idp:2.0:UserAttribute</code>HID schema to add additional attributes to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserDevice</code>HID schema to assign devices to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserAuthenticator</code>HID schema to assign authentication to user (optional)
+          items:
+            type: string
+            example:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:hid:scim:api:idp:2.0:UserAttribute
+            - urn:hid:scim:api:idp:2.0:UserDevice
+            - urn:hid:scim:api:idp:2.0:UserAuthenticator
+          type: array
+          uniqueItems: true
+        id: 
+          description: The unique identifier generated for user by the AaaS.
+          type: string
+          example: 73168
+        externalId:
+          description: The unique identifier provided by the Service Consumer.
+          type: string
+          example: jdoe
+        meta:
+          description: A complex attribute which contains user metadata.
+          type: object
+          properties:
+            resourceType:
+              description: The name of the resource type of the resource.
+              type: string
+              example: User
+            created:
+              description: Indicates the date and time when the resource (user) was created.
+              format: date-time
+              type: string
+            location:
+              description: The direct URI of the resource that was returned.
+              type: string
+              example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Users/73168
+            version:
+              description: The version of the resource that was returned.
+              type: number
+              example: 1
+        userName:
+          description: A unique identifier of the user--the user name to login. 
+          type: string
+          example: jdoe
+        name:
+          description: Enrolled full name (given name + family name) of the user.
+          type: object
+          properties:
+            familiyName:
+              description: The family name of the user.
+              type: string
+              example: Doe
+            givenName:
+              description: The given name of the user.
+              type: string
+              example: John
+        displayName:
+          description: The display name of the user which is suitalbe for display to end user.
+          type: string
+          example: John Doe
+        userType:
+          description: The type of the user which indicates the relationship of the User to the AaaS.
+          type: string
+          example: External
+        active:
+          description: Boolean value indicates the active status of the user.<li>true - Active user<li> false - Inactive user (suspended account)
+          type: boolean
+          example: true
+        emails:
+          description: The Email address of the user.
+          type: array
+          items: 
+            type: object
+            properties:
+              value:
+                type: string
+                example: John.Doe@hidglobal.com
+        groups:
+          description: The list of groups to which the user belongs to.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: The type of the group.
+                type: string
+                example: Group
+              display:
+                description: The display name of the group.
+                type: string
+                example: Business Online Banking
+              value:
+                description: The value of the group.
+                type: string
+                example: UG_ROOT
+              location:
+                description: The direct URI of the resource that was returned.
+                type: string
+                example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Groups/UG_ROOT
+        roles:
+          description: List of roles the user is assigned to.
+          type: array
+          items:
+            type: object
+            properties:
+              display:
+                description: The display name of the role.
+                type: string
+                example: Org Admins
+              value:
+                description: The value of the role.
+                type: string
+                example: RL_ADMIN
+        'urn:hid:scim:api:idp:2.0:UserAttribute':
+          $ref: '#/components/schemas/UserAttributes'
+        'urn:hid:scim:api:idp:2.0:UserAuthenticator':
+          $ref: '#/components/schemas/UserAuthenticators'
+        'urn:hid:scim:api:idp:2.0:UserDevice':
+          $ref: '#/components/schemas/UserDevices'
+    UserGETResponse:
+      required:
+      - schemas
+      - id
+      - externalId
+      - meta
+      - userName
+      - name
+      - displayName
+      - userType
+      - active
+      - emails
+      - groups
+      - roles
+      - urn:hid:scim:api:idp:2.0:UserAttribute
+      - urn:hid:scim:api:idp:2.0:UserAuthenticator
+      - urn:hid:scim:api:idp:2.0:UserDevice
+      properties:
+        schemas:
+          description: The core schemas<li><code>urn:ietf:params:scim:schemas:core:2.0:User</code>The SCIM v2 Core User representation<li><code>urn:hid:scim:api:idp:2.0:UserAttribute</code>HID schema to add additional attributes to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserDevice</code>HID schema to assign devices to user (optional)<li><code>urn:hid:scim:api:idp:2.0:UserAuthenticator</code>HID schema to assign authentication to user (optional)
+          items:
+            type: string
+            example:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:hid:scim:api:idp:2.0:UserAttribute
+            - urn:hid:scim:api:idp:2.0:UserDevice
+            - urn:hid:scim:api:idp:2.0:UserAuthenticator
+          type: array
+          uniqueItems: true
+        id: 
+          description: The unique identifier generated for user by the AaaS.
+          type: string
+          example: 73168
+        externalId:
+          description: The unique identifier provided by the Service Consumer.
+          type: string
+          example: jdoe
+        meta:
+          description: A complex attribute which contains user metadata.
+          type: object
+          properties:
+            resourceType:
+              description: The name of the resource type of the resource.
+              type: string
+              example: User
+            created:
+              description: Indicates the date and time when the resource (user) was created.
+              format: date-time
+              type: string
+            location:
+              description: The direct URI of the resource that was returned.
+              type: string
+              example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Users/73168
+            version:
+              description: The version of the resource that was returned.
+              type: number
+              example: 1
+        userName:
+          description: A unique identifier of the user--the user name to login. 
+          type: string
+          example: jdoe
+        name:
+          description: Enrolled full name (given name + family name) of the user.
+          type: object
+          properties:
+            familiyName:
+              description: The family name of the user.
+              type: string
+              example: Doe
+            givenName:
+              description: The given name of the user.
+              type: string
+              example: John
+        displayName:
+          description: The display name of the user which is suitalbe for display to end user.
+          type: string
+          example: John Doe
+        userType:
+          description: The type of the user which indicates the relationship of the User to the AaaS.
+          type: string
+          example: External
+        active:
+          description: Boolean value indicates the active status of the user.<li>true - Active user<li> false - Inactive user (suspended account)
+          type: boolean
+          example: true
+        emails:
+          description: The Email address of the user.
+          type: array
+          items: 
+            type: object
+            properties:
+              value:
+                type: string
+                example: John.Doe@hidglobal.com
+        groups:
+          description: The list of groups to which the user belongs to.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: The type of the group.
+                type: string
+                example: Group
+              display:
+                description: The display name of the group.
+                type: string
+                example: Business Online Banking
+              value:
+                description: The value of the group.
+                type: string
+                example: UG_ROOT
+              location:
+                description: The direct URI of the resource that was returned.
+                type: string
+                example: https://virtserver.swaggerhub.com/HID-Global8/SCIM/3.2.3/t30a7090b6259296697652/v2/Groups/UG_ROOT
+        roles:
+          description: List of roles the user is assigned to.
+          type: array
+          items:
+            type: object
+            properties:
+              display:
+                description: The display name of the role.
+                type: string
+                example: Org Admins
+              value:
+                description: The value of the role.
+                type: string
+                example: RL_ADMIN
+        'urn:hid:scim:api:idp:2.0:UserAttribute':
+          $ref: '#/components/schemas/UserAttributes'
+        'urn:hid:scim:api:idp:2.0:UserAuthenticator':
+          $ref: '#/components/schemas/UserAuthenticators'
+        'urn:hid:scim:api:idp:2.0:UserDevice':
+          $ref: '#/components/schemas/UserDevices'
+    badRequest:
+      properties:
+        schemas:
+          description: Error responses are identified using the Error schema.
+          type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        detail: 
+          type: string
+          example: Request is unparsable, syntactically incorrect, or violates schema.
+        status:
+          description: The status code is a three-digit integer.<br>4xx (Client Error)
+          type: number
+          example: 400
+        scimType:
+          type: string
+          example: invalidSyntax
+    unauthorized:
+      properties:
+        schemas:
+          description: Error responses are identified using the Error schema.
+          type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        detail: 
+          type: string
+          example: Bearer token is missing or invalid.<br>Authorization failure. The authorization header is invalid or missing.
+        status:
+          description: The status code is a three-digit integer.<br>4xx (Client Error)
+          type: number
+          example: 401
+    forbidden:
+      properties:
+        schemas:
+          description: Error responses are identified using the Error schema.
+          type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        detail: 
+          type: string
+          example: User does not have privileges.
+        status:
+          description: The status code is a three-digit integer.<br>4xx (Client Error)
+          type: number
+          example: 403
+    notFound:
+      properties:
+        schemas:
+          description: Error responses are identified using the Error schema.
+          type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        detail: 
+          type: string
+          example: Resource not found.
+        status:
+          description: The status code is a three-digit integer.<br>4xx (Client Error)
+          type: number
+          example: 404
+    internalServerError:
+      properties:
+        schemas:
+          description: Error responses are identified using the Error schema.
+          type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        detail:
+          description: An internal error.
+          type: string
+          example: error
+        status:
+          description: The status code is a three-digit integer.<br>5xx (Server Error)
+          type: number
+          example: 500
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
