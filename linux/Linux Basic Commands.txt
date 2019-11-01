@@ -251,6 +251,9 @@ $ lsof -p 1
 Kill all Activity of Particular User
 $ kill -9 `lsof -t -u username`
 
+Kill a process after by finding a spsecific port
+$ sudo kill -9 $(sudo lsof -t -i:8081)
+
 List All Processes in Current Shell 
 $ ps
 

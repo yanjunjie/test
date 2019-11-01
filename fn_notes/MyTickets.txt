@@ -25,13 +25,17 @@ TAI-393 - MAR-4773 - Edit Project New Client and Service Contract Links
 TAI-609 - TCM-4712
 TAI-624 - TCM-4799
 TAI-645 - TCM-5367
+TAI-635 - TCM-5329
+TAI-640 - TCM-5361
+TAI-287 - 
 
 // In Review
-
+TAI-630 - TCM-5343
 
 // In Progress
-TAI-287 - 
-TAI-630 - TCM-5343
+TAI-650 - 
+TAI-637 - TCM-5360
+
 
 // backlog
 

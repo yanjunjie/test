@@ -1,4 +1,6 @@
 // For Debugging
+console.log(JSON.stringify(this.lastResponse.body, 0, 2));
+
 https://stackoverflow.com/questions/29386116/inspecting-drop-down-menus-in-new-chrome
 https://stackoverflow.com/questions/49299042/react-select-how-to-keep-dropdown-open-when-styling-in-inspector
 
@@ -20,6 +22,8 @@ await this.waitFor(`//a[contains(@class, 'selected') and text()='${tabName}']`);
 //a[contains(@href,'5693')]//ancestor::div[@data-nw-file="Card"]/preceding-sibling::div//button
 (//bookmark/ancestor::*[@id][1]/@id | //bookmark/preceding::*[@id][1]/@id)[last()]
 //*[title="50"]/ancestor::store
+//span[text()='Potential Bonuses']//ancestor::div[1]
+//preceding::BName[not(parent::Test)][1]
 //*[ancestor::foo[bar[@attr="val"]]]
 here, foo is ancestor
       bar is child
@@ -112,6 +116,8 @@ will select the same nodes as
 //input[@data-nw-file='PayPal'] | //label[contains(text(), 'PayPal')]//input[@type='radio']
 (//*[@id="xxx"] | //body)[last()]
 Here, The ( ... | ... ) part returns a union of its subparts. These are *[@id="xxx"] -- any element
+Another way,
+//div[contains(@class, 'modal') and contains(button, 'Continue to work order template form')]
 
 //### Select both elements
 //div[contains(@class, "some-class") and .//label[contains(text(), "${inputData.label}")]]//div/input
