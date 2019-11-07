@@ -378,6 +378,8 @@ const workOrderId = await getWorkOrderId(this, woName); // get work order id
   this.testData.projects.project1.alias // project name/title
   const { id } = this.testData.projects[alias].workorder_group; // project id
 
+//Header Information
+response.response.headers.location
 
 // mouse click in selenium
 driver.actions().mouseMove(element).mouseUp().mouseDown().pe‌​rform()
