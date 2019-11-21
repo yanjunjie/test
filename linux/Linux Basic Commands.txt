@@ -248,11 +248,15 @@ $ lsof -i
 Search by PID
 $ lsof -p 1
 
+Kill a process using process name
+$ sudo pkill pname
+
 Kill all Activity of Particular User
 $ kill -9 `lsof -t -u username`
 
-Kill a process after by finding a spsecific port
-$ sudo kill -9 $(sudo lsof -t -i:8081)
+Kill processes after finding PIDs by filtering spsecific port
+$ sudo kill -9 $(sudo lsof -t -i :8081)
+$ sudo kill $(sudo lsof -t -i :3306)
 
 List All Processes in Current Shell 
 $ ps
@@ -262,6 +266,7 @@ $ ps axu
 
 Find specific process
 $ ps aux | grep php5
+$ ps -ef | grep filename
 
 To see current environment variables and their values
 $ env

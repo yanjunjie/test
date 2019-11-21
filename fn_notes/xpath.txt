@@ -1,5 +1,4 @@
-// For Debugging
-console.log(JSON.stringify(this.lastResponse.body, 0, 2));
+// Debugging Notes for Chrome
 
 https://stackoverflow.com/questions/29386116/inspecting-drop-down-menus-in-new-chrome
 https://stackoverflow.com/questions/49299042/react-select-how-to-keep-dropdown-open-when-styling-in-inspector

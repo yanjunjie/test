@@ -1,3 +1,26 @@
+// Some Webstorm Debugging Notes
+Name: Run @wip test2 mono
+
+Javascript File:
+node_modules/.bin/cucumber-js
+
+Application Peramiters: 
+-t
+"@wip and not (@mute or @readyForDev)"
+--format-options
+"{\"colorsEnabled\":true}"
+
+Environment Veriables:
+ENVIRONMENT=test2;PLATFORM=chrome
+
+
+// debuging assets
+console.log(JSON.stringify(this.lastResponse.body, 0, 2));
+
+await this.retry(async () => {
+
+}, 10000, 200);
+
 // in gherkin
 %{testData.marketplaceBuyers.marketplaceBuyer1.company}
 
@@ -19,11 +42,6 @@ if (values.company) {
 
 If you guys face any query related error then please hit the url :
 https://ui-test2.fndev.net/tools/dbmigrate/
-
-// debuging assets
-await this.retry(async () => {
-
-}, 10000, 200);
 
 const Promise = require(`bluebird`);
 await Promise.delay(1000); // need to wait extra to use the next textbox on same page
