@@ -95,6 +95,7 @@ From staff user->company list->edit->Marketplace Settings->Networks
       "published": true,
       "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm",
       "scheduleRange":"today 6:00am to +1d 12:00pm",
+      "scheduleRange": "+1w 3-5pm to +2w 3-6pm America/Chicago",
       "geo": "mn"
     }
 

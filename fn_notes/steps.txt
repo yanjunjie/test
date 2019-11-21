@@ -194,6 +194,12 @@ this.auth.access_token
     await expect(isEnabled).to.be.null;
   }, 20000, 200);
 
+    await this.retry(async () => {
+      const elemLen = await this.waitFor(locator, { timeoutMs: 4000 })
+        .then(el => el.length || 0);
+      expect(elemLen).to.above(0);
+    }, 8000, 100);
+
   include=> works like indexOf function in javascript
   equal=> works for equality
 
@@ -204,6 +210,22 @@ this.auth.access_token
       el.click();
     }, 20000, 200);
   }
+
+ await this.retry(async () => {
+    const actualStatus = await this.waitFor(`(//span[contains(@class, 'Status')]/span)[1]`)
+      .then(([el]) => el.getText());
+    expect(actualStatus).to.equal(expected);
+  }, 60000, 500);
+
+const isClickable = await this.waitFor(this.pages.global.button(name), { timeoutMs: 15000 })
+      .then(([el]) => el.isEnabled());
+expect(isClickable).to.equal(true);
+
+const [el] = await this.waitFor(this.pages.global.button(name), { timeoutMs: 20000 });
+const isDisplayed = await displayedElement(el);
+expect(isDisplayed).to.equal(true);
+
+
 
 //******************End Comparison**********************
 
@@ -361,6 +383,8 @@ await submitPassword(this, this.currentUser.password);
 const userEmail = this.email;
 const userId = this.auth.user.id;
 const userId = this.currentUser.id;
+testData.marketplaceBuyers.buyer1.user.id
+testData.workOrders.draftWorkOrder1.workorder.id
 
 const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
 // id initialization at woCommon.js
@@ -378,6 +402,8 @@ const workOrderId = await getWorkOrderId(this, woName); // get work order id
   this.testData.projects.project1.alias // project name/title
   const { id } = this.testData.projects[alias].workorder_group; // project id
 
+//Header Information
+response.response.headers.location
 
 // mouse click in selenium
 driver.actions().mouseMove(element).mouseUp().mouseDown().pe‌​rform()

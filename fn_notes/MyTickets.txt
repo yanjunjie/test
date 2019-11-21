@@ -28,18 +28,25 @@ TAI-645 - TCM-5367
 TAI-635 - TCM-5329
 TAI-640 - TCM-5361
 TAI-287 - 
+TAI-630 - TCM-5343
+TAI-637 - TCM-5360
+TAI-653 - TCM-5448
+TAI-650 - 
+TAI-683
+TAI-642 - TCM-5080
+TAI-726
 
 // In Review
-TAI-630 - TCM-5343
+
 
 // In Progress
-TAI-650 - 
-TAI-637 - TCM-5360
-
+TAI-164 - TCM-4448
+TAI-688 - master fix
 
 // backlog
 
 
 // blocked
+
 
 
