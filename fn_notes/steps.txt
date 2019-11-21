@@ -225,6 +225,11 @@ const [el] = await this.waitFor(this.pages.global.button(name), { timeoutMs: 200
 const isDisplayed = await displayedElement(el);
 expect(isDisplayed).to.equal(true);
 
+const expectedQueryString = tabUrl.split(`?`)[1];
+await this.driver.get(tabUrl);
+const currentUrl = await this.driver.getCurrentUrl();
+expect(currentUrl).to.includes(expectedQueryString);
+
 
 
 //******************End Comparison**********************
