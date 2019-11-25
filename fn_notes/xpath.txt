@@ -73,6 +73,8 @@ await clickElement(this, locator);
 /node/text()[1] - should return Text1st
 /node/text()[2] - should return text2nd
 /root/div[.//a[@class='1']]/text()
+//td[@data-test-id="customFieldLabel"]//div[@data-nw-file="TableView" and contains(., 'Provider Field 01')]//text()[not(ancestor::em)] - it will filter out first string if have inside any elements
+
 
 ***getText() for selenium
 i.e,
