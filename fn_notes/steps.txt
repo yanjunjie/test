@@ -230,7 +230,14 @@ await this.driver.get(tabUrl);
 const currentUrl = await this.driver.getCurrentUrl();
 expect(currentUrl).to.includes(expectedQueryString);
 
+const expectedTemplateId = url.match(/templateId/)[0];
+await this.driver.get(url);
+const currentUrl = await this.driver.getCurrentUrl();
+expect(currentUrl).to.includes(expectedTemplateId);
 
+const elLenth = await this.waitFor(pageResource.locationMap, { timeoutMs: 4000 })
+    .then(el => el.length || 0);
+expect(elLenth).to.above(0);
 
 //******************End Comparison**********************
 
@@ -272,12 +279,23 @@ amount.replace(/[^0-9.]/g, ``); // "91.00"
 let totalLocations = await getElementText(this, pageResource.totalLocations);
 [totalLocations] = totalLocations.match(/\d+/);
 
+url = `https://ui-test2.fndev.net/workorders/112`;
+expectedTemplateId = url.match(/\d+/g);
+expectedTemplateId = url.match(/[0-9]+/g)
+
 // Specific fractions
 let stateTaxAmount = ((serviceCharge / values.totalTexasSites) * values.stateTaxPercent) / 100;
 stateTaxAmount = parseFloat(stateTaxAmount.toFixed(2));
 or Number(my_float.toFixed(2));
 var twoPlacedFloat = parseFloat(yourString).toFixed(2)
 Here, toFiexed() returns string value
+
+// last segment from url
+let part = url.substring(url.lastIndexOf('/') + 1);
+
+let array = url.split('/');
+let lastsegment = array[array.length-1];
+let lastsegment = array.pop();
 
 // capitalized every first letters
 const capitalizedDropDown = dropDown.split(/\s+/).map(s => s.charAt(0).toUpperCase() + s.substring(1).toLowerCase()).join(` `);
@@ -312,6 +330,11 @@ for (const { fieldName, fieldValue } of table.hashes()) {
     await setTextBox(this, pageResource.customFieldInput.replace(`{txt}`, fieldName), fieldValue);
   }
 }
+
+for (const expected of table.hashes()) {
+      locator = pageResource.customFieldEdit.replace(`{txt}`, expected.label);
+      await setTextBox(this, locator, expected.value);
+    }
 
 Ref: I fill out the license form
 
