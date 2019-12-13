@@ -1,0 +1,44 @@
+# Install downloaded package or click on it to be installed:
+sudo dpkg -i jdk-13.0.1_linux-x64_bin.deb
+
+# Configure Java 13 as the default on Ubuntu:
+Syntax: --install needs <link> <name> <path> <priority>
+
+Example:
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-13.0.1/bin/java 2
+
+# To see where Java is installed. Use the update-alternatives command:
+sudo update-alternatives --config java
+
+# Setting the JAVA_HOME Environment Variable:
+sudo nano /etc/environment
+
+And Paste like the following:
+JAVA_HOME="/usr/lib/jvm/jdk-13.0.1/bin/"
+
+# Now reload this file to apply the changes to your current session:
+source /etc/environment
+
+# Verify that the environment variable is set:
+echo $JAVA_HOME
+
+---The End----
+
+Alternatively, we can create Java Environment Variables:
+
+To set JAVA environment variables, create a new file in the /etc/profile.d directory for Java JDK…
+
+sudo nano /etc/profile.d/jdk13.sh
+
+Then copy and paste the lines into the end of the file and save…
+
+export J2SDKDIR=/usr/lib/jvm/jdk-13.0.1
+export J2REDIR=/usr/lib/jvm/jdk-13.0.1
+export PATH=$PATH:/usr/lib/jvm/jdk-13.0.1/bin:/usr/lib/jvm/jdk-13.0.1/db/bin
+export JAVA_HOME=/usr/lib/jvm/jdk-13.0.1
+export DERBY_HOME=/usr/lib/jvm/jdk-13.0.1/db
+Next, run the commands below
+
+source /etc/profile.d/jdk13.sh
+
+
