@@ -1,4 +1,5 @@
 Link: https://fieldnation.atlassian.net/issues/?jql=assignee%20%3D%20bablu.mia
+Bug report: https://fieldnation.atlassian.net/browse/MAR-4523
 
 // Done 
 TAI-186
@@ -33,21 +34,31 @@ TAI-637 - TCM-5360
 TAI-653 - TCM-5448
 TAI-650 - 
 TAI-683
-TAI-642 - TCM-5080
 TAI-726
-
-// In Review
-
-
-// In Progress
 TAI-164 - TCM-4448
 TAI-656 - TCM-5512
 TAI-688 - master fix
+TAI-566 - TCM-4924
+TAI-727
+TAI-712 - TCM-5712 (mono)
+
+// In Review
+TAI-642 - TCM-5080
+TAI-565 - TCM-4895
+TAI-562 - TCM-4666
+
+// In Progress
+
 
 // backlog
 
 
 // blocked
+
+
+//Mob
+TAI-731
+
 
 
 

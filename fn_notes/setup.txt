@@ -1,3 +1,9 @@
+//TCM query
+issuetype = "Test Case" AND text ~ "confirmation window"
+assignee = bablu.mia
+assignee = "bablu mia"
+
+
 Mennesota Phone: 612-379-0982
 Toronto, the capital of the province of Ontario
 city: toronto
@@ -11,6 +17,10 @@ https://ui-test2.fndev.net/staff/experiments
 - click on Add/Edit Experiment
 - company name
 - search for like custom field
+
+// staff permission
+Staff user id is 1
+Staff should have permission id 48 to update the contract info
 
 // Service contract
 From staff user->company list->edit->site features->Client Invoicing
@@ -93,9 +103,12 @@ From staff user->company list->edit->Marketplace Settings->Networks
         "finance": true
       }
       "published": true,
-      "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm",
-      "scheduleRange":"today 6:00am to +1d 12:00pm",
-      "scheduleRange": "+1w 3-5pm to +2w 3-6pm America/Chicago",
+	//https://github.com/fieldnation/test-data-generator/blob/master/api.md#schedulefixed
+      "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm", //6 am logic 
+      "scheduleRange":"today 6:00am to +1d 12:00pm", //6 am logic 
+      "scheduleRange": "+2d 6:00am to +3d 12:00pm", //not 6 am logic 
+      "scheduleRange":"tomorrow 6:00am to +1d 12:00pm", //not 6 am logic 
+      "scheduleRange": "+1w 3-5pm to +2w 3-6pm America/Chicago", //not 6 am logic 
       "geo": "mn"
     }
 
