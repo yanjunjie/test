@@ -39,7 +39,7 @@ TAI-164 - TCM-4448
 TAI-656 - TCM-5512
 TAI-688 - master fix
 TAI-566 - TCM-4924
-TAI-727
+TAI-727 - (mono)
 TAI-712 - TCM-5712 (mono)
 
 // In Review
