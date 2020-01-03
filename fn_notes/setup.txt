@@ -365,6 +365,42 @@ const index = $(this).parent().children().index(this);
     }
   }
 }
+
+// Multisite Work Order
+
+"draftWorkOrder3": {
+      "item": "workOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "account": "account1",
+        "provider": "marketplaceProvider1"
+      },
+      "configs": {
+        "typeOfWork": 65,
+        "geo": "mn",
+        "routed": true,
+        "assigned": true
+      }
+    }
+
+ "multisiteWo1": {
+      "item": "multisiteWorkOrder",
+      "links": {
+        "owner": "marketplaceBuyer1",
+        "parentWorkOrder": "draftWorkOrder3",
+        "childWorkOrders": [
+          "draftWorkOrder1",
+          "draftWorkOrder2"
+        ]
+      },
+      "configs": {
+        "multisitePay": {
+          "amount": 50
+        }
+      }
+    }
+
+
  
 
 
