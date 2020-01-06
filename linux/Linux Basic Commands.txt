@@ -271,6 +271,9 @@ $ ps -ef | grep filename
 To see current environment variables and their values
 $ env
 
+File extract in a specific location
+$ tar xvzf file.tar.gz -C /path/to/somedirectory
+
 
 
 

@@ -16,8 +16,20 @@ sudo nano /etc/environment
 And Paste like the following:
 JAVA_HOME="/usr/lib/jvm/jdk-13.0.1/bin/"
 
+Or
+
+sudo nano /etc/profile
+
+And paste the following at the bottom:
+export JAVA_HOME=/usr/lib/jvm/jdk-13.0.1
+
+
 # Now reload this file to apply the changes to your current session:
 source /etc/environment
+
+Or
+
+source /etc/profile
 
 # Verify that the environment variable is set:
 echo $JAVA_HOME
