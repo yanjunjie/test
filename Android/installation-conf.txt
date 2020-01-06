@@ -1,0 +1,45 @@
+1. First download Android Studion IDE, for example: android-studio-ide-191.6010548-linux
+2. Extract from zip and run using terminal ./bin/studio.sh
+3. If it is 64 bit OS then we have to install associative files for 32 bit
+4. Create Desktop Entry
+5. Install SDK Components through SDK Manager
+6. Create a blank activity project
+7. Create a AVD through AVD Manager
+
+Config:
+Error: /dev/kvm device permission denied
+
+Solution: 
+sudo apt install qemu-kvm
+ls -al /dev/kvm
+grep kvm /etc/group
+
+Output: kvm:x:some_number:
+If there is nothing rightwards of the final :, there are no users in the kvm group. so run the following command
+
+sudo adduser $USER kvm or usermod -a -G kvm $(whoami)
+
+check once again with grep kvm /etc/group
+
+sudo chown $USER -R /dev/kvm
+sudo chmod o+x /dev/kvm
+
+You might want to log out and back in (or restart), for the permissions to take effect.
+
+Error: '/dev/kvm': No such file or directory
+Solution:
+mknod /dev/kvm c 10 232
+
+
+//Adb installation
+sudo apt-get install android-tools-adb android-tools-fastboot
+adb devices
+adb kill-server
+adb tcpip 5555
+adb connect device-ip:5555
+adb start
+killall -9 adb
+
+
+
+

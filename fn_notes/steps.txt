@@ -281,7 +281,9 @@ let totalLocations = await getElementText(this, pageResource.totalLocations);
 
 url = `https://ui-test2.fndev.net/workorders/112`;
 expectedTemplateId = url.match(/\d+/g);
-expectedTemplateId = url.match(/[0-9]+/g)
+expectedTemplateId = url.match(/[0-9]+/g);
+index = index.replace(/[^0-9.]/g, ``);
+
 
 // Specific fractions
 let stateTaxAmount = ((serviceCharge / values.totalTexasSites) * values.stateTaxPercent) / 100;
@@ -384,7 +386,7 @@ this.testData.templates.template1.workorder_template.id // id
 this.testData.paymentAccounts.account1
 
 // company
-this.testData.marketplaceBuyers.marketplaceBuyer1.company.name // company name
+this.testData.marketplaceBuyers.marketplaceBuyer1.company.name // company name/id
 
 // Buyer
 this.testData.marketplaceBuyers.marketplaceBuyer1.alias // buyer name
@@ -412,11 +414,13 @@ const userEmail = this.email;
 const userId = this.auth.user.id;
 const userId = this.currentUser.id;
 testData.marketplaceBuyers.buyer1.user.id
-testData.workOrders.draftWorkOrder1.workorder.id
+testData.workOrders.draftWorkOrder1.workorder.id //workOrderId
 
 const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
 // id initialization at woCommon.js
 const workOrderId = await getWorkOrderIdFromUrl(this);
+
+When I attach documents to 'v2/workorders/%{testData.workOrders.assignedWorkOrder1.workorder.id}/attachments/%{lastResponse.body.attachments.results[1].id}'
 
 // id initialization at workOrderCreate_steps.js
 this.workOrderId = await this.driver.getCurrentUrl()

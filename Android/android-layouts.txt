@@ -1,0 +1,212 @@
+Android Layout Types
+Android provides the following ViewGroups or layouts:
+
+LinearLayout : is a ViewGroup that aligns all children in a single direction, vertically or horizontally
+RelativeLayout : is a ViewGroup that displays child views in relative positions
+AbsoluteLayout : allows us to specify the exact location of the child views and widgets
+TableLayout : is a view that groups its child views into rows and columns
+FrameLayout : is a placeholder on screen that is used to display a single view
+ScrollView : is a special type of FrameLayout in that it allows users to scroll through a list of views that occupy more space than the physical display. The ScrollView can contain only one child view or ViewGroup, which normally is a LinearLayout
+ListView : is a view group that displays a list of scrollable item
+GridView : is a ViewGroup that displays items in two-dimensional scrolling grid. The items in the grid come from the ListAdapter associated with this view
+
+
+Android Layout Attributes
+android:id : This is the ID which uniquely identifies the view
+android:layout_width : This is the width of the layout
+android:layout_height : This is the height of the layout
+android:layout_margin : This is the extra space outside of the view. For example if you give android:marginLeft=20dp, then the view will be arranged after 20dp from left
+android:layout_padding : This is similar to android:layout_margin except that it specifies the extra space inside the view
+android:layout_gravity : This specifies how child Views are positioned
+android:layout_weight : This specifies how much of the extra space in the layout should be allocated to the view
+android:layout_x : This specifies the x-coordinate of the layout
+android:layout_y : This specifies the y-coordinate of the layout
+android:layout_width=wrap_content tells the view to size itself to the dimensions required by its content.
+android:layout_width=match_parent tells the view to become as big as its parent view.
+
+
+Android LinearLayout
+Android LinearLayout organizes elements along a single line. We can specify whether that line is vertical or horizontal using android:orientation. The orientation is horizontal by default.
+A vertical LinearLayout will only have one child per row (so it is a column of single elements), and a horizontal LinearLayout will only have one single row of elements on the screen.
+android:layout_weight attribute depicts the importance of the element. An element with larger weight occupies more screen space. Here is a sample Layout XML using LinearLayout:
+
+layout_linear.xml
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin">
+    <Button
+        android:id="@+id/backbutton"
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Row 2"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Row 3"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Row 4"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Row 5"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/next_button"
+            android:text="next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Row 6b"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Row 6c"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Row 6d"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+Android RelativeLayout
+Android RelativeLayout lays out elements based on their relationships with one another, and with the parent container. This is one of the most complicated layout and we need several properties to actually get the layout we desire.
+
+That is, using RelativeLayout we can position a view to be toLeftOf, toRightOf, below or above its siblings.
+
+We can also position a view with respect to its parent such as centered horizontally, vertically or both, or aligned with any of the edges of the parent RelativeLayout. If none of these attributes are specified on a child view then the view is by default rendered to the top left position.
+
+Android RelativeLayout attributes
+The following are the major attributes used across RelativeLayout. They lay across three different categories:
+
+Relative To Container
+android:layout_alignParentBottom : Places the bottom of the element on the bottom of the container
+android:layout_alignParentLeft : Places the left of the element on the left side of the container
+android:layout_alignParentRight : Places the right of the element on the right side of the container
+android:layout_alignParentTop : Places the element at the top of the container
+android:layout_centerHorizontal : Centers the element horizontally within its parent container
+android:layout_centerInParent : Centers the element both horizontally and vertically within its container
+android:layout_centerVertical : Centers the element vertically within its parent container
+
+Relative to Siblings
+android:layout_above : Places the element above the specified element
+android:layout_below : Places the element below the specified element
+android:layout_toLeftOf : Places the element to the left of the specified element
+android:layout_toRightOf : Places the element to the right of the specified element
+“@id/XXXXX” is used to reference an element by its id. One thing to remember is that referencing an element before it has been declared will produce an error so @+id/ should be used in such cases.
+
+Alignment With Other Elements
+android:layout_alignBaseline : Aligns baseline of the new element with the baseline of the specified element
+android:layout_alignBottom : Aligns the bottom of new element in with the bottom of the specified element
+android:layout_alignLeft : Aligns left edge of the new element with the left edge of the specified element
+android:layout_alignRight : Aligns right edge of the new element with the right edge of the specified element
+android:layout_alignTop : Places top of the new element in alignment with the top of the specified element
+The following xml layout uses RelativeLayout:
+
+
+layout_relative.xml
+
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button
+        android:id="@+id/backbutton"
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/firstName"
+        android:text="First Name"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backbutton" />
+    <TextView
+        android:id="@+id/editFirstName"
+        android:text="JournalDev"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/firstName"
+        android:layout_below="@id/backbutton"/>
+    <TextView
+        android:id="@+id/editLastName"
+        android:text="Layout Tutorial Example"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/lastName"
+        android:layout_toRightOf="@+id/lastName"
+        android:layout_toEndOf="@+id/lastName" />
+    <TextView
+        android:id="@+id/lastName"
+        android:text="Last Name"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/firstName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp" />
+
+    <Button
+        android:id="@+id/next"
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editLastName"
+        android:layout_alignLeft="@+id/editLastName"
+        android:layout_alignStart="@+id/editLastName"
+        android:layout_marginTop="37dp" />
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
