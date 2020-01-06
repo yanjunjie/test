@@ -1,0 +1,26 @@
+Find Element and FindElements in Selenium WebDriver
+Interaction with a web page requires a user to locate the web element. Find Element command is used to uniquely identify a (one) web element within the web page. Whereas, Find Elements command is used to uniquely identify the list of web elements within the web page
+
+FindElement command syntax:
+
+WebElement elementName = driver.findElement(By.LocatorStrategy("LocatorValue"));
+WebElement loginLink = driver.findElement(By.linkText("Login"));
+
+Locator Strategy can by any of the following values.
+
+ID
+Name
+Class Name
+Tag Name
+Link Text
+Partial Link Text
+XPATH
+
+
+FindElements command syntax:
+Find Elements command takes in By object as the parameter and returns a list of web elements. It returns an empty list if there are no elements found using the given locator strategy and locator value. Below is the syntax of find elements command.
+
+List<WebElement> elementName = driver.findElements(By.LocatorStrategy("LocatorValue"));
+List<WebElement> listOfElements = driver.findElements(By.xpath("//div"));
+
+

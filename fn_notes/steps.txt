@@ -281,7 +281,9 @@ let totalLocations = await getElementText(this, pageResource.totalLocations);
 
 url = `https://ui-test2.fndev.net/workorders/112`;
 expectedTemplateId = url.match(/\d+/g);
-expectedTemplateId = url.match(/[0-9]+/g)
+expectedTemplateId = url.match(/[0-9]+/g);
+index = index.replace(/[^0-9.]/g, ``);
+
 
 // Specific fractions
 let stateTaxAmount = ((serviceCharge / values.totalTexasSites) * values.stateTaxPercent) / 100;

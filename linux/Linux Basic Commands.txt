@@ -230,46 +230,52 @@ Find processes running on specific port
 $ lsof -i TCP:22
 
 List Only IPv4 & IPv6 Open Files
-$ lsof -i 4
-$ lsof -i 6
+lsof -i 4
+lsof -i 6
 
 List Open Files of TCP Port ranges 1-1024
-$ lsof -i TCP:1-1024
+lsof -i TCP:1-1024
 
 Exclude User with ‘^’ Character
-$ lsof -i -u^root
+lsof -i -u^root
 
 Find Out who’s Looking What Files and Commands
-$ lsof -i -u username
+lsof -i -u username
 
 List all Network Connections
-$ lsof -i
+lsof -i
 
 Search by PID
-$ lsof -p 1
+lsof -p 1
 
 Kill a process using process name
-$ sudo pkill pname
+sudo pkill pname
+sudo killall firefox
 
 Kill all Activity of Particular User
-$ kill -9 `lsof -t -u username`
+kill -9 `lsof -t -u username`
 
-Kill processes after finding PIDs by filtering spsecific port
-$ sudo kill -9 $(sudo lsof -t -i :8081)
-$ sudo kill $(sudo lsof -t -i :3306)
+Kill processes after finding PIDs by filtering spsecific port using lsof (list open files)
+sudo kill -9 $(sudo lsof -t -i :8081) // -i: internet address, -t: so that the output maybe piped to kill(1)
+sudo kill $(sudo lsof -t -i :3306)
 
 List All Processes in Current Shell 
-$ ps
+ps
 
 Display all processes in BSD format
-$ ps axu
+ps axu
 
 Find specific process
-$ ps aux | grep php5
-$ ps -ef | grep filename
+ps aux | grep php5
+ps -ef | grep filename
 
 To see current environment variables and their values
-$ env
+env
+
+Uninstall software
+rm -rf ~/.android*
+rm -rf ~/Android*
+rm -rf ~/.local/share/Android
 
 
 
