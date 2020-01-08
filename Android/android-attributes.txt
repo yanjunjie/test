@@ -19,5 +19,25 @@ app:layout_constraintRight_toRightOf="parent"
 app:layout_constraintTop_toTopOf="parent"
 
 
+RelativeLayout:
+
+For RelativeLayout you can use below property in TextView
+android:gravity="center" for text center in TextView.
+android:gravity="center_horizontal" inner text if you want horizontally centered.
+android:gravity="center_vertical" inner text if you want vertically centered.
+android:layout_centerInParent="true" if you want TextView in center position of parent view. 
+android:layout_centerHorizontal="true" if you want TextView in horizontally center of parent view. 
+android:layout_centerVertical="true" if you want TextView in vertically center of parent view.
+
+
+
+
+
+
+
+
+
+
+
 
 

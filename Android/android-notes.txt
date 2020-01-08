@@ -1,6 +1,47 @@
 wrap_content tells your view to size itself to the dimensions required by its content.
 match_parent tells your view to become as big as its parent view group will allow.
 
-weight: if we put weight then width will be 0dp
+Weight:
+LinearLayout also supports assigning a weight to individual children with the android:layout_weight
+To create a linear layout in which each child uses the same amount of space on the screen, set the android:layout_height of each view to "0dp" (for a vertical layout) or the android:layout_width of each view to "0dp" (for a horizontal layout). Then set the android:layout_weight of each view to "1".
+
+Match_parent:
+Use fill_parent instead of match_parent. (Problem in some device.)
+
+If View's height/width = wrap_content
+
+use:
+android:layout_centerHorizontal="true"
+android:layout_centerVertical="true"
+
+If View's height/width = match_parent
+
+use:
+android:gravity="center_vertical|center_horizontal"
+
+
+Layout Gravity:
+Where are you trying to align the TextView relative to the parent?
+
+Your parent layout is like a grid where you can select a position:
+
+|[ 1 ] [ 2 ] [ 3 ]|
+
+|[ 4 ] [ 5 ] [ 6 ]|
+
+|[ 7 ] [ 8 ] [ 9 ]|
+
+1. Top-Left: android:layout_gravity="top|left"
+2. Top-Center: android:layout_gravity="top|center_horizontal"
+3. Top-Right: android:layout_gravity="top|right"
+4. Center-Left: android:layout_gravity="center_vertical|left"
+5. Very Center: android:layout_gravity="center"
+6. Center-Right: android:layout_gravity="center_vertical|right"
+7. Bottom-Left: android:layout_gravity="bottom|left"
+8. Bottom-Center: android:layout_gravity="bottom|center_horizontal"
+9. Bottom-Right: android:layout_gravity="bottom|right"
+
+N.B: Don't forget to remove spaces. android:gravity="center_horizontal|bottom" but android:gravity="center_horizontal | bottom" isn't valid.
+
 
 
