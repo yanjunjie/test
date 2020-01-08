@@ -1,4 +1,4 @@
-Find Element and FindElements in Selenium WebDriver
+//------------------------------ Find Element and Find Elements in Selenium WebDriver --------------------------------------
 Interaction with a web page requires a user to locate the web element. Find Element command is used to uniquely identify a (one) web element within the web page. Whereas, Find Elements command is used to uniquely identify the list of web elements within the web page
 
 FindElement command syntax:
@@ -22,5 +22,63 @@ Find Elements command takes in By object as the parameter and returns a list of 
 
 List<WebElement> elementName = driver.findElements(By.LocatorStrategy("LocatorValue"));
 List<WebElement> listOfElements = driver.findElements(By.xpath("//div"));
+
+
+//------------------------------ Refresh Page ----------------------------
+Browser refresh operation can be performed using the following ways in Selenium. We will discuss the below mentioned ways in detail throughout the article.
+
+1. Driver.navigate.refresh command
+2. Send Keys command
+3. Driver.navigate.to command
+
+Driver.navigate.refresh command:
+This is the inbuilt method for performing page refresh operation provided by Selenium web driver. This command is the most commonly used command across test automation for performing a page refresh operation. Refresh command can be used in a simple way as mentioned below.
+
+driver.get("http://demo.example.com/selenium/");
+driver.navigate().refresh();
+await this.driver.navigate().refresh();
+
+Refresh method of Navigation interface does not take any arguments or return any values.
+
+Get method:
+Get method can be used in a recursive way to refresh a page. In order to achieve this, we need to pass another method as an argument to the get method.
+
+Example:
+driver.get("https://www.example.com");
+driver.get(driver.getCurrentURL());
+
+Navigate method:
+This method uses the same concept of recursion as mentioned above. getCurrentURL() method is passed as an argument to driver.navigate.to method.
+
+Example:
+driver.get("https://www.example.com");
+driver.navigate.to(driver.getCurrentURL());
+
+Send Keys method using F5 Key:
+This is the second most commonly used method to refresh a page in Selenium. It takes the refresh key (F5 Key) as an argument to send keys method. Since send keys works only on web elements rather than the browser, we must initially identify a valid web element on the web page and then use the send keys method. This can be accomplished as shown below.
+
+Example:
+driver.get("https://www.example.com");
+driver. findElement(By.id("username")).sendKeys(Keys.F5);
+
+
+Send Keys method using ASCII Code:
+This method uses the same concept as above, but instead of passing the F5 key as an argument, we send the ASCII Code of refresh key as an argument. This can be accomplished as shown below.
+
+driver.get("https://www.example.com");
+driver. findElement(By.id("username")).sendKeys(“\uE035”);
+
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
