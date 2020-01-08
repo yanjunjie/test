@@ -43,5 +43,19 @@ Your parent layout is like a grid where you can select a position:
 
 N.B: Don't forget to remove spaces. android:gravity="center_horizontal|bottom" but android:gravity="center_horizontal | bottom" isn't valid.
 
+An easy trick to remember this is gravity applies to us inside earth. So, android:gravity is the Inside gravity of that View.
+Rememeber the out in layout_gravity which would help you to remember that android:layout_gravity would refer to outside the view
+
+HTML/CSS Equivalents
+Android                 | CSS
+————————————————————————+————————————
+android:layout_gravity  | float
+android:gravity         | text-align
+
+android:gravity="fill" covers vertical & horizontal direction
+android:gravity="fill_vertical" covers only vertical direction
+
+
+
 
 
