@@ -205,6 +205,8 @@ layout_relative.xml
 GridLayouts
 The following example XML declares a 2 x 2 GridLayout configuration in horizontal orientation:
 
+layout_grid.xml
+
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GridLayout1"

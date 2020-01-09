@@ -30,6 +30,38 @@ android:layout_centerHorizontal="true" if you want TextView in horizontally cent
 android:layout_centerVertical="true" if you want TextView in vertically center of parent view.
 
 
+GridLayout:
+android:columnCount="2" is total number of rows of the Grid
+android:rowCount="2" is total number of columns of the Grid
+
+android:layout_row="1"
+android:layout_column="0"
+
+above two are a grid cell
+Example:
+00, 01, 02, 03
+10, 11, 12, 13
+
+android:layout_rowWeight="1"
+android:layout_columnWeight="1"
+
+above two attributes will allocate whole space as much as possible both right and bottom sides
+android:layout_rowWeight="1" will take space to right side
+android:layout_columnWeight="1" will take space to bottom side
+and content will move to center
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
