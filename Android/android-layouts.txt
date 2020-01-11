@@ -214,7 +214,6 @@ layout_grid.xml
     android:layout_height="wrap_content"
     android:columnCount="2"
     android:rowCount="2"
-    android:orientation="horizontal"
     tools:context=".GridXMLActivity" >
     <Button
         android:id="@+id/button1"

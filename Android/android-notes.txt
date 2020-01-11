@@ -1,3 +1,12 @@
+View: 
+A Text, Image, Button, Checkbox are Views. The Views are basic building blocks of a Layout.
+
+ViewGroup:
+ViewGroups hold other children views. We can think of a ViewGroup like a container that contains other views.
+
+Example:
+LinearLayout, RelativeLayout
+
 wrap_content tells your view to size itself to the dimensions required by its content.
 match_parent tells your view to become as big as its parent view group will allow.
 

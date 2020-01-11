@@ -1,3 +1,5 @@
+Common Attributes:
+
 id="@+id/next_button"
 layout_width="match_parent"
 layout_width="fill_parent"
@@ -21,13 +23,23 @@ app:layout_constraintTop_toTopOf="parent"
 
 RelativeLayout:
 
-For RelativeLayout you can use below property in TextView
+Content Attributes:
 android:gravity="center" for text center in TextView.
 android:gravity="center_horizontal" inner text if you want horizontally centered.
 android:gravity="center_vertical" inner text if you want vertically centered.
-android:layout_centerInParent="true" if you want TextView in center position of parent view. 
-android:layout_centerHorizontal="true" if you want TextView in horizontally center of parent view. 
-android:layout_centerVertical="true" if you want TextView in vertically center of parent view.
+android:textSize="25sp"
+android:textColor="green"
+
+Child View Attributes:
+android:layout_centerInParent="true" if you want TextView in center position relatively to parent view. 
+android:layout_centerHorizontal="true" if you want TextView in horizontally center relatively to parent view. 
+android:layout_centerVertical="true" if you want TextView in vertically center relatively to parent view.
+android:layout_toLeftOf="@id/a" //similarly toRightOf, if you want TextView in left/right position relatively to sibling view. 
+android:layout_below="@id/a" //similarly above, if you want TextView in below/above position relatively to sibling view. 
+android:layout_alignParentTop="true" //similarly alignParentBottom, alignParentLeft, alignParentRight, if you want TextView in left/right position relatively to parent view. 
+android:layout_marginLeft="10dp" // similarly, marginRight, marginTop, marginBottom, if you want TextView in left/right mergin relatively to parent view. 
+android:layout_marginStart // similarly marginEnd. here, start and end are the same as left and right in the above mentioned
+android:layout_alignTop="@id/a" //similarly, alignBottom, alignRight, alignLeft, if you want TextView in left/right position relatively to sibling view. 
 
 
 GridLayout:
@@ -42,16 +54,51 @@ Example:
 00, 01, 02, 03
 10, 11, 12, 13
 
+
+android:layout_weight
+android:layout_weight attribute allows it to expand to fill any remaining space in the parent view
+
+N.B,
+For vertical orientation, don't forget set height to 0dp
+android:layout_height="0dp"
+
+For horizontal orientation, don't forget set width to 0dp
+android:layout_width="0dp"
+
 android:layout_rowWeight="1"
 android:layout_columnWeight="1"
 
 above two attributes will allocate whole space as much as possible both right and bottom sides
-android:layout_rowWeight="1" will take space to right side
-android:layout_columnWeight="1" will take space to bottom side
+android:layout_rowWeight="1" will take the remaining space of right side
+android:layout_columnWeight="1" will take the remaining space of bottom side
 and content will move to center
 
 
+LinearLayout:
+LinearLayout is a ViewGroup that aligns all children in a single direction, vertically or horizontally
 
+android:orientation
+android:layout_weight
+android:weightSum
+android:layout_width
+android:layout_height
+android:layout_gravity
+android:gravity
+
+To create a linear layout in which each child uses the same amount of space on the screen, set the android:layout_height of each view to "0dp" (for a vertical layout) 
+or the android:layout_width of each view to "0dp" (for a horizontal layout). 
+Then set the android:layout_weight of each view to "1".
+
+
+Devide whole layout/screen 1:1 ratio either horizontal or vertical.
+
+1st View:
+android:layout_width="0dp"
+android:layout_weight="1" // First View in Horizontal Orientation
+
+2nd View:
+android:layout_width="0dp"
+android:layout_weight="1" // Second View in Horizontal Orientation
 
 
 
