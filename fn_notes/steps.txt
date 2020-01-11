@@ -340,17 +340,27 @@ for (const expected of table.hashes()) {
 
 Ref: I fill out the license form
 
-// rowsHash() - returns object and columns are object properties
+// rowsHash() - returns an object and First column is for its properties and Second column is for its values
 * When I set custom field value
 * | fieldName  | Buyer Field       |
 * | fieldValue | Buyer Field value |
 
+Example:
+And I set work order overview
+| client   | client1   |
+| project  | project1  |
+| template | template1 |
+console.log(table.rowsHash()); //{ client: 'client1', project: 'project1', template: 'template1' }
+
+Uses:
 const values = table.rowsHash();
 if (values.fieldName && values.fieldValue) {
   await setTextBox(this, pageResource.customFieldInput.replace(`{txt}`, values.fieldName), values.fieldValue);
 }
 
-//raw() - returns array and columns are array elements too
+//raw() - returns an array of arrays and rows are array elements of the array and inner arrays are a set of column values.
+So in the following example there are 1 array of 4 arrays
+
 Given I start with 0
 When I multiply the following numbers:
   | 1 |
@@ -359,12 +369,26 @@ When I multiply the following numbers:
   | 4 |
 Then I got 0
 
+Example: 
+console.log(table.raw()); //[[1], [2], [3], [4]];
+[[1], [2], [3], [4]].map(row => row[0])
+        .map(v => parseInt(v))
+        .reduce((total, val, key) => total + val, 0); // 10
+
+Uses:
 this.actualAnswer = table.raw()
         .map(row => row[0])
         .map(v => parseInt(v))
-        .reduce((total, val, key) => total * val, 0); //total = 0 as initial value
+        .reduce((total, val, key) => total * val, 0); // 2nd param is 0 as initial value for total
 
-//rows() - returns array and rows are array elements too
+N.B: The map() method creates a new array with the results of calling a function for every array element and does not change the orginal array.
+
+Example:
+numbersArr = [4, 9, 16, 25];
+newNumbersArr = numbersArr.map(Math.sqrt); //[2, 3, 4, 5]
+
+//rows() - returns array
+
 
 //******************End Data Table**********************
 
