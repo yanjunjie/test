@@ -41,5 +41,26 @@ adb start
 killall -9 adb
 
 
+Error: Unable to run mksdcard SDK tool in ubuntu
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386 -y
+
+# Creating desktop entry
+sudo -E /opt/google/android-studio/bin/studio.sh 
+P.S. -E option is needed to keep our environment variables (ANDROID_HOME/ANDROID_SDK_ROOT) available while sudoing.
+
+# You can find it in /usr/share/applications/jetbrains-studio.desktop:
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Android Studio
+Icon=/opt/google/android-studio/bin/studio.png
+Exec="/opt/google/android-studio/bin/studio.sh" %f
+Comment=The Drive to Develop
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-studio
+
+
 
 

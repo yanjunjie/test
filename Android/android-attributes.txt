@@ -14,12 +14,6 @@ textSize="18sp"
 layout_below="@id/firsttext"
 layout_alignRight="@id/firsttext"
 
-For Constraint Layout Attributes:
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintLeft_toLeftOf="parent"
-app:layout_constraintRight_toRightOf="parent"
-app:layout_constraintTop_toTopOf="parent"
-
 
 RelativeLayout:
 
@@ -72,6 +66,29 @@ above two attributes will allocate whole space as much as possible both right an
 android:layout_rowWeight="1" will take the remaining space of right side
 android:layout_columnWeight="1" will take the remaining space of bottom side
 and content will move to center
+
+Constraint Layout:
+For Constraint Layout Attributes:
+android:layout_width="match_constraint" //0dp
+app:layout_constraintWidth_default="wrap" // Similarly, constraintWidth_parcent="0.9"
+app:layout_constraintWidth="true" //Text to be wrapped
+app:layout_constraintWidth_min="wrap" //Similarly, max, constraintHeight
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintHorizontal_chainStyle="spread" //There are three possible modes: spread, spread_inside, and packed.
+app:layout_constraintHorizontal_bias="0.75" //The value between 0.0 and 1.0
+
+app:layout_constraintHorizontal_weight="1"
+We can define weights by specifying android:layout_width="0dp" and then app:layout_constraintHorizontal_weight="1". If we set weight="3" that means 3 times bigger than other
+
+Placeholder:
+A Placeholder provides a virtual object which can position an existing object. When the id of another view is set on a placeholder (using setContent() ), the placeholder effectively becomes the content view.
+If the content view exist on the screen it is treated as gone from its original location.
+Using Placeholders to create templates and animate views
+
+
 
 
 LinearLayout:

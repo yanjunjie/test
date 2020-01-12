@@ -1,0 +1,116 @@
+//Click Button
+public class MainActivity extends AppCompatActivity 
+	implements View.OnClickListener { 
+	private Button mButton; 
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) 
+	{ 
+		super.onCreate(savedInstanceState); 
+		setContentView(R.layout.activity_main); 
+
+		mButton = findViewById(R.id.button_send); 
+		mButton.setOnClickListener(this); 
+	} 
+
+	// If you have more than one button click event, you can use switch case to identify which button is clicked by using the following
+
+	@Override
+	public void onClick(View view) 
+	{ 
+		switch (view.getId()) { 
+		case R.id.button_send: 
+			// Do something 
+		} 
+	}
+
+	// By calling findViewById() method and set the onClick listener by using setOnClickListener() method
+	// setOnClickListener takes an OnClickListener object as the parameter. it’s creating an anonymous subclass in the parameter.
+
+        mButton = findViewById(R.id.button_send); 
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) 
+            { 
+                // Do something 
+            } 
+        });
+
+} 
+
+
+By implementing OnClickListener:
+
+// In OnCreate
+
+Button mClickButton1 = (Button)findViewById(R.id.clickButton1);
+mClickButton1.setOnClickListener(this);
+Button mClickButton2 = (Button)findViewById(R.id.clickButton2);
+mClickButton2.setOnClickListener(this);
+
+// somewhere else in your code
+
+public void onClick(View v) {
+    switch (v.getId()) {
+        case  R.id.clickButton1: {
+            // do something for button 1 click
+            break;
+        }
+
+        case R.id.clickButton2: {
+            // do something for button 2 click
+            break;
+        }
+
+        //.... etc
+    }
+}
+
+
+By adding onClick attribute in the view:
+
+android:clickable="true"
+android:onClick="onButtonClickCancel"
+android:onClick="swapView"
+
+Then in the class, handle the method:
+
+public void onButtonClickCancel(View view) {
+    Toast.makeText(this, "Cancel pressed", Toast.LENGTH_LONG).show();
+}
+
+public void swapView(View v) {
+	placeholder.setContentId(v.getId());
+}
+
+By setting button click effect:
+<item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/YOURIMAGE" />
+
+By using foreground attribute to achieve clickable effect:
+android:foreground="?android:attr/selectableItemBackground"
+
+
+Defining activity in manifest.xml
+
+ <activity
+      android:name=".ToActivity"
+      android:label="@string/app_name">          
+ </activity>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
