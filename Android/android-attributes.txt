@@ -77,7 +77,7 @@ app:layout_constraintBottom_toBottomOf="parent"
 app:layout_constraintLeft_toLeftOf="parent"
 app:layout_constraintRight_toRightOf="parent"
 app:layout_constraintTop_toTopOf="parent"
-app:layout_constraintHorizontal_chainStyle="spread" //There are three possible modes: spread, spread_inside, and packed.
+app:layout_constraintHorizontal_chainStyle="spread" //We get after creating chain. There are three possible modes: spread, spread_inside, and packed. It always has inside a head view and default is spread
 app:layout_constraintHorizontal_bias="0.75" //The value between 0.0 and 1.0
 
 app:layout_constraintHorizontal_weight="1"

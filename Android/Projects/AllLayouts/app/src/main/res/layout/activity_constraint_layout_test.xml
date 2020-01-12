@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toStartOf="@+id/palette"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/robot"
-        app:srcCompat="@drawable/audo_ic" />
+        app:srcCompat="@drawable/audio_ic" />
 
     <ImageView
         android:id="@+id/palette"
