@@ -69,8 +69,9 @@ and content will move to center
 
 Constraint Layout:
 For Constraint Layout Attributes:
-android:layout_width="match_constraint" //0dp
-app:layout_constraintWidth_default="wrap" // Similarly, constraintWidth_parcent="0.9"
+android:layout_width="match_constraint" // if we set the value match_constraint (0dp) then it will shrink the text of the view or we can use this attribute app:layout_constrainedWidth="true"
+app:layout_constraintWidth_percent="0.9" // if layout_width="0dp" is applied then we can use this attribute and it will take width relative to the parent, not to the constrained
+app:layout_constraintWidth_default="wrap"
 app:layout_constraintWidth="true" //Text to be wrapped
 app:layout_constraintWidth_min="wrap" //Similarly, max, constraintHeight
 app:layout_constraintBottom_toBottomOf="parent"
