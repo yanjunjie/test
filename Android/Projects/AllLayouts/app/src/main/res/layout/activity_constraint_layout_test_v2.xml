@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ConstraintLayoutTestV2">
 
+    <androidx.constraintlayout.widget.Placeholder
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:onClick="swapView"
         android:layout_marginBottom="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView3"
@@ -23,6 +32,7 @@
         android:id="@+id/imageView3"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:onClick="swapView"
         android:layout_marginBottom="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
@@ -34,6 +44,7 @@
         android:id="@+id/imageView4"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:onClick="swapView"
         android:layout_marginBottom="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView5"
@@ -45,45 +56,12 @@
         android:id="@+id/imageView5"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:onClick="swapView"
         android:layout_marginBottom="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:srcCompat="@drawable/heart_ic" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:text="TextView3"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="226dp" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="224dp"
-        android:layout_marginEnd="64dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:text="TextView4 asdfasdfasd asdfasdf"
-        tools:layout_editor_absoluteX="7dp"
-        tools:layout_editor_absoluteY="263dp" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="textView3,textView4"
-        tools:layout_editor_absoluteX="411dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
