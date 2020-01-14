@@ -33,12 +33,22 @@ mknod /dev/kvm c 10 232
 
 //Adb installation
 sudo apt-get install android-tools-adb android-tools-fastboot
+sudo apt-get update && sudo apt-get install adb fastboot -y
+
 adb devices
 adb kill-server
-adb tcpip 5555
+adb tcpip 5555 // adb -P 5555 start-server
 adb connect device-ip:5555
-adb start
+adb start-server
 killall -9 adb
+
+When the server starts, it binds to local TCP port 5037 and listens for commands sent from adb clients—all adb clients use port 5037 to communicate with the adb server.
+ports in the range 5555 to 5585
+Emulator 1, console: 5554
+Emulator 1, adb: 5555
+Emulator 2, console: 5556
+Emulator 2, adb: 5557
+and so on...
 
 
 Error: Unable to run mksdcard SDK tool in ubuntu
