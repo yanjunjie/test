@@ -26,6 +26,19 @@ Staff should have permission id 48 to update the contract info
 From staff user->company list->edit->site features->Client Invoicing
 -> "invoicing": true,
 
+// Specialized Skills
+"experimentsUser": {
+          "Special Skill Feature": 1
+        }
+
+// Calculate Pay
+"experimentsCompany": {
+          "Calculate Pay Service": 1
+        }
+ 
+// Workers Compensation Fee. it's memberof Company Configs
+
+
 // Team
 From staff user->company list->edit->Markesite features->Roles on Work
 -> "teams": true

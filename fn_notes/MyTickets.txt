@@ -51,7 +51,7 @@ TAI-752
 
 // In Progress
 TAI-748
-TAI-782
+TAI-782 (wo com)
 
 // backlog
 
