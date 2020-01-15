@@ -257,7 +257,7 @@ kill -9 `lsof -t -u username`
 
 Kill processes after finding PIDs by filtering spsecific port using lsof (list open files)
 sudo kill -9 $(sudo lsof -t -i :8081) // -i: internet address, -t: so that the output maybe piped to kill(1)
-sudo kill $(sudo lsof -t -i :3306)
+sudo kill $(sudo lsof -t -i :33066)
 
 List All Processes in Current Shell 
 ps

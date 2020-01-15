@@ -89,7 +89,12 @@ A Placeholder provides a virtual object which can position an existing object. W
 If the content view exist on the screen it is treated as gone from its original location.
 Using Placeholders to create templates and animate views
 
+The Merge tag:
+<merge> is used for optimizing layouts.It is used for reducing unnecessary nesting.
+when a layout containing <merge> tag is added into another layout,the <merge> node is removed and its child view is added directly to the new parent.
 
+The include tag:
+The <include> tag lets you to divide your layout into multiple files: it helps dealing with complex or overlong user interface.
 
 
 LinearLayout:
