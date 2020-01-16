@@ -50,9 +50,47 @@ Emulator 2, console: 5556
 Emulator 2, adb: 5557
 and so on...
 
-
 Error: Unable to run mksdcard SDK tool in ubuntu
 sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386 -y
+
+error: no devices/emulators found
+Ans: If you get "error: device not found", you need to temporarily connect an Android Phone by USB cable, then on your host computer's command-line, type:
+adb tcpip 5555
+
+Then, connect to the Android device by IP address:
+adb connect 192.168.0.10
+
+To switch back to your USB connection, type:
+adb usb
+
+Additional Notes:
+
+You do not need root access for this to work.
+You may need to open port (5555) in your firewall.
+You can use "ping " to ensure your host can find the device on the network
+
+
+Error: ADB server version (36) doesn't match this client (39)
+
+Find where your other adb is:
+
+find /home -iname "*adb"|grep -i android
+
+Say it was at;
+
+/home/developer/Android/Sdk/platform-tools/adb
+
+Then Make a softlink to the /usr/bin folder:
+
+ln -s /home/developer/Android/Sdk/platform-tools/adb  /usr/bin/adb
+
+To unlink the symbolic link if the links /usr/bin/adb exists
+sudo unlink /usr/bin/adb
+
+Then;
+
+adb start-server
+
 
 # Creating desktop entry
 sudo -E /opt/google/android-studio/bin/studio.sh 

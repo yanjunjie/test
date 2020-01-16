@@ -51,7 +51,10 @@ TAI-752
 
 // In Progress
 TAI-748
-TAI-782 (wo com)
+TAI-782 (wo compensation)
+TAI-750 (wo activity)
+TAI-771 (Specialized Skills)
+
 
 // backlog
 

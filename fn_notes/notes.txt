@@ -2,6 +2,8 @@ RC => Release Candidate
 
 For hard refresh: ?refresh_context=1
 
+For Debuging mode in login: ?debug=1 
+
 ### Does anyone know from which table I can verified the all buyer company?
 I guess company_attribute table with info
 company_id

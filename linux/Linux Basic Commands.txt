@@ -96,7 +96,34 @@ Count the total lines of squid.conf
 $ cat /etc/squid/squid.conf | wc -L
 
 Find only `spool` words in squid.conf
-$ cat /etc/squid/squid.conf | grep spool
+cat /etc/squid/squid.conf | grep spool
+or grep spool /etc/squid/squid.conf
+
+Find android word in a specific directory
+find /home -iname "*adb"|grep -i android
+
+Search all files with .pdf extension on the current directory
+find . -name "*.pdf"
+Or find ./ -iname "*sample*" // -iname for case insensitive
+
+Search all files with .pdf extension on the /home/tech/ directory
+find /home/tech/ -name "*.pdf"
+
+Search multiple directories for a file httpd.conf
+find /home /etc /var -name httpd.conf -type f
+
+N.B,
+f: To search for a regular file
+d: To search for a directory
+l: To search for a symbolic link
+c: To search for character devices
+b: To search for block devices
+p: To search for a named pipe (FIFO)
+s: To search for a socket
+
+To find installed programed location
+which programName
+whereis programName
 
 Flush the contents of a file
 $ cat /dev/null > /var/log/messages
@@ -256,7 +283,7 @@ Kill all Activity of Particular User
 kill -9 `lsof -t -u username`
 
 Kill processes after finding PIDs by filtering spsecific port using lsof (list open files)
-sudo kill -9 $(sudo lsof -t -i :8081) // -i: internet address, -t: so that the output maybe piped to kill(1)
+sudo kill -9 $(sudo lsof -t -i :8081) // -i: internet address (COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME), and -t: returns a column of PIDs as piped to kill all the PIDs at one time 
 sudo kill $(sudo lsof -t -i :33066)
 
 List All Processes in Current Shell 
@@ -279,6 +306,16 @@ rm -rf ~/.local/share/Android
 
 File extract in a specific location
 $ tar xvzf file.tar.gz -C /path/to/somedirectory
+
+To make a softlink to the /usr/bin folder
+ln -s /home/developer/Android/Sdk/platform-tools/adb  /usr/bin/adb
+
+To unlink the symbolic link if the links /usr/bin/utserver exists
+sudo unlink /usr/bin/utserver
+
+
+
+
 
 
 
