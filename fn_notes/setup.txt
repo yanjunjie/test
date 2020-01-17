@@ -26,9 +26,10 @@ Staff should have permission id 48 to update the contract info
 From staff user->company list->edit->site features->Client Invoicing
 -> "invoicing": true,
 
-// Specialized Skills
-"experimentsUser": {
-          "Special Skill Feature": 1
+// Specialized Skills, Calculate Pay Service
+"experimentsCompany": {
+          "Special Skill Feature": 1,
+          "Calculate Pay Service": 1
         }
 
 // Calculate Pay

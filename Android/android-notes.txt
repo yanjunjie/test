@@ -65,6 +65,103 @@ android:gravity="fill" covers vertical & horizontal direction
 android:gravity="fill_vertical" covers only vertical direction
 
 
+ConstraintSet
+This class allows you to define programmatically a set of constraints to be used with ConstraintLayout.
+
+ConstraintsSet can be created in various ways:
+
+1. Manually
+c = new ConstraintSet(); c.connect(....);
+
+2. from a R.layout.* object
+c.clone(context, R.layout.layout1);
+
+3.from a ConstraintLayout
+c.clone(clayout);
+
+
+For Example:
+
+public class MainActivity extends AppCompatActivity {
+    ConstraintSet mConstraintSet1 = new ConstraintSet(); // create a Constraint Set
+    ConstraintSet mConstraintSet2 = new ConstraintSet(); // create a Constraint Set
+    ConstraintLayout mConstraintLayout; // cache the ConstraintLayout
+    boolean mOld = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Context context = this;
+        mConstraintSet2.clone(context, R.layout.state2); // get constraints from layout
+        setContentView(R.layout.state1);
+        mConstraintLayout = (ConstraintLayout) findViewById(R.id.activity_main);
+        mConstraintSet1.clone(mConstraintLayout); // get constraints from ConstraintSet
+    }
+
+    public void foo(View view) {
+        TransitionManager.beginDelayedTransition(mConstraintLayout);
+        if (mOld = !mOld) {
+            mConstraintSet1.applyTo(mConstraintLayout); // set new constraints
+        }  else {
+            mConstraintSet2.applyTo(mConstraintLayout); // set new constraints
+        }
+    }
+}
+
+setContentView:
+Actually setContentView() is a method part of android.app.Activity class.
+You can set content view (or design) of an activity. Activity is basically a empty window
+SetContentView is used to fill the window with the UI provided from layout file incase of setContentView(R.layout.somae_file).
+
+Details:
+Your Launcher activity in the manifest first gets called and it set the layout view as specified in respective java files setContentView(R.layout.main);. Now this activity uses setContentView(R.layout.main) to set xml layout to that activity which will actually render as the UI of your activity
+
+SetContentView() method is 3 types.
+
+1. setContentView(int resourceId)
+2. setContentView(View view)
+3. setContentView(View view, android.view.ViewGroup.layoutparams params)
+These methods are available from API level 1. Let’s talk more about these types.
+
+At runtime, the System will select the appropriate layout based on orientation and other factors like language and region. By default, it selects the layout in the res/layout directory. Eg:
+
+setContentView(R.layout.activity_main);
+
+setContentView(android.view.View view) in Android
+
+
+Set any view as your activity’s content. View’s height and width set to MATCH_PARENT as default.
+
+@Override
+Protected void onCreate(Bundle savedInstanceState)
+{
+//create a textview object
+TextView textview=new TextView(this);
+//set text to textview
+Textview.setText(”hello world!”);
+SetContentView(textview);
+}
+
+
+setContentView(View view, ViewGroup.Layoutparams)
+Extension of setContentView(View view) method. Here you can specify view’s parameters.
+
+@Override
+Protected void onCreate(Bundle savedInstanceState)
+{
+//create a LinearLayout object
+LinearLayout linearLayout = new LinearLayout(this);
+
+//set orientation
+LinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+//make LinearLayoutParams object with width as MATCH_PARENT and height as MATCH_PARENT
+
+LayoutParams linearLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+
+SetContentView(linearLayout,linearLayoutParam);
+
+}
+
 
 
 
