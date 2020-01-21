@@ -1,4 +1,5 @@
 RC => Release Candidate
+PI => Product Incremental
 
 For hard refresh: ?refresh_context=1
 

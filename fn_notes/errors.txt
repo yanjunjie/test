@@ -4,3 +4,9 @@ Ans:
 TypeError: payloads is not iterable
 Ans: Need json to enclose with [] bracket
 
+TimeoutError: //*[@id='email']
+Ans: haveta remove `provider and click remind me later`
+
+Error: Replace with undefined or DBActions Error
+Ans: .env
+

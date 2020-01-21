@@ -313,6 +313,13 @@ ln -s /home/developer/Android/Sdk/platform-tools/adb  /usr/bin/adb
 To unlink the symbolic link if the links /usr/bin/utserver exists
 sudo unlink /usr/bin/utserver
 
+To change a password for user named tom in Ubuntu, type:
+sudo passwd tom
+
+To change a password for root user on Ubuntu Linux, run:
+sudo passwd root
+
+
 
 
 

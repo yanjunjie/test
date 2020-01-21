@@ -1,0 +1,13 @@
+// Example 01
+
+const command = process.argv[2];
+
+if (command === `fly`) {
+    console.log(`Flying`);
+}
+
+Run: node app fly
+
+Here in the above command, app means app.js file and fly is our custom command and in the app file we are catching the command.
+
+

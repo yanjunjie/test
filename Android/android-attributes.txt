@@ -1,21 +1,19 @@
-Common Attributes:
+*******************************Common Attributes:********************************
 
 id="@+id/next_button"
 layout_width="match_parent"
 layout_width="fill_parent"
 layout_height="wrap_content"
-orientation="vertical"
-tools:context=".MainActivity"
+tools:context=".MainActivity" // Activity name
 layout_gravity="center"
 gravity="center"
-layout_margin="10dp"
 text="Row 6"
 textSize="18sp"
 layout_below="@id/firsttext"
 layout_alignRight="@id/firsttext"
 
 
-RelativeLayout:
+**************************************RelativeLayout:****************************************
 
 Content Attributes:
 android:gravity="center" for text center in TextView.
@@ -36,7 +34,7 @@ android:layout_marginStart // similarly marginEnd. here, start and end are the s
 android:layout_alignTop="@id/a" //similarly, alignBottom, alignRight, alignLeft, if you want TextView in left/right position relatively to sibling view. 
 
 
-GridLayout:
+************************************GridLayout:*******************************************
 android:columnCount="2" is total number of rows of the Grid
 android:rowCount="2" is total number of columns of the Grid
 
@@ -67,10 +65,11 @@ android:layout_rowWeight="1" will take the remaining space of right side
 android:layout_columnWeight="1" will take the remaining space of bottom side
 and content will move to center
 
-Constraint Layout:
+
+*********************************Constraint Layout:****************************************
 For Constraint Layout Attributes:
 android:layout_width="match_constraint" // if we set the value match_constraint (0dp) then it will shrink the text of the view or we can use this attribute app:layout_constrainedWidth="true"
-app:layout_constraintWidth_percent="0.9" // if layout_width="0dp" is applied then we can use this attribute and it will take width relative to the parent, not to the constrained
+app:layout_constraintWidth_percent="0.9" // if layout_width="0dp" is applied then we can use this attribute and it will take width relative to the parent, not to the constraint
 app:layout_constraintWidth_default="wrap"
 app:layout_constraintWidth="true" //Text to be wrapped
 app:layout_constraintWidth_min="wrap" //Similarly, max, constraintHeight
@@ -97,7 +96,7 @@ The include tag:
 The <include> tag lets you to divide your layout into multiple files: it helps dealing with complex or overlong user interface.
 
 
-LinearLayout:
+****************************************LinearLayout:************************************
 LinearLayout is a ViewGroup that aligns all children in a single direction, vertically or horizontally
 
 android:orientation
@@ -122,6 +121,10 @@ android:layout_weight="1" // First View in Horizontal Orientation
 2nd View:
 android:layout_width="0dp"
 android:layout_weight="1" // Second View in Horizontal Orientation
+
+
+*************************************MotionLayout:**************************************
+1. Collapsable Headers, 2. State Feedback, 3. Transitions
 
 
 

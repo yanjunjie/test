@@ -46,14 +46,15 @@ TAI-562 - TCM-4666
 TAI-767
 TAI-642 - TCM-5080
 TAI-752
-
-// In Review
-
-// In Progress
 TAI-748
 TAI-782 (wo compensation)
 TAI-750 (wo activity)
 TAI-771 (Specialized Skills)
+TAI-404
+
+// In Review
+
+// In Progress
 
 
 // backlog

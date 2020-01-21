@@ -1,0 +1,18 @@
+//setColumnIndex('workorder', 1, 'company_id', buildArtifact(ownerAlias, 'company', 'id', 1)); // This function is for setting indexes so that it can be faster to response
+
+//In the above syntax:
+buildArtifact(): The buildArtifact generates value for other table's column value. For example in `workorder` table we need the value of company_id and exactly giving us that value from `company` table.
+At short, primary and foreign key connection/relationship. It's grabing the value
+
+// Difference between setColumnIndex and setColumnIndexImperative
+
+src/mono ->item
+src/mono/config ->config
+
+
+
+
+
+
+
+

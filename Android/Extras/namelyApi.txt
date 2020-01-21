@@ -1,0 +1,6 @@
+The base URL for all requests to the Namely API is:
+https://{company}.namely.com/api/v1
+
+https://{company}.namely.com/api/v1//profiles/me.json
+
+

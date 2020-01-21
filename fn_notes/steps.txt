@@ -239,6 +239,15 @@ const elLenth = await this.waitFor(pageResource.locationMap, { timeoutMs: 4000 }
     .then(el => el.length || 0);
 expect(elLenth).to.above(0);
 
+const url = `${this.appUrl}/templates/${templateId}`;
+  await this.retry(async () => {
+    const expectedTemplateId = url.split(`/`).pop();
+    await this.driver.get(url);
+    const currentUrl = await this.driver.getCurrentUrl();
+    expect(currentUrl).to.includes(expectedTemplateId);
+    await this.waitFor(this.pages.createTemplate.templatePage, { timeoutMs: 20000 });
+  }, 20000, 500);
+
 //******************End Comparison**********************
 
 
