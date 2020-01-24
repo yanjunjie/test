@@ -4,10 +4,10 @@ program.version('0.1.0');
 
 // Commands
 program
-.command(`say`)
+.command(`say <string>`)
 .description(`Say something interesting`)
 .alias(`s`)
-.action(function(name) {
+.action((name) => {
 	console.log(name);
 });
 
@@ -19,6 +19,25 @@ program
 });
 
 program.parse(process.argv);
+
+
+*************************// Example 1.1.0 ****************************
+
+
+
+// Options
+program
+  .version('0.1.0')
+  .option('--project [project]', 'Specifies the project name', 'mono')
+  .option('--type [type]', 'Type of code to generate, either "item" or "config"', /^(config|item)$/, 'config')
+  .option('--title [title]', 'Title of the item or config', 'untitled')
+  .option('--comments [comments]', 'Configs: describe the config', '@todo description/comments')
+  .option('--write', 'Write the source code to a new file in the expected path')
+  .parse(process.argv);
+
+const {
+  project, type, title: name, comments: description, write,
+} = program;
 
 
 ************************// Example 02**************************

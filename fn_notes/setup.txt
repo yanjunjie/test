@@ -32,6 +32,15 @@ From staff user->company list->edit->site features->Client Invoicing
           "Calculate Pay Service": 1
         }
 
+Special skill feature experiment 39 value 1
+Calculate Pay Service experiment 37 value 1
+
+// New Work Order Create
+Work Order Create experiment 21 value 5
+
+N.B: When a buyer newly signed up he will get the experiment value 5, by default for work order create experiment
+He will get as well as calculate pay and special skill feature experiment on by default
+
 // Calculate Pay
 "experimentsCompany": {
           "Calculate Pay Service": 1

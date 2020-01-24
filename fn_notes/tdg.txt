@@ -9,6 +9,110 @@ At short, primary and foreign key connection/relationship. It's grabing the valu
 src/mono ->item
 src/mono/config ->config
 
+// Snapshot and Convert into
+npm run snapshot
+npm run -- convertSnapshot --project mono
+
+
+
+************************// Step by step process below**********************
+// Parameters and Veriables
+file: is file path
+before and after: are also file path like before = file;
+diff: is an array of objects of diffrence lines
+diffFile: is file path
+inserts: is insert statements
+tables: all tables
+cols: all columns
+--type: either item/config
+--project: either mono/ui
+itemSrc: item source path or template source path
+outputFile: item or config file's path and here we will modify as our need
+
+
+// Steps
+First of all when we run the following command then the execute() function is called
+1. MYSQL_DATABASE=fieldnation node --max-old-space-size=4096 ./scripts/snapshot.js`
+
+*** function createSnapshot(alias)
+Here, alias is like before, after
+So, It creates snapshot.before.sql and snapshot.after.sql at the root of the project
+
+*** function normalizeFile(file)
+Here, It removes the semecolon (;) and creates a new line and decorate and rewrite again for better viewable.
+
+2. Run ./scripts/convertSnapshot.js --project mono --type item --title newInvoice --comments 'Creates an invoice' --write
+
+Again it is gonna call execute() function
+
+program
+  .version('0.1.0')
+  .option('--project [project]', 'Specifies the project name', 'mono')
+  .option('--type [type]', 'Type of code to generate, either "item" or "config"', /^(config|item)$/, 'config')
+  .option('--title [title]', 'Title of the item or config', 'untitled')
+  .option('--comments [comments]', 'Configs: describe the config', '@todo description/comments')
+  .option('--write', 'Write the source code to a new file in the expected path')
+  .parse(process.argv);
+
+const {
+  project, type, title: name, comments: description, write,
+} = program;
+
+*** the following code is creating item or config inside ./src/mono or ui/item.js or configs/config.js
+  if (write) {
+    if (!fs.existsSync(
+      `${__dirname}/../src/${project}`,
+    )) {
+      process.stderr.write(
+        `Creating src/${project}\n`,
+      );
+      fs.mkdirSync(
+        `${__dirname}/../src/${project}`,
+      );
+    }
+
+    if (type === 'config' && !fs.existsSync(
+      `${__dirname}/../src/${project}/configs`,
+    )) {
+      process.stderr.write(`
+Creating src/$
+  {
+    project
+  }
+/$
+  {
+    name
+  }
+\n
+  `);
+      fs.mkdirSync(`
+$
+  {
+    __dirname
+  }
+/../src/$
+  {
+    project
+  }
+/$
+  {
+    name
+  }
+`);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
