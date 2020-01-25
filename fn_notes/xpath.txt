@@ -122,6 +122,12 @@ Here, The ( ... | ... ) part returns a union of its subparts. These are *[@id="x
 Another way,
 //div[contains(@class, 'modal') and contains(button, 'Continue to work order template form')]
 
+// And Operation for diffrent elements and grabing text instead of 1 or true
+//category[@name='Sport' and ./author/text()='James Small']
+//h3[text()='Labor' and //span[text()='Fixed']]/../../following-sibling::div
+//h3[text()='Labor' and //span[text()='Fixed' and @data-nw-file="index"]]/../../following-sibling::div
+
+
 //### Select both elements
 //div[contains(@class, "some-class") and .//label[contains(text(), "${inputData.label}")]]//div/input
 

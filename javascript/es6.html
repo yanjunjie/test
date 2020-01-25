@@ -7,53 +7,95 @@
 <body>
 	<script>
 	
-	//Rest Parameters
-		let myFuncRest = (a, b, ...args) => {
-			//console.log(a);
-			//console.log(b);
-			//console.log(args);
-		}
+	//***********************Rest Parameter [ …rest]**********************
+	/*
+	It is a collection of all remaining elements (hence, the name rest) into an array or object
+	*/
+	let myFuncRest = (a, b, ...args) => {
+		//console.log(a);
+		//console.log(b);
+		//console.log(args);
+	}
+	
+	myFuncRest(1,2,3,4,5);
 		
-		myFuncRest(1,2,3,4,5);
-		
-	//Destructuring Rest Parameters
-		function myFuncDes(...[x, y, z]) {
-		  return x * y* z;
-		}
+	// Destructuring Rest Parameters:
+	// function myFuncDes(...[x, y, z]) {
+	//   return x * y* z;
+	// }
 
-		//console.log(myFuncDes(1)); // NaN
-		//console.log(myFuncDes(1, 2, 3));   // 6
-		//console.log(myFuncDes(1, 2, 3, 4)); // 6 (but fourth parameter is not destructured)
+	//console.log(myFuncDes(1)); // NaN
+	//console.log(myFuncDes(1, 2, 3));   // 6
+	//console.log(myFuncDes(1, 2, 3, 4)); // 6 (but fourth parameter is not destructured)
+	
+	function myFuncDes(a, ...[x, y, z]) {
+		//console.log(a); // 1
+		//console.log(x); // 2
+		//console.log(y); // 3
+		//return x * y* z;
+	}
+	//console.log(myFuncDes(1, 2, 3, 4)); // 24 (Now fourth parameter is destructured)
+
+	//var myName = ["Marina" , "Magdy" , "Shafiq"] ;
+	//const [firstName , ...familyName] = myName ;
+	//console.log(firstName); // Marina ;
+	//console.log(familyName); // [ "Magdy" , "Shafiq"] ;
+	//let {a:customVar, b, ...rest} = {a: 10, b: 20, c: 30, d: 40};
+	//console.log(rest); // {c: 30, d: 40}
+	
 		
-		
-		function myFuncDes(a, ...[x, y, z]) {
-			//console.log(a); // 1
-		  return x * y* z;
-		}
-		//console.log(myFuncDes(1, 2, 3, 4)); // 24 (Now fourth parameter is destructured)
-		
-		
-	//Spread Oparators
-	function myFuncSpread(x, y, ...params) { // used rest operator here
-	  //console.log(x);
-	  //console.log(y);
-	  //console.log(params);
+	//***********************Spread Operator […spread]*****************************
+	/*
+	It’s the opposite to rest parameter, where rest parameter collects items into an array, the spread operator unpacks the collected elements into single elements.
+	*/
+	function myFuncSpread(x, y, ...params) { // used rest parameter here
+	  //console.log(x); // "a"
+	  // console.log(y); // "b"
+	  // console.log(params); // ["c", "d", "e", "f"]
 	}
 
 	var inputs = ["a", "b", "c", "d", "e", "f"];
-	//myFuncSpread(...inputs); // used spread operator here
-	// "a"
-	// "b"
-	// ["c", "d", "e", "f"]
-	
+	myFuncSpread(...inputs); // used spread operator here
+
 	//const x = ['a', 'b', 'c'];
 	//const y = ['e', 'f', 'g'];
 	//const z = [...x, 'd', ...y];
-
 	//console.log(z); // ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+
+	// Arguments: 
+	// Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+	// To make an real array from the array-like-object
+	// let args = Array.from(arguments);
+	// or
+	// let args = [...arguments];
+
+	function func1(a, b, c) {
+	  // console.log(arguments[0]); // expected output: 1
+	  // console.log(arguments[1]); // expected output: 2
+	  // console.log(arguments[2]); // expected output: 3
+	}
+	func1(1, 2, 3);
 	
 	
-	// Merging of Objects (Shallow-cloning) instead of Object.assign() using Spread Operator
+	//************************Destructuring Assignments***********************
+	//We can pull out objects properties or arrays elements into distinct variables
+	
+	// Array Destructuring:
+	//let [a, b, ...rest] = [10, 20, 30, 40, 50];
+	//console.log(rest); // [30,40,50]
+
+	// Object Destructuring:
+	//let {a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40}
+	//console.log(rest); // {c: 30, d: 40}
+	//let {a:customVar, b, ...rest} = {a: 10, b: 20, c: 30, d: 40};
+	//console.log(customVar); // 10
+	//console.log(a); // 10 
+	//console.log(b); // 20 
+	//console.log(rest); // { c: 30, d: 40 }
+	//let state = {a: 10, b: 20, c: 30, d: 40};
+	//console.log({...state});
+
+	// Merging of Objects (Shallow-cloning) instead of Object.assign() using Spread Operator:
 	var obj1 = { foo: 'bar', x: 42 };
 	var obj2 = { foo: 'baz', y: 13 };
 
@@ -62,47 +104,7 @@
 
 	var mergedObj = { ...obj1, ...obj2 };
 	//console.log(mergedObj); // Object { foo: "baz", x: 42, y: 13 }
-	
-	
-	//Destructuring Assignments
-	//We can pull out objects properties or arrays elements into distinct variables
-	
-	// Array Destructuring
-	//let [a, b, ...rest] = [10, 20, 30, 40, 50];
-	//console.log(rest); // [30,40,50]
 
-	// Object Destructuring
-	//let {a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40}
-	//console.log(a); // 10 
-	//console.log(b); // 20 
-	//console.log(rest); // { c: 30, d: 40 }
-	
-	//let {a:customVar, b, ...rest} = {a: 10, b: 20, c: 30, d: 40};
-	//console.log(customVar); // 10
-	
-	//Cloning or shallow-clonig
-	//let state = {a: 10, b: 20, c: 30, d: 40};
-	//console.log({...state});
-	
-	
-	function checkPalindrom (str) {
-	  str = str.toLowerCase();
-	  return str == str.split('').reverse().join('');
-	}
-	
-	if(checkPalindrom('Racecar')) {
-		console.log('Palindrome');
-	} else {
-		console.log('Not Palindrome');
-	}
-	
-	
-	
-
-	
-
-
-		
 	</script>	
 </body>
 </html>

@@ -1,0 +1,16 @@
+Uncaught TypeError: Expected a function
+Ans: atleast pass an anonymous function or partialRight/curry lodash function
+Example 01: 
+(users) => _.map(users, user => user.uid)
+Or, _.partialRight(_.map, user => user.uid)
+Or, _.curried(_.map, user => user.uid)(users)
+
+Example 02:
+var abc = function(a, b, c) {
+  return [a, b, c];
+};
+ 
+var curried = _.curry(abc);
+ 
+curried(1)(2)(3);
+// => [1, 2, 3]
