@@ -315,6 +315,15 @@ const capitalized = 'your string'.replace(/\b\w/g, l => l.toUpperCase()); // => 
 
 // payText = payText[0].toUpperCase() + payText.slice(1);
 
+// Convert preposition to lowaer case
+function toCamel(string){
+  return string.replace(/(?:_| |\b)(\w)/g, function($1){return $1.toUpperCase().replace('_',' ');});
+}
+
+str = 'Number Of Devices';
+str = str.replace(/(?:Of)/g, function($1){return $1.replace('Of','of');})
+exType = exType.replace(/(?:Of|In)/g, $1 => $1.toLowerCase());
+Ref: https://stackoverflow.com/questions/21792367/replace-underscores-with-spaces-and-capitalize-words
 
 //******************End Javascript**********************
 
