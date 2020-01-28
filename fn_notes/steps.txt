@@ -323,6 +323,7 @@ function toCamel(string){
 str = 'Number Of Devices';
 str = str.replace(/(?:Of)/g, function($1){return $1.replace('Of','of');})
 exType = exType.replace(/(?:Of|In)/g, $1 => $1.toLowerCase());
+exType = exType.replace(/(?:Of|In|For)\s/g, $1 => $1.toLowerCase()); //more stable, here \s because after every preposition having a space
 Ref: https://stackoverflow.com/questions/21792367/replace-underscores-with-spaces-and-capitalize-words
 
 //******************End Javascript**********************

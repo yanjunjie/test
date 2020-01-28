@@ -49,9 +49,22 @@ for(var call of myObj) {
 
 
 //***********************for..in is enumerable over objects it aslo works on array*************************
+Example 01:
 let mytest = {'id':10, 'name':'bablu'}
 for (myvar in mytest)
 console.log(myvar); //id, name
+
+Example 02:
+obj = {
+  "perDevice": "$10.00",
+  "numberOfDevices": "2",
+  "totalEstimate": "$20.00"
+}
+
+for (const prop in obj) {
+  console.log(prop); // console.log(obj[prop])
+}
+
 
 
 //**************************for await...of statement***********************
