@@ -1,0 +1,88 @@
+
+multisiteWorkOrderLocationCanada
+"download all" functionality to multi-location parent deliverable section
+multisiteDownloadAllDeliverable
+
+Multi-Location Deliverable Reviewer
+
+multisiteDeliverableReviewer
+
+Multi site: Remove Assignment After assigned to work order
+
+removeMultisiteAssignment
+
+Contract Service Application - Import Spreadsheets
+contractServiceImportSpreadsheets
+importSpreadsheets
+
+contractServiceCancelWorkOrder
+
+Contract Service Application - Add Hold
+contractServiceAddHold
+
+
+Congratulations on your marriage, and welcome to the family!
+
+Best wishes to you both
+
+We/I love you both. Thanks for letting us share in your celebration!
+
+Lots of love and happiness to you both on this exciting and joyful day for our family.
+
+Lots of love now and always.
+
+May you have a marriage full of love and happiness!
+
+I'm so thankful to have a sister/brother like you
+
+Best wishes for a long and happy life together.
+
+
+I'm so thankful to have both Amran Bhai and Saima Apu as colleagues. Congratulations on your marriage, and best wishes for a long and happy life together!
+
+
+Contract Service Application - Clients
+contractServiceClients
+
+customSelectionRules
+contractServiceSelectionRules
+
+
+specializedSkills
+contractServicespecializedSkills
+
+Specialized Skills
+
+
+Workers Compensation
+
+contractServicesWorkersCompensation
+
+marketplaceBuyer11510301459
+
+workersCompensationPremier.json
+
+ontract Service Application - Work Order Activity Report
+
+buyer1Admin1514624640
+
+ln -s /home/bablu/Android/Sdk/platform-tools/adb /usr/bin/adb
+
+SpecializedSkills
+
+Buyer assigns a work order to a provider that is tomorrow, and the provider has not confirmed their work yet
+
+Contract Enforcement - WOD Save As Template button displaying on Basic
+
+SaveAsTemplateButtonDisplaying on Basic
+
+if (values.serviceFeePercentage) {
+    const locator = this.pages.workOrderDetails.serviceFeePercentage;
+    const elementText = await getElementText(this, locator);
+    expect(elementText).to.contain(values.serviceFeePercentage);
+}
+
+
+
+
+

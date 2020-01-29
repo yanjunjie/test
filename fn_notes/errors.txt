@@ -10,3 +10,20 @@ Ans: haveta remove `provider and click remind me later`
 Error: Replace with undefined or DBActions Error
 Ans: .env
 
+Error: Do not access Object.prototype method 'hasOwnProperty' from target object  no-prototype-builtins
+hasOwnProperty() exists on Object.prototype
+ES6 shortcut if used often. const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+
+Example: 
+if (Object.prototype.hasOwnProperty.call(values, prop)) {}
+
+Error: The body of a for-in should be wrapped in an if statement to filter unwanted properties from the prototype  guard-for-in
+Ans: because for-in loop try to access prototype field/property but we can use for loop instead 
+
+TypeError: Invalid locator
+Ans: Expecting driver object along with ElementFinder or missing of a parameter causing the issue.
+At short xpath not found
+
+
+
+

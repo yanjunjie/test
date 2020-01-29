@@ -330,7 +330,7 @@ Ref: https://stackoverflow.com/questions/21792367/replace-underscores-with-space
 
 
 //******************Data Table**********************
-// hashes() - returns object and rows are object properties
+// hashes() - returns an object and the first row is object properties and rest rows are values accordingly for example in the following table fieldName and fieldValue are properties
  * When I set custom field value
  * | fieldName   | fieldValue  |
  * | Buyer Field | Field value |
@@ -348,6 +348,17 @@ for (const expected of table.hashes()) {
     }
 
 Ref: I fill out the license form
+
+Then(/^the pay increase request section displays$/, async function (table) {
+  for (const { type, amount } of table.hashes()) {
+    await this.retry(async () => {
+      const [el] = await this.waitFor(this.pages.workOrderDetails.pay.increasePayChip);
+      const actual = await el.getText();
+      expect(actual).to.include(type.toLowerCase());
+      expect(actual).to.include(amount);
+    }, 20000, 200);
+  }
+});
 
 // rowsHash() - returns an object and First column is for its properties and Second column is for its values
 * When I set custom field value
