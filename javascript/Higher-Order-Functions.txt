@@ -1,6 +1,60 @@
-//Reduce
+//*****************Reduce**********************
+The reduce() method executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
 
-let allProducts = [{
+Syntax:
+arr.reduce(callback( accumulator, currentValue[, index[, array]] )[, initialValue])
+
+callback
+A function to execute on each element in the array (except for the first, if no initialValue is supplied)
+
+accumulator
+The accumulator accumulates callback's return values. It is the accumulated value previously returned in the last invocation of the callback.
+
+currentValue
+The current element being processed in the array.
+
+index (Optional)
+The index of the current element being processed in the array. Starts from index 0 if an initialValue is provided. Otherwise, it starts from index 1.
+
+array (Optional)
+The reduce() was called upon.
+
+initialValue (Optional)
+A value to use as the first argument to the first call of the callback. If no initialValue is supplied, the first element in the array will be used and skipped. Calling reduce() on an empty array without an initialValue will throw a TypeError
+
+Example 01:
+
+const array1 = [1, 2, 3, 4];
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+// 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer));
+// expected output: 10
+
+console.log(array1.reduce(reducer));
+Acc "-" Curr
+1 "-" 2
+3 "-" 3
+6 "-" 4
+10
+
+// 5 + 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer, 5));
+// expected output: 15
+
+console.log(array1.reduce(reducer, 5));
+Acc "-" Curr
+5 "-" 1
+6 "-" 2
+8 "-" 3
+11 "-" 4
+15
+
+
+Example 02:
+
+let allProducts = [
+  {
     "unique_id": "102",
     "currency": "$",
     "price": "529.99",
@@ -22,3 +76,120 @@ let allProducts = [{
 
 const sum = allProducts.reduce((a, {watt}) => a + watt, 0);
 console.log(sum);
+
+Example 03:
+
+let maxCallback = ( acc, cur ) => Math.max( acc.x, cur.x )
+let maxCallback2 = ( max, cur ) => Math.max( max, cur )
+
+// reduce() without initialValue
+[ { x: 22 }, { x: 42 } ].reduce( maxCallback ) // 42
+[ { x: 22 }            ].reduce( maxCallback ) // { x: 22 }
+[                      ].reduce( maxCallback ) // TypeError
+
+// map/reduce; better solution, also works for empty or larger arrays
+[ { x: 22 }, { x: 42 } ].map( el => el.x )
+                        .reduce( maxCallback2, -Infinity )
+
+
+Example 04:
+**Sum of values in an object array**
+To sum up the values contained in an array of objects, you must supply an initialValue, so that each item passes through your function.
+
+let initialValue = 0
+let sum = [{x: 1}, {x: 2}, {x: 3}].reduce(
+    (accumulator, currentValue) => accumulator + currentValue.x
+    , initialValue
+)
+
+console.log(sum) // logs 6
+
+**Flatten an array of arrays**
+
+let flattened = [[0, 1], [2, 3], [4, 5]].reduce(
+  ( accumulator, currentValue ) => accumulator.concat(currentValue),
+  []
+)
+
+// flattened is [0, 1, 2, 3, 4, 5]
+
+
+**Counting instances of values in an object**
+let names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice']
+
+let countedNames = names.reduce(function (allNames, name) { 
+  if (name in allNames) {
+    allNames[name]++
+  }
+  else {
+    allNames[name] = 1
+  }
+  return allNames
+}, {})
+// countedNames is:
+// { 'Alice': 2, 'Bob': 1, 'Tiff': 1, 'Bruce': 1 }
+
+**Bonding arrays contained in an array of objects using the spread operator and initialValue**
+// friends - an array of objects 
+// where object field "books" is a list of favorite books 
+let friends = [{
+  name: 'Anna',
+  books: ['Bible', 'Harry Potter'],
+  age: 21
+}, {
+  name: 'Bob',
+  books: ['War and peace', 'Romeo and Juliet'],
+  age: 26
+}, {
+  name: 'Alice',
+  books: ['The Lord of the Rings', 'The Shining'],
+  age: 18
+}]
+
+// allbooks - list which will contain all friends' books +  
+// additional list contained in initialValue
+let allbooks = friends.reduce(function(accumulator, currentValue) {
+  return [...accumulator, ...currentValue.books]
+}, ['Alphabet'])
+
+// allbooks = [
+//   'Alphabet', 'Bible', 'Harry Potter', 'War and peace', 
+//   'Romeo and Juliet', 'The Lord of the Rings',
+//   'The Shining'
+// ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

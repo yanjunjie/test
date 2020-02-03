@@ -55,8 +55,8 @@ TAI-404
 // In Review
 
 // In Progress
-
-
+TAI-813 (contract)
+TAI-817 (refactor)
 // backlog
 
 

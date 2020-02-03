@@ -1,3 +1,9 @@
+PLATFORM=chrome ENVIRONMENT=test2 npm run test-only @wip
+NPM_TOKEN=9e924483-6af0-4820-8c36-9d3264b4b938
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=root
+MYSQL_PASSWORD=tiptop123
+MYSQL_DATABASE=fieldnation
 
 multisiteWorkOrderLocationCanada
 "download all" functionality to multi-location parent deliverable section
@@ -82,6 +88,40 @@ if (values.serviceFeePercentage) {
     expect(elementText).to.contain(values.serviceFeePercentage);
 }
 
+
+const locator = `//span[contains(text(), 'Travel Expense')]/../following-sibling::div/following-sibling::div//span[@data-nw-file='Chip']`;
+      //   const elementText = await getElementText(this, locator);
+      //   expect(elementText).to.equal(values[`Travel Expense`]);
+      //   await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
+      //   await waitForLoader(this);
+
+
+// ticket open: 
+Refactor Copy Work Order with Additional Contacts
+Refactor Edit WorkOrder Payment Details
+Refactor Copy Work Order Additional Fields
+
+verify the multisite work order (details|listing) pay
+actualAmount = await getElementText(this, pages.workOrderListing.payTotalAmount);
+actualAmount = parseInt(actualAmount.replace(/[^0-9.]/g, ``), 10);
+expect(expectedAmount * 2).to.equal(actualAmount);
+
+
+if (type === `listing`) {
+          actual = await getElementText(this, this.pages.workOrderListing.payTotalAmount);
+          actual = parseInt(actual.replace(/[^0-9.]/g, ``), 10);
+          expectedAmount *= 2;
+        }
+
+wine msiexec /i /path/to/installer.msi
+wine /path/to/application.exe
+
+79.0.3945.36
+http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_75.0.3770.142-1_amd64.deb
+
+Subhanal-malikil-quddus,
+Subhanal-kabiril-muta’al,
+La ilaha ill’Allah-al-hayy-al-qayyum.
 
 
 

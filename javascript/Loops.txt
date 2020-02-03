@@ -1,5 +1,7 @@
 
 //****************forEach Only for Array*************************
+It is better to use a for loop with a numeric index (or Array.prototype.forEach() or the for...of loop) when iterating over arrays where the order of access is important.
+
 let mytest = ['id', 'bablu'];
 mytest.forEach(function(element, key) {
   console.log(element); //id, bablu
@@ -49,6 +51,8 @@ for(var call of myObj) {
 
 
 //***********************for..in is enumerable over objects it aslo works on array*************************
+If you only want to consider properties attached to the object itself, and not its prototypes, use getOwnPropertyNames() or perform a hasOwnProperty() check (propertyIsEnumerable() can also be used).
+
 Example 01:
 let mytest = {'id':10, 'name':'bablu'}
 for (myvar in mytest)

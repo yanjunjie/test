@@ -56,6 +56,18 @@ Run: mkdir .vscode && touch .vscode/settings.json then add the following
 3. Gherkin Indent
 4. Cucumber-gotostep
 
+Or by Tim in .vscode/settings.json
+
+{
+    "cucumberautocomplete.steps": [
+        "./features/step_definitions/*/*.js",
+        "./node_modules/@fieldnation/fn-cucumber-js/step_definitions/*/*.js"
+    ],
+    "cucumberautocomplete.syncfeatures": "test/features/*feature",
+    "cucumberautocomplete.strictGherkinCompletion": true
+}
+
+
 
 
 

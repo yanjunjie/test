@@ -1,0 +1,139 @@
+//************************in*********************
+The in operator returns true if the specified property is in the specified object or its prototype chain.
+
+Syntax:
+prop in object
+
+prop
+A string or symbol representing a property name or array index.
+
+object
+Object to check if it (or its prototype chain) contains the property with specified name (prop).
+
+Example 01:
+
+const car = {make: 'Honda', model: 'Accord', year: 1998};
+
+console.log('make' in car);
+// expected output: true
+
+delete car.make;
+if ('make' in car === false) {
+  car.make = 'Suzuki';
+}
+
+console.log(car.make);
+// expected output: "Suzuki"
+
+Example 02:
+
+// Arrays
+let trees = ['redwood', 'bay', 'cedar', 'oak', 'maple']
+0 in trees        // returns true
+3 in trees        // returns true
+6 in trees        // returns false
+'bay' in trees    // returns false (you must specify the index number, not the value at that index)
+'length' in trees // returns true (length is an Array property)
+Symbol.iterator in trees // returns true (arrays are iterable, works only in ES2015+)
+
+// Predefined objects
+'PI' in Math          // returns true
+
+// Custom objects
+let mycar = {make: 'Honda', model: 'Accord', year: 1998}
+'make' in mycar  // returns true
+'model' in mycar // returns true
+
+
+//************************Object.prototype.hasOwnProperty()******************************
+The hasOwnProperty() method returns a boolean indicating whether the object has the specified property as its own property (as opposed to inheriting it).
+Unlike the in operator, this method does not check for a property in the object's prototype chain.
+
+Syntax
+obj.hasOwnProperty(prop)
+
+prop
+The String name or Symbol of the property to test.
+
+Return value
+A Boolean indicating whether or not the object has the specified property as own property.
+
+Example 01:
+
+const object1 = new Object();
+object1.property1 = 42;
+
+console.log(object1.hasOwnProperty('property1'));
+// expected output: true
+
+console.log(object1.hasOwnProperty('toString'));
+// expected output: false
+
+console.log(object1.hasOwnProperty('hasOwnProperty'));
+// expected output: false
+
+Example 02:
+
+Direct vs. inherited properties
+The following example differentiates between direct properties and properties inherited through the prototype chain:
+
+o = new Object();
+o.prop = 'exists';
+o.hasOwnProperty('prop');             // returns true
+o.hasOwnProperty('toString');         // returns false
+o.hasOwnProperty('hasOwnProperty');   // returns false
+
+Example 03:
+
+var foo = {
+  hasOwnProperty: function() {
+    return false;
+  },
+  bar: 'Here be dragons'
+};
+
+foo.hasOwnProperty('bar'); // always returns false
+
+// Use another Object's hasOwnProperty
+// and call it with 'this' set to foo
+({}).hasOwnProperty.call(foo, 'bar'); // true
+
+// It's also possible to use the hasOwnProperty property
+// from the Object prototype for this purpose
+Object.prototype.hasOwnProperty.call(foo, 'bar'); // true
+
+
+//*********************************getOwnPropertyNames()***********************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

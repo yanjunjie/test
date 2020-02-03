@@ -16,5 +16,13 @@ user_id
 ### getElementText();
 It's very unlikely that we will ever hit the 20 sec retry since we run 'getElementText' inside of the function
 
+### Version
+MAJOR=82
+MINOR=0
+BUILD=4045
+PATCH=0
+
+
+
 
 

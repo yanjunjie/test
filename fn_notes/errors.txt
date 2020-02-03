@@ -1,3 +1,4 @@
+//******************************Selenium, Chai, Nodejs Error*******************************
 TypeError: Cannot read property 'item' of undefined
 Ans: 
 
@@ -23,6 +24,68 @@ Ans: because for-in loop try to access prototype field/property but we can use f
 TypeError: Invalid locator
 Ans: Expecting driver object along with ElementFinder or missing of a parameter causing the issue.
 At short xpath not found
+
+Error: function uses multiple asynchronous interfaces: callback and promise
+       to use the callback interface: do not return a promise
+       to use the promise interface: remove the last argument to the functio
+Ans: Extra parameter we should remove one
+
+RequestError: Error: read ECONNRESET
+Ans: authentication error
+
+UnhandledPromiseRejectionWarning: StaleElementReferenceError: stale element reference: element is not attached to the page document
+Ans: Deed to update docker-selenium image in selenium grid and update accordingly to our local machine
+
+InvalidSelectorError: invalid selector: An invalid or illegal selector was specified (Session info: chrome=78.0.3904.108)
+Ans: Invalid selector
+
+AssertionError: object tested must be an array, a map, an object, a set, a string, or a weakset, but number given
+Ans: just use equal insteda of include in assertion
+
+WebDriverError: element not interactable
+         (Session info: chrome=79.0.3945.130)
+         (Driver info: chromedriver=78.0.3904.70 (edb9c9f3de0247fd912a77b7f6cae7447f6d3ad5-refs/branch-heads/3904@{#800}),platform=Linux 5.0.0-38-generic x86_64)
+Ans: first of all we have to delete node_modules then 
+npm install --no-cache
+or versioning error for fn-cucumber-js
+"@fieldnation/fn-cucumber-js": "1.6.7"
+
+
+//***********************NPM Error*********************************
+npm ERR! path /home/jenkins/workspace/cuke_sample_master/package.json
+npm ERR! code ENOENT
+npm ERR! errno -2
+npm ERR! syscall open
+npm ERR! enoent ENOENT: no such file or directory, open '/home/jenkins/workspace/cuke_sample_master/package.json'
+npm ERR! enoent This is related to npm not being able to find a file.
+npm ERR! enoent 
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/jenkins/.npm/_logs/2020-01-31T08_58_50_929Z-debug.log
+Post stage
+ERROR: script returned exit code 254
+
+Ans: update the NPM token
+or possible solution is to make a fake branch and marge it with master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
