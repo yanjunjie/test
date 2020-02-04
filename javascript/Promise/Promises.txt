@@ -121,17 +121,22 @@ let third = (val)=> {
   return val+2;
 };
 
-let promise = new Promise(function(resolve, reject){
+let promise = new Promise(function(resolve, reject) {
   resolve(2);
 });
 
-let fulfilledPromise = promise.then(first).then(second).then(third).then(function(response){
+/*// ES2017
+let promise = async function() {
+  return 2;
+};*/
+
+let fulfilledPromise = promise.then(first).then(second).then(third).then(function(response) {
   console.log(response); // 8
 });
 
 console.log(promise); // Promise {<resolved>: 2}
-console.log(promise.then(first).then(second).then(third)); // Promise {<resolved>: 8}
-console.log(fulfilledPromise); // Promise {<resolved>: undefined}, this is undefined because it doesn't return anything
+console.log(promise.then(first).then(second).then(third)); // Promise {<resolved>: 8}, now we have to retrieve the resolved value from the promise object by using another then method or await keyword
+console.log(fulfilledPromise); // Promise {<resolved>: undefined}, this is undefined because it doesn't return/resolve anything
 console.log(await promise); // 2
 
 
