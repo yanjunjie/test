@@ -37,17 +37,49 @@ let third = (val, callback)=> {
 	return callback(val+2, false);
 };
 
-first(2, function(firstResult, err){
+first(2, function(firstResult, err) {
 	if(!err) {
 		console.log(firstResult);
-		second(firstResult, function(secondResult, err){
+		second(firstResult, function(secondResult, err) {
 			console.log(secondResult);
-			third(secondResult, function(thirdResult, err){
+			third(secondResult, function(thirdResult, err) {
 				console.log(thirdResult);
 			});
 		});
 	}		
 });
+
+// Expected result: 8
+
+//N.B, In the above, though we have passed a function as a parameter but it will not execute until it calls (it's a function's nature) when it will call in the first function's body and as the function defination is as parameter that's why it's called callback.
+
+
+// Example 2.1.0
+
+// Callback
+let first = (callback, val)=> {
+	return callback(val+2, false);
+};
+let second = (val, callback)=> {
+	return callback(val+2, false);
+};
+let third = (val, callback)=> {
+	return callback(val+2, false);
+};
+
+first(function(firstResult, err) {
+	if(!err) {
+		console.log(firstResult);
+		second(firstResult, function(secondResult, err) {
+			console.log(secondResult);
+			third(secondResult, function(thirdResult, err) {
+				console.log(thirdResult);
+			});
+		});
+	}		
+}, 2);
+
+// Expected result: 8
 
 
 // Promise

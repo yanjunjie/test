@@ -32,25 +32,93 @@ Returns a new Promise object that is resolved with the given value. If the value
 
 N.B: if we don't use catch statement then it will throw `uncaught` error for rejection.
 
+Example
+
+const promise1 = Promise.resolve(3);
+promise1.then(result => console.log(result));
+
 
 Promise.all(iterable)
 
-Wait for all promises to be resolved, or for any to be rejected.
-If the returned promise resolves, it is resolved with an aggregating array of the values from the resolved promises, in the same order as defined in the iterable of multiple promises.
-If it rejects, it is rejected with the reason from the first promise in the iterable that was rejected.
+To execute parallelly all the promises/tasks at the same time. The Promise. all() method returns a single Promise that fulfills when all of the promises passed as an iterable. It rejects with the reason of the first promise that rejects.
+
+It is typically used after having started multiple asynchronous tasks to run concurrently and having created promises for their results so that one can't wait for another to complete and all the tasks are being finished together. Finally it returns a promise.
+Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+
+Example 01
+
+const promise1 = Promise.resolve(3);
+const actualValue2 = 42;
+const promise3 = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 100, 'foo');
+});
+
+Promise.all([promise1, actualValue2, promise3]).then(function(values) {
+  console.log(values); // expected output: Array [3, 42, "foo"]
+});
+
+
+Example 1.1.0: If the iterable contains non-promise values, they will be ignored. But the evaluation will be done asynchronously. So it gets fulfilled
+
+const actualValue1 = 3
+const actualValue2 = 42;
+const actualValue3 = "foo"
+
+Promise.all([promise1, promise2, promise3]).then(function(values) {
+  console.log(values);
+});
+// expected output: Array [3, 42, "foo"]
+
+
+Example 02
+
+let p = Promise.all([1,2,3]);
+let p2 = Promise.all([1,2,3, Promise.resolve(444)]);
+let p3 = Promise.all([1,2,3, Promise.reject(555)]);
+
+// using setTimeout we can execute code after the stack is empty
+setTimeout(function() {
+    console.log(p);
+    console.log(p2);
+    console.log(p3);
+});
+
+// logs (Firefox)
+// Promise { <state>: "fulfilled", <value>: Array[3] }
+// Promise { <state>: "fulfilled", <value>: Array[4] }
+// Promise { <state>: "rejected", <reason>: 555 }
+
+
+Example 03
+
+var p1 = new Promise((resolve, reject) => { 
+  setTimeout(() => resolve('p1_delayed_resolution'), 1000); 
+}); 
+
+var p2 = new Promise((resolve, reject) => {
+  reject(new Error('p2_immediate_rejection'));
+});
+
+Promise.all([
+  p1.catch(error => { return error }),
+  p2.catch(error => { return error }),
+]).then(values => { 
+  console.log(values[0]) // "p1_delayed_resolution"
+  console.error(values[1]) // "Error: p2_immediate_rejection"
+})
+
+
+Promise.race(iterable)
+
+Wait until any of the promises (one) is resolved or rejected.
+If the returned promise resolves, it is resolved with the value of the first promise in the iterable that resolved.
+If it rejects, it is rejected with the reason from the first promise that was rejected.
 
 
 Promise.allSettled(iterable)
 
 Wait until all promises have settled (each may resolve or reject).
 Returns a promise that resolves after all of the given promises have either resolved or rejected, with an array of objects that each describe the outcome of each promise.
-
-
-Promise.race(iterable)
-
-Wait until any of the promises is resolved or rejected.
-If the returned promise resolves, it is resolved with the value of the first promise in the iterable that resolved.
-If it rejects, it is rejected with the reason from the first promise that was rejected.
 
 
 p.then(onFulfilled[, onRejected]);

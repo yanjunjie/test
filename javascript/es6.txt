@@ -72,13 +72,11 @@ func1(1, 2, 3);
 //************************Destructuring Assignments***********************
 We can pull out objects properties or arrays elements into distinct variables
 
-// Array Destructuring:
-
+// Array Destructuring
 let [a, b, ...rest] = [10, 20, 30, 40, 50];
 console.log(rest); // [30,40,50]
 
-// Object Destructuring:
-
+// Object Destructuring
 let {a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40}
 console.log(rest); // {c: 30, d: 40}
 let {a:customVar, b, ...rest} = {a: 10, b: 20, c: 30, d: 40};
@@ -89,8 +87,7 @@ console.log(rest); // { c: 30, d: 40 }
 let state = {a: 10, b: 20, c: 30, d: 40};
 console.log({...state});
 
-// Merging of Objects (Shallow-cloning) instead of Object.assign() using Spread Operator:
-
+// Merging of Objects (Shallow-cloning) instead of Object.assign() using Spread Operator
 var obj1 = { foo: 'bar', x: 42 };
 var obj2 = { foo: 'baz', y: 13 };
 
@@ -339,7 +336,7 @@ for (const val of iterableObjUsingSymbolI) {
 // is 
 // iterable.
 
-// Here’s the same thing using generators —
+// Here’s the same thing using generators
 function * iterableObj() {
   yield 'This';
   yield 'is';
@@ -359,7 +356,7 @@ for (const val of iterableObj()) {
 You can compare both the versions. It’s true that this is some what of a contrived example. But it does illustrate the points
 
 1. We don’t have to worry about Symbol.iterator
-2. We don have to implement next().
+2. We don't have to implement next().
 3. We don’t have to manually make the return object of next() i.e { value: 'This', done: false }.
 4. We don’t have to save the state. In the iterator’s example, the state was saved in the variable step. It’s value defined what was output from the iterable. We had to do nothing of this sort in the generator.
 

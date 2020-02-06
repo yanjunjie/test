@@ -22,6 +22,41 @@ MINOR=0
 BUILD=4045
 PATCH=0
 
+### Worker Compensation:
+
+Whenever a service company sends a worker to someone's house, over there if a worker get pain for anything then the service company will bear this compensation.
+
+For basic: amount 3
+For plus: amount 2
+For premier: amount 0
+
+### bundled work order
+
+bundled work order and multisite work order are almost same except 
+1. location can have diffrent
+2. title can have diffrent
+
+### specialized_skill_fee
+
+For basic: 5
+For plus: 2
+For premier: 0
+
+### general_liability_liaison_fee
+
+Basic: 1.5
+Plus: 0
+Premier: 0
+
+
+
+
+
+
+
+
+
+
 
 
 
