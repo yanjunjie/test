@@ -106,6 +106,28 @@ Object.prototype.hasOwnProperty.call(foo, 'bar'); // true
 //*********************************getOwnPropertyNames()***********************************
 
 
+//******************************* Return Statement ***************************************
+return statement is only valid inside a function.
+
+Ref: http://www.ecma-international.org/ecma-262/5.1/#sec-12.9
+
+
+//******************************* Break Statement ***************************************
+The break is for loops or switch statements which you don't have here, you need to use return to break the execution flow of the current function and return to the caller.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

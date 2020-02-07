@@ -22,6 +22,7 @@ The reduce() was called upon.
 initialValue (Optional)
 A value to use as the first argument to the first call of the callback. If no initialValue is supplied, the first element in the array will be used and skipped. Calling reduce() on an empty array without an initialValue will throw a TypeError
 
+
 Example 01:
 
 const array1 = [1, 2, 3, 4];
@@ -49,6 +50,8 @@ Acc "-" Curr
 8 "-" 3
 11 "-" 4
 15
+
+Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce#How_reduce_works
 
 
 Example 02:

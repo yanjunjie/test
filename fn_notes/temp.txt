@@ -117,7 +117,15 @@ Subhanal-kabiril-muta’al,
 La ilaha ill’Allah-al-hayy-al-qayyum.
 
 Work order is flagged as a problem message after Running late
+Work order is flagged as a problem message after Running late
 
+//h3[text()='Contacts']//ancestor::div[@data-nw-file="TileDivision"]//div[@class='Select-control']
+
+  const elLength = await getElementsLength(this, this.pages.workOrderDetails
+    .pay.expenseActiveOption.replace(`{txt}`, expenseName));
+  if (!elLength) {
+    await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
+  }
 
 
 

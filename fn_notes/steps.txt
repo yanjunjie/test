@@ -526,6 +526,16 @@ expect({ a: { c: 3 } }).to.deep.include({ a: { c: 3 } }); // passes
 
 //*******************End Assertions*******************
 
+//********************Selenium********************
+document.getElementById("testt").checked;
+Resutl: true
+
+The same in selenium (checkbox, radio button, options of select):
+  const isEnableSwitch = await this.waitFor(`${locator}//input[@type='checkbox']`)
+    .then(([el]) => el.isSelected()); // true/false
+
+//********************Selenium********************
+
 
 
 

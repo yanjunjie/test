@@ -110,9 +110,31 @@ Promise.all([
 
 Promise.race(iterable)
 
-Wait until any of the promises (one) is resolved or rejected.
+Wait until one of the promises is resolved or rejected.
 If the returned promise resolves, it is resolved with the value of the first promise in the iterable that resolved.
 If it rejects, it is rejected with the reason from the first promise that was rejected.
+
+Example 
+
+const promise1 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 200, 'one'); // resolve and reject both are promise methods so either we can make a callback or call a method
+});
+
+const str = 'two'
+const promise2 = new Promise(function(resolve, reject) {
+    setTimeout(() => resolve(str), 100, str);
+});
+
+const promise3 = new Promise(function(resolve, reject) {
+    setTimeout(resolve('three'), 50);
+});
+
+Promise.race([promise1, promise2, promise3]).then(function(value) {
+  console.log(value);
+  // all resolve, but promise3 is faster
+});
+
+// expected output: "three"
 
 
 Promise.allSettled(iterable)

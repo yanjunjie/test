@@ -53,6 +53,12 @@ or versioning error for fn-cucumber-js
 TypeError: Cannot read property 'item' of undefined
 Ans: cuke_cleanup er jonno normally hoy
 
+TypeError: Cannot read property 'success' of undefined
+Ans: Contract Service Create related problem
+
+TypeError: Cannot read property 'company' of undefined
+Ans: Wrong Alias like marketplaceBuyer1
+
 
 //***********************NPM Error*********************************
 npm ERR! path /home/jenkins/workspace/cuke_sample_master/package.json
@@ -69,6 +75,7 @@ ERROR: script returned exit code 254
 
 Ans: update the NPM token
 or possible solution is to make a fake branch and marge it with master
+
 
 
 
