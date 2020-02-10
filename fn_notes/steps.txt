@@ -534,6 +534,15 @@ The same in selenium (checkbox, radio button, options of select):
   const isEnableSwitch = await this.waitFor(`${locator}//input[@type='checkbox']`)
     .then(([el]) => el.isSelected()); // true/false
 
+
+const elLength = await getElementsLength(this, this.pages.workOrderDetails
+      .pay.expenseActiveOption.replace(`{txt}`, expenseName));
+    if (!elLength) {
+      await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
+    }
+
+
+
 //********************Selenium********************
 
 

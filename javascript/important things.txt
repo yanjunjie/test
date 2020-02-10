@@ -1,4 +1,38 @@
-# 01. Object.setPropertyOf(Animal, cat)----------------------------------------------
+//*************************** the this keyword **********************
+// Global Scope/Object, like as a House. So in this house we have some properties like chair, table ...
+this.table = 'Otobi computer table';
+console.log(window.table); // Otobi computer table
+
+this.companyWise = {
+  otobi: {table:2, chair:3},
+  samsung: {tv:1, phone: 2},
+  totalChair() {
+    console.log(`We have total otobi chairs: ${this.otobi.chair}`)	  	
+  }
+}
+console.log(this.companyWise.otobi.table); // 2
+
+So the above properties are public anyone can see or use those properties
+
+console.log(this.companyWise.totalChair()); //We have total otobi chairs: 3
+
+
+// Private Properties
+let johnsRoom = {
+  table: 'Otobi brightly colored table',
+  study() {
+    console.log(`John is studying on ${this.table}`)	  	
+  }
+}
+console.log(johnsRoom.table); // Otobi brightly colored table
+but we cant use like this console.log(this.johnsRoom.table);
+
+console.log(johnsRoom.study()); // John is studying on Otobi brightly colored table
+
+
+//***************************** Prototype ******************************
+
+# 01. Object.setPropertyOf(Animal, cat)
 animal.isPropertyOf(obj)
 
 Example 01:
@@ -20,9 +54,123 @@ Object.setPrototypeOf(Dog.prototype, Animal);
 let d = new Dog('Mitzie');
 d.speak(); // Mitzie makes a noise.
 
-# 02. Object.create(obj1) like new keyword in OOP -----------------------------------------
-# 03. Object.assign() like interface in OOP ---------------------------------------
+# 02. Object.create(obj1) like new keyword in OOP
+# 03. Object.assign() like interface in OOP
 # 04. prototypeObj.isPrototypeOf(object)
+
+
+//************************* Function composition by enabling pipe functionality (piping) ***************************
+const double = x => y => x + y;
+const x = 2;
+const y = 2;
+const doubleX = double(x);
+const doubleY = doubleX(y);
+console.log(doubleY);
+
+// Expected result: 4
+
+
+//************************* Creating a map in javascript with array of values dynamically ***************************
+The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
+A Map object iterates its elements in insertion order — a for...of loop returns an array of [key, value] for each iteration.
+
+Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+
+Example 01
+
+I think this is what you are asking. addValueToList will create array/list dynamically if the key is not present in the map.
+
+//initially create the map without any key
+var map = {};
+
+function addValueToList(key, value) {
+    //if the list is already created for the "key", then uses it
+    //else creates new list for the "key" to store multiple values in it.
+    map[key] = map[key] || [];
+    map[key].push(value);
+}
+
+addValueToList(1, 1);
+addValueToList(2, 2);
+addValueToList(2, 3);
+console.log(map);
+
+// Expected resutl:
+{1: Array(1), 2: Array(2)}
+1: [1]
+2: [2, 3]
+
+
+Example 02
+
+Every javascript object is a simple hashmap which only accepts string value as its key, so you could write your code as:
+
+var map = {};
+// add a item
+map[key1] = value1;
+// or remove it
+delete map[key1];
+// or determine whether a key exists
+key1 in map;
+
+
+// Example 03
+
+let myMap = new Map();
+
+// setting the values
+myMap.set("1", 'value1');
+myMap.set("2", 'value2');
+myMap.set("3", 'value3');
+
+myMap.size; // 3
+
+// getting the values
+myMap.get("1");    // "value associated with "value1"
+myMap.get("2");       // "value associated with "value1"
+myMap.get("3");      // "value associated with "value3"
+
+Notice: key and value can be any type.
+
+
+// Example 04
+
+if (!Array.prototype.mapUsingReduce) {
+  Array.prototype.mapUsingReduce = function(callback, thisArg) {
+    return this.reduce(function(mappedArray, currentValue, index, array) {
+      mappedArray[index] = callback.call(thisArg, currentValue, index, array)
+      return mappedArray
+    }, [])
+  }
+}
+
+[1, 2, , 3].mapUsingReduce(
+  (currentValue, index, array) => currentValue + index + array.length
+) // [5, 7, , 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

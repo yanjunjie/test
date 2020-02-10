@@ -127,6 +127,27 @@ Work order is flagged as a problem message after Running late
     await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
   }
 
+//div[@id="qualifications"]//div[contains(@class, 'Select-control')]
 
+    "selectionRule": "//*[@data-nw-file='Qualifications']//div[@class='Select-value'] | //strong[@data-nw-file='Qualifications']"
+
+
+
+  const { selectionRule } = this.pages.createWorkOrder.qualifications;
+  if (values.selectionRule) {
+    const selectionRuleName = await parseString(this, values.selectionRule);
+    const elLength = await getElementsLength(this, selectionRule);
+    if (!elLength) {
+      await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
+    }
+
+    const actualSelectionRuleName = await getElementText(
+      this, selectionRule);
+    expect(actualSelectionRuleName).to.includes(startCase(selectionRuleName));
+  }
+
+  await checkBox.getAttribute(`checked`)
+
+  
 
 

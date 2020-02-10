@@ -1,0 +1,164 @@
+const companies= [
+  {name: "Company One", category: "Finance", start: 1981, end: 2004},
+  {name: "Company Two", category: "Retail", start: 1992, end: 2008},
+  {name: "Company Three", category: "Auto", start: 1999, end: 2007},
+  {name: "Company Four", category: "Retail", start: 1989, end: 2010},
+  {name: "Company Five", category: "Technology", start: 2009, end: 2014},
+  {name: "Company Six", category: "Finance", start: 1987, end: 2010},
+  {name: "Company Seven", category: "Auto", start: 1986, end: 1996},
+  {name: "Company Eight", category: "Technology", start: 2011, end: 2016},
+  {name: "Company Nine", category: "Retail", start: 1981, end: 1989}
+];
+const ages = [33, 12, 20, 16, 5, 54, 21, 44, 61, 13, 15, 45, 25, 64, 32];
+
+for(let i = 0; i < companies.length; i++) {
+   console.log(companies[i]);
+}
+
+// forEach
+companies.forEach(function(company) {
+   console.log(company.name);
+});
+
+
+// filter
+This allows to perform relational, logical operations but it doesn't allow the arithmatic operations
+
+// Get 21 and older
+let canDrink = [];
+for(let i = 0; i < ages.length; i++) {
+	if(ages[i] >= 21) {
+   		canDrink.push(ages[i]);
+	}
+}
+
+// Using filter the same
+const canDrink = ages.filter(function(age) {
+  if(age >= 21) {
+     return true;
+   }
+});
+
+// Even shorter
+const canDrink = ages.filter(age => age >= 21);
+
+// Filter retail companies using traditional for-loop
+const retailCompanies = companies.filter(function(company) {
+   if(company.category === 'Retail') {
+     return true;
+   }
+});
+
+// Using filter the same
+const retailCompanies = companies.filter(company => company.category === 'Retail');
+
+// Get companies that lasted 10 years or more
+const lastedTenYears = companies.filter(company => (company.end - company.start >= 10));
+
+// Get 80s companies
+const eightiesCompanies = companies.filter(company => company.start >= 1980 && company.start < 1990);
+
+Expected result:
+[
+  {name: "Company One", category: "Finance", start: 1981, end: 2004}
+  {name: "Company Four", category: "Retail", start: 1989, end: 2010}
+  {name: "Company Six", category: "Finance", start: 1987, end: 2010}
+  {name: "Company Seven", category: "Auto", start: 1986, end: 1996}
+  {name: "Company Nine", category: "Retail", start: 1981, end: 1989}
+]
+
+// If we try using map
+const eightiesCompanies = companies.map(company => (company.start >= 1980 && company.start < 1990));
+[true, false, false, true, false, true, true, false, true]
+
+
+// map
+This allows to perform only arithmatic oprations
+
+// Create array of company names
+const companyNames = companies.map(company => company.name);
+const testMap = companies.map(company => `${company.name} [${company.start} - ${company.end}]`);
+const ageMap = ages
+   .map(age => Math.sqrt(age))
+   .map(age => age * 2);
+
+// Filter doesn't allow to perform arithmatic operations
+const testt = [2, 3, 4, 5, 6]
+const fl = testt.filter(el => el*2)
+const mp = testt.map(el => el*2)
+console.log(fl) // [2, 3, 4, 5, 6]
+console.log(mp) // [4, 6, 8, 10, 12]
+
+
+// sort
+
+// Sort companies by start year
+const sortedCompanies  = companies.sort(function(c1, c2) {
+   if(c1.start > c2.start) {
+     return 1;
+   } else {
+     return -1;
+   }
+});
+const sortedCompanies = companies.sort((a, b) => (a.start > b.start ? 1 : -1));
+
+// Sort ages
+const sortAges = ages.sort((a, b) => a - b);
+console.log(sortAges);
+
+// Sort fruits
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.sort()); // ["Apple", "Banana", "Mango", "Orange"]
+
+// Sort points
+const points = [40, 100, 1, 5, 25, 10];
+points.sort((a, b) => a - b); // this is because the sort method sorts elements as string 
+console.log(points) // [1, 5, 10, 25, 40, 100]
+
+const points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return b - a});
+console.log(points) // [100, 40, 25, 10, 5, 1]
+
+
+// reduce
+We can perform all kind of operations using the reduce method
+
+let ageSum = 0;
+for(let i = 0; i < ages.length; i++) {
+   ageSum += ages[i];
+}
+
+// The same but even sorter
+const ageSum = ages.reduce((acc, age) => acc + age, 0);
+
+// Get total years for all companies
+const totalYears = companies.reduce((acc, company) => acc + (company.end - company.start), 0);
+
+// Combine Methods
+const combined = ages
+  .map(age => age * 2)
+  .filter(age => age >= 40)
+  .sort((a, b) => a - b)
+  .reduce((a, b) => a + b, 0);
+
+console.log(combined);
+
+// Expected result: 798
+
+// Replace .filter().map() with .reduce()
+Using Array.filter() then Array.map() traverses the array twice, but you can achieve the same effect while traversing only once with Array.reduce(), thereby being more efficient.
+
+const numbers = [-5, 6, 2, 0,];
+
+const doubledPositiveNumbers = numbers.reduce((accumulator, currentValue) => {
+  if (currentValue > 0) {
+    const doubled = currentValue * 2;
+    accumulator.push(doubled);
+  }
+  return accumulator;
+}, []);
+
+console.log(doubledPositiveNumbers); // [12, 4]
+
+
+
