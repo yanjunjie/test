@@ -1,34 +1,28 @@
-//*************************** the this keyword **********************
-// Global Scope/Object, like as a House. So in this house we have some properties like chair, table ...
-this.table = 'Otobi computer table';
-console.log(window.table); // Otobi computer table
+//**************************** Local Scope/Encapsulation ****************************
+In object-oriented programming, encapsulation refers to the bundling of data with the methods that operate on that data, or the restricting of direct access to some of an object's components.
+In javascript, it does allow for some of their main features, including data hiding, which is one of the main consequences of encapsulation.
 
-this.companyWise = {
-  otobi: {table:2, chair:3},
-  samsung: {tv:1, phone: 2},
-  totalChair() {
-    console.log(`We have total otobi chairs: ${this.otobi.chair}`)	  	
-  }
-}
-console.log(this.companyWise.otobi.table); // 2
+The following is a common pattern for creating Javascript modules:
 
-So the above properties are public anyone can see or use those properties
+obj = (function(){
 
-console.log(this.companyWise.totalChair()); //We have total otobi chairs: 3
+    var obj1 = {...}
+    var obj2 = {...}
 
+    var func3 = function(){...};
+    var func4 = function(){...};
 
-// Private Properties
-let johnsRoom = {
-  table: 'Otobi brightly colored table',
-  study() {
-    console.log(`John is studying on ${this.table}`)	  	
-  }
-}
-console.log(johnsRoom.table); // Otobi brightly colored table
-but we cant use like this console.log(this.johnsRoom.table);
+    return {
+        subobj1: obj1,
+        subobj2: obj2,
+        subobj3: {
+            func3: func3,
+            func4: func4
+        }
+    }
+}());
 
-console.log(johnsRoom.study()); // John is studying on Otobi brightly colored table
-
+In this example, the inner functions can access obj1, obj2, func3 and func4 directly from their variables. The self-calling function makes so these inner variables are private and hidden from the outside and the return statement allows you to export only the functions that you want to make public.
 
 //***************************** Prototype ******************************
 
@@ -71,10 +65,24 @@ console.log(doubleY);
 
 
 //************************* Creating a map in javascript with array of values dynamically ***************************
-The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
-A Map object iterates its elements in insertion order — a for...of loop returns an array of [key, value] for each iteration.
+Hash table is one of the most important data structures in computing. A hash table (hash map) is a data structure used to implement an associative array, a structure that can map keys to values.
+While many programming languages support associative arrays (hash tables or arrays with named indexes), JavaScript does not. In JavaScript arrays use numbered indexes. But we can get the flavor more like
 
-Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+    | name  | email           |
+    | Jason | jason@email.com |
+    | Joe   | joe@email.com   |
+    | Zark  | zark@email.org  |
+
+hashes:
+[
+  { name: 'Jason', email: 'jason@email.com' },
+  { name: 'Joe', email: 'joe@email.com' },
+  { name: 'Zark', email: 'zark@email.org' } 
+]
+
+Ref: 
+https://medium.com/@yanganif/javascript-hash-table-8878afceecbc
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
 Example 01
 
@@ -84,22 +92,24 @@ I think this is what you are asking. addValueToList will create array/list dynam
 var map = {};
 
 function addValueToList(key, value) {
-    //if the list is already created for the "key", then uses it
+    //if the list (item) is already created for the "key", then uses it
     //else creates new list for the "key" to store multiple values in it.
-    map[key] = map[key] || [];
-    map[key].push(value);
+    map[key] = map[key] || []; // assigining an empty array to the key
+    map[key].push(value); // as the key is an array so pushing other values to that array
 }
 
-addValueToList(1, 1);
-addValueToList(2, 2);
+addValueToList(1, 5);
 addValueToList(2, 3);
+addValueToList(2, 4);
 console.log(map);
 
 // Expected resutl:
-{1: Array(1), 2: Array(2)}
-1: [1]
-2: [2, 3]
+{1: Array(1), 2: Array(2)} 
 
+{
+  1: [5]
+  2: [3, 4]
+}
 
 Example 02
 

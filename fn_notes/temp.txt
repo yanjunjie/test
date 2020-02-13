@@ -148,6 +148,25 @@ Work order is flagged as a problem message after Running late
 
   await checkBox.getAttribute(`checked`)
 
-  
+
+When(/^I create a '(.+)' contract for '(.+)'$/, async function (tier, userAlias) {
+  if (tier === `basic`) {
+    // do something
+  }
+}
+
+Automate TCM-2652 Buyer side status updates to "Assigned:Delayed" after provider Running late
+Automate TCM-2657 Buyer condition column updates Delayed time to distance and time for provider
+
+Buyer Condition Column Updates after Running Late
+
+
+@Tim and @tasfin.hasan I need day off February 17-19, 2020 and 20, 2020 I will work form home
+
+//*[contains(text(),'Provider is 3243 miles away')]
+
+<span class="text-muted" data-nw-node="span" data-nw-file="WorkOrderCondition">Provider is 3243 miles away /4492 minutes</span>
+
+https://stackoverflow.com/questions/60175294/unable-to-locate-elements-using-text-in-xpath
 
 

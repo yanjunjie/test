@@ -59,6 +59,18 @@ Ans: Contract Service Create related problem
 TypeError: Cannot read property 'company' of undefined
 Ans: Wrong Alias like marketplaceBuyer1
 
+Erro: function has 2 arguments, should have 3 (if synchronous or returning a promise) or 4 (if accepting a callback)
+Ans: arguments number is less or we can make it optional
+
+TypeError: table.rowsHash is not a function
+Ans: empty check
+
+TimeoutError: Waiting for at least one element to be located By(xpath, //*[@data-nw-id='Log in'])
+Ans: Chrome Driver Issue about wrong version
+
+AssertionError: object tested must be an array, a map, an object, a set, a string, or a weakset, but promise given
+Ans: await keywork is needed
+
 
 //***********************NPM Error*********************************
 npm ERR! path /home/jenkins/workspace/cuke_sample_master/package.json

@@ -1,3 +1,44 @@
+//*************************** the this keyword **********************
+Ref: 
+https://www.youtube.com/watch?v=AOSYY1_np_4
+https://www.youtube.com/watch?v=NV9sHLX-jZU&t=505s
+
+// Global Scope/Public Properties, like as a House. So in this house we have some properties like chair, table ...
+'use strict'
+this.table = 'Otobi computer table';
+console.log(window.table); // Otobi computer table
+
+const study = function() {
+  console.log(`I'm studying on : ${this.table}`)	  	
+}
+study.call(this); // I'm studying on : Otobi computer table
+
+
+this.companyWise = {
+  otobi: {table:2, chair:3},
+  samsung: {tv:1, phone: 2},
+  totalChair() {
+    console.log(`We have total otobi chairs: ${this.otobi.chair}`)	  	
+  }
+}
+console.log(this.companyWise.otobi.table); // 2
+So the above properties are public anyone can see or use those properties
+console.log(this.companyWise.totalChair()); //We have total otobi chairs: 3
+
+
+// Private Properties
+let johnsRoom = {
+  table: 'Otobi brightly colored table',
+  study() {
+    console.log(`John is studying on ${this.table}`)	  	
+  }
+}
+console.log(johnsRoom.table); // Otobi brightly colored table
+but we cant use like this console.log(this.johnsRoom.table);
+
+console.log(johnsRoom.study()); // John is studying on Otobi brightly colored table
+
+
 //************************in*********************
 The in operator returns true if the specified property is in the specified object or its prototype chain.
 

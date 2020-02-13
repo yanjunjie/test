@@ -73,10 +73,19 @@ await clickElement(this, locator);
 /node/text()[1] - should return Text1st
 /node/text()[2] - should return text2nd
 /root/div[.//a[@class='1']]/text()
+
+// Trim in xpath
 //td[@data-test-id="customFieldLabel"]//div[@data-nw-file="TableView" and contains(., 'Provider Field 01')]//text()[not(ancestor::em)] - it will filter out first string if have inside any elements
+tree.xpath('normalize-space(//*[text()="Smiles"]/..//br[1]/preceding-sibling::text())');
 //td[@data-test-id="customFieldLabel"]//div[@data-nw-file="TableView" and contains(., 'Buyer Field 01')]/text() // first text will return
 (//td[@data-test-id="customFieldLabel"]//div[@data-nw-file="TableView" and contains(., 'Buyer Field 01')]//text())[1]
+//td[starts-with(normalize-space(),'Text to Trim')]
+//td[starts-with(normalize-space(text()),'Text to Trim')]
 
+My Work:
+//*[contains(., 'Provider is 3243 miles away')][normalize-space(text())]
+(//*[contains(., 'Provider is 3207 miles away')])[normalize-space(text())]
+(//*[contains(., 'Provider is 3207 miles away')])[last()]
 
 ***getText() for selenium
 i.e,

@@ -1,30 +1,5 @@
 //ENVIRONMENT=test2 PLATFORM=chrome npm run test-only @4429bab2
 
-//******************Data Table******************
-When(/^I set reason for cancellation work order$/, async function (table) {
-  const values = table.rowsHash();
-  if (values.reasonForCancellation) {
-    await setTextBox(
-      this,
-      this.pages.workOrderDetails.cancellationReasonType, values.reasonForCancellation, Key.ENTER,
-    );
-  }
-  if (values.messageToAssignedProvider) {
-    await setTextBox(
-      this,
-      this.pages.workOrderDetails.messageAssignedProvider, values.messageToAssignedProvider,
-    );
-  }
-  if (values.explanationForCancellation) {
-    await setTextBox(
-      this,
-      this.pages.workOrderDetails.explainCancellationReason, values.explanationForCancellation,
-    );
-  }
-});
-
-//******************End Data Table******************
-
 
 //******************Events (elements.js)**********************
 // select events
@@ -173,6 +148,12 @@ Then(/^restfully cancel workorder '(.+)'$/, async function (woName, table) {
 
 // access token
 this.auth.access_token
+
+// get fnsid (cookie) and CSRF Token
+  const response = await restfulRequest(this, { type: `loginGet` }, false);
+  const dom = new JSDOM(response.body, { runScripts: `dangerously` });
+  const { csrfToken } = dom.window.props;
+  const [fnsidCookie] = filter(response.headers[`set-cookie`], x => x.includes(`fnsid=`));
 
 //******************End Restfully**********************
 
@@ -326,10 +307,60 @@ exType = exType.replace(/(?:Of|In)/g, $1 => $1.toLowerCase());
 exType = exType.replace(/(?:Of|In|For)\s/g, $1 => $1.toLowerCase()); //more stable, here \s because after every preposition having a space
 Ref: https://stackoverflow.com/questions/21792367/replace-underscores-with-spaces-and-capitalize-words
 
+// Optional or Non Capturing Group in Regex
+When(/^I press '(.+)'(?: (\d+) times)?$/, async function (key, repeat) {
+  repeat = repeat || 1;
+  for (let i = 0; i < repeat; i += 1) {
+    await pressKey(this, key);
+  }
+});
+
 //******************End Javascript**********************
 
 
-//******************Data Table**********************
+//******************Data Table/Datatable**********************
+Refs: 
+https://github.com/cucumber/cucumber-js/blob/9959ca9fd9f8c64f0b5133f9bb241da9b854e570/README.md
+https://www.codementor.io/@cuketest/bdd-web-automation-05-create-data-driven-automation-script-with-doc-string-data-table-n7o69vv28
+
+Given the following people exist:
+    | name  | email           |
+    | Jason | jason@email.com |
+    | Joe   | joe@email.com   |
+    | Zark  | zark@email.org  |
+
+hashes:
+[
+  { name: 'Jason', email: 'jason@email.com' },
+  { name: 'Joe', email: 'joe@email.com' },
+  { name: 'Zark', email: 'zark@email.org' } 
+]
+
+rows:
+[ 
+  [ 'Jason', 'jason@email.com' ],
+  [ 'Joe', 'joe@email.com' ],
+  [ 'Zark', 'zark@email.org' ] 
+]
+
+raw:
+[ 
+  [ 'name', 'email' ],
+  [ 'Jason', 'jason@email.com' ],
+  [ 'Joe', 'joe@email.com' ],
+  [ 'Zark', 'zark@email.org' ] 
+]
+
+rowsHash:
+{ 
+  name: 'email',
+  Jason: 'jason@email.com',
+  Joe: 'joe@email.com',
+  Zark: 'zark@email.org' 
+}
+
+N.B: rows hash means a hash of rows
+
 // hashes() - returns an object and the first row is object properties and rest rows are values accordingly for example in the following table fieldName and fieldValue are properties
  * When I set custom field value
  * | fieldName   | fieldValue  |
@@ -342,10 +373,10 @@ for (const { fieldName, fieldValue } of table.hashes()) {
   }
 }
 
-for (const expected of table.hashes()) {
-      locator = pageResource.customFieldEdit.replace(`{txt}`, expected.label);
-      await setTextBox(this, locator, expected.value);
-    }
+for (const obj of table.hashes()) {
+    await setTextBoxDropDown(this, this.pages.createWorkOrder.workType, obj.typeOfWork);
+    await setTextBoxDropDown(this, this.pages.createWorkOrder.serviceType, obj.serviceTitle);
+  }
 
 Ref: I fill out the license form
 
@@ -359,6 +390,8 @@ Then(/^the pay increase request section displays$/, async function (table) {
     }, 20000, 200);
   }
 });
+
+
 
 // rowsHash() - returns an object and First column is for its properties and Second column is for its values
 * When I set custom field value
@@ -407,7 +440,27 @@ Example:
 numbersArr = [4, 9, 16, 25];
 newNumbersArr = numbersArr.map(Math.sqrt); //[2, 3, 4, 5]
 
+email = table.raw()[0][0]
+password = table.raw()[0][1]
+
 //rows() - returns array
+
+// Loop
+table:
+| email      | RANDOM EMAIL             |
+| password   | 1                        |
+| company    | RANDOM NAME              |
+
+  const parameters = table.raw();
+  endpoint = await parseString(this, endpoint);
+  let urlParameters = ``;
+  for (let i = 0; i < parameters.length; i += 1) {
+    const value = parameters[i];
+    if (value[].includes(`RANDOM`)) {
+      value[1] = await generateRandomValue(this, value[1]);
+    }
+    urlParameters += `&${value[0]}=${value[1]}`;
+  }
 
 
 //******************End Data Table**********************
@@ -447,9 +500,11 @@ this.testData.paymentAccounts.account1
 
 // company
 this.testData.marketplaceBuyers.marketplaceBuyer1.company.name // company name/id
+const companyId = this.testData.marketplaceBuyers[userAlias].company.id;
+
 
 // Buyer
-this.testData.marketplaceBuyers.marketplaceBuyer1.alias // buyer name
+this.testData.marketplaceBuyers.marketplaceBuyer1.alias // buyer name like marketplaceProvider11536509039
 
 // Pay
 this.lastResponse.body.v2.pay
@@ -527,6 +582,7 @@ expect({ a: { c: 3 } }).to.deep.include({ a: { c: 3 } }); // passes
 //*******************End Assertions*******************
 
 //********************Selenium********************
+// checkbox
 document.getElementById("testt").checked;
 Resutl: true
 
@@ -540,8 +596,6 @@ const elLength = await getElementsLength(this, this.pages.workOrderDetails
     if (!elLength) {
       await clickElement(this, this.pages.workOrderDetails.pay.expensesDropdown);
     }
-
-
 
 //********************Selenium********************
 
