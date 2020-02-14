@@ -169,4 +169,16 @@ Buyer Condition Column Updates after Running Late
 
 https://stackoverflow.com/questions/60175294/unable-to-locate-elements-using-text-in-xpath
 
+Examples:
+      | type                     | result    |
+      | basicSpecializedSkills   | __EXIST__ |
+      | plusSpecializedSkills    | __EXIST__ |
+      | premierSpecializedSkills | __EXIST__ |
+
+Hope you feel brighter soon.
+
+@here - I’ll be on Flexible Time Off 2/17-2/18, and working from home 2/19-2/20 returning to work 2/24, if you need anything, just send me an email and I’ll get to it when I get back. Thanks,
+
+
+
 

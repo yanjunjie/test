@@ -22,6 +22,13 @@ MINOR=0
 BUILD=4045
 PATCH=0
 
+### 6am logic 
+Today 6am to 12pm in between duration is 6am logic (Confirmation Modal). If 6am logic is enabled then we have to do `set ETA` or `Confirm` the work order.
+
+mane agami kalker work order
+confirm korte hobe aj 6am to 12pm er modhye
+
+
 ### Worker Compensation:
 
 Whenever a service company sends a worker to someone's house, over there if a worker get pain for anything then the service company will bear this compensation.
@@ -47,6 +54,8 @@ For premier: 0
 Basic: 1.5
 Plus: 0
 Premier: 0
+
+
 
 
 

@@ -73,7 +73,7 @@ From staff user->company list->edit->Marketplace Settings->Networks
     }
 
 // React Wo Create
-1 => React, 2 => old angular, 3 => simple create 4 => send to provider
+1 => React, 2 => old angular, 3 => simple create 4 => send to provider 5 => new work order
 
 // provider
 "marketplaceProvider1": {
@@ -116,7 +116,7 @@ From staff user->company list->edit->Marketplace Settings->Networks
                     "Custom Field Create": 1
                 }
 
-// Workworder schedule config
+// Workworder schedule/scheduled config
 "configs": {
       "typeOfWork": "random",
       "pay": {
@@ -127,8 +127,8 @@ From staff user->company list->edit->Marketplace Settings->Networks
       }
       "published": true,
 	//https://github.com/fieldnation/test-data-generator/blob/master/api.md#schedulefixed
-      "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm", //6 am logic 
-      "scheduleRange":"today 6:00am to +1d 12:00pm", //6 am logic 
+      "scheduleBusinessHours": "today 5:00am to tomorrow 5:00pm", //6 am logic + tomorrow
+      "scheduleRange":"today 6:00am to +1d 12:00pm", //6 am logic + tomorrow
       "scheduleRange": "+2d 6:00am to +3d 12:00pm", //not 6 am logic 
       "scheduleRange":"tomorrow 6:00am to +1d 12:00pm", //not 6 am logic 
       "scheduleRange": "+1w 3-5pm to +2w 3-6pm America/Chicago", //not 6 am logic 

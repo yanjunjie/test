@@ -158,13 +158,6 @@ this.auth.access_token
 //******************End Restfully**********************
 
 
-//******************User Info**********************
-  const expectedProviderId = await getUserId(this, providerName);
-  searchBy = await getWorkOrderId(this, alias);
-  searchBy = await getWorkOrderTitle(this, alias);
-//******************End User Info**********************
-
-
 //******************Comparison**********************
 // check the text exists or not + wait for element
   await this.waitFor(`//table[@class='payTablecss']//td[contains(text(),'${txt}')]`);
@@ -502,9 +495,50 @@ this.testData.paymentAccounts.account1
 this.testData.marketplaceBuyers.marketplaceBuyer1.company.name // company name/id
 const companyId = this.testData.marketplaceBuyers[userAlias].company.id;
 
-
 // Buyer
 this.testData.marketplaceBuyers.marketplaceBuyer1.alias // buyer name like marketplaceProvider11536509039
+
+// Provider
+lastResponse.body.assignee.user.first_name // Provider First Name
+const expectedProviderId = await getUserId(this, providerName);
+
+// Current User Info
+const { username } = this.currentUser;
+const username = this.currentUser.user;
+await submitPassword(this, this.currentUser.password);
+const userEmail = this.email;
+const userId = this.auth.user.id;
+const userId = this.currentUser.id;
+testData.marketplaceBuyers.buyer1.user.id
+
+
+// Work Order Info
+searchBy = await getWorkOrderId(this, alias);
+searchBy = await getWorkOrderTitle(this, alias);
+testData.workOrders.draftWorkOrder1.workorder.id //workOrderId
+const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
+// id initialization at woCommon.js
+const workOrderId = await getWorkOrderIdFromUrl(this);
+
+When I attach documents to 'v2/workorders/%{testData.workOrders.assignedWorkOrder1.workorder.id}/attachments/%{lastResponse.body.attachments.results[1].id}'
+
+// id initialization at workOrderCreate_steps.js
+this.workOrderId = await this.driver.getCurrentUrl()
+  .then(url => url.match(`workorders/[0-9]+`)[0].match(`[0-9]+`)[0]); // grab and set wo id from the url
+
+const workOrderId = this.workOrderId; // get work order id
+const workOrderId = await getWorkOrderId(this, woName); // get work order id
+
+// work order title
+Then the '%{testData.workOrders.draftWorkOrder3.workorder.name}' text should not display
+Then check work order should display in list page
+    | workOrderTitle | %{testData.workOrders.draftWorkOrder3.workorder.service_title} |
+
+// projects and clients
+this.testData.clients.client1.alias // client name/title
+this.testData.projects.project1.alias // project name/title
+const { id } = this.testData.projects[alias].workorder_group; // project id
+
 
 // Pay
 this.lastResponse.body.v2.pay
@@ -519,35 +553,6 @@ like this -
   "custom_name": "Finance | Available: $100,000.00",
   "is_default": false
 }
-
-
-// get id for wo | user | email
-const { username } = this.currentUser;
-const username = this.currentUser.user;
-await submitPassword(this, this.currentUser.password);
-const userEmail = this.email;
-const userId = this.auth.user.id;
-const userId = this.currentUser.id;
-testData.marketplaceBuyers.buyer1.user.id
-testData.workOrders.draftWorkOrder1.workorder.id //workOrderId
-
-const workOrderId = this.currentWorkOrder.id; // depends on `work order status should be set to 'Published'` step
-// id initialization at woCommon.js
-const workOrderId = await getWorkOrderIdFromUrl(this);
-
-When I attach documents to 'v2/workorders/%{testData.workOrders.assignedWorkOrder1.workorder.id}/attachments/%{lastResponse.body.attachments.results[1].id}'
-
-// id initialization at workOrderCreate_steps.js
-this.workOrderId = await this.driver.getCurrentUrl()
-  .then(url => url.match(`workorders/[0-9]+`)[0].match(`[0-9]+`)[0]); // grab and set wo id from the url
-
-const workOrderId = this.workOrderId; // get work order id
-const workOrderId = await getWorkOrderId(this, woName); // get work order id
-
-// projects and clients
-  this.testData.clients.client1.alias // client name/title
-  this.testData.projects.project1.alias // project name/title
-  const { id } = this.testData.projects[alias].workorder_group; // project id
 
 //Header Information
 response.response.headers.location
